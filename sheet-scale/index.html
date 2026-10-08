@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sheet Fit &amp; Scale</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: drafting sheet — title block, inputs column + live sheet preview, scale table, two utility panels */
+:root{
+  --paper:#F2F3EF; --sheet:#FBFBF8; --ink:#1B2732; --ink-2:#4A5865; --rule:#D5D9D4; --grid:#E6E8E3;
+  --red:#C8432B; --blue:#2E66A6; --ok:#2F8A57; --okbg:rgba(47,138,87,.12); --nobg:rgba(200,67,43,.08);
+  --display:'Barlow Condensed','Arial Narrow',sans-serif; --body:'IBM Plex Sans',system-ui,sans-serif; --mono:'IBM Plex Mono',ui-monospace,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#0E1A26; --sheet:#132233; --ink:#E4ECF2; --ink-2:#9DB0C0; --rule:#2A3D52; --grid:#1B2D40; --red:#FF7A5C; --blue:#6FB0F0; --ok:#5FD08F; --okbg:rgba(95,208,143,.14); --nobg:rgba(255,122,92,.08); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0E1A26; --sheet:#132233; --ink:#E4ECF2; --ink-2:#9DB0C0; --rule:#2A3D52; --grid:#1B2D40; --red:#FF7A5C; --blue:#6FB0F0; --ok:#5FD08F; --okbg:rgba(95,208,143,.14); --nobg:rgba(255,122,92,.08); color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--paper);color:var(--ink);font:15px/1.5 var(--body);padding:16px;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px}
+.sheet{max-width:1180px;margin:0 auto;background:var(--sheet);border:1.5px solid var(--ink)}
+.tb{display:grid;grid-template-columns:1fr auto;border-bottom:1.5px solid var(--ink)}
+.tb h1{font:700 clamp(30px,5vw,46px)/1 var(--display);letter-spacing:.01em;margin:0;padding:18px 20px 14px;text-transform:uppercase;text-wrap:balance}
+.tb h1 small{display:block;font:500 14px/1.4 var(--body);letter-spacing:0;text-transform:none;color:var(--ink-2);margin-top:6px}
+.tb .meta{display:grid;grid-template-columns:auto auto;border-left:1.5px solid var(--ink);font:12px/1.2 var(--mono)}
+.tb .meta div{padding:8px 12px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule)}
+.tb .meta b{display:block;font:600 10px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-bottom:4px}
+.main{display:grid;grid-template-columns:320px 1fr}
+.inputs{border-right:1.5px solid var(--ink);padding:18px 20px;display:flex;flex-direction:column;gap:14px}
+label{display:flex;flex-direction:column;gap:5px;font:600 11px/1 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+input,select{font:500 15px/1.2 var(--mono);color:var(--ink);background:var(--paper);border:1px solid var(--rule);padding:9px 10px;border-radius:0;width:100%}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+button{font:600 12px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;background:transparent;color:var(--ink);border:1px solid var(--ink);padding:10px 12px;cursor:pointer}
+button:hover{background:var(--ink);color:var(--sheet)}
+.verdict{border:1.5px solid var(--ink);padding:12px 14px}
+.verdict b{display:block;font:600 10px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-bottom:6px}
+.verdict span{font:600 34px/1 var(--mono);color:var(--red)}
+.verdict p{margin:6px 0 0;font:500 13px/1.4 var(--body);color:var(--ink-2)}
+.right{min-width:0}
+.panel{padding:14px 16px;border-bottom:1.5px solid var(--ink);min-width:0}
+.panel h2{font:600 20px/1 var(--display);text-transform:uppercase;letter-spacing:.04em;margin:0 0 10px;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.panel h2 span{font:400 11px/1.6 var(--mono);color:var(--ink-2);text-transform:none;letter-spacing:0}
+svg{width:100%;height:auto;display:block}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font:13px/1.3 var(--mono);font-variant-numeric:tabular-nums}
+th,td{padding:6px 10px;border-bottom:1px solid var(--rule);text-align:right;white-space:nowrap}
+th{font:600 10px/1.2 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+th:first-child,td:first-child{text-align:left}
+td.ok{color:var(--ok);background:var(--okbg);font-weight:500}
+td.no{color:var(--ink-2);background:var(--nobg)}
+tr.pick td{outline:1.5px solid var(--red);outline-offset:-1.5px}
+.two{display:grid;grid-template-columns:1fr 1fr}
+.two .panel+.panel{border-left:1px solid var(--rule)}
+.big{font:600 30px/1.1 var(--mono);color:var(--red);margin-top:8px}
+.note{font:12px/1.5 var(--body);color:var(--ink-2);margin:0}
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;padding:10px 16px;font:12px/1.4 var(--mono);color:var(--ink-2)}
+code{font:12px/1.4 var(--mono)}
+@media (max-width:900px){.main{grid-template-columns:1fr}.inputs{border-right:0;border-bottom:1.5px solid var(--ink)}}
+@media (max-width:640px){.two{grid-template-columns:1fr}.two .panel+.panel{border-left:0}.tb{grid-template-columns:1fr}.tb .meta{border-left:0;border-top:1px solid var(--rule)}}
+.dl{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;padding:12px 20px;border-bottom:1.5px solid var(--ink);background:var(--paper)}
+.dl a.btn{font:600 13px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;background:var(--red);color:#fff;text-decoration:none;padding:11px 14px;border:1px solid var(--red)}
+.dl a.btn:hover{background:var(--ink);border-color:var(--ink);color:var(--sheet)}
+.dl span{font:13px/1.4 var(--body);color:var(--ink-2);flex:1;min-width:180px}
+.dl a.more{font:500 13px/1 var(--mono);color:var(--blue)}
+</style>
+</head>
+<body>
+<div class="sheet">
+  <header class="tb">
+    <h1>Sheet Fit &amp; Scale<small>Will it fit on A1 at 1:100? Find the largest scale for every sheet, fix shrunk prints, make a scale bar.</small></h1>
+    <div class="meta">
+      <div><b>Sheet</b>T-03</div><div><b>Sizes</b>ISO A + ARCH</div>
+      <div><b>Units</b>m · ft · mm</div><div><b>By</b>@smart_tools_every_week</div>
+    </div>
+  </header>
+  <div class="dl" id="dlbar"><a class="btn" href="sheet-scale.html" download="sheet-scale.html">⬇ Download this app</a><span>Free. One HTML file that works offline. Open it in any browser, no install or sign-up.</span><a class="more" href="../">More free tools →</a></div>
+  <div class="main">
+    <section class="inputs" aria-label="Inputs">
+      <label for="unit">Drawing units
+        <select id="unit"><option value="m">metres</option><option value="ft">feet</option></select>
+      </label>
+      <div class="row">
+        <label for="dw">Drawing width<input id="dw" type="number" step="0.1" min="0.1" value="24"></label>
+        <label for="dh">Drawing height<input id="dh" type="number" step="0.1" min="0.1" value="15"></label>
+      </div>
+      <label for="paper">Sheet
+        <select id="paper"></select>
+      </label>
+      <label for="orient">Orientation
+        <select id="orient"><option value="auto">Best fit</option><option value="land">Landscape</option><option value="port">Portrait</option></select>
+      </label>
+      <div class="row3">
+        <label for="mL">Left mm<input id="mL" type="number" min="0" value="20"></label>
+        <label for="mO">Others mm<input id="mO" type="number" min="0" value="10"></label>
+        <label for="tbw">Title strip<input id="tbw" type="number" min="0" value="60"></label>
+      </div>
+      <p class="note">Left margin allows for binding. The title strip is a band down the right side of the sheet. Set it to 0 if your title block sits inside the border.</p>
+      <label for="scale">Scale to preview
+        <select id="scale"></select>
+      </label>
+      <div class="verdict"><b>Largest standard scale on this sheet</b><span id="best">–</span><p id="bestNote"></p></div>
+    </section>
+    <section class="right">
+      <div class="panel">
+        <h2>Sheet preview <span id="pvLabel"></span></h2>
+        <svg id="pv" viewBox="0 0 640 460" role="img" aria-label="Sheet layout preview"></svg>
+      </div>
+      <div class="panel">
+        <h2>Fit table <span>drawing size on paper (mm) · ✓ fits the drawable area</span></h2>
+        <div class="tablewrap"><table id="fit"></table></div>
+      </div>
+      <div class="two">
+        <div class="panel">
+          <h2>Shrunk print fixer</h2>
+          <div class="row3">
+            <label for="sFrom">Drawn on<select id="sFrom"></select></label>
+            <label for="sTo">Printed on<select id="sTo"></select></label>
+            <label for="sOrig">At scale<select id="sOrig"></select></label>
+          </div>
+          <div class="big" id="eff">–</div>
+          <p class="note" id="effNote"></p>
+        </div>
+        <div class="panel">
+          <h2>Measure off a print</h2>
+          <div class="row">
+            <label for="meas">Ruler reading (mm)<input id="meas" type="number" step="0.5" value="45"></label>
+            <label for="mScale">Print scale<select id="mScale"></select></label>
+          </div>
+          <div class="big" id="real">–</div>
+          <p class="note">Real size, before any print shrinkage. Use the fixer on the left first if the print was reduced.</p>
+        </div>
+      </div>
+      <div class="panel" style="border-bottom:0">
+        <h2>Scale bar <span>for the preview scale · copy the SVG into Illustrator, Inkscape or Figma</span></h2>
+        <div id="barWrap" style="overflow-x:auto"></div>
+        <div style="display:flex;gap:8px;align-items:center;margin-top:10px;flex-wrap:wrap"><button type="button" id="copy">Copy SVG</button><span class="note" id="copyMsg"></span></div>
+        <textarea id="svgText" readonly hidden style="width:100%;height:90px;margin-top:8px;font:12px var(--mono)"></textarea>
+      </div>
+    </section>
+  </div>
+  <footer class="foot" style="border-top:1.5px solid var(--ink)"><span>Free tool · @smart_tools_every_week · simplyrendered.github.io/smart-tools · built with Claude</span><span>ISO 216 and ANSI/ARCH sheet sizes in mm.</span></footer>
+</div>
+<script>
+if(location.protocol==="file:"){const b=document.getElementById("dlbar");if(b)b.hidden=true;}
+
+const $=id=>document.getElementById(id);
+const PAPERS=[["A0",1189,841],["A1",841,594],["A2",594,420],["A3",420,297],["A4",297,210],["ARCH E (36×48)",1219.2,914.4],["ARCH D (24×36)",914.4,609.6],["ARCH C (18×24)",609.6,457.2],["ARCH B (12×18)",457.2,304.8],["ANSI B (11×17)",431.8,279.4]];
+const SCALES=[1,2,5,10,20,25,50,75,100,125,150,200,250,300,400,500,750,1000,1250,1500,2000,2500,5000];
+const fill=(sel,arr,fmt,def)=>{arr.forEach((v,i)=>{const o=document.createElement("option");o.value=i;o.textContent=fmt(v);sel.appendChild(o)});sel.value=def};
+fill($("paper"),PAPERS,p=>p[0],1);fill($("sFrom"),PAPERS,p=>p[0],1);fill($("sTo"),PAPERS,p=>p[0],3);
+fill($("scale"),SCALES,s=>"1:"+s,SCALES.indexOf(100));fill($("sOrig"),SCALES,s=>"1:"+s,SCALES.indexOf(100));fill($("mScale"),SCALES,s=>"1:"+s,SCALES.indexOf(100));
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const NS="http://www.w3.org/2000/svg";
+function el(tag,attrs,parent,text){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(text!=null)e.textContent=text;parent&&parent.appendChild(e);return e}
+const toMM=v=>v*($("unit").value==="m"?1000:304.8);
+function area(p,orient){const mL=+$("mL").value,mO=+$("mO").value,tb=+$("tbw").value;let W=p[1],H=p[2];if(orient==="port")[W,H]=[H,W];return{W,H,aw:Math.max(0,W-mL-mO-tb),ah:Math.max(0,H-2*mO),mL,mO,tb}}
+function fits(p,s,ow,oh){const o=$("orient").value;const opts=o==="auto"?["land","port"]:[o];for(const or of opts){const a=area(p,or);if(ow/s<=a.aw&&oh/s<=a.ah)return or}return null}
+function bestScale(p,ow,oh){for(const s of SCALES){const r=fits(p,s,ow,oh);if(r)return[s,r]}return[null,null]}
+function render(){
+  const ow=toMM(+$("dw").value),oh=toMM(+$("dh").value);const p=PAPERS[$("paper").value],s=SCALES[$("scale").value];
+  const [bs,bo]=bestScale(p,ow,oh);$("best").textContent=bs?"1:"+bs:"won't fit";
+  $("bestNote").textContent=bs?`${p[0]} ${bo==="land"?"landscape":"portrait"} · drawing ${(ow/bs).toFixed(0)} × ${(oh/bs).toFixed(0)} mm on paper`:"Even 1:5000 is too big for this sheet.";
+  // preview
+  const pv=$("pv");pv.innerHTML="";const or=fits(p,s,ow,oh)||($("orient").value==="port"?"port":"land");const a=area(p,or);
+  const k=Math.min(600/a.W,400/a.H),ox=(640-a.W*k)/2,oy=16;const ink=css("--ink"),ink2=css("--ink-2"),rule=css("--rule"),red=css("--red");
+  el("rect",{x:ox,y:oy,width:a.W*k,height:a.H*k,fill:css("--paper"),stroke:ink,"stroke-width":1.5},pv);
+  el("rect",{x:ox+a.mL*k,y:oy+a.mO*k,width:(a.W-a.mL-a.mO)*k,height:(a.H-2*a.mO)*k,fill:"none",stroke:ink,"stroke-width":1},pv);
+  if(a.tb>0){el("rect",{x:ox+(a.W-a.mO-a.tb)*k,y:oy+a.mO*k,width:a.tb*k,height:(a.H-2*a.mO)*k,fill:rule,stroke:ink,"stroke-width":1},pv);
+    el("text",{x:ox+(a.W-a.mO-a.tb/2)*k,y:oy+a.H*k/2,"text-anchor":"middle",fill:ink2,"font-size":11,"font-family":"IBM Plex Mono, monospace",transform:`rotate(-90 ${ox+(a.W-a.mO-a.tb/2)*k} ${oy+a.H*k/2})`},pv,"TITLE");}
+  const dw=ow/s*k,dh=oh/s*k,dx=ox+a.mL*k+(a.aw*k-dw)/2,dy=oy+a.mO*k+(a.ah*k-dh)/2;const ok=ow/s<=a.aw&&oh/s<=a.ah;
+  el("rect",{x:dx,y:dy,width:dw,height:dh,fill:ok?css("--okbg"):css("--nobg"),stroke:ok?css("--ok"):red,"stroke-width":2,"stroke-dasharray":ok?"":"6 4"},pv);
+  el("text",{x:ox,y:oy+a.H*k+22,fill:ink,"font-size":13,"font-family":"IBM Plex Mono, monospace"},pv,`${p[0]} ${or==="land"?"landscape":"portrait"} · ${a.W.toFixed(0)} × ${a.H.toFixed(0)} mm`);
+  el("text",{x:ox+a.W*k,y:oy+a.H*k+22,"text-anchor":"end",fill:ok?css("--ok"):red,"font-size":13,"font-weight":600,"font-family":"IBM Plex Mono, monospace"},pv,`1:${s} → ${(ow/s).toFixed(0)} × ${(oh/s).toFixed(0)} mm ${ok?"fits":"too big"}`);
+  $("pvLabel").textContent=`drawable ${a.aw.toFixed(0)} × ${a.ah.toFixed(0)} mm`;
+  // fit table
+  const shown=SCALES.filter(x=>x>=5&&x<=2500);let h="<thead><tr><th>Scale</th><th>On paper (mm)</th>"+PAPERS.map(q=>`<th>${q[0].split(" ")[0]}${q[0].includes("(")?"<br>"+q[0].split(" ")[1]:""}</th>`).join("")+"</tr></thead><tbody>";
+  shown.forEach(x=>{h+=`<tr class="${x===s?"pick":""}"><td>1:${x}</td><td>${(ow/x).toFixed(0)} × ${(oh/x).toFixed(0)}</td>`+PAPERS.map(q=>{const f=fits(q,x,ow,oh);return f?`<td class="ok">✓ ${f==="land"?"L":"P"}</td>`:`<td class="no">–</td>`}).join("")+"</tr>"});
+  $("fit").innerHTML=h+"</tbody>";
+  // fixer
+  const pf=PAPERS[$("sFrom").value],pt=PAPERS[$("sTo").value],so=SCALES[$("sOrig").value];const f=Math.min(pt[1]/pf[1],pt[2]/pf[2]);const eff=so/f;
+  $("eff").textContent="1:"+(eff>=10?Math.round(eff):eff.toFixed(1));
+  $("effNote").textContent=`${pf[0]} → ${pt[0]} prints at ${(f*100).toFixed(1)}% when set to "fit to page". Scale-read measurements at 1:${eff>=10?Math.round(eff):eff.toFixed(1)}, or print at 100% on a larger sheet.`;
+  // measure
+  const ms=SCALES[$("mScale").value],mm=+$("meas").value*ms;$("real").textContent=mm>=1000?(mm/1000).toFixed(3)+" m":mm.toFixed(0)+" mm";
+  if($("unit").value==="ft")$("real").textContent+=` · ${(mm/304.8).toFixed(2)} ft`;
+  scaleBar(s);
+}
+function scaleBar(s){const metric=$("unit").value==="m";const targetMM=120;let realPerMM=s/(metric?1000:304.8);
+  const nice=[0.5,1,2,2.5,5,10,20,25,50,100,200,250,500,1000];let total=nice.find(n=>n/realPerMM>=targetMM*0.6)||1000;if(total/realPerMM>targetMM*1.6)total=nice[Math.max(0,nice.indexOf(total)-1)];
+  const segs=total>=5&&total%5===0?5:4,L=total/realPerMM;const W=L+40,u=metric?"m":"ft";
+  let svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${W.toFixed(1)}mm" height="16mm" viewBox="0 0 ${W.toFixed(1)} 16"><g font-family="Arial, sans-serif" font-size="3" fill="#000">`;
+  for(let i=0;i<segs;i++){const x=6+L*i/segs;svg+=`<rect x="${x.toFixed(2)}" y="7" width="${(L/segs).toFixed(2)}" height="2.4" fill="${i%2?"#fff":"#000"}" stroke="#000" stroke-width="0.25"/>`}
+  for(let i=0;i<=segs;i++){const x=6+L*i/segs;const v=+(total*i/segs).toFixed(2);svg+=`<text x="${x.toFixed(2)}" y="5.4" text-anchor="middle">${v}</text>`}
+  svg+=`<text x="${(6+L+3).toFixed(2)}" y="9.3">${u}</text><text x="6" y="14">SCALE 1:${s}</text></g></svg>`;
+  $("barWrap").innerHTML=svg.replace(/width="[\d.]+mm" height="16mm"/,`width="${Math.min(620,(W)*4)}" height="64" style="background:#fff;border:1px solid var(--rule)"`);
+  $("svgText").value=svg;}
+["unit","dw","dh","paper","orient","mL","mO","tbw","scale","sFrom","sTo","sOrig","meas","mScale"].forEach(id=>$(id).addEventListener("input",render));
+$("copy").addEventListener("click",()=>{const t=$("svgText").value;navigator.clipboard.writeText(t).then(()=>$("copyMsg").textContent="Copied. Paste into your drawing; it imports at true size.").catch(()=>{$("svgText").hidden=false;$("svgText").select();$("copyMsg").textContent="Copy the selected text below."})});
+new MutationObserver(render).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",render);
+render();
+</script>
+</body>
+</html>

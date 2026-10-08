@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sun Path &amp; Shadow Calculator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: drafting sheet — title block header, input column + two drawings, data table below */
+:root{
+  --paper:#F2F3EF; --sheet:#FBFBF8; --ink:#1B2732; --ink-2:#4A5865; --rule:#D5D9D4; --grid:#E6E8E3;
+  --red:#C8432B; --blue:#2E66A6; --sun:#E09A1E; --shadow:rgba(27,39,50,.22);
+  --display:'Barlow Condensed','Arial Narrow',sans-serif; --body:'IBM Plex Sans',system-ui,sans-serif; --mono:'IBM Plex Mono',ui-monospace,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#0E1A26; --sheet:#132233; --ink:#E4ECF2; --ink-2:#9DB0C0; --rule:#2A3D52; --grid:#1B2D40;
+  --red:#FF7A5C; --blue:#6FB0F0; --sun:#FFC04D; --shadow:rgba(140,190,240,.25); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0E1A26; --sheet:#132233; --ink:#E4ECF2; --ink-2:#9DB0C0; --rule:#2A3D52; --grid:#1B2D40;
+  --red:#FF7A5C; --blue:#6FB0F0; --sun:#FFC04D; --shadow:rgba(140,190,240,.25); color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--paper);color:var(--ink);font:15px/1.5 var(--body);padding:16px;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px}
+.sheet{max-width:1180px;margin:0 auto;background:var(--sheet);border:1.5px solid var(--ink);}
+.tb{display:grid;grid-template-columns:1fr auto;border-bottom:1.5px solid var(--ink)}
+.tb h1{font:700 clamp(30px,5vw,46px)/1 var(--display);letter-spacing:.01em;margin:0;padding:18px 20px 14px;text-transform:uppercase;text-wrap:balance}
+.tb h1 small{display:block;font:500 14px/1.4 var(--body);letter-spacing:0;text-transform:none;color:var(--ink-2);margin-top:6px}
+.tb .meta{display:grid;grid-template-columns:auto auto;border-left:1.5px solid var(--ink);font:12px/1.2 var(--mono)}
+.tb .meta div{padding:8px 12px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule)}
+.tb .meta b{display:block;font:600 10px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-bottom:4px}
+.main{display:grid;grid-template-columns:320px 1fr;}
+.inputs{border-right:1.5px solid var(--ink);padding:18px 20px;display:flex;flex-direction:column;gap:14px}
+label{display:flex;flex-direction:column;gap:5px;font:600 11px/1 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+input,select{font:500 15px/1.2 var(--mono);color:var(--ink);background:var(--paper);border:1px solid var(--rule);padding:9px 10px;border-radius:0;width:100%}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
+input[type=range]{padding:0;accent-color:var(--red)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+button{font:600 12px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;background:transparent;color:var(--ink);border:1px solid var(--ink);padding:8px 10px;cursor:pointer}
+button:hover{background:var(--ink);color:var(--sheet)}
+.time{font:500 28px/1 var(--mono);color:var(--red)}
+.views{display:grid;grid-template-columns:1fr 1fr;min-width:0}
+.view{padding:14px 16px 10px;min-width:0;border-bottom:1.5px solid var(--ink)}
+.view+.view{border-left:1px solid var(--rule)}
+.view h2,.data h2{font:600 20px/1 var(--display);text-transform:uppercase;letter-spacing:.04em;margin:0 0 8px;display:flex;justify-content:space-between;gap:8px}
+.view h2 span,.data h2 span{font:400 11px/1.6 var(--mono);color:var(--ink-2);text-transform:none;letter-spacing:0}
+svg{width:100%;height:auto;display:block}
+.readout{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1.5px solid var(--ink)}
+.readout div{padding:12px 16px;border-right:1px solid var(--rule)}
+.readout div:last-child{border-right:0}
+.readout b{display:block;font:600 10px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-bottom:6px}
+.readout span{font:500 24px/1 var(--mono);font-variant-numeric:tabular-nums}
+.readout .hi{color:var(--red)}
+.data{padding:14px 16px}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font:13px/1.3 var(--mono);font-variant-numeric:tabular-nums}
+th,td{padding:6px 10px;border-bottom:1px solid var(--rule);text-align:right;white-space:nowrap}
+th{font:600 10px/1.2 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+th:first-child,td:first-child{text-align:left}
+tr.now td{color:var(--red);font-weight:500}
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;padding:10px 16px;border-top:1.5px solid var(--ink);font:12px/1.4 var(--mono);color:var(--ink-2)}
+.note{font:12px/1.5 var(--body);color:var(--ink-2);margin:0}
+@media (max-width:900px){.main{grid-template-columns:1fr}.inputs{border-right:0;border-bottom:1.5px solid var(--ink)}}
+@media (max-width:640px){.views{grid-template-columns:1fr}.view+.view{border-left:0}.readout{grid-template-columns:repeat(2,1fr)}.readout div:nth-child(2){border-right:0}.readout div{border-bottom:1px solid var(--rule)}.tb{grid-template-columns:1fr}.tb .meta{border-left:0;border-top:1px solid var(--rule)}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.dl{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;padding:12px 20px;border-bottom:1.5px solid var(--ink);background:var(--paper)}
+.dl a.btn{font:600 13px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;background:var(--red);color:#fff;text-decoration:none;padding:11px 14px;border:1px solid var(--red)}
+.dl a.btn:hover{background:var(--ink);border-color:var(--ink);color:var(--sheet)}
+.dl span{font:13px/1.4 var(--body);color:var(--ink-2);flex:1;min-width:180px}
+.dl a.more{font:500 13px/1 var(--mono);color:var(--blue)}
+</style>
+</head>
+<body>
+<div class="sheet">
+  <header class="tb">
+    <h1>Sun Path &amp; Shadow<small>Sun position, sun-path diagram and building shadow for any place, date and time.</small></h1>
+    <div class="meta">
+      <div><b>Sheet</b>T-01</div><div><b>Scale</b>NTS</div>
+      <div><b>Method</b>NOAA solar</div><div><b>By</b>@smart_tools_every_week</div>
+    </div>
+  </header>
+  <div class="dl" id="dlbar"><a class="btn" href="sun-shadow.html" download="sun-shadow.html">⬇ Download this app</a><span>Free. One HTML file that works offline. Open it in any browser, no install or sign-up.</span><a class="more" href="../">More free tools →</a></div>
+  <div class="main">
+    <section class="inputs" aria-label="Inputs">
+      <label for="city">Location
+        <select id="city"></select>
+      </label>
+      <div class="row">
+        <label for="lat">Latitude °<input id="lat" type="number" step="0.01" value="28.61"></label>
+        <label for="lon">Longitude °<input id="lon" type="number" step="0.01" value="77.21"></label>
+      </div>
+      <label for="tz">UTC offset (hours)<input id="tz" type="number" step="0.25" value="5.5"></label>
+      <label for="date">Date<input id="date" type="date" value="2026-12-21"></label>
+      <div class="chips" role="group" aria-label="Key dates">
+        <button type="button" data-d="06-21">21 Jun</button>
+        <button type="button" data-d="03-20">20 Mar</button>
+        <button type="button" data-d="09-22">22 Sep</button>
+        <button type="button" data-d="12-21">21 Dec</button>
+      </div>
+      <label for="time">Time <span class="time" id="timeOut">14:00</span>
+        <input id="time" type="range" min="300" max="1200" step="5" value="840">
+      </label>
+      <div class="row">
+        <label for="h">Height (m)<input id="h" type="number" step="0.5" min="0.5" value="12"></label>
+        <label for="rot">Rotation °<input id="rot" type="number" step="5" value="0"></label>
+      </div>
+      <div class="row">
+        <label for="w">Width (m)<input id="w" type="number" step="0.5" min="1" value="12"></label>
+        <label for="d">Depth (m)<input id="d" type="number" step="0.5" min="1" value="18"></label>
+      </div>
+      <p class="note">Times are local standard time (no daylight saving). Rotation turns the footprint clockwise from north.</p>
+    </section>
+    <section style="min-width:0">
+      <div class="readout">
+        <div><b>Sun altitude</b><span id="oAlt" class="hi">–</span></div>
+        <div><b>Azimuth</b><span id="oAz">–</span></div>
+        <div><b>Shadow length</b><span id="oL" class="hi">–</span></div>
+        <div><b>Shadow ratio</b><span id="oR">–</span></div>
+      </div>
+      <div class="views">
+        <div class="view"><h2>Sun-path diagram <span id="spLabel"></span></h2><svg id="sp" viewBox="0 0 400 425" role="img" aria-label="Sun path diagram"></svg></div>
+        <div class="view"><h2>Plan shadow <span id="planLabel"></span></h2><svg id="plan" viewBox="0 0 400 400" role="img" aria-label="Plan view of building shadow"></svg></div>
+      </div>
+      <div class="readout">
+        <div><b>Sunrise</b><span id="oRise">–</span></div>
+        <div><b>Solar noon</b><span id="oNoon">–</span></div>
+        <div><b>Sunset</b><span id="oSet">–</span></div>
+        <div><b>Day length</b><span id="oDay">–</span></div>
+      </div>
+      <div class="data">
+        <h2>Hourly shadow table <span>for the building height above</span></h2>
+        <div class="tablewrap"><table><thead><tr><th>Time</th><th>Altitude</th><th>Azimuth</th><th>Shadow (m)</th><th>Shadow points to</th></tr></thead><tbody id="tbl"></tbody></table></div>
+      </div>
+    </section>
+  </div>
+  <footer class="foot"><span>Free tool · @smart_tools_every_week · simplyrendered.github.io/smart-tools · built with Claude</span><span>Accuracy ≈ ±1° (NOAA algorithm). Check critical work with site data.</span></footer>
+</div>
+<script>
+if(location.protocol==="file:"){const b=document.getElementById("dlbar");if(b)b.hidden=true;}
+
+const CITIES=[["New Delhi",28.61,77.21,5.5],["Mumbai",19.08,72.88,5.5],["Bengaluru",12.97,77.59,5.5],["Chennai",13.08,80.27,5.5],["Kolkata",22.57,88.36,5.5],["Hyderabad",17.39,78.49,5.5],["Pune",18.52,73.86,5.5],["Ahmedabad",23.02,72.57,5.5],["Jaipur",26.91,75.79,5.5],["Lucknow",26.85,80.95,5.5],["Chandigarh",30.73,76.78,5.5],["Raipur / Durg",21.19,81.28,5.5],["Panaji, Goa",15.49,73.83,5.5],["Kochi",9.93,76.27,5.5],["Guwahati",26.14,91.74,5.5],["Dubai",25.20,55.27,4],["Singapore",1.35,103.82,8],["London",51.51,-0.13,0],["New York",40.71,-74.01,-5],["Sydney",-33.87,151.21,10],["Custom",null,null,null]];
+const $=id=>document.getElementById(id);
+const rad=d=>d*Math.PI/180, deg=r=>r*180/Math.PI;
+const DIRS=["N","NNE","NE","ENE","E","ESE","SE","SSE","S","SSW","SW","WSW","W","WNW","NW","NNW"];
+const dirName=a=>DIRS[Math.round(((a%360)+360)%360/22.5)%16];
+
+function solar(dateStr,minutes,lat,lon,tz){
+  const [y,m,d]=dateStr.split("-").map(Number);
+  const jd=Date.UTC(y,m-1,d)/86400000+2440587.5+(minutes-tz*60)/1440;
+  const jc=(jd-2451545)/36525;
+  const L0=(280.46646+jc*(36000.76983+jc*0.0003032))%360;
+  const M=357.52911+jc*(35999.05029-0.0001537*jc);
+  const e=0.016708634-jc*(0.000042037+0.0000001267*jc);
+  const C=Math.sin(rad(M))*(1.914602-jc*(0.004817+0.000014*jc))+Math.sin(rad(2*M))*(0.019993-0.000101*jc)+Math.sin(rad(3*M))*0.000289;
+  const app=L0+C-0.00569-0.00478*Math.sin(rad(125.04-1934.136*jc));
+  const eps0=23+(26+(21.448-jc*(46.815+jc*(0.00059-jc*0.001813)))/60)/60;
+  const eps=eps0+0.00256*Math.cos(rad(125.04-1934.136*jc));
+  const decl=deg(Math.asin(Math.sin(rad(eps))*Math.sin(rad(app))));
+  const yy=Math.tan(rad(eps/2))**2;
+  const eot=4*deg(yy*Math.sin(2*rad(L0))-2*e*Math.sin(rad(M))+4*e*yy*Math.sin(rad(M))*Math.cos(2*rad(L0))-0.5*yy*yy*Math.sin(4*rad(L0))-1.25*e*e*Math.sin(2*rad(M)));
+  let tst=(minutes+eot+4*lon-60*tz)%1440; if(tst<0)tst+=1440;
+  const ha=tst/4<0?tst/4+180:tst/4-180;
+  const cz=Math.sin(rad(lat))*Math.sin(rad(decl))+Math.cos(rad(lat))*Math.cos(rad(decl))*Math.cos(rad(ha));
+  const zen=deg(Math.acos(Math.min(1,Math.max(-1,cz))));
+  let alt=90-zen;
+  // atmospheric refraction (NOAA)
+  let refr=0; if(alt>85)refr=0; else if(alt>5)refr=(58.1/Math.tan(rad(alt))-0.07/Math.tan(rad(alt))**3+0.000086/Math.tan(rad(alt))**5)/3600; else if(alt>-0.575)refr=(1735+alt*(-518.2+alt*(103.4+alt*(-12.79+alt*0.711))))/3600; else refr=(-20.772/Math.tan(rad(alt)))/3600;
+  alt+=refr;
+  const den=Math.cos(rad(lat))*Math.sin(rad(zen));
+  let az;
+  if(Math.abs(den)<1e-9) az=lat>decl?180:0;
+  else{const a=deg(Math.acos(Math.min(1,Math.max(-1,(Math.sin(rad(lat))*Math.cos(rad(zen))-Math.sin(rad(decl)))/den))));
+    az=ha>0?(a+180)%360:(540-a)%360;}
+  const haR=deg(Math.acos(Math.min(1,Math.max(-1,Math.cos(rad(90.833))/(Math.cos(rad(lat))*Math.cos(rad(decl)))-Math.tan(rad(lat))*Math.tan(rad(decl))))));
+  const noon=720-4*lon-eot+tz*60;
+  return {alt,az,decl,noon,rise:noon-haR*4,set:noon+haR*4,dayLen:8*haR};
+}
+const fmtT=m=>{if(!isFinite(m))return"–";m=((m%1440)+1440)%1440;const h=Math.floor(m/60),mi=Math.round(m%60);return String(mi===60?h+1:h).padStart(2,"0")+":"+String(mi===60?0:mi).padStart(2,"0")};
+const fmtDur=m=>`${Math.floor(m/60)}h ${String(Math.round(m%60)).padStart(2,"0")}m`;
+
+const sel=$("city");
+CITIES.forEach((c,i)=>{const o=document.createElement("option");o.value=i;o.textContent=c[0];sel.appendChild(o)});
+sel.addEventListener("change",()=>{const c=CITIES[sel.value];if(c[1]!==null){$("lat").value=c[1];$("lon").value=c[2];$("tz").value=c[3]}render()});
+["lat","lon","tz"].forEach(id=>$(id).addEventListener("input",()=>{sel.value=CITIES.length-1;render()}));
+["date","time","h","w","d","rot"].forEach(id=>$(id).addEventListener("input",render));
+document.querySelectorAll("[data-d]").forEach(b=>b.addEventListener("click",()=>{$("date").value=$("date").value.slice(0,4)+"-"+b.dataset.d;render()}));
+
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const NS="http://www.w3.org/2000/svg";
+function el(tag,attrs,parent,text){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(text!=null)e.textContent=text;parent&&parent.appendChild(e);return e}
+
+function drawSunPath(lat,lon,tz,dateStr,minutes,cur){
+  const s=$("sp");s.innerHTML="";const cx=200,cy=200,R=165,ink=css("--ink"),ink2=css("--ink-2"),rule=css("--rule");
+  const P=(alt,az)=>{const r=R*(90-alt)/90;return[cx+r*Math.sin(rad(az)),cy-r*Math.cos(rad(az))]};
+  [0,30,60].forEach(a=>{el("circle",{cx,cy,r:R*(90-a)/90,fill:"none",stroke:a?rule:ink,"stroke-width":a?1:1.5},s);if(a)el("text",{x:cx+4,y:cy-R*(90-a)/90+12,fill:ink2,"font-size":10,"font-family":"IBM Plex Mono, monospace"},s,a+"°")});
+  for(let a=0;a<360;a+=30){const [x,y]=P(0,a);el("line",{x1:cx,y1:cy,x2:x,y2:y,stroke:rule,"stroke-width":.8},s)}
+  [["N",0],["E",90],["S",180],["W",270]].forEach(([t,a])=>{const [x,y]=P(-11,a);el("text",{x,y:y+5,"text-anchor":"middle",fill:t==="N"?css("--red"):ink,"font-size":15,"font-weight":700,"font-family":"Barlow Condensed, sans-serif"},s,t)});
+  const yr=dateStr.slice(0,4);
+  const arcs=[[yr+"-06-21","21 Jun",css("--blue"),"4 3"],[yr+"-03-20","Equinox",ink2,"2 3"],[yr+"-12-21","21 Dec",css("--blue"),"4 3"],[dateStr,"Selected",css("--sun"),""]];
+  arcs.forEach(([ds,lab,col,dash],k)=>{let d="",pen=false,lastPt=null;
+    for(let m=0;m<=1440;m+=4){const p=solar(ds,m,lat,lon,tz);if(p.alt>0){const [x,y]=P(p.alt,p.az);d+=(pen?"L":"M")+x.toFixed(1)+" "+y.toFixed(1);pen=true;lastPt=[x,y]}else pen=false}
+    if(d)el("path",{d,fill:"none",stroke:col,"stroke-width":k===3?3:1.4,"stroke-dasharray":dash,"stroke-linecap":"round"},s);
+    if(k===3){for(let h=0;h<24;h++){const p=solar(ds,h*60,lat,lon,tz);if(p.alt>2){const [x,y]=P(p.alt,p.az);el("circle",{cx:x,cy:y,r:2.4,fill:col},s);el("text",{x:x+5,y:y-5,fill:ink2,"font-size":9,"font-family":"IBM Plex Mono, monospace"},s,h)}}}
+  });
+  if(cur.alt>0){const [x,y]=P(cur.alt,cur.az);el("circle",{cx:x,cy:y,r:9,fill:css("--sun"),stroke:css("--sheet"),"stroke-width":2},s);}
+  const lg=[["Selected date",css("--sun"),""],["Solstices",css("--blue"),"4 3"],["Equinox",ink2,"2 3"]];
+  lg.forEach(([t,c,da],i)=>{const y=418,x=8+i*130;el("line",{x1:x,y1:y-4,x2:x+18,y2:y-4,stroke:c,"stroke-width":i?1.6:3,"stroke-dasharray":da},s);el("text",{x:x+24,y,fill:ink2,"font-size":10.5,"font-family":"IBM Plex Sans, sans-serif"},s,t)});
+}
+
+function hull(pts){pts=pts.slice().sort((a,b)=>a[0]-b[0]||a[1]-b[1]);const cr=(o,a,b)=>(a[0]-o[0])*(b[1]-o[1])-(a[1]-o[1])*(b[0]-o[0]);const lo=[],up=[];
+  for(const p of pts){while(lo.length>1&&cr(lo[lo.length-2],lo[lo.length-1],p)<=0)lo.pop();lo.push(p)}
+  for(const p of pts.reverse()){while(up.length>1&&cr(up[up.length-2],up[up.length-1],p)<=0)up.pop();up.push(p)}
+  return lo.slice(0,-1).concat(up.slice(0,-1))}
+
+function drawPlan(cur,h,w,dp,rot){
+  const s=$("plan");s.innerHTML="";const ink=css("--ink"),ink2=css("--ink-2"),rule=css("--rule");
+  const r=rad(rot),c=Math.cos(r),sn=Math.sin(r);
+  const corners=[[-w/2,-dp/2],[w/2,-dp/2],[w/2,dp/2],[-w/2,dp/2]].map(([x,y])=>[x*c-y*sn,x*sn+y*c]); // y down = south
+  let L=cur.alt>0.5?h/Math.tan(rad(cur.alt)):Infinity;const capped=!isFinite(L)||L>h*15;const Ld=capped?h*15:L;
+  const sa=rad(cur.az+180),dx=Ld*Math.sin(sa),dy=-Ld*Math.cos(sa);
+  const ext=Math.max(...corners.map(p=>Math.hypot(...p)))+(cur.alt>0?Ld:0);
+  const k=170/Math.max(ext,1);const X=x=>200+x*k,Y=y=>200+y*k;
+  // grid at 5 m
+  const step=ext>120?20:ext>50?10:5;
+  for(let g=-Math.ceil(200/k/step)*step;g<=200/k;g+=step){el("line",{x1:X(g),y1:0,x2:X(g),y2:400,stroke:rule,"stroke-width":.6},s);el("line",{x1:0,y1:Y(g),x2:400,y2:Y(g),stroke:rule,"stroke-width":.6},s)}
+  if(cur.alt>0){const sh=hull(corners.concat(corners.map(([x,y])=>[x+dx,y+dy])));
+    el("polygon",{points:sh.map(p=>X(p[0])+","+Y(p[1])).join(" "),fill:css("--shadow"),stroke:ink2,"stroke-width":1,"stroke-dasharray":"5 3"},s);}
+  el("polygon",{points:corners.map(p=>X(p[0])+","+Y(p[1])).join(" "),fill:css("--sheet"),stroke:ink,"stroke-width":2.2},s);
+  el("text",{x:X(0),y:Y(0)+4,"text-anchor":"middle",fill:ink,"font-size":11,"font-family":"IBM Plex Mono, monospace"},s,h+" m");
+  // sun direction arrow
+  if(cur.alt>0){const ax=200+180*Math.sin(rad(cur.az)),ay=200-180*Math.cos(rad(cur.az));el("circle",{cx:ax,cy:ay,r:8,fill:css("--sun")},s);}
+  // north arrow
+  el("path",{d:"M372 50 L382 76 L372 70 L362 76 Z",fill:css("--red")},s);el("text",{x:372,y:44,"text-anchor":"middle",fill:css("--red"),"font-size":15,"font-weight":700,"font-family":"Barlow Condensed, sans-serif"},s,"N");
+  // scale bar
+  const sb=step*k;el("rect",{x:14,y:378,width:sb,height:6,fill:ink},s);el("text",{x:14,y:372,fill:ink2,"font-size":10,"font-family":"IBM Plex Mono, monospace"},s,step+" m");
+  $("planLabel").textContent=cur.alt>0?(capped?"shadow clipped at 15× height":"grid "+step+" m"):"sun below horizon";
+}
+
+function render(){
+  const lat=+$("lat").value,lon=+$("lon").value,tz=+$("tz").value,ds=$("date").value||"2026-12-21",t=+$("time").value;
+  const h=Math.max(.1,+$("h").value),w=Math.max(.5,+$("w").value),dp=Math.max(.5,+$("d").value),rot=+$("rot").value;
+  $("timeOut").textContent=fmtT(t);
+  const p=solar(ds,t,lat,lon,tz);
+  const L=p.alt>0.5?h/Math.tan(rad(p.alt)):Infinity;
+  $("oAlt").textContent=p.alt.toFixed(1)+"°";$("oAz").textContent=p.az.toFixed(0)+"° "+dirName(p.az);
+  $("oL").textContent=p.alt<=0?"night":isFinite(L)?L.toFixed(1)+" m":"very long";
+  $("oR").textContent=p.alt>0.5?(L/h).toFixed(2)+" × h":"–";
+  $("oRise").textContent=fmtT(p.rise);$("oNoon").textContent=fmtT(p.noon);$("oSet").textContent=fmtT(p.set);$("oDay").textContent=isFinite(p.dayLen)?fmtDur(p.dayLen):"–";
+  $("spLabel").textContent=`${lat.toFixed(2)}°, ${lon.toFixed(2)}°`;
+  drawSunPath(lat,lon,tz,ds,t,p);drawPlan(p,h,w,dp,rot);
+  const tb=$("tbl");tb.innerHTML="";
+  for(let hh=5;hh<=20;hh++){const q=solar(ds,hh*60,lat,lon,tz);if(q.alt<=0)continue;const Lq=q.alt>0.5?h/Math.tan(rad(q.alt)):Infinity;
+    const tr=document.createElement("tr");if(Math.abs(t-hh*60)<30)tr.className="now";
+    tr.innerHTML=`<td>${String(hh).padStart(2,"0")}:00</td><td>${q.alt.toFixed(1)}°</td><td>${q.az.toFixed(0)}°</td><td>${isFinite(Lq)?Lq.toFixed(1):"—"}</td><td>${dirName(q.az+180)}</td>`;tb.appendChild(tr)}
+}
+window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",render);
+new MutationObserver(render).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+render();
+</script>
+</body>
+</html>

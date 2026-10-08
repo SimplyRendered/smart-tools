@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Vastu Grid Overlay</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: drafting sheet — title block, plan canvas with controls column, zone guide below */
+:root{
+  --paper:#F2F3EF; --sheet:#FBFBF8; --ink:#1B2732; --ink-2:#4A5865; --rule:#D5D9D4; --grid:#E6E8E3;
+  --red:#C8432B; --blue:#2E66A6;
+  --display:'Barlow Condensed','Arial Narrow',sans-serif; --body:'IBM Plex Sans',system-ui,sans-serif; --mono:'IBM Plex Mono',ui-monospace,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#0E1A26; --sheet:#132233; --ink:#E4ECF2; --ink-2:#9DB0C0; --rule:#2A3D52; --grid:#1B2D40; --red:#FF7A5C; --blue:#6FB0F0; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0E1A26; --sheet:#132233; --ink:#E4ECF2; --ink-2:#9DB0C0; --rule:#2A3D52; --grid:#1B2D40; --red:#FF7A5C; --blue:#6FB0F0; color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--paper);color:var(--ink);font:15px/1.5 var(--body);padding:16px;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px}
+.sheet{max-width:1180px;margin:0 auto;background:var(--sheet);border:1.5px solid var(--ink)}
+.tb{display:grid;grid-template-columns:1fr auto;border-bottom:1.5px solid var(--ink)}
+.tb h1{font:700 clamp(30px,5vw,46px)/1 var(--display);letter-spacing:.01em;margin:0;padding:18px 20px 14px;text-transform:uppercase;text-wrap:balance}
+.tb h1 small{display:block;font:500 14px/1.4 var(--body);letter-spacing:0;text-transform:none;color:var(--ink-2);margin-top:6px}
+.tb .meta{display:grid;grid-template-columns:auto auto;border-left:1.5px solid var(--ink);font:12px/1.2 var(--mono)}
+.tb .meta div{padding:8px 12px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule)}
+.tb .meta b{display:block;font:600 10px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-bottom:4px}
+.main{display:grid;grid-template-columns:300px 1fr}
+.inputs{border-right:1.5px solid var(--ink);padding:18px 20px;display:flex;flex-direction:column;gap:14px}
+label,.lbl{display:flex;flex-direction:column;gap:5px;font:600 11px/1 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+input,select{font:500 15px/1.2 var(--mono);color:var(--ink);background:var(--paper);border:1px solid var(--rule);padding:9px 10px;border-radius:0;width:100%}
+input[type=range]{padding:0;accent-color:var(--red)}
+input[type=checkbox]{width:auto;accent-color:var(--red)}
+.check{flex-direction:row;align-items:center;gap:8px;text-transform:none;letter-spacing:0;font:500 14px/1.2 var(--body);color:var(--ink)}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
+.upload{border:1.5px dashed var(--ink-2);padding:14px;text-align:center;text-transform:none;letter-spacing:0;font:500 13px/1.4 var(--body);color:var(--ink-2);cursor:pointer}
+.upload strong{display:block;color:var(--ink);font:600 15px/1.3 var(--body)}
+.upload.drag{border-color:var(--red);color:var(--red)}
+button{font:600 12px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;background:transparent;color:var(--ink);border:1px solid var(--ink);padding:10px 12px;cursor:pointer}
+button.primary{background:var(--ink);color:var(--sheet)}
+button:hover{background:var(--red);border-color:var(--red);color:#fff}
+.btns{display:flex;flex-wrap:wrap;gap:8px}
+.deg{font:500 28px/1 var(--mono);color:var(--red)}
+.stage{min-width:0;padding:14px 16px;border-bottom:1.5px solid var(--ink)}
+.stage h2,.guide h2{font:600 20px/1 var(--display);text-transform:uppercase;letter-spacing:.04em;margin:0 0 8px;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.stage h2 span,.guide h2 span{font:400 11px/1.6 var(--mono);color:var(--ink-2);text-transform:none;letter-spacing:0}
+#wrap{position:relative;width:100%;touch-action:none}
+canvas{display:block;width:100%;height:auto;background:#fff;border:1px solid var(--rule);cursor:crosshair}
+.out{display:none;margin-top:12px;border:1px solid var(--rule);padding:12px}
+.out.on{display:block}
+.out p{margin:0 0 8px;font:500 13px/1.4 var(--body);color:var(--ink-2)}
+.out img{display:block;max-width:100%;border:1px solid var(--rule)}
+.guide{padding:14px 16px}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font:13px/1.35 var(--body)}
+th,td{padding:7px 10px;border-bottom:1px solid var(--rule);text-align:left;vertical-align:top}
+th{font:600 10px/1.2 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+td.z{font:600 13px/1.3 var(--mono);white-space:nowrap}
+.sw{display:inline-block;width:10px;height:10px;margin-right:6px;vertical-align:baseline}
+.note{font:12px/1.5 var(--body);color:var(--ink-2);margin:0}
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;padding:10px 16px;border-top:1.5px solid var(--ink);font:12px/1.4 var(--mono);color:var(--ink-2)}
+@media (max-width:900px){.main{grid-template-columns:1fr}.inputs{border-right:0;border-bottom:1.5px solid var(--ink)}}
+@media (max-width:640px){.tb{grid-template-columns:1fr}.tb .meta{border-left:0;border-top:1px solid var(--rule)}}
+.dl{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;padding:12px 20px;border-bottom:1.5px solid var(--ink);background:var(--paper)}
+.dl a.btn{font:600 13px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;background:var(--red);color:#fff;text-decoration:none;padding:11px 14px;border:1px solid var(--red)}
+.dl a.btn:hover{background:var(--ink);border-color:var(--ink);color:var(--sheet)}
+.dl span{font:13px/1.4 var(--body);color:var(--ink-2);flex:1;min-width:180px}
+.dl a.more{font:500 13px/1 var(--mono);color:var(--blue)}
+</style>
+</head>
+<body>
+<div class="sheet">
+  <header class="tb">
+    <h1>Vastu Grid Overlay<small>Drop a floor plan, mark the plot, set north. Get the 16-zone chakra and mandala grid on top.</small></h1>
+    <div class="meta">
+      <div><b>Sheet</b>T-02</div><div><b>Zones</b>16 + grid</div>
+      <div><b>Runs</b>In your browser</div><div><b>By</b>@smart_tools_every_week</div>
+    </div>
+  </header>
+  <div class="dl" id="dlbar"><a class="btn" href="vastu-grid.html" download="vastu-grid.html">⬇ Download this app</a><span>Free. One HTML file that works offline. Open it in any browser, no install or sign-up.</span><a class="more" href="../">More free tools →</a></div>
+  <div class="main">
+    <section class="inputs" aria-label="Controls">
+      <label class="upload" id="drop" for="file"><strong>Upload your plan</strong>JPG or PNG. Drop it here or tap to choose. It never leaves your device.
+        <input id="file" type="file" accept="image/*" hidden>
+      </label>
+      <label for="north">North direction <span class="deg" id="northOut">0°</span>
+        <input id="north" type="range" min="-180" max="180" step="0.5" value="-15">
+      </label>
+      <p class="note">Degrees that true north is turned clockwise from the top of your drawing. Read it off the plan's north arrow or a compass app.</p>
+      <label for="mode">Overlay
+        <select id="mode">
+          <option value="16">16 zones (Shakti Chakra)</option>
+          <option value="8">8 directions</option>
+          <option value="none">Grid only</option>
+        </select>
+      </label>
+      <label for="grid">Grid
+        <select id="grid">
+          <option value="3">3 × 3 (Brahmasthan)</option>
+          <option value="9">9 × 9 (81 padas)</option>
+          <option value="0">No grid</option>
+        </select>
+      </label>
+      <label for="op">Overlay strength<input id="op" type="range" min="0.1" max="0.9" step="0.05" value="0.45"></label>
+      <label class="check" for="tint"><input id="tint" type="checkbox" checked> Tint zones by element</label>
+      <label class="check" for="labels"><input id="labels" type="checkbox" checked> Show zone labels</label>
+      <div class="btns">
+        <button type="button" id="reset">Reset plot box</button>
+        <button type="button" class="primary" id="save">Make image</button>
+      </div>
+      <p class="note">Drag the red corner handles to fit the plot or building outline. Drag inside the box to move it.</p>
+    </section>
+    <section style="min-width:0">
+      <div class="stage">
+        <h2>Plan <span id="status">Sample plan loaded · upload yours</span></h2>
+        <div id="wrap"><canvas id="cv" width="900" height="700" aria-label="Floor plan with Vastu overlay"></canvas></div>
+        <div class="out" id="out"><p>Right-click or long-press the image to save or share it.</p><img id="outImg" alt="Plan with Vastu overlay"></div>
+      </div>
+      <div class="guide">
+        <h2>Zone guide <span>traditional associations commonly cited in 16-zone Vastu</span></h2>
+        <div class="tablewrap"><table><thead><tr><th>Zone</th><th>Bearing</th><th>Element</th><th>Often suggested for</th></tr></thead><tbody id="tbl"></tbody></table></div>
+      </div>
+    </section>
+  </div>
+  <footer class="foot"><span>Free tool · @smart_tools_every_week · simplyrendered.github.io/smart-tools · built with Claude</span><span>Vastu is a traditional practice; schools differ. Use alongside codes and good design sense.</span></footer>
+</div>
+<script>
+if(location.protocol==="file:"){const b=document.getElementById("dlbar");if(b)b.hidden=true;}
+
+const $=id=>document.getElementById(id);
+const Z16=[["N","Water","Cash, opportunities, main entry"],["NNE","Water","Health, medicines"],["NE","Water","Puja, meditation, open space"],["ENE","Air","Family lounge, recreation"],["E","Air","Living, social connections"],["ESE","Fire","Utility, laundry"],["SE","Fire","Kitchen, electrical"],["SSE","Fire","Study, work desk"],["S","Fire","Bedroom, rest"],["SSW","Earth","Toilet, disposal"],["SW","Earth","Master bedroom, heavy storage"],["WSW","Earth","Children's study, savings"],["W","Space","Children's bedroom, dining"],["WNW","Space","Toilet, store"],["NW","Air","Guest room, garage"],["NNW","Water","Couple's bedroom"]];
+const Z8=[["N","Water","Entry, cash"],["NE","Water","Puja, open space"],["E","Air","Living"],["SE","Fire","Kitchen"],["S","Fire","Bedroom"],["SW","Earth","Master bedroom"],["W","Space","Dining, children"],["NW","Air","Guest room"]];
+const EL={Water:"#2E7DC8",Air:"#5BA67A",Fire:"#E0592F",Earth:"#C99A2E",Space:"#8C79C2"};
+const cv=$("cv"),ctx=cv.getContext("2d");
+let img=null, box={x:.1,y:.08,w:.8,h:.84}, drag=null;
+
+function samplePlan(){const c=document.createElement("canvas");c.width=900;c.height=700;const g=c.getContext("2d");
+  g.fillStyle="#fff";g.fillRect(0,0,900,700);g.strokeStyle="#222";g.lineCap="square";
+  const W=(x1,y1,x2,y2,t=8)=>{g.lineWidth=t;g.beginPath();g.moveTo(x1,y1);g.lineTo(x2,y2);g.stroke()};
+  W(110,70,790,70,12);W(790,70,790,630,12);W(790,630,110,630,12);W(110,630,110,70,12);
+  W(430,70,430,330);W(110,330,560,330);W(620,330,790,330);W(560,330,560,630);W(300,330,300,630);W(300,480,110,480);W(660,70,660,200);W(660,200,790,200);
+  g.fillStyle="#fff";g.fillRect(340,325,50,12);g.fillRect(175,325,50,12);g.fillRect(560,380,12,50);g.fillRect(420,624,90,14);
+  g.fillStyle="#333";g.font="600 20px IBM Plex Sans, sans-serif";g.textAlign="center";
+  [["LIVING",240,200],["BEDROOM 1",545,250],["TOILET",725,140],["KITCHEN",675,480],["DINING",430,480],["BEDROOM 2",205,410],["PUJA",205,560]].forEach(([t,x,y])=>g.fillText(t,x,y));
+  g.font="500 14px IBM Plex Mono, monospace";g.fillText("SAMPLE PLAN · 40' × 33'",450,672);g.fillText("ENTRY ↓",465,660-8);
+  const im=new Image();im.onload=()=>{img=im;fit();draw()};im.src=c.toDataURL();}
+
+function fit(){const r=img.height/img.width;cv.width=1200;cv.height=Math.round(1200*r);}
+function bearingToScreen(b){return (b+(+$("north").value))*Math.PI/180;} // clockwise from screen-up
+function rayToBox(cx,cy,a,bx,by,bw,bh){const dx=Math.sin(a),dy=-Math.cos(a);let t=Infinity;
+  if(dx>1e-9)t=Math.min(t,(bx+bw-cx)/dx);if(dx<-1e-9)t=Math.min(t,(bx-cx)/dx);if(dy>1e-9)t=Math.min(t,(by+bh-cy)/dy);if(dy<-1e-9)t=Math.min(t,(by-cy)/dy);return[cx+dx*t,cy+dy*t,t]}
+
+function drawOverlay(g,W,H,handles){
+  const bx=box.x*W,by=box.y*H,bw=box.w*W,bh=box.h*H,cx=bx+bw/2,cy=by+bh/2;const op=+$("op").value;const mode=$("mode").value;const s=W/1200;
+  g.save();g.beginPath();g.rect(bx,by,bw,bh);g.clip();
+  if(mode!=="none"){const zones=mode==="16"?Z16:Z8,n=zones.length,step=360/n;
+    zones.forEach((z,i)=>{const a0=bearingToScreen(i*step-step/2),a1=bearingToScreen(i*step+step/2);
+      if($("tint").checked){g.beginPath();g.moveTo(cx,cy);const R=Math.hypot(bw,bh);
+        for(let k=0;k<=16;k++){const a=a0+(a1-a0)*k/16;g.lineTo(cx+Math.sin(a)*R,cy-Math.cos(a)*R)}g.closePath();g.globalAlpha=op*0.55;g.fillStyle=EL[z[1]];g.fill();g.globalAlpha=1}
+      const [x,y]=rayToBox(cx,cy,a0,bx,by,bw,bh);g.strokeStyle="#C8432B";g.globalAlpha=Math.min(1,op+.35);g.lineWidth=2*s;g.beginPath();g.moveTo(cx,cy);g.lineTo(x,y);g.stroke();g.globalAlpha=1});
+    if($("labels").checked){zones.forEach((z,i)=>{const a=bearingToScreen(i*step);const [,,t]=rayToBox(cx,cy,a,bx,by,bw,bh);const r=t*0.78;
+      const x=cx+Math.sin(a)*r,y=cy-Math.cos(a)*r;g.font=`700 ${Math.round(26*s)}px Barlow Condensed, sans-serif`;g.textAlign="center";g.textBaseline="middle";
+      const tw=g.measureText(z[0]).width+14*s;g.fillStyle="rgba(255,255,255,.88)";g.fillRect(x-tw/2,y-15*s,tw,30*s);g.fillStyle=z[0]==="N"?"#C8432B":"#1B2732";g.fillText(z[0],x,y+1*s)})}
+  }
+  const gn=+$("grid").value;if(gn){g.strokeStyle="#2E66A6";g.globalAlpha=Math.min(1,op+.3);g.lineWidth=(gn===9?1.2:2)*s;g.setLineDash(gn===9?[6*s,5*s]:[]);
+    for(let i=1;i<gn;i++){g.beginPath();g.moveTo(bx+bw*i/gn,by);g.lineTo(bx+bw*i/gn,by+bh);g.stroke();g.beginPath();g.moveTo(bx,by+bh*i/gn);g.lineTo(bx+bw,by+bh*i/gn);g.stroke()}
+    g.setLineDash([]);g.globalAlpha=1;const c0=gn===9?3:1,c1=gn===9?6:2;g.fillStyle="rgba(201,154,46,.22)";g.fillRect(bx+bw*c0/gn,by+bh*c0/gn,bw*(c1-c0)/gn,bh*(c1-c0)/gn);
+    g.fillStyle="#7a5a12";g.font=`600 ${Math.round(15*s)}px IBM Plex Mono, monospace`;g.textAlign="center";g.fillText("BRAHMASTHAN",cx,cy+(mode==="none"?0:44*s));}
+  g.restore();
+  g.strokeStyle="#C8432B";g.lineWidth=3*s;g.strokeRect(bx,by,bw,bh);
+  g.fillStyle="#C8432B";g.beginPath();g.arc(cx,cy,6*s,0,7);g.fill();
+  if(handles){[[bx,by],[bx+bw,by],[bx+bw,by+bh],[bx,by+bh]].forEach(([x,y])=>{g.fillStyle="#fff";g.strokeStyle="#C8432B";g.lineWidth=3*s;g.beginPath();g.arc(x,y,11*s,0,7);g.fill();g.stroke()})}
+  // north arrow
+  const ax=W-70*s,ay=78*s,a=bearingToScreen(0);g.save();g.translate(ax,ay);g.rotate(a);g.fillStyle="#C8432B";g.beginPath();g.moveTo(0,-40*s);g.lineTo(15*s,22*s);g.lineTo(0,10*s);g.lineTo(-15*s,22*s);g.closePath();g.fill();g.restore();
+  g.fillStyle="#C8432B";g.font=`700 ${Math.round(24*s)}px Barlow Condensed, sans-serif`;g.textAlign="center";g.textBaseline="middle";g.fillText("N",ax+Math.sin(a)*58*s,ay-Math.cos(a)*58*s);
+}
+function draw(handles=true){if(!img)return;ctx.clearRect(0,0,cv.width,cv.height);ctx.drawImage(img,0,0,cv.width,cv.height);drawOverlay(ctx,cv.width,cv.height,handles);$("northOut").textContent=(+$("north").value).toFixed(1)+"°";}
+
+function pt(e){const r=cv.getBoundingClientRect();return[(e.clientX-r.left)/r.width,(e.clientY-r.top)/r.height]}
+cv.addEventListener("pointerdown",e=>{const [x,y]=pt(e);const r=cv.getBoundingClientRect();const tol=22/r.width;
+  const cs=[[box.x,box.y],[box.x+box.w,box.y],[box.x+box.w,box.y+box.h],[box.x,box.y+box.h]];
+  const k=cs.findIndex(([cx,cy])=>Math.abs(cx-x)<tol&&Math.abs(cy-y)<tol*r.width/r.height);
+  if(k>=0)drag={type:"corner",k};else if(x>box.x&&x<box.x+box.w&&y>box.y&&y<box.y+box.h)drag={type:"move",x,y,b:{...box}};else return;
+  cv.setPointerCapture(e.pointerId);e.preventDefault()});
+cv.addEventListener("pointermove",e=>{if(!drag)return;const [x,y]=pt(e).map(v=>Math.min(1,Math.max(0,v)));
+  if(drag.type==="move"){box.x=Math.min(1-box.w,Math.max(0,drag.b.x+x-drag.x));box.y=Math.min(1-box.h,Math.max(0,drag.b.y+y-drag.y))}
+  else{let x0=box.x,y0=box.y,x1=box.x+box.w,y1=box.y+box.h;const k=drag.k;if(k===0||k===3)x0=x;else x1=x;if(k<2)y0=y;else y1=y;
+    box={x:Math.min(x0,x1),y:Math.min(y0,y1),w:Math.max(.05,Math.abs(x1-x0)),h:Math.max(.05,Math.abs(y1-y0))};
+    if(x1<x0||y1<y0){drag.k=(x1<x0?{0:1,1:0,2:3,3:2}[k]:k);if(y1<y0)drag.k={0:3,1:2,2:1,3:0}[drag.k]}}
+  draw()});
+["pointerup","pointercancel"].forEach(ev=>cv.addEventListener(ev,()=>drag=null));
+
+function load(f){if(!f||!f.type.startsWith("image/")){$("status").textContent="That file isn't an image. Use JPG or PNG.";return}
+  const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{img=im;fit();box={x:.08,y:.08,w:.84,h:.84};draw();$("status").textContent=f.name;$("out").classList.remove("on")};im.src=r.result};r.readAsDataURL(f)}
+$("file").addEventListener("change",e=>load(e.target.files[0]));
+const drop=$("drop");["dragenter","dragover"].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add("drag")}));
+["dragleave","drop"].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove("drag")}));
+drop.addEventListener("drop",e=>load(e.dataTransfer.files[0]));
+cv.addEventListener("dragover",e=>e.preventDefault());cv.addEventListener("drop",e=>{e.preventDefault();load(e.dataTransfer.files[0])});
+["north","mode","grid","op","tint","labels"].forEach(id=>$(id).addEventListener("input",()=>{draw();buildTable()}));
+$("reset").addEventListener("click",()=>{box={x:.1,y:.08,w:.8,h:.84};draw()});
+$("save").addEventListener("click",()=>{draw(false);const g=ctx;const s=cv.width/1200;g.fillStyle="rgba(255,255,255,.9)";g.fillRect(0,cv.height-34*s,cv.width,34*s);g.fillStyle="#1B2732";g.font=`500 ${Math.round(15*s)}px IBM Plex Mono, monospace`;g.textAlign="left";g.textBaseline="middle";
+  g.fillText(`Vastu overlay · north ${(+$("north").value).toFixed(1)}° · free tool by @smart_tools_every_week`,14*s,cv.height-17*s);
+  $("outImg").src=cv.toDataURL("image/png");$("out").classList.add("on");draw();$("out").scrollIntoView({behavior:"smooth",block:"nearest"})});
+
+function buildTable(){const z=$("mode").value==="8"?Z8:Z16,step=360/z.length,tb=$("tbl");tb.innerHTML="";
+  z.forEach((r,i)=>{const a0=((i*step-step/2)+360)%360,a1=(i*step+step/2)%360;const tr=document.createElement("tr");
+    tr.innerHTML=`<td class="z">${r[0]}</td><td style="font-family:var(--mono);white-space:nowrap">${a0.toFixed(2)}°–${a1.toFixed(2)}°</td><td><span class="sw" style="background:${EL[r[1]]}"></span>${r[1]}</td><td>${r[2]}</td>`;tb.appendChild(tr)})}
+buildTable();samplePlan();
+</script>
+</body>
+</html>
