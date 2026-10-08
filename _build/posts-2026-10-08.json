@@ -1,0 +1,196 @@
+[
+ {
+  "date": "2026-10-08",
+  "slug": "sun-shadow",
+  "no": "T-01",
+  "name": "Sun Path & Shadow",
+  "slides": [
+   {
+    "t": "hook",
+    "title": "How long is your building's shadow at 4 pm on 21 December?",
+    "sub": "Free Sun Path & Shadow tool. Any city, any date, any height.",
+    "img": "sun-shadow_views_dark.png"
+   },
+   {
+    "t": "shot",
+    "kicker": "The tool",
+    "title": "Sun-path diagram and plan shadow, updated live",
+    "img": "sun-shadow_top_dark.png"
+   },
+   {
+    "t": "list",
+    "kicker": "What you get",
+    "title": "Site analysis without software",
+    "items": [
+     "Sun altitude and azimuth for any minute",
+     "Shadow length and direction for your building",
+     "Sunrise, solar noon, sunset, day length",
+     "Solstice and equinox paths on the diagram"
+    ]
+   },
+   {
+    "t": "shot",
+    "kicker": "For reports",
+    "title": "Hourly shadow table, ready to screenshot",
+    "img": "sun-shadow_table_dark.png"
+   },
+   {
+    "t": "steps",
+    "kicker": "How to use",
+    "title": "Three inputs",
+    "items": [
+     "Pick a city or type latitude and longitude",
+     "Choose the date, or tap 21 Jun / 21 Dec",
+     "Enter height and footprint, then drag the time"
+    ]
+   },
+   {
+    "t": "phone",
+    "kicker": "On site",
+    "title": "Works on your phone. No sign-up.",
+    "img": "sun-shadow_phone.png"
+   },
+   {
+    "t": "cta"
+   }
+  ],
+  "caption": "How long is your building's shadow at 4 pm on 21 December? ☀️📐\n\nNew free tool: Sun Path & Shadow.\nPick a city, a date and your building height. You get the sun-path diagram, a plan view of the shadow, and an hourly shadow table for your site report.\n\n✅ Free, runs in the browser, no sign-up\n✅ Solstice and equinox paths built in\n✅ Uses the NOAA solar position method\n\n⬇️ Free download / use online:\nsimplyrendered.github.io/smart-tools/sun-shadow\n(tap the link in our bio → T-01)\nWhich city should we test first? Comment below 👇\nSave this for your next site analysis.",
+  "hashtags": "#architecture #architect #architecturestudent #architectsofinstagram #sunpath #sunpathdiagram #shadowanalysis #siteanalysis #climateresponsivedesign #passivedesign #sustainablearchitecture #indianarchitecture #architecturetools #freetools #smarttoolseveryweek",
+  "alt": [
+   "Question: how long is your building's shadow at 4 pm on 21 December, with sun-path diagram and plan shadow",
+   "Full screenshot of the Sun Path and Shadow tool",
+   "List of features",
+   "Hourly shadow table screenshot",
+   "Three steps to use the tool",
+   "Tool running on a phone",
+   "Follow @smart_tools_every_week, link in bio"
+  ],
+  "link": "https://simplyrendered.github.io/smart-tools/sun-shadow/"
+ },
+ {
+  "date": "2026-10-09",
+  "slug": "vastu-grid",
+  "no": "T-02",
+  "name": "Vastu Grid Overlay",
+  "slides": [
+   {
+    "t": "hook",
+    "title": "Put a Vastu grid on any floor plan in 30 seconds.",
+    "sub": "Free Vastu Grid Overlay. 16 zones, Brahmasthan and the 81-pada mandala.",
+    "img": "vastu-grid_canvas_dark.png"
+   },
+   {
+    "t": "list",
+    "kicker": "What it does",
+    "title": "Made for client meetings",
+    "items": [
+     "Upload a JPG or PNG plan. It stays on your device",
+     "Set north from your plan's arrow",
+     "Switch 16 zones, 8 directions, 3×3 or 9×9",
+     "Save the overlay as an image to share"
+    ]
+   },
+   {
+    "t": "shot",
+    "kicker": "Controls",
+    "title": "Upload, set north, pick the grid",
+    "img": "vastu-grid_top_dark.png"
+   },
+   {
+    "t": "steps",
+    "kicker": "How to use",
+    "title": "Four steps",
+    "items": [
+     "Upload your floor plan",
+     "Drag the red corners to the plot edge",
+     "Set the north angle",
+     "Tap Make image and save it"
+    ]
+   },
+   {
+    "t": "shot",
+    "kicker": "Reference",
+    "title": "Zone guide with exact bearings",
+    "img": "vastu-grid_guide_dark.png"
+   },
+   {
+    "t": "phone",
+    "kicker": "Anywhere",
+    "title": "Works on your phone, right in the meeting.",
+    "img": "vastu-grid_phone.png"
+   },
+   {
+    "t": "cta"
+   }
+  ],
+  "caption": "Put a Vastu grid on any floor plan in 30 seconds 🧭\n\nNew free tool: Vastu Grid Overlay.\nUpload a plan, drag the corners to your plot, set north. You get the 16-zone chakra, the 3×3 Brahmasthan or the 9×9 mandala on top, plus a zone guide with exact bearings.\n\n✅ Free, no sign-up\n✅ Your plan never leaves your device\n✅ Save the overlay image for client meetings\n\n⬇️ Free download / use online:\nsimplyrendered.github.io/smart-tools/vastu-grid\n(tap the link in our bio → T-02)\nDo your clients ask for Vastu checks? Tell us 👇\nSave this for your next residential project.",
+  "hashtags": "#vastu #vastushastra #vastutips #architecture #architect #architecturestudent #floorplan #houseplan #interiordesign #indianarchitecture #residentialdesign #architectsofinstagram #architecturetools #freetools #smarttoolseveryweek",
+  "alt": [
+   "Floor plan with 16-zone Vastu overlay and Brahmasthan grid",
+   "Features list",
+   "Tool controls screenshot",
+   "Four steps to use the tool",
+   "Zone guide table with bearings",
+   "Tool running on a phone",
+   "Follow @smart_tools_every_week, link in bio"
+  ],
+  "link": "https://simplyrendered.github.io/smart-tools/vastu-grid/"
+ },
+ {
+  "date": "2026-10-10",
+  "slug": "sheet-scale",
+  "no": "T-03",
+  "name": "Sheet Fit & Scale",
+  "slides": [
+   {
+    "t": "hook",
+    "title": "Will your plan fit on A1 at 1:100?",
+    "sub": "Free Sheet Fit & Scale tool. Every scale, every sheet, in one table.",
+    "img": "sheet-scale_preview_dark.png"
+   },
+   {
+    "t": "shot",
+    "kicker": "Fit table",
+    "title": "Every standard scale against A0–A4 and ARCH sheets",
+    "img": "sheet-scale_fit_dark.png"
+   },
+   {
+    "t": "shot",
+    "kicker": "Shrunk print fixer",
+    "title": "A1 drawing printed on A3? Your 1:100 is now 1:200.",
+    "img": "sheet-scale_fixer_dark.png"
+   },
+   {
+    "t": "list",
+    "kicker": "Also inside",
+    "title": "Small jobs, done right",
+    "items": [
+     "Largest scale for your margins and title strip",
+     "Real size from a ruler reading",
+     "Scale bar you can copy as SVG at true size",
+     "Metres or feet"
+    ]
+   },
+   {
+    "t": "phone",
+    "kicker": "At the plotter",
+    "title": "Check before you print. On your phone.",
+    "img": "sheet-scale_phone.png"
+   },
+   {
+    "t": "cta"
+   }
+  ],
+  "caption": "Will your plan fit on A1 at 1:100? 📏\n\nNew free tool: Sheet Fit & Scale.\nEnter your drawing size and sheet. It shows the largest standard scale that fits, with margins and title strip, and checks every scale against A0–A4 and ARCH sheets.\n\n✅ Fixes shrunk prints (A1 on A3 = 1:200, not 1:100)\n✅ Real size from a ruler reading\n✅ Copy a true-size scale bar as SVG\n\n⬇️ Free download / use online:\nsimplyrendered.github.io/smart-tools/sheet-scale\n(tap the link in our bio → T-03)\nWhat's your most-used scale? Comment below 👇\nSave this for submission week.",
+  "hashtags": "#architecture #architect #architecturestudent #architecturalDrawing #technicaldrawing #drafting #autocad #revit #archicad #architectsofinstagram #architecturelife #indianarchitecture #architecturetools #freetools #smarttoolseveryweek",
+  "alt": [
+   "Sheet preview showing a drawing on an A1 sheet",
+   "Fit table of scales versus sheet sizes",
+   "Shrunk print fixer: A1 printed on A3 makes 1:100 into 1:200",
+   "Feature list",
+   "Tool running on a phone",
+   "Follow @smart_tools_every_week, link in bio"
+  ],
+  "link": "https://simplyrendered.github.io/smart-tools/sheet-scale/"
+ }
+]
