@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Rainwater Harvesting</title>
+<meta name="description" content="How much rain can your roof collect, and how big should the tank be? Enter the catchment, rainfall and use, and get the yearly yield, tank size and supply days.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: drafting sheet — title block header, input column + two drawings, data table below */
+:root{
+  --paper:#F2F3EF; --sheet:#FBFBF8; --ink:#1B2732; --ink-2:#4A5865; --rule:#D5D9D4; --grid:#E6E8E3;
+  --red:#C8432B; --blue:#2E66A6; --sun:#E09A1E; --shadow:rgba(27,39,50,.22);
+  --display:'Barlow Condensed','Arial Narrow',sans-serif; --body:'IBM Plex Sans',system-ui,sans-serif; --mono:'IBM Plex Mono',ui-monospace,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#0E1A26; --sheet:#132233; --ink:#E4ECF2; --ink-2:#9DB0C0; --rule:#2A3D52; --grid:#1B2D40;
+  --red:#FF7A5C; --blue:#6FB0F0; --sun:#FFC04D; --shadow:rgba(140,190,240,.25); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0E1A26; --sheet:#132233; --ink:#E4ECF2; --ink-2:#9DB0C0; --rule:#2A3D52; --grid:#1B2D40;
+  --red:#FF7A5C; --blue:#6FB0F0; --sun:#FFC04D; --shadow:rgba(140,190,240,.25); color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--paper);color:var(--ink);font:15px/1.5 var(--body);padding:16px;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px}
+.sheet{max-width:1180px;margin:0 auto;background:var(--sheet);border:1.5px solid var(--ink);}
+.tb{display:grid;grid-template-columns:1fr auto;border-bottom:1.5px solid var(--ink)}
+.tb h1{font:700 clamp(30px,5vw,46px)/1 var(--display);letter-spacing:.01em;margin:0;padding:18px 20px 14px;text-transform:uppercase;text-wrap:balance}
+.tb h1 small{display:block;font:500 14px/1.4 var(--body);letter-spacing:0;text-transform:none;color:var(--ink-2);margin-top:6px}
+.tb .meta{display:grid;grid-template-columns:auto auto;border-left:1.5px solid var(--ink);font:12px/1.2 var(--mono)}
+.tb .meta div{padding:8px 12px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule)}
+.tb .meta b{display:block;font:600 10px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-bottom:4px}
+.main{display:grid;grid-template-columns:320px 1fr;}
+.inputs{border-right:1.5px solid var(--ink);padding:18px 20px;display:flex;flex-direction:column;gap:14px}
+label{display:flex;flex-direction:column;gap:5px;font:600 11px/1 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+input,select{font:500 15px/1.2 var(--mono);color:var(--ink);background:var(--paper);border:1px solid var(--rule);padding:9px 10px;border-radius:0;width:100%}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
+input[type=range]{padding:0;accent-color:var(--red)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+button{font:600 12px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;background:transparent;color:var(--ink);border:1px solid var(--ink);padding:8px 10px;cursor:pointer}
+button:hover{background:var(--ink);color:var(--sheet)}
+.time{font:500 28px/1 var(--mono);color:var(--red)}
+.views{display:grid;grid-template-columns:1fr 1fr;min-width:0}
+.view{padding:14px 16px 10px;min-width:0;border-bottom:1.5px solid var(--ink)}
+.view+.view{border-left:1px solid var(--rule)}
+.view h2,.data h2{font:600 20px/1 var(--display);text-transform:uppercase;letter-spacing:.04em;margin:0 0 8px;display:flex;justify-content:space-between;gap:8px}
+.view h2 span,.data h2 span{font:400 11px/1.6 var(--mono);color:var(--ink-2);text-transform:none;letter-spacing:0}
+svg{width:100%;height:auto;display:block}
+.readout{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1.5px solid var(--ink)}
+.readout div{padding:12px 16px;border-right:1px solid var(--rule)}
+.readout div:last-child{border-right:0}
+.readout b{display:block;font:600 10px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-bottom:6px}
+.readout span{font:500 24px/1 var(--mono);font-variant-numeric:tabular-nums}
+.readout .hi{color:var(--red)}
+.data{padding:14px 16px}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font:13px/1.3 var(--mono);font-variant-numeric:tabular-nums}
+th,td{padding:6px 10px;border-bottom:1px solid var(--rule);text-align:right;white-space:nowrap}
+th{font:600 10px/1.2 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+th:first-child,td:first-child{text-align:left}
+tr.now td{color:var(--red);font-weight:500}
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;padding:10px 16px;border-top:1.5px solid var(--ink);font:12px/1.4 var(--mono);color:var(--ink-2)}
+.note{font:12px/1.5 var(--body);color:var(--ink-2);margin:0}
+@media (max-width:900px){.main{grid-template-columns:1fr}.inputs{border-right:0;border-bottom:1.5px solid var(--ink)}}
+@media (max-width:640px){.views{grid-template-columns:1fr}.view+.view{border-left:0}.readout{grid-template-columns:repeat(2,1fr)}.readout div:nth-child(2){border-right:0}.readout div{border-bottom:1px solid var(--rule)}.tb{grid-template-columns:1fr}.tb .meta{border-left:0;border-top:1px solid var(--rule)}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.dl{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;padding:12px 20px;border-bottom:1.5px solid var(--ink);background:var(--paper)}
+.dl a.btn{font:600 13px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;background:var(--red);color:#fff;text-decoration:none;padding:11px 14px;border:1px solid var(--red)}
+.dl a.btn:hover{background:var(--ink);border-color:var(--ink);color:var(--sheet)}
+.dl span{font:13px/1.4 var(--body);color:var(--ink-2);flex:1;min-width:180px}
+.dl a.more{font:500 13px/1 var(--mono);color:var(--blue)}
+
+:root{--ok:#2F8A57;--okbg:rgba(47,138,87,.12);--bad:#C8432B;--badbg:rgba(200,67,43,.10);--warn:#B7791F}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ok:#5FD08F;--okbg:rgba(95,208,143,.14);--bad:#FF7A5C;--badbg:rgba(255,122,92,.12);--warn:#F2B84B}}
+:root[data-theme="dark"]{--ok:#5FD08F;--okbg:rgba(95,208,143,.14);--bad:#FF7A5C;--badbg:rgba(255,122,92,.12);--warn:#F2B84B}
+.pill{display:inline-block;font:600 11px/1 var(--body);letter-spacing:.08em;text-transform:uppercase;padding:5px 7px;border:1px solid currentColor}
+.pill.ok{color:var(--ok);background:var(--okbg)} .pill.bad{color:var(--bad);background:var(--badbg)} .pill.warn{color:var(--warn)}
+td.ok{color:var(--ok)} td.bad{color:var(--bad)}
+.readout .ok{color:var(--ok)} .readout .bad{color:var(--bad)}
+.view.full{grid-column:1/-1}
+.checks{list-style:none;margin:0;padding:0}
+.checks li{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:8px 0;border-bottom:1px solid var(--rule);font:13px/1.35 var(--body)}
+.checks li span:first-child{min-width:0}
+select{appearance:auto}
+</style>
+</head>
+<body>
+<div class="sheet">
+  <header class="tb">
+    <h1>Rainwater Harvesting<small>How much rain can your roof collect, and how big should the tank be? Enter the catchment, rainfall and use, and get the yearly yield, tank size and supply days.</small></h1>
+    <div class="meta"><div><b>Sheet</b>T-08</div><div><b>Method</b>Q = A × R × C</div><div><b>Units</b>m² · mm · L</div><div><b>By</b>@smart_tools_every_week</div></div>
+  </header>
+  <div class="dl" id="dlbar"><a class="btn" href="rainwater-harvest.html" download="rainwater-harvest.html">⬇ Download this app</a><span>Free. One HTML file that works offline. Open it in any browser, no install or sign-up.</span><a class="more" href="../">More free tools →</a></div>
+  <div class="main">
+    <section class="inputs" aria-label="Inputs">
+
+      <label for="city">City (approx. annual rainfall)<select id="city"></select></label>
+      <label for="R">Annual rainfall (mm)<input id="R" type="number" step="10" value="790"></label>
+      <div class="row">
+        <label for="A">Roof area (m²)<input id="A" type="number" step="5" value="120"></label>
+        <label for="roof">Roof surface<select id="roof">
+          <option value="0.85">RCC / concrete (0.85)</option><option value="0.90">Metal sheet (0.90)</option><option value="0.75">Clay tile (0.75)</option><option value="0.60">Green roof (0.60)</option></select></label>
+      </div>
+      <div class="row">
+        <label for="A2">Paved area (m²)<input id="A2" type="number" step="5" value="40"></label>
+        <label for="C2">Paved coeff.<input id="C2" type="number" step="0.05" value="0.60"></label>
+      </div>
+      <div class="row">
+        <label for="eff">Collection efficiency<input id="eff" type="number" step="0.05" value="0.80"></label>
+        <label for="ff">First flush (mm)<input id="ff" type="number" step="0.5" value="2"></label>
+      </div>
+      <div class="row">
+        <label for="dd">Design storm (mm/day)<input id="dd" type="number" step="5" value="50"></label>
+        <label for="use">Use (litres/day)<input id="use" type="number" step="50" value="400"></label>
+      </div>
+      <p class="note">The tank is sized to catch one design-storm day from the roof. Paved areas usually go to a recharge pit rather than the tank. Runoff coefficients are typical values, so adjust them for your surfaces.</p>
+
+    </section>
+    <section style="min-width:0">
+
+      <div class="readout">
+        <div><b>Roof yield / year</b><span id="oY" class="hi">–</span></div>
+        <div><b>Suggested tank</b><span id="oT">–</span></div>
+        <div><b>Days of supply</b><span id="oD">–</span></div>
+        <div><b>Recharge / year</b><span id="oP">–</span></div>
+      </div>
+      <div class="views">
+        <div class="view full"><h2>System <span>roof → first flush → tank → overflow to recharge</span></h2><svg id="sys" viewBox="0 0 640 260" role="img" aria-label="Rainwater harvesting system diagram"></svg></div>
+      </div>
+      <div class="data">
+        <h2>Numbers <span>per year unless stated</span></h2>
+        <div class="tablewrap"><table><thead><tr><th>Item</th><th>Value</th><th>How</th></tr></thead><tbody id="tbl"></tbody></table></div>
+      </div>
+
+    </section>
+  </div>
+  <footer class="foot"><span>Free tool · @smart_tools_every_week · simplyrendered.github.io/smart-tools · built with Claude</span><span>Yield = catchment area × rainfall × runoff coefficient × collection efficiency. City rainfall figures are approximate annual normals; use IMD data for your site.</span></footer>
+</div>
+<script>
+if(location.protocol==="file:"){const b=document.getElementById("dlbar");if(b)b.hidden=true;}
+const $=id=>document.getElementById(id);
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const NS="http://www.w3.org/2000/svg";
+function el(tag,attrs,parent,text){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(text!=null)e.textContent=text;parent&&parent.appendChild(e);return e}
+const fmt=(v,d=2)=>Number.isFinite(v)?v.toFixed(d):"–";
+
+const CITY=[["New Delhi",790],["Mumbai",2200],["Bengaluru",970],["Chennai",1400],["Kolkata",1600],["Hyderabad",830],["Pune",720],["Ahmedabad",780],["Jaipur",650],["Lucknow",1000],["Chandigarh",1100],["Raipur / Durg",1300],["Panaji, Goa",2900],["Kochi",3000],["Guwahati",1700],["Custom",null]];
+const cs=$("city");CITY.forEach((c,i)=>{const o=document.createElement("option");o.value=i;o.textContent=c[1]?`${c[0]} (~${c[1]} mm)`:c[0];cs.appendChild(o)});
+cs.addEventListener("change",()=>{const c=CITY[cs.value];if(c[1])$("R").value=c[1]});$("R").addEventListener("input",()=>{cs.value=CITY.length-1});
+const TANKS=[500,750,1000,1500,2000,3000,5000,7500,10000,15000,20000,25000,30000,50000];
+const L=v=>v>=10000?(v/1000).toFixed(1)+" m³":Math.round(v).toLocaleString("en-IN")+" L";
+function render(){
+  const R=+$("R").value,A=+$("A").value,C=+$("roof").value,A2=+$("A2").value,C2=+$("C2").value,eff=+$("eff").value,ff=+$("ff").value,dd=+$("dd").value,use=+$("use").value;
+  const roofYield=A*(R/1000)*C*eff*1000; // litres
+  const flushPerEvent=A*ff; // L per rain event (1 mm on 1 m² = 1 L)
+  const design=A*dd*C*eff-flushPerEvent;const tank=TANKS.find(t=>t>=design)||Math.ceil(design/1000)*1000;
+  const days=use>0?tank/use:Infinity;const annualUse=use*365;const cover=Math.min(1,roofYield/annualUse);
+  const pave=A2*(R/1000)*C2*1000;
+  $("oY").textContent=L(roofYield);$("oT").textContent=L(tank);$("oD").textContent=Number.isFinite(days)?days.toFixed(1)+" d":"–";$("oP").textContent=L(pave);
+  const rows=[["Rain falling on roof",L(A*R),`${A} m² × ${R} mm`],["Roof yield",L(roofYield),`× runoff ${C} × efficiency ${eff}`],["Design-storm volume",L(Math.max(0,design)),`${A} m² × ${dd} mm × ${C} × ${eff} − first flush ${L(flushPerEvent)}`],
+    ["Suggested tank (next standard size)",L(tank),"catches one design-storm day"],["Days of supply from a full tank",Number.isFinite(days)?days.toFixed(1):"–",`${L(tank)} ÷ ${use} L/day`],
+    ["Yearly demand",L(annualUse),`${use} L/day × 365`],["Share of yearly demand the roof could meet",(cover*100).toFixed(0)+"%","if every litre is stored and used; real figure is lower in a short monsoon"],
+    ["Paved area runoff to recharge",L(pave),`${A2} m² × ${R} mm × ${C2}`],["First-flush diverter per rain event",L(flushPerEvent),`${ff} mm × ${A} m²`]];
+  const tb=$("tbl");tb.innerHTML="";rows.forEach(r=>{const tr=document.createElement("tr");tr.innerHTML=`<td>${r[0]}</td><td>${r[1]}</td><td style="white-space:normal;text-align:left;font-family:var(--body)">${r[2]}</td>`;tb.appendChild(tr)});
+  // diagram
+  const s=$("sys");s.innerHTML="";const ink=css("--ink"),ink2=css("--ink-2"),rule=css("--rule"),blue=css("--blue"),red=css("--red");
+  for(let i=0;i<22;i++)el("line",{x1:20+i*9,y1:8+(i%3)*6,x2:14+i*9,y2:24+(i%3)*6,stroke:blue,"stroke-width":1.2,"stroke-opacity":.6},s);
+  el("polygon",{points:"10,70 120,40 230,70",fill:rule,stroke:ink,"stroke-width":1.5},s);el("rect",{x:30,y:70,width:180,height:120,fill:"none",stroke:ink,"stroke-width":1.5},s);
+  el("text",{x:120,y:64,"text-anchor":"middle",fill:ink,"font-size":12,"font-weight":600,"font-family":"IBM Plex Sans, sans-serif"},s,`ROOF ${A} m²`);
+  el("path",{d:"M228 72 L250 72 L250 120 L300 120",fill:"none",stroke:ink,"stroke-width":2},s);
+  el("rect",{x:300,y:105,width:24,height:60,fill:css("--paper"),stroke:ink},s);el("text",{x:312,y:182,"text-anchor":"middle",fill:ink2,"font-size":10,"font-family":"IBM Plex Mono, monospace"},s,"FIRST");el("text",{x:312,y:194,"text-anchor":"middle",fill:ink2,"font-size":10,"font-family":"IBM Plex Mono, monospace"},s,"FLUSH");
+  el("path",{d:"M324 120 L370 120",fill:"none",stroke:ink,"stroke-width":2},s);
+  const th=130,fillH=Math.min(1,Math.max(0,design)/tank)*th;el("rect",{x:370,y:90,width:120,height:th,fill:"none",stroke:ink,"stroke-width":2},s);
+  el("rect",{x:372,y:90+th-fillH+2,width:116,height:Math.max(0,fillH-4),fill:blue,"fill-opacity":.35},s);
+  el("text",{x:430,y:84,"text-anchor":"middle",fill:ink,"font-size":12,"font-weight":600,"font-family":"IBM Plex Sans, sans-serif"},s,"TANK "+L(tank));
+  el("text",{x:430,y:162,"text-anchor":"middle",fill:ink,"font-size":12,"font-family":"IBM Plex Mono, monospace"},s,Number.isFinite(days)?days.toFixed(1)+" days":"");
+  el("path",{d:"M490 100 L540 100 L540 200",fill:"none",stroke:red,"stroke-width":2,"stroke-dasharray":"5 4"},s);el("text",{x:546,y:118,fill:red,"font-size":11,"font-family":"IBM Plex Sans, sans-serif"},s,"overflow");
+  el("rect",{x:510,y:200,width:70,height:44,fill:css("--paper"),stroke:ink},s);for(let i=0;i<6;i++)el("circle",{cx:520+i*11,cy:226,r:3,fill:ink2},s);
+  el("text",{x:545,y:256,"text-anchor":"middle",fill:ink2,"font-size":11,"font-family":"IBM Plex Sans, sans-serif"},s,"RECHARGE PIT");
+  el("line",{x1:0,y1:244,x2:640,y2:244,stroke:ink,"stroke-width":1},s);
+  el("text",{x:30,y:214,fill:ink2,"font-size":12,"font-family":"IBM Plex Mono, monospace"},s,`${L(roofYield)} / year from the roof`);
+}
+
+document.querySelectorAll("input,select").forEach(i=>i.addEventListener("input",render));
+window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",render);
+new MutationObserver(render).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kitchen Work Triangle</title>
+<meta name="description" content="Drag the sink, hob and fridge on the plan. Each leg and the total are checked against the classic work-triangle rules.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: drafting sheet — title block header, input column + two drawings, data table below */
+:root{
+  --paper:#F2F3EF; --sheet:#FBFBF8; --ink:#1B2732; --ink-2:#4A5865; --rule:#D5D9D4; --grid:#E6E8E3;
+  --red:#C8432B; --blue:#2E66A6; --sun:#E09A1E; --shadow:rgba(27,39,50,.22);
+  --display:'Barlow Condensed','Arial Narrow',sans-serif; --body:'IBM Plex Sans',system-ui,sans-serif; --mono:'IBM Plex Mono',ui-monospace,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#0E1A26; --sheet:#132233; --ink:#E4ECF2; --ink-2:#9DB0C0; --rule:#2A3D52; --grid:#1B2D40;
+  --red:#FF7A5C; --blue:#6FB0F0; --sun:#FFC04D; --shadow:rgba(140,190,240,.25); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0E1A26; --sheet:#132233; --ink:#E4ECF2; --ink-2:#9DB0C0; --rule:#2A3D52; --grid:#1B2D40;
+  --red:#FF7A5C; --blue:#6FB0F0; --sun:#FFC04D; --shadow:rgba(140,190,240,.25); color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--paper);color:var(--ink);font:15px/1.5 var(--body);padding:16px;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px}
+.sheet{max-width:1180px;margin:0 auto;background:var(--sheet);border:1.5px solid var(--ink);}
+.tb{display:grid;grid-template-columns:1fr auto;border-bottom:1.5px solid var(--ink)}
+.tb h1{font:700 clamp(30px,5vw,46px)/1 var(--display);letter-spacing:.01em;margin:0;padding:18px 20px 14px;text-transform:uppercase;text-wrap:balance}
+.tb h1 small{display:block;font:500 14px/1.4 var(--body);letter-spacing:0;text-transform:none;color:var(--ink-2);margin-top:6px}
+.tb .meta{display:grid;grid-template-columns:auto auto;border-left:1.5px solid var(--ink);font:12px/1.2 var(--mono)}
+.tb .meta div{padding:8px 12px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule)}
+.tb .meta b{display:block;font:600 10px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-bottom:4px}
+.main{display:grid;grid-template-columns:320px 1fr;}
+.inputs{border-right:1.5px solid var(--ink);padding:18px 20px;display:flex;flex-direction:column;gap:14px}
+label{display:flex;flex-direction:column;gap:5px;font:600 11px/1 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+input,select{font:500 15px/1.2 var(--mono);color:var(--ink);background:var(--paper);border:1px solid var(--rule);padding:9px 10px;border-radius:0;width:100%}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
+input[type=range]{padding:0;accent-color:var(--red)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+button{font:600 12px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;background:transparent;color:var(--ink);border:1px solid var(--ink);padding:8px 10px;cursor:pointer}
+button:hover{background:var(--ink);color:var(--sheet)}
+.time{font:500 28px/1 var(--mono);color:var(--red)}
+.views{display:grid;grid-template-columns:1fr 1fr;min-width:0}
+.view{padding:14px 16px 10px;min-width:0;border-bottom:1.5px solid var(--ink)}
+.view+.view{border-left:1px solid var(--rule)}
+.view h2,.data h2{font:600 20px/1 var(--display);text-transform:uppercase;letter-spacing:.04em;margin:0 0 8px;display:flex;justify-content:space-between;gap:8px}
+.view h2 span,.data h2 span{font:400 11px/1.6 var(--mono);color:var(--ink-2);text-transform:none;letter-spacing:0}
+svg{width:100%;height:auto;display:block}
+.readout{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1.5px solid var(--ink)}
+.readout div{padding:12px 16px;border-right:1px solid var(--rule)}
+.readout div:last-child{border-right:0}
+.readout b{display:block;font:600 10px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-bottom:6px}
+.readout span{font:500 24px/1 var(--mono);font-variant-numeric:tabular-nums}
+.readout .hi{color:var(--red)}
+.data{padding:14px 16px}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font:13px/1.3 var(--mono);font-variant-numeric:tabular-nums}
+th,td{padding:6px 10px;border-bottom:1px solid var(--rule);text-align:right;white-space:nowrap}
+th{font:600 10px/1.2 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+th:first-child,td:first-child{text-align:left}
+tr.now td{color:var(--red);font-weight:500}
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;padding:10px 16px;border-top:1.5px solid var(--ink);font:12px/1.4 var(--mono);color:var(--ink-2)}
+.note{font:12px/1.5 var(--body);color:var(--ink-2);margin:0}
+@media (max-width:900px){.main{grid-template-columns:1fr}.inputs{border-right:0;border-bottom:1.5px solid var(--ink)}}
+@media (max-width:640px){.views{grid-template-columns:1fr}.view+.view{border-left:0}.readout{grid-template-columns:repeat(2,1fr)}.readout div:nth-child(2){border-right:0}.readout div{border-bottom:1px solid var(--rule)}.tb{grid-template-columns:1fr}.tb .meta{border-left:0;border-top:1px solid var(--rule)}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.dl{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;padding:12px 20px;border-bottom:1.5px solid var(--ink);background:var(--paper)}
+.dl a.btn{font:600 13px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;background:var(--red);color:#fff;text-decoration:none;padding:11px 14px;border:1px solid var(--red)}
+.dl a.btn:hover{background:var(--ink);border-color:var(--ink);color:var(--sheet)}
+.dl span{font:13px/1.4 var(--body);color:var(--ink-2);flex:1;min-width:180px}
+.dl a.more{font:500 13px/1 var(--mono);color:var(--blue)}
+
+:root{--ok:#2F8A57;--okbg:rgba(47,138,87,.12);--bad:#C8432B;--badbg:rgba(200,67,43,.10);--warn:#B7791F}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ok:#5FD08F;--okbg:rgba(95,208,143,.14);--bad:#FF7A5C;--badbg:rgba(255,122,92,.12);--warn:#F2B84B}}
+:root[data-theme="dark"]{--ok:#5FD08F;--okbg:rgba(95,208,143,.14);--bad:#FF7A5C;--badbg:rgba(255,122,92,.12);--warn:#F2B84B}
+.pill{display:inline-block;font:600 11px/1 var(--body);letter-spacing:.08em;text-transform:uppercase;padding:5px 7px;border:1px solid currentColor}
+.pill.ok{color:var(--ok);background:var(--okbg)} .pill.bad{color:var(--bad);background:var(--badbg)} .pill.warn{color:var(--warn)}
+td.ok{color:var(--ok)} td.bad{color:var(--bad)}
+.readout .ok{color:var(--ok)} .readout .bad{color:var(--bad)}
+.view.full{grid-column:1/-1}
+.checks{list-style:none;margin:0;padding:0}
+.checks li{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:8px 0;border-bottom:1px solid var(--rule);font:13px/1.35 var(--body)}
+.checks li span:first-child{min-width:0}
+select{appearance:auto}
+
+#plan{touch-action:none;user-select:none}
+#plan .pt{cursor:grab}
+#plan .pt:active{cursor:grabbing}
+</style>
+</head>
+<body>
+<div class="sheet">
+  <header class="tb">
+    <h1>Kitchen Work Triangle<small>Drag the sink, hob and fridge on the plan. Each leg and the total are checked against the classic work-triangle rules.</small></h1>
+    <div class="meta"><div><b>Sheet</b>T-06</div><div><b>Rule</b>4–9 ft legs · 12–26 ft total</div><div><b>Units</b>m · ft</div><div><b>By</b>@smart_tools_every_week</div></div>
+  </header>
+  <div class="dl" id="dlbar"><a class="btn" href="kitchen-triangle.html" download="kitchen-triangle.html">⬇ Download this app</a><span>Free. One HTML file that works offline. Open it in any browser, no install or sign-up.</span><a class="more" href="../">More free tools →</a></div>
+  <div class="main">
+    <section class="inputs" aria-label="Inputs">
+
+      <label for="layout">Kitchen layout
+        <select id="layout">
+          <option value="L">L-shaped</option><option value="U">U-shaped</option><option value="G">Parallel / galley</option><option value="I">Single wall</option>
+        </select>
+      </label>
+      <div class="row">
+        <label for="rl">Room length (m)<input id="rl" type="number" step="0.1" min="1.8" value="3.6"></label>
+        <label for="rw">Room width (m)<input id="rw" type="number" step="0.1" min="1.8" value="3.0"></label>
+      </div>
+      <label for="cd">Counter depth (mm)<input id="cd" type="number" step="25" value="600"></label>
+      <div class="chips" role="group" aria-label="Actions"><button type="button" id="reset">Reset points</button></div>
+      <p class="note">Drag the three points on the plan to where the centre front of the sink, hob and fridge will be. The triangle should be compact but not cramped, and no leg should cross a tall cabinet or the main walkway.</p>
+      <p class="note">In a single-wall kitchen the three points sit in a line, so the triangle can't apply. The tool then checks the run length instead.</p>
+
+    </section>
+    <section style="min-width:0">
+
+      <div class="readout">
+        <div><b>Sink ↔ hob</b><span id="l1">–</span></div>
+        <div><b>Hob ↔ fridge</b><span id="l2">–</span></div>
+        <div><b>Fridge ↔ sink</b><span id="l3">–</span></div>
+        <div><b>Total</b><span id="lt" class="hi">–</span></div>
+      </div>
+      <div class="views">
+        <div class="view full"><h2>Plan <span id="planLabel">drag the points</span></h2><svg id="plan" viewBox="0 0 640 460" role="img" aria-label="Kitchen plan with work triangle"></svg></div>
+      </div>
+      <div class="data">
+        <h2>Checks <span id="sum"></span></h2>
+        <ul class="checks" id="checks"></ul>
+      </div>
+
+    </section>
+  </div>
+  <footer class="foot"><span>Free tool · @smart_tools_every_week · simplyrendered.github.io/smart-tools · built with Claude</span><span>Guideline: each leg 4–9 ft (1.22–2.74 m), total 12–26 ft (3.66–7.92 m), measured centre-front to centre-front.</span></footer>
+</div>
+<script>
+if(location.protocol==="file:"){const b=document.getElementById("dlbar");if(b)b.hidden=true;}
+const $=id=>document.getElementById(id);
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const NS="http://www.w3.org/2000/svg";
+function el(tag,attrs,parent,text){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(text!=null)e.textContent=text;parent&&parent.appendChild(e);return e}
+const fmt=(v,d=2)=>Number.isFinite(v)?v.toFixed(d):"–";
+
+const NAMES=["Sink","Hob","Fridge"];
+let P=null;
+function defaults(){const L=+$("rl").value,W=+$("rw").value,d=+$("cd").value/1000,lay=$("layout").value;const f=d*0.9;
+  if(lay==="L")return[[L*0.55,f],[L-f,W*0.5],[0.6,f]];
+  if(lay==="U")return[[L*0.5,f],[L-f,W*0.6],[f,W*0.6]];
+  if(lay==="G")return[[L*0.35,f],[L*0.6,W-f],[L-0.45,f]];
+  return[[L*0.45,f],[L*0.75,f],[0.45,f]];}
+function counters(){const L=+$("rl").value,W=+$("rw").value,d=+$("cd").value/1000,lay=$("layout").value;
+  const r=[[0,0,L,d]];if(lay==="L")r.push([L-d,0,d,W]);if(lay==="U"){r.push([L-d,0,d,W]);r.push([0,0,d,W])}if(lay==="G")r.push([0,W-d,L,d]);return r}
+$("layout").addEventListener("input",()=>{P=defaults()});["rl","rw","cd"].forEach(i=>$(i).addEventListener("input",()=>{P=defaults()}));
+$("reset").addEventListener("click",()=>{P=defaults();render()});
+let drag=-1,geo=null;
+const sv=$("plan");
+function toRoom(e){const r=sv.getBoundingClientRect();const x=(e.clientX-r.left)/r.width*640,y=(e.clientY-r.top)/r.height*460;return[(x-geo.ox)/geo.k,(y-geo.oy)/geo.k]}
+sv.addEventListener("pointerdown",e=>{const t=e.target.closest(".pt");if(!t)return;drag=+t.dataset.i;sv.setPointerCapture(e.pointerId);e.preventDefault()});
+sv.addEventListener("pointermove",e=>{if(drag<0)return;const L=+$("rl").value,W=+$("rw").value;let [x,y]=toRoom(e);x=Math.round(Math.min(L,Math.max(0,x))*20)/20;y=Math.round(Math.min(W,Math.max(0,y))*20)/20;P[drag]=[x,y];render()});
+["pointerup","pointercancel"].forEach(ev=>sv.addEventListener(ev,()=>drag=-1));
+const ft=m=>m/0.3048;
+function render(){
+  if(!P)P=defaults();const L=+$("rl").value,W=+$("rw").value;const ink=css("--ink"),ink2=css("--ink-2"),rule=css("--rule"),red=css("--red"),ok=css("--ok"),bad=css("--bad"),blue=css("--blue");
+  const k=Math.min(560/L,380/W),ox=(640-L*k)/2,oy=40;geo={k,ox,oy};const X=v=>ox+v*k,Y=v=>oy+v*k;
+  sv.innerHTML="";
+  el("rect",{x:X(0)-8,y:Y(0)-8,width:L*k+16,height:W*k+16,fill:rule},sv);el("rect",{x:X(0),y:Y(0),width:L*k,height:W*k,fill:css("--sheet")},sv);
+  counters().forEach(c=>el("rect",{x:X(c[0]),y:Y(c[1]),width:c[2]*k,height:c[3]*k,fill:css("--paper"),stroke:ink,"stroke-width":1.2},sv));
+  for(let g=0.5;g<Math.max(L,W);g+=0.5){if(g<L)el("line",{x1:X(g),y1:Y(0),x2:X(g),y2:Y(W),stroke:rule,"stroke-width":.5,"stroke-dasharray":"2 4"},sv)}
+  const legs=[[0,1],[1,2],[2,0]].map(([a,b])=>Math.hypot(P[a][0]-P[b][0],P[a][1]-P[b][1]));const tot=legs[0]+legs[1]+legs[2];
+  const legOk=v=>v>=1.2192&&v<=2.7432;const totOk=tot>=3.6576&&tot<=7.9248;
+  el("polygon",{points:P.map(p=>X(p[0])+","+Y(p[1])).join(" "),fill:totOk&&legs.every(legOk)?css("--okbg"):css("--badbg"),stroke:"none"},sv);
+  [[0,1],[1,2],[2,0]].forEach(([a,b],i)=>{const c=legOk(legs[i])?ok:bad;el("line",{x1:X(P[a][0]),y1:Y(P[a][1]),x2:X(P[b][0]),y2:Y(P[b][1]),stroke:c,"stroke-width":3},sv);
+    const mx=(X(P[a][0])+X(P[b][0]))/2,my=(Y(P[a][1])+Y(P[b][1]))/2;el("rect",{x:mx-34,y:my-11,width:68,height:20,fill:css("--sheet"),stroke:c},sv);
+    el("text",{x:mx,y:my+4,"text-anchor":"middle",fill:c,"font-size":12,"font-weight":600,"font-family":"IBM Plex Mono, monospace"},sv,legs[i].toFixed(2)+" m")});
+  P.forEach((p,i)=>{const g=el("g",{class:"pt","data-i":i},sv);el("circle",{cx:X(p[0]),cy:Y(p[1]),r:16,fill:[blue,red,ink][i]},g);
+    el("text",{x:X(p[0]),y:Y(p[1])+4,"text-anchor":"middle",fill:css("--sheet"),"font-size":11,"font-weight":700,"font-family":"IBM Plex Sans, sans-serif","pointer-events":"none"},g,NAMES[i][0]);
+    el("text",{x:X(p[0]),y:Y(p[1])-22,"text-anchor":"middle",fill:ink,"font-size":12,"font-weight":600,"font-family":"IBM Plex Sans, sans-serif","pointer-events":"none"},g,NAMES[i])});
+  el("text",{x:X(0),y:Y(W)+28,fill:ink2,"font-size":12,"font-family":"IBM Plex Mono, monospace"},sv,`${L.toFixed(2)} × ${W.toFixed(2)} m · grid 0.5 m`);
+  ["l1","l2","l3"].forEach((id,i)=>{$(id).textContent=legs[i].toFixed(2)+" m";$(id).className=legOk(legs[i])?"ok":"bad"});
+  $("lt").textContent=tot.toFixed(2)+" m";$("lt").className=totOk?"ok":"bad";
+  const lay=$("layout").value;const C=[];
+  if(lay==="I"){const run=Math.max(...P.map(p=>p[0]))-Math.min(...P.map(p=>p[0]));C.push([`Single wall: sink-to-hob ${legs[0].toFixed(2)} m and work run ${run.toFixed(2)} m. Keep the run under about 3.6 m (12 ft).`,run<=3.66]);}
+  else{NAMES.forEach((n,i)=>{const pair=[["Sink","Hob"],["Hob","Fridge"],["Fridge","Sink"]][i];C.push([`${pair[0]} ↔ ${pair[1]}: ${legs[i].toFixed(2)} m (${ft(legs[i]).toFixed(1)} ft), needs 4–9 ft`,legOk(legs[i])])});
+    C.push([`Total ${tot.toFixed(2)} m (${ft(tot).toFixed(1)} ft), needs 12–26 ft`,totOk]);}
+  C.push(["Keep tall units (fridge tower, oven stack) out of the triangle legs","note"]);
+  C.push(["Main walkway should not cut through the triangle","note"]);
+  const ul=$("checks");ul.innerHTML="";let f=0;C.forEach(([t,s])=>{const li=document.createElement("li");const cls=s==="note"?"warn":s?"ok":"bad";if(s===false)f++;li.innerHTML=`<span>${t}</span><span class="pill ${cls}">${s==="note"?"check":s?"pass":"fix"}</span>`;ul.appendChild(li)});
+  $("sum").textContent=f?f+" to fix":"triangle works";
+}
+
+document.querySelectorAll("input,select").forEach(i=>i.addEventListener("input",render));
+window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",render);
+new MutationObserver(render).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+render();
+</script>
+</body>
+</html>

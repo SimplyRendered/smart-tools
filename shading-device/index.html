@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Shading Device Sizer</title>
+<meta name="description" content="How deep should the chajja or fins be? Pick a city, the wall direction and the hours to shade. Get overhang and fin depths from real sun angles.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: drafting sheet — title block header, input column + two drawings, data table below */
+:root{
+  --paper:#F2F3EF; --sheet:#FBFBF8; --ink:#1B2732; --ink-2:#4A5865; --rule:#D5D9D4; --grid:#E6E8E3;
+  --red:#C8432B; --blue:#2E66A6; --sun:#E09A1E; --shadow:rgba(27,39,50,.22);
+  --display:'Barlow Condensed','Arial Narrow',sans-serif; --body:'IBM Plex Sans',system-ui,sans-serif; --mono:'IBM Plex Mono',ui-monospace,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#0E1A26; --sheet:#132233; --ink:#E4ECF2; --ink-2:#9DB0C0; --rule:#2A3D52; --grid:#1B2D40;
+  --red:#FF7A5C; --blue:#6FB0F0; --sun:#FFC04D; --shadow:rgba(140,190,240,.25); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0E1A26; --sheet:#132233; --ink:#E4ECF2; --ink-2:#9DB0C0; --rule:#2A3D52; --grid:#1B2D40;
+  --red:#FF7A5C; --blue:#6FB0F0; --sun:#FFC04D; --shadow:rgba(140,190,240,.25); color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--paper);color:var(--ink);font:15px/1.5 var(--body);padding:16px;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px}
+.sheet{max-width:1180px;margin:0 auto;background:var(--sheet);border:1.5px solid var(--ink);}
+.tb{display:grid;grid-template-columns:1fr auto;border-bottom:1.5px solid var(--ink)}
+.tb h1{font:700 clamp(30px,5vw,46px)/1 var(--display);letter-spacing:.01em;margin:0;padding:18px 20px 14px;text-transform:uppercase;text-wrap:balance}
+.tb h1 small{display:block;font:500 14px/1.4 var(--body);letter-spacing:0;text-transform:none;color:var(--ink-2);margin-top:6px}
+.tb .meta{display:grid;grid-template-columns:auto auto;border-left:1.5px solid var(--ink);font:12px/1.2 var(--mono)}
+.tb .meta div{padding:8px 12px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule)}
+.tb .meta b{display:block;font:600 10px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-bottom:4px}
+.main{display:grid;grid-template-columns:320px 1fr;}
+.inputs{border-right:1.5px solid var(--ink);padding:18px 20px;display:flex;flex-direction:column;gap:14px}
+label{display:flex;flex-direction:column;gap:5px;font:600 11px/1 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+input,select{font:500 15px/1.2 var(--mono);color:var(--ink);background:var(--paper);border:1px solid var(--rule);padding:9px 10px;border-radius:0;width:100%}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
+input[type=range]{padding:0;accent-color:var(--red)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+button{font:600 12px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;background:transparent;color:var(--ink);border:1px solid var(--ink);padding:8px 10px;cursor:pointer}
+button:hover{background:var(--ink);color:var(--sheet)}
+.time{font:500 28px/1 var(--mono);color:var(--red)}
+.views{display:grid;grid-template-columns:1fr 1fr;min-width:0}
+.view{padding:14px 16px 10px;min-width:0;border-bottom:1.5px solid var(--ink)}
+.view+.view{border-left:1px solid var(--rule)}
+.view h2,.data h2{font:600 20px/1 var(--display);text-transform:uppercase;letter-spacing:.04em;margin:0 0 8px;display:flex;justify-content:space-between;gap:8px}
+.view h2 span,.data h2 span{font:400 11px/1.6 var(--mono);color:var(--ink-2);text-transform:none;letter-spacing:0}
+svg{width:100%;height:auto;display:block}
+.readout{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1.5px solid var(--ink)}
+.readout div{padding:12px 16px;border-right:1px solid var(--rule)}
+.readout div:last-child{border-right:0}
+.readout b{display:block;font:600 10px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-bottom:6px}
+.readout span{font:500 24px/1 var(--mono);font-variant-numeric:tabular-nums}
+.readout .hi{color:var(--red)}
+.data{padding:14px 16px}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font:13px/1.3 var(--mono);font-variant-numeric:tabular-nums}
+th,td{padding:6px 10px;border-bottom:1px solid var(--rule);text-align:right;white-space:nowrap}
+th{font:600 10px/1.2 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+th:first-child,td:first-child{text-align:left}
+tr.now td{color:var(--red);font-weight:500}
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;padding:10px 16px;border-top:1.5px solid var(--ink);font:12px/1.4 var(--mono);color:var(--ink-2)}
+.note{font:12px/1.5 var(--body);color:var(--ink-2);margin:0}
+@media (max-width:900px){.main{grid-template-columns:1fr}.inputs{border-right:0;border-bottom:1.5px solid var(--ink)}}
+@media (max-width:640px){.views{grid-template-columns:1fr}.view+.view{border-left:0}.readout{grid-template-columns:repeat(2,1fr)}.readout div:nth-child(2){border-right:0}.readout div{border-bottom:1px solid var(--rule)}.tb{grid-template-columns:1fr}.tb .meta{border-left:0;border-top:1px solid var(--rule)}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.dl{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;padding:12px 20px;border-bottom:1.5px solid var(--ink);background:var(--paper)}
+.dl a.btn{font:600 13px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;background:var(--red);color:#fff;text-decoration:none;padding:11px 14px;border:1px solid var(--red)}
+.dl a.btn:hover{background:var(--ink);border-color:var(--ink);color:var(--sheet)}
+.dl span{font:13px/1.4 var(--body);color:var(--ink-2);flex:1;min-width:180px}
+.dl a.more{font:500 13px/1 var(--mono);color:var(--blue)}
+
+:root{--ok:#2F8A57;--okbg:rgba(47,138,87,.12);--bad:#C8432B;--badbg:rgba(200,67,43,.10);--warn:#B7791F}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ok:#5FD08F;--okbg:rgba(95,208,143,.14);--bad:#FF7A5C;--badbg:rgba(255,122,92,.12);--warn:#F2B84B}}
+:root[data-theme="dark"]{--ok:#5FD08F;--okbg:rgba(95,208,143,.14);--bad:#FF7A5C;--badbg:rgba(255,122,92,.12);--warn:#F2B84B}
+.pill{display:inline-block;font:600 11px/1 var(--body);letter-spacing:.08em;text-transform:uppercase;padding:5px 7px;border:1px solid currentColor}
+.pill.ok{color:var(--ok);background:var(--okbg)} .pill.bad{color:var(--bad);background:var(--badbg)} .pill.warn{color:var(--warn)}
+td.ok{color:var(--ok)} td.bad{color:var(--bad)}
+.readout .ok{color:var(--ok)} .readout .bad{color:var(--bad)}
+.view.full{grid-column:1/-1}
+.checks{list-style:none;margin:0;padding:0}
+.checks li{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:8px 0;border-bottom:1px solid var(--rule);font:13px/1.35 var(--body)}
+.checks li span:first-child{min-width:0}
+select{appearance:auto}
+</style>
+</head>
+<body>
+<div class="sheet">
+  <header class="tb">
+    <h1>Shading Device Sizer<small>How deep should the chajja or fins be? Pick a city, the wall direction and the hours to shade. Get overhang and fin depths from real sun angles.</small></h1>
+    <div class="meta"><div><b>Sheet</b>T-05</div><div><b>Method</b>HSA / VSA</div><div><b>Sun</b>NOAA solar</div><div><b>By</b>@smart_tools_every_week</div></div>
+  </header>
+  <div class="dl" id="dlbar"><a class="btn" href="shading-device.html" download="shading-device.html">⬇ Download this app</a><span>Free. One HTML file that works offline. Open it in any browser, no install or sign-up.</span><a class="more" href="../">More free tools →</a></div>
+  <div class="main">
+    <section class="inputs" aria-label="Inputs">
+
+      <label for="city">Location<select id="city"></select></label>
+      <div class="row">
+        <label for="lat">Latitude °<input id="lat" type="number" step="0.01" value="28.61"></label>
+        <label for="lon">Longitude °<input id="lon" type="number" step="0.01" value="77.21"></label>
+      </div>
+      <label for="tz">UTC offset (hours)<input id="tz" type="number" step="0.25" value="5.5"></label>
+      <label for="face">Window faces
+        <select id="face">
+          <option value="0">North (0°)</option><option value="45">North-east (45°)</option><option value="90">East (90°)</option><option value="135">South-east (135°)</option>
+          <option value="180" selected>South (180°)</option><option value="225">South-west (225°)</option><option value="270">West (270°)</option><option value="315">North-west (315°)</option>
+        </select>
+      </label>
+      <div class="row">
+        <label for="date">Design date<input id="date" type="date" value="2026-04-21"></label>
+        <label for="rot">Fine-tune wall °<input id="rot" type="number" step="1" value="0"></label>
+      </div>
+      <div class="row">
+        <label for="t0">Shade from<input id="t0" type="time" value="09:00"></label>
+        <label for="t1">Shade until<input id="t1" type="time" value="16:00"></label>
+      </div>
+      <div class="row">
+        <label for="H">Window height mm<input id="H" type="number" step="50" value="1500"></label>
+        <label for="W">Window width mm<input id="W" type="number" step="50" value="1200"></label>
+      </div>
+      <label for="G">Overhang above window head (mm)<input id="G" type="number" step="25" value="150"></label>
+      <p class="note">The tool sizes a horizontal overhang to shade the whole window height, and vertical fins to shade the whole width when the sun is at least 20° off the wall's facing direction, for every hour in your window of time on that date. Pick the hottest month you care about.</p>
+
+    </section>
+    <section style="min-width:0">
+
+      <div class="readout">
+        <div><b>Overhang depth</b><span id="oD" class="hi">–</span></div>
+        <div><b>Fin depth (oblique sun)</b><span id="oF">–</span></div>
+        <div><b>Worst hour</b><span id="oT">–</span></div>
+        <div><b>Sun on wall</b><span id="oS">–</span></div>
+      </div>
+      <div class="views">
+        <div class="view"><h2>Section <span>overhang vs. worst sun ray</span></h2><svg id="sec" viewBox="0 0 420 330" role="img" aria-label="Window section with overhang"></svg></div>
+        <div class="view"><h2>Plan <span>fins vs. sun direction</span></h2><svg id="plan" viewBox="0 0 420 330" role="img" aria-label="Window plan with fins"></svg></div>
+      </div>
+      <div class="data">
+        <h2>Hour by hour <span id="tblLabel"></span></h2>
+        <div class="tablewrap"><table><thead><tr><th>Time</th><th>Altitude</th><th>Azimuth</th><th>HSA</th><th>VSA</th><th>Overhang (mm)</th><th>Fin (mm)</th></tr></thead><tbody id="tbl"></tbody></table></div>
+        <p class="note" style="margin-top:10px">HSA is the sun's angle from the window's facing direction in plan. VSA is the profile angle in section. A deep overhang at low VSA (east and west walls) usually means vertical fins or louvres work better.</p>
+      </div>
+
+    </section>
+  </div>
+  <footer class="foot"><span>Free tool · @smart_tools_every_week · simplyrendered.github.io/smart-tools · built with Claude</span><span>Shadow angles: tan VSA = tan(altitude) / cos(HSA). Sun position: NOAA algorithm (±1°).</span></footer>
+</div>
+<script>
+if(location.protocol==="file:"){const b=document.getElementById("dlbar");if(b)b.hidden=true;}
+const $=id=>document.getElementById(id);
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const NS="http://www.w3.org/2000/svg";
+function el(tag,attrs,parent,text){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(text!=null)e.textContent=text;parent&&parent.appendChild(e);return e}
+const fmt=(v,d=2)=>Number.isFinite(v)?v.toFixed(d):"–";
+const CITIES=[["New Delhi",28.61,77.21,5.5],["Mumbai",19.08,72.88,5.5],["Bengaluru",12.97,77.59,5.5],["Chennai",13.08,80.27,5.5],["Kolkata",22.57,88.36,5.5],["Hyderabad",17.39,78.49,5.5],["Pune",18.52,73.86,5.5],["Ahmedabad",23.02,72.57,5.5],["Jaipur",26.91,75.79,5.5],["Lucknow",26.85,80.95,5.5],["Chandigarh",30.73,76.78,5.5],["Raipur / Durg",21.19,81.28,5.5],["Panaji, Goa",15.49,73.83,5.5],["Kochi",9.93,76.27,5.5],["Guwahati",26.14,91.74,5.5],["Dubai",25.20,55.27,4],["Singapore",1.35,103.82,8],["London",51.51,-0.13,0],["New York",40.71,-74.01,-5],["Sydney",-33.87,151.21,10],["Custom",null,null,null]];
+const rad=d=>d*Math.PI/180, deg=r=>r*180/Math.PI;
+const DIRS=["N","NNE","NE","ENE","E","ESE","SE","SSE","S","SSW","SW","WSW","W","WNW","NW","NNW"];
+const dirName=a=>DIRS[Math.round(((a%360)+360)%360/22.5)%16];
+
+function solar(dateStr,minutes,lat,lon,tz){
+  const [y,m,d]=dateStr.split("-").map(Number);
+  const jd=Date.UTC(y,m-1,d)/86400000+2440587.5+(minutes-tz*60)/1440;
+  const jc=(jd-2451545)/36525;
+  const L0=(280.46646+jc*(36000.76983+jc*0.0003032))%360;
+  const M=357.52911+jc*(35999.05029-0.0001537*jc);
+  const e=0.016708634-jc*(0.000042037+0.0000001267*jc);
+  const C=Math.sin(rad(M))*(1.914602-jc*(0.004817+0.000014*jc))+Math.sin(rad(2*M))*(0.019993-0.000101*jc)+Math.sin(rad(3*M))*0.000289;
+  const app=L0+C-0.00569-0.00478*Math.sin(rad(125.04-1934.136*jc));
+  const eps0=23+(26+(21.448-jc*(46.815+jc*(0.00059-jc*0.001813)))/60)/60;
+  const eps=eps0+0.00256*Math.cos(rad(125.04-1934.136*jc));
+  const decl=deg(Math.asin(Math.sin(rad(eps))*Math.sin(rad(app))));
+  const yy=Math.tan(rad(eps/2))**2;
+  const eot=4*deg(yy*Math.sin(2*rad(L0))-2*e*Math.sin(rad(M))+4*e*yy*Math.sin(rad(M))*Math.cos(2*rad(L0))-0.5*yy*yy*Math.sin(4*rad(L0))-1.25*e*e*Math.sin(2*rad(M)));
+  let tst=(minutes+eot+4*lon-60*tz)%1440; if(tst<0)tst+=1440;
+  const ha=tst/4<0?tst/4+180:tst/4-180;
+  const cz=Math.sin(rad(lat))*Math.sin(rad(decl))+Math.cos(rad(lat))*Math.cos(rad(decl))*Math.cos(rad(ha));
+  const zen=deg(Math.acos(Math.min(1,Math.max(-1,cz))));
+  let alt=90-zen;
+  // atmospheric refraction (NOAA)
+  let refr=0; if(alt>85)refr=0; else if(alt>5)refr=(58.1/Math.tan(rad(alt))-0.07/Math.tan(rad(alt))**3+0.000086/Math.tan(rad(alt))**5)/3600; else if(alt>-0.575)refr=(1735+alt*(-518.2+alt*(103.4+alt*(-12.79+alt*0.711))))/3600; else refr=(-20.772/Math.tan(rad(alt)))/3600;
+  alt+=refr;
+  const den=Math.cos(rad(lat))*Math.sin(rad(zen));
+  let az;
+  if(Math.abs(den)<1e-9) az=lat>decl?180:0;
+  else{const a=deg(Math.acos(Math.min(1,Math.max(-1,(Math.sin(rad(lat))*Math.cos(rad(zen))-Math.sin(rad(decl)))/den))));
+    az=ha>0?(a+180)%360:(540-a)%360;}
+  const haR=deg(Math.acos(Math.min(1,Math.max(-1,Math.cos(rad(90.833))/(Math.cos(rad(lat))*Math.cos(rad(decl)))-Math.tan(rad(lat))*Math.tan(rad(decl))))));
+  const noon=720-4*lon-eot+tz*60;
+  return {alt,az,decl,noon,rise:noon-haR*4,set:noon+haR*4,dayLen:8*haR};
+}
+
+const sel=$("city");CITIES.forEach((c,i)=>{const o=document.createElement("option");o.value=i;o.textContent=c[0];sel.appendChild(o)});
+sel.addEventListener("change",()=>{const c=CITIES[sel.value];if(c[1]!==null){$("lat").value=c[1];$("lon").value=c[2];$("tz").value=c[3]}});
+["lat","lon","tz"].forEach(id=>$(id).addEventListener("input",()=>{sel.value=CITIES.length-1}));
+const tmin=v=>{const [h,m]=v.split(":").map(Number);return h*60+m};
+const hm=m=>String(Math.floor(m/60)).padStart(2,"0")+":"+String(Math.round(m%60)).padStart(2,"0");
+function angles(p,wall){let hsa=((p.az-wall+540)%360)-180;const on=p.alt>0&&Math.abs(hsa)<90;const vsa=on?deg(Math.atan(Math.tan(rad(p.alt))/Math.cos(rad(hsa)))):NaN;return{hsa,vsa,on}}
+function render(){
+  const lat=+$("lat").value,lon=+$("lon").value,tz=+$("tz").value,ds=$("date").value||"2026-04-21";
+  const wall=(+$("face").value+ +$("rot").value+360)%360,H=+$("H").value,W=+$("W").value,G=+$("G").value;
+  const a=tmin($("t0").value||"09:00"),b=tmin($("t1").value||"16:00");
+  const rows=[];let worst=null,maxD=0,maxF=0,onCount=0;
+  for(let m=a;m<=b;m+=30){const p=solar(ds,m,lat,lon,tz);const g=angles(p,wall);let D=null,F=null;
+    if(g.on){onCount++;D=(H+G)/Math.tan(rad(g.vsa));F=Math.abs(g.hsa)<20?null:W/Math.tan(rad(Math.abs(g.hsa)));
+      if(D>maxD){maxD=D;worst={m,p,g}}if(F!=null)maxF=Math.max(maxF,F);}
+    rows.push({m,p,g,D,F});}
+  const ink=css("--ink"),ink2=css("--ink-2"),rule=css("--rule"),red=css("--red"),sun=css("--sun")||"#E09A1E",blue=css("--blue");
+  $("oD").textContent=onCount?(maxD/1000).toFixed(2)+" m":"none";
+  $("oF").textContent=onCount&&maxF>0?(maxF/1000).toFixed(2)+" m":"not needed";
+  $("oT").textContent=worst?hm(worst.m):"–";
+  $("oS").textContent=onCount?Math.round(onCount*30/60*10)/10+" h":"0 h";
+  $("tblLabel").textContent=`${DIRS[Math.round(wall/22.5)%16]}-facing wall (${wall}°), ${ds}`;
+  // section
+  const sv=$("sec");sv.innerHTML="";const k=Math.min(230/(H+G+600),1);const wx=230,wy=60,X=v=>wx+v*k,Y=v=>wy+v*k;
+  el("rect",{x:wx,y:20,width:26,height:290,fill:rule,stroke:ink},sv);
+  el("rect",{x:wx-2,y:Y(G),width:30,height:H*k,fill:css("--sheet"),stroke:blue,"stroke-width":2},sv);
+  const Dd=Math.min(maxD,3500);el("rect",{x:wx-Dd*k,y:Y(0)-8,width:Dd*k+26,height:8,fill:ink},sv);
+  if(worst){const v=worst.g.vsa;const L=420;const sx=wx-Dd*k,sy=Y(0);el("line",{x1:sx-Math.cos(rad(v))*L,y1:sy-Math.sin(rad(v))*L,x2:wx,y2:Y(G+H),stroke:sun,"stroke-width":2},sv);
+    el("text",{x:20,y:24,fill:ink2,"font-size":11,"font-family":"IBM Plex Mono, monospace"},sv,`VSA ${v.toFixed(1)}° at ${hm(worst.m)}`);
+    el("text",{x:sx,y:sy-14,fill:red,"font-size":12,"font-weight":600,"font-family":"IBM Plex Mono, monospace"},sv,(maxD/1000).toFixed(2)+" m");}
+  el("text",{x:wx+34,y:Y(G+H/2),fill:ink2,"font-size":11,"font-family":"IBM Plex Mono, monospace"},sv,"window "+H);
+  el("text",{x:wx+34,y:300,fill:ink2,"font-size":11,"font-family":"IBM Plex Sans, sans-serif"},sv,"INSIDE");el("text",{x:20,y:300,fill:ink2,"font-size":11,"font-family":"IBM Plex Sans, sans-serif"},sv,"OUTSIDE");
+  // plan (wall horizontal, outside at bottom)
+  const pv=$("plan");pv.innerHTML="";const kp=Math.min(260/(W+2*Math.min(maxF,1500)+200),0.2);const cx=210,cy=110;
+  el("rect",{x:0,y:cy-14,width:420,height:14,fill:rule,stroke:ink},pv);
+  el("line",{x1:cx-W*kp/2,y1:cy-7,x2:cx+W*kp/2,y2:cy-7,stroke:blue,"stroke-width":4},pv);
+  const Fd=Math.min(maxF,3000)*kp;[-1,1].forEach(sg=>el("rect",{x:cx+sg*W*kp/2-(sg>0?0:4),y:cy,width:4,height:Fd,fill:ink},pv));
+  el("text",{x:cx,y:cy-22,"text-anchor":"middle",fill:ink2,"font-size":11,"font-family":"IBM Plex Mono, monospace"},pv,"window "+W);
+  if(onCount){el("text",{x:cx+W*kp/2+8,y:cy+Fd/2,fill:red,"font-size":12,"font-weight":600,"font-family":"IBM Plex Mono, monospace"},pv,(maxF/1000).toFixed(2)+" m");}
+  rows.filter(r=>r.g.on).forEach(r=>{const ang=rad(r.g.hsa);const L=170;el("line",{x1:cx,y1:cy,x2:cx+Math.sin(ang)*L,y2:cy+Math.cos(ang)*L,stroke:sun,"stroke-width":1,"stroke-opacity":.6},pv);});
+  el("text",{x:8,y:320,fill:ink2,"font-size":11,"font-family":"IBM Plex Sans, sans-serif"},pv,"OUTSIDE · sun directions each half hour");
+  const tb=$("tbl");tb.innerHTML="";rows.filter(r=>r.m%60===0||r.m===a||r.m===b).forEach(r=>{const tr=document.createElement("tr");
+    tr.innerHTML=`<td>${hm(r.m)}</td><td>${r.p.alt.toFixed(1)}°</td><td>${r.p.az.toFixed(0)}°</td><td>${r.g.on?r.g.hsa.toFixed(0)+"°":"—"}</td><td>${r.g.on?r.g.vsa.toFixed(1)+"°":"—"}</td><td>${r.D!=null?Math.round(r.D):"no sun"}</td><td>${!r.g.on?"no sun":r.F!=null?Math.round(r.F):"sun head-on"}</td>`;tb.appendChild(tr)});
+}
+
+document.querySelectorAll("input,select").forEach(i=>i.addEventListener("input",render));
+window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",render);
+new MutationObserver(render).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+render();
+</script>
+</body>
+</html>
