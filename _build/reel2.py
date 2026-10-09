@@ -9,7 +9,9 @@ Scripts: _build/reels2.json  {slug: {...}}  (see sun-shadow there for the full s
            {"at":0.2,"dur":2.4,"slide":"inputId","from":720,"to":960,"round":1}
            {"at":0,"set":"inputId","value":"1"}
            {"at":0,"dur":1.8,"drag":[pointIndex,dx,dy],"svg":"plan"}
-  cmp    {guess, real}           comparison chips under the app: the usual answer (struck out) vs the live value read from selector `real`
+  cmp    {guess, real, gl?, rl?}  comparison chips under the app: the usual answer (struck out) vs the live value read from selector `real`; gl/rl = chip labels
+  wrong.stamp, cmp.reveal       optional CSS for the WRONG stamp position; seconds into s1 before the real value shows (default at once)
+  appcss, init                  optional CSS injected into the app (hide rows so the key parts fit) and ops run before frame 0, e.g. [["setv","north",0]]
   end    {cap}                   sign-off headline (the end card also shows "Link in bio → T-NN")
 Every frame is set explicitly and screenshotted, so motion is perfectly smooth (no screen-recording judder).
 Env: FONTS_DIR, TTS_DIR (kokoro-v1.0.onnx or kokoro-v1.0.int8.onnx + voices-v1.0.bin), VOICE (af_heart), SPEED (1.05)
@@ -80,9 +82,9 @@ iframe{border:0;width:600px;height:672px;display:block;transform:scale(1.6667);t
 <div class="top"><div><b>__NO__</b></div><div>FREE TOOL · __NAME__</div><div>@smart_tools_every_week</div></div>
 <div id="pill" class="bad"></div>
 <div id="cap"><h1 id="h"></h1></div>
-<div class="panel" id="wrong">__WRONG__<div id="stamp">✕ WRONG</div></div>
+<div class="panel" id="wrong">__WRONG__<div id="stamp" style="__STAMP__">✕ WRONG</div></div>
 <div class="panel" id="fr"><iframe id="app" src="/__SLUG__/index.html"></iframe></div>
-<div id="cmp"><div id="g"><b>✕ Usual guess</b><span>__GUESS__</span></div><div id="r"><b>✓ Real answer</b><span id="rv">?</span></div></div>
+<div id="cmp"><div id="g"><b>✕ __GL__</b><span>__GUESS__</span></div><div id="r"><b>✓ __RL__</b><span id="rv">?</span></div></div>
 <div id="end"><div class="k">✓ The right way · free</div><h2>__ENDCAP__</h2>
 <p>Use it online or download one HTML file that works offline. No sign-up.</p><div class="bio">Link in bio → __NO__</div><div class="h">@smart_tools_every_week</div></div>
 <script>
@@ -150,7 +152,7 @@ def main(slug, out):
         import soundfile as sf; sf.write(str(tmp/"vo.wav"), track, sr)
         name = cfg["name"].upper().replace("&", "&amp;")
         stage = (STAGE.replace("__NO__", cfg["no"]).replace("__NAME__", name).replace("__SLUG__", slug)
-                 .replace("__WRONG__", cfg["wrong"]["html"]).replace("__GUESS__", cfg["cmp"]["guess"]).replace("__ENDCAP__", cfg["end"]["cap"]))
+                 .replace("__WRONG__", cfg["wrong"]["html"]).replace("__STAMP__", cfg["wrong"].get("stamp","")).replace("__GUESS__", cfg["cmp"]["guess"]).replace("__GL__", cfg["cmp"].get("gl","Usual guess")).replace("__RL__", cfg["cmp"].get("rl","Real answer")).replace("__ENDCAP__", cfg["end"]["cap"]))
         (ROOT/"_reel_stage.html").write_text(stage)
         class Q(http.server.SimpleHTTPRequestHandler):
             def log_message(self, *a): pass
@@ -165,7 +167,10 @@ def main(slug, out):
                 ctx.route("https://fonts.googleapis.com/**", lambda r: r.fulfill(status=200, content_type="text/css", body=CSS))
                 pg = ctx.new_page(); pg.goto(f"http://127.0.0.1:{port}/_reel_stage.html"); pg.wait_for_timeout(800)
                 app = [f for f in pg.frames if f.url.endswith(f"/{slug}/index.html")][0]
-                app.evaluate(APP_JS); pg.wait_for_timeout(200)
+                app.evaluate(APP_JS)
+                if cfg.get("appcss"): app.evaluate("c=>{const s=document.createElement('style');s.textContent=c;document.head.appendChild(s)}", cfg["appcss"])
+                for o in cfg.get("init", []): app.evaluate("([o,r])=>__R.run(o,r)", [[o], None])
+                pg.wait_for_timeout(200)
                 cache = {}   # per-action start values
                 caps = [(0, cfg["wrong"]["cap"], "bad", cfg["wrong"]["label"])] + \
                        [(starts[i+1]-0.15, r["cap"], "good", "✓ The right way") for i, r in enumerate(cfg["right"])]
@@ -217,7 +222,7 @@ def main(slug, out):
                                     i, dx, dy = a["drag"]; ops.append(["drag", key, a.get("svg", "plan"), i, dx, dy, f])
                                     if f >= 1: cache[key] = "done"
                     res = app.evaluate("([o,r])=>__R.run(o,r)", [ops, cfg["cmp"]["real"]])
-                    s["rv"] = res["rv"] if t >= tR else "?"; s["glow"] = 30*max(0, 1-abs(t-(starts[1]+(ends[1]-starts[1])*0.8))/0.6)
+                    s["rv"] = res["rv"] if t >= starts[1] + cfg["cmp"].get("reveal", -0.15) else "?"; s["glow"] = 30*max(0, 1-abs(t-(starts[1]+(ends[1]-starts[1])*0.8))/0.6)
                     pg.evaluate("s=>apply(s)", s)
                     ff.stdin.write(pg.screenshot(type="jpeg", quality=93))
                     if fi % 60 == 0: print(f"frame {fi}/{n}", flush=True)

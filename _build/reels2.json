@@ -18,8 +18,8 @@
     "cap": "Delhi · 21 Dec · <i>4 PM</i>",
     "actions": [
      {
-      "at": 0,
-      "dur": 0.6,
+      "at": -0.3,
+      "dur": 0,
       "scroll": "label[for=time]",
       "offset": -16
      },
@@ -67,6 +67,147 @@
   },
   "end": {
    "cap": "Sun Path &amp; Shadow<br><em>is free.</em>"
+  }
+ },
+ "vastu-grid": {
+  "no": "T-02",
+  "name": "Vastu Grid Overlay",
+  "vo": [
+   "Most people drop a Vastu grid on their plan as if the top of the page is north.",
+   "But this plot is turned fifteen degrees. That's two-thirds of a whole zone off.",
+   "So set north from your plan's arrow, and every zone lands where it really is.",
+   "It's free, and the link's in my bio."
+  ],
+  "wrong": {
+   "label": "✕ The usual way",
+   "cap": "North = <em>top of the page?</em>",
+   "html": "<svg viewBox='0 0 920 900' xmlns='http://www.w3.org/2000/svg' font-family='IBM Plex Mono, monospace'><rect x='220' y='250' width='480' height='480' fill='#1E3349' stroke='#E4ECF2' stroke-width='5'/><g stroke='#9DB0C0' stroke-width='3'><line x1='380' y1='250' x2='380' y2='730'/><line x1='540' y1='250' x2='540' y2='730'/><line x1='220' y1='410' x2='700' y2='410'/><line x1='220' y1='570' x2='700' y2='570'/></g><line x1='460' y1='230' x2='460' y2='90' stroke='#FF6B5C' stroke-width='6'/><path d='M460 60 L440 105 L480 105 Z' fill='#FF6B5C'/><text x='500' y='110' fill='#FF6B5C' font-size='36'>N = top of page ?</text><g transform='rotate(-15 460 490)'><line x1='460' y1='490' x2='460' y2='200' stroke='#F2A93B' stroke-width='4' stroke-dasharray='14 10'/><path d='M460 175 L446 208 L474 208 Z' fill='#F2A93B'/></g><text x='170' y='215' fill='#F2A93B' font-size='28'>real north</text><text x='460' y='810' fill='#9DB0C0' font-size='30' text-anchor='middle'>grid dropped straight on the plan</text></svg>",
+   "stamp": "top:430px;right:230px"
+  },
+  "appcss": "label[for=drop],label[for=mode],label[for=grid],label[for=op],label.check,#reset,#save,#status{display:none!important}",
+  "init": [
+   [
+    "setv",
+    "north",
+    0
+   ]
+  ],
+  "right": [
+   {
+    "cap": "Set north from <i>your plan</i>",
+    "actions": [
+     {
+      "at": -0.3,
+      "dur": 0,
+      "scroll": "label[for=north]",
+      "offset": -16
+     },
+     {
+      "at": 0.4,
+      "dur": 2.6,
+      "slide": "north",
+      "from": 0,
+      "to": -15,
+      "round": 0.5
+     }
+    ]
+   },
+   {
+    "cap": "Every zone <i>where it really is</i>",
+    "actions": [
+     {
+      "at": 0,
+      "dur": 0.9,
+      "scroll": "#wrap",
+      "offset": -120
+     },
+     {
+      "at": 1.4,
+      "set": "grid",
+      "value": "9"
+     }
+    ]
+   }
+  ],
+  "cmp": {
+   "guess": "0°",
+   "real": "#northOut",
+   "gl": "Assumed north",
+   "rl": "Real north"
+  },
+  "end": {
+   "cap": "Vastu Grid<br><em>is free.</em>"
+  }
+ },
+ "sheet-scale": {
+  "no": "T-03",
+  "name": "Sheet Fit & Scale",
+  "vo": [
+   "Printed your A1 drawing on A3? Most people still read it at one to one hundred.",
+   "But it's really one to two hundred, so every length you measure comes out half size.",
+   "Pick your sheets, and it gives you the true scale, and the true length.",
+   "It's free, and the link's in my bio."
+  ],
+  "wrong": {
+   "label": "✕ The usual way",
+   "cap": "A1 on A3 = <em>still 1:100?</em>",
+   "html": "<svg viewBox='0 0 920 900' xmlns='http://www.w3.org/2000/svg' font-family='IBM Plex Mono, monospace'><rect x='60' y='180' width='500' height='354' fill='#1E3349' stroke='#E4ECF2' stroke-width='5'/><rect x='110' y='230' width='300' height='200' fill='none' stroke='#9DB0C0' stroke-width='3'/><line x1='110' y1='330' x2='410' y2='330' stroke='#9DB0C0' stroke-width='2'/><line x1='260' y1='230' x2='260' y2='430' stroke='#9DB0C0' stroke-width='2'/><text x='310' y='500' fill='#E4ECF2' font-size='32' text-anchor='middle'>A1 · drawn at 1:100</text><line x1='585' y1='357' x2='665' y2='357' stroke='#F2A93B' stroke-width='5'/><path d='M690 357 L660 340 L660 374 Z' fill='#F2A93B'/><rect x='700' y='282' width='180' height='127' fill='#1E3349' stroke='#E4ECF2' stroke-width='4'/><rect x='718' y='300' width='108' height='72' fill='none' stroke='#9DB0C0' stroke-width='2'/><text x='790' y='450' fill='#F2A93B' font-size='28' text-anchor='middle'>A3 · fit to page</text><rect x='160' y='620' width='600' height='70' fill='#E4ECF2' opacity='.12' stroke='#E4ECF2' stroke-width='3'/><g stroke='#E4ECF2' stroke-width='3'><line x1='160' y1='620' x2='160' y2='670'/><line x1='220' y1='620' x2='220' y2='650'/><line x1='280' y1='620' x2='280' y2='650'/><line x1='340' y1='620' x2='340' y2='650'/><line x1='400' y1='620' x2='400' y2='650'/><line x1='460' y1='620' x2='460' y2='670'/><line x1='520' y1='620' x2='520' y2='650'/><line x1='580' y1='620' x2='580' y2='650'/><line x1='640' y1='620' x2='640' y2='650'/><line x1='700' y1='620' x2='700' y2='650'/><line x1='760' y1='620' x2='760' y2='670'/></g><text x='460' y='750' fill='#FF6B5C' font-size='40' text-anchor='middle' font-weight='500'>still read at 1:100 ?</text><text x='460' y='830' fill='#9DB0C0' font-size='30' text-anchor='middle'>what most people do with a reduced print</text></svg>"
+  },
+  "init": [
+   [
+    "setv",
+    "sTo",
+    "1"
+   ]
+  ],
+  "right": [
+   {
+    "cap": "A1 → A3 = <i>1:200</i>",
+    "actions": [
+     {
+      "at": -0.3,
+      "dur": 0,
+      "scroll": "label[for=sFrom]",
+      "offset": -16
+     },
+     {
+      "at": 1.2,
+      "set": "sTo",
+      "value": "2"
+     },
+     {
+      "at": 2.2,
+      "set": "sTo",
+      "value": "3"
+     }
+    ]
+   },
+   {
+    "cap": "45 mm on the print = <i>9 m</i>",
+    "actions": [
+     {
+      "at": 0,
+      "dur": 0.6,
+      "scroll": "label[for=sFrom]",
+      "offset": -16
+     },
+     {
+      "at": 1.0,
+      "set": "mScale",
+      "value": "11"
+     }
+    ]
+   }
+  ],
+  "cmp": {
+   "guess": "1:100",
+   "real": "#eff",
+   "gl": "Usual reading",
+   "rl": "Real scale",
+   "reveal": 2.2
+  },
+  "end": {
+   "cap": "Sheet Fit &amp; Scale<br><em>is free.</em>"
   }
  }
 }
