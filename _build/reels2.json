@@ -1,0 +1,72 @@
+{
+ "sun-shadow": {
+  "no": "T-01",
+  "name": "Sun Path & Shadow",
+  "vo": [
+   "Most people guess a twelve metre building casts a twelve metre shadow.",
+   "But in a Delhi winter, at four in the afternoon? It's almost forty-three metres.",
+   "So don't guess. Pick your city, slide the time, and watch the real shadow move.",
+   "It's free, and the link's in my bio."
+  ],
+  "wrong": {
+   "label": "✕ The usual guess",
+   "cap": "Shadow = <em>building height?</em>",
+   "html": "<svg viewBox='0 0 920 900' xmlns='http://www.w3.org/2000/svg' font-family='IBM Plex Mono, monospace'><circle cx='110' cy='170' r='46' fill='#F2A93B'/><g stroke='#F2A93B' stroke-width='4'><line x1='110' y1='96' x2='110' y2='70'/><line x1='110' y1='244' x2='110' y2='270'/><line x1='36' y1='170' x2='10' y2='170'/><line x1='184' y1='170' x2='210' y2='170'/></g><line x1='150' y1='210' x2='380' y2='440' stroke='#F2A93B' stroke-width='4' stroke-dasharray='14 10'/><line x1='380' y1='440' x2='680' y2='740' stroke='#F2A93B' stroke-width='4' stroke-dasharray='14 10'/><line x1='60' y1='740' x2='880' y2='740' stroke='#9DB0C0' stroke-width='4'/><rect x='240' y='440' width='140' height='300' fill='#1E3349' stroke='#E4ECF2' stroke-width='5'/><rect x='380' y='726' width='300' height='28' fill='#FF6B5C' opacity='.8'/><g fill='#E4ECF2' font-size='34'><text x='200' y='600' text-anchor='end'>12 m</text></g><line x1='215' y1='440' x2='215' y2='740' stroke='#E4ECF2' stroke-width='3'/><text x='530' y='810' fill='#FF6B5C' font-size='40' text-anchor='middle' font-weight='500'>shadow ≈ 12 m ?</text><text x='500' y='520' fill='#F2A93B' font-size='32'>assumes 45° sun</text><text x='460' y='880' fill='#9DB0C0' font-size='30' text-anchor='middle'>the rule of thumb most people use</text></svg>"
+  },
+  "right": [
+   {
+    "cap": "Delhi · 21 Dec · <i>4 PM</i>",
+    "actions": [
+     {
+      "at": 0,
+      "dur": 0.6,
+      "scroll": "label[for=time]",
+      "offset": -16
+     },
+     {
+      "at": 0.35,
+      "dur": 2.7,
+      "slide": "time",
+      "from": 720,
+      "to": 960,
+      "round": 1
+     }
+    ]
+   },
+   {
+    "cap": "Any city. Any time. <i>Real shadow.</i>",
+    "actions": [
+     {
+      "at": 0,
+      "dur": 0.9,
+      "scroll": "#plan",
+      "offset": -60
+     },
+     {
+      "at": 0.7,
+      "dur": 1.5,
+      "slide": "time",
+      "from": 960,
+      "to": 830,
+      "round": 1
+     },
+     {
+      "at": 2.4,
+      "dur": 1.5,
+      "slide": "time",
+      "from": 830,
+      "to": 975,
+      "round": 1
+     }
+    ]
+   }
+  ],
+  "cmp": {
+   "guess": "12 m",
+   "real": "#oL"
+  },
+  "end": {
+   "cap": "Sun Path &amp; Shadow<br><em>is free.</em>"
+  }
+ }
+}
