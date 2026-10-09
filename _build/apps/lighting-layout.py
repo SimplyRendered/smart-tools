@@ -49,14 +49,15 @@ $("space").addEventListener("change",()=>{$("E").value=$("space").value});
 const UFT=[[0.6,0.40],[0.8,0.48],[1.0,0.53],[1.25,0.58],[1.5,0.62],[2.0,0.67],[2.5,0.70],[3.0,0.72],[4.0,0.75],[5.0,0.77]];
 function ufFor(ri){if(ri<=UFT[0][0])return UFT[0][1];for(let i=1;i<UFT.length;i++){if(ri<=UFT[i][0]){const [a,ua]=UFT[i-1],[b,ub]=UFT[i];return ua+(ub-ua)*(ri-a)/(b-a)}}return UFT[UFT.length-1][1]}
 function render(){
-  const E=+$("E").value,L=+$("L").value,W=+$("W").value,Hc=+$("Hc").value,Hw=+$("Hw").value,F=+$("F").value,P=+$("P").value,MF=+$("MF").value;
-  const Hm=Math.max(0.3,Hc-Hw),A=L*W,RI=A/(Hm*(L+W));const UF=$("UFm").value?+$("UFm").value:ufFor(RI);
+  const num=(id,min,max,def)=>{const v=parseFloat($(id).value);return Number.isFinite(v)&&v>=min?Math.min(max,v):def};
+  const E=num("E",1,5000,300),L=num("L",0.5,60,0.5),W=num("W",0.5,60,0.5),Hc=num("Hc",1,30,3),Hw=num("Hw",0,5,0.75),F=num("F",100,200000,3600),P=num("P",0,2000,36),MF=Math.min(1,num("MF",0.1,1,0.8));
+  const Hm=Math.max(0.3,Hc-Hw),A=L*W,RI=A/(Hm*(L+W));const ufIn=parseFloat($("UFm").value);const UF=Number.isFinite(ufIn)&&ufIn>=0.05?Math.min(1,ufIn):ufFor(RI);
   const Nraw=E*A/(F*UF*MF);let N=Math.max(1,Math.ceil(Nraw));
   let cols=Math.max(1,Math.round(Math.sqrt(N*L/W))),rows=Math.max(1,Math.ceil(N/cols));while((cols-1)*rows>=N&&cols>1)cols--;rows=Math.ceil(N/cols);const n=rows*cols;
   const Sx=L/cols,Sy=W/rows,SHR=Math.max(Sx,Sy)/Hm,Eav=n*F*UF*MF/A,LPD=n*P/A;
   $("oN").textContent=n;$("oG").textContent=`${cols} × ${rows}`;$("oE").textContent=Math.round(Eav)+" lx";$("oP").textContent=LPD.toFixed(1)+" W/m²";
   $("rcp").textContent=`spacing ${Sx.toFixed(2)} × ${Sy.toFixed(2)} m · SHR ${SHR.toFixed(2)}${SHR>1.5?" (too wide)":""}`;
-  const rowsT=[["Mounting height above work plane Hm",Hm.toFixed(2)+" m",`${Hc} − ${Hw}`],["Room index RI",RI.toFixed(2),`(L × W) ÷ (Hm × (L + W))`],["Utilisation factor UF",UF.toFixed(2),$("UFm").value?"entered":"typical value for this RI"],
+  const rowsT=[["Mounting height above work plane Hm",Hm.toFixed(2)+" m",`${Hc} − ${Hw}`],["Room index RI",RI.toFixed(2),`(L × W) ÷ (Hm × (L + W))`],["Utilisation factor UF",UF.toFixed(2),Number.isFinite(ufIn)&&ufIn>=0.05?"entered":"typical value for this RI"],
     ["Fittings needed",Nraw.toFixed(2)+" → "+N,`${E} lx × ${A.toFixed(1)} m² ÷ (${F} lm × ${UF.toFixed(2)} × ${MF})`],["Layout",`${cols} × ${rows} = ${n}`,"even grid close to the room's proportions"],
     ["Spacing to height ratio",SHR.toFixed(2),SHR<=1.5?"within the usual 1.5 limit":"over 1.5: expect dark patches, so add a row or column"],["Maintained average",Math.round(Eav)+" lux",`${n} × ${F} × ${UF.toFixed(2)} × ${MF} ÷ ${A.toFixed(1)}`],["Lighting power density",LPD.toFixed(1)+" W/m²",`${n} × ${P} W ÷ ${A.toFixed(1)} m²`]];
   const tb=$("tbl");tb.innerHTML="";rowsT.forEach(r=>{const tr=document.createElement("tr");tr.innerHTML=`<td style="font-family:var(--body);text-align:left">${r[0]}</td><td>${r[1]}</td><td style="white-space:normal;text-align:left">${r[2]}</td>`;tb.appendChild(tr)});

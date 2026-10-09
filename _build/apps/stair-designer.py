@@ -57,7 +57,8 @@ js=r"""
 const PRESETS={res:[190,250],com:[175,275],asm:[150,300]};
 $("use").addEventListener("change",()=>{const p=PRESETS[$("use").value];if(p){$("rmax").value=p[0];$("tmin").value=p[1];if(+$("T").value<p[1])$("T").value=p[1]}});
 function stair(){
-  const H=+$("H").value,T=+$("T").value,rmax=+$("rmax").value,tmin=+$("tmin").value,W=+$("W").value,slab=+$("slab").value,hr=+$("hr").value,mx=Math.max(3,+$("mx").value),type=$("type").value;
+  const num=(id,min,max,def)=>{const v=parseFloat($(id).value);return Number.isFinite(v)?Math.min(max,Math.max(min,v)):def};
+  const H=num("H",300,20000,3150),T=num("T",150,600,270),rmax=num("rmax",100,250,190),tmin=num("tmin",150,600,250),W=num("W",500,5000,1000),slab=num("slab",0,1000,150),hr=num("hr",1500,4000,2100),mx=Math.round(num("mx",3,30,12)),type=$("type").value;
   const n=Math.ceil(H/rmax),R=H/n;
   let flights;
   if(type==="dog"){const a=Math.ceil(n/2);flights=[a,n-a];}

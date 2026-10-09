@@ -1,0 +1,317 @@
+{
+ "sun-shadow": {
+  "no": "T-01",
+  "name": "Sun Path & Shadow",
+  "hook": "How long is your building's shadow at 4 pm in December?",
+  "steps": [
+   [
+    "Pick any city",
+    2.4,
+    "scrollTo('.readout');set('city','1');"
+   ],
+   [
+    "Drag the time. Watch the sun move.",
+    4.6,
+    "await slide('time',420,1080,4300);"
+   ],
+   [
+    "Shadow on plan, to scale",
+    3.0,
+    "scrollTo('#plan');await slide('time',1080,600,2600);"
+   ],
+   [
+    "Hourly shadow table for your report",
+    2.6,
+    "scrollTo('.data');"
+   ]
+  ],
+  "vo": [
+   "How long is your building's shadow at four p.m. in December?",
+   "Pick any city, from Delhi to Mumbai.",
+   "Drag the time, and watch the sun move across the sky.",
+   "The shadow is drawn on plan, to scale, for your building's height.",
+   "And you get an hourly shadow table for your site report.",
+   "Sun Path and Shadow is free. Use it online, or download it. Link in bio."
+  ]
+ },
+ "vastu-grid": {
+  "no": "T-02",
+  "name": "Vastu Grid Overlay",
+  "hook": "Put a Vastu grid on any floor plan in 30 seconds",
+  "steps": [
+   [
+    "Set north from your plan",
+    3.8,
+    "scrollTo('.stage');await slide('north',-60,25,3400);"
+   ],
+   [
+    "16 zones or 8 directions",
+    2.2,
+    "set('mode','8');"
+   ],
+   [
+    "3×3 or 9×9 mandala",
+    2.4,
+    "set('mode','16');set('grid','9');"
+   ],
+   [
+    "Zone guide with exact bearings",
+    2.6,
+    "scrollTo('.guide');"
+   ]
+  ],
+  "vo": [
+   "Want a Vastu grid on your floor plan in thirty seconds?",
+   "Upload your plan, and set north from the north arrow.",
+   "Switch between sixteen zones and eight directions.",
+   "Add the three by three Brahmasthan, or the nine by nine mandala.",
+   "A zone guide gives the exact bearing of every zone.",
+   "Vastu Grid Overlay is free, and your plan never leaves your device. Link in bio."
+  ]
+ },
+ "sheet-scale": {
+  "no": "T-03",
+  "name": "Sheet Fit & Scale",
+  "hook": "Will your plan fit on A1 at 1:100?",
+  "steps": [
+   [
+    "Enter the drawing size",
+    3.0,
+    "scrollTo('.right');await type('dw','36');await type('dh','22');"
+   ],
+   [
+    "Try another sheet",
+    2.4,
+    "set('paper','0');"
+   ],
+   [
+    "Every scale vs every sheet",
+    2.6,
+    "scrollTo('#fit');"
+   ],
+   [
+    "A1 printed on A3? Now it's 1:200",
+    2.8,
+    "scrollTo('.two');"
+   ]
+  ],
+  "vo": [
+   "Will your plan fit on an A one sheet, at one to one hundred?",
+   "Enter your drawing size in metres.",
+   "Try any sheet, from A zero to A four.",
+   "This table checks every scale against every sheet.",
+   "Printed an A one drawing on A three? Now it reads one to two hundred.",
+   "Sheet Fit and Scale is free. Link in bio."
+  ]
+ },
+ "stair-designer": {
+  "no": "T-04",
+  "name": "Staircase Designer",
+  "hook": "How many risers for a 3.15 m floor?",
+  "steps": [
+   [
+    "Change the floor height",
+    3.2,
+    "scrollTo('.readout');await type('H','3450');"
+   ],
+   [
+    "Straight run or dog-legged",
+    2.6,
+    "set('type','straight');"
+   ],
+   [
+    "Slab opening for 2.1 m headroom",
+    2.4,
+    "scrollTo('#sec');"
+   ],
+   [
+    "NBC 2016 checks, pass or fail",
+    2.6,
+    "scrollTo('.data');"
+   ]
+  ],
+  "vo": [
+   "How many risers do you need for a three point one five metre floor?",
+   "Change the floor height, and the stair redesigns itself.",
+   "Switch between a straight run and a dog-legged stair.",
+   "It even sizes the slab opening for two point one metres of headroom.",
+   "And it checks every limit in N B C twenty sixteen.",
+   "Staircase Designer is free. Link in bio."
+  ]
+ },
+ "shading-device": {
+  "no": "T-05",
+  "name": "Shading Device Sizer",
+  "hook": "How deep should the chajja be?",
+  "steps": [
+   [
+    "South wall: a short chajja works",
+    2.6,
+    "scrollTo('.readout');"
+   ],
+   [
+    "West wall: needs much more",
+    2.6,
+    "set('face','270');"
+   ],
+   [
+    "See the worst sun ray in section",
+    2.6,
+    "scrollTo('#sec');"
+   ],
+   [
+    "Hour-by-hour shadow angles",
+    2.6,
+    "scrollTo('.data');"
+   ]
+  ],
+  "vo": [
+   "How deep should your sunshade be?",
+   "On a south wall, a short overhang is enough.",
+   "Turn it to face west, and it needs to be much deeper.",
+   "The section shows the worst sun ray it has to stop.",
+   "With shadow angles for every hour of the day.",
+   "Shading Device Sizer is free. Link in bio."
+  ]
+ },
+ "kitchen-triangle": {
+  "no": "T-06",
+  "name": "Kitchen Work Triangle",
+  "hook": "Does your kitchen pass the work triangle?",
+  "steps": [
+   [
+    "Drag the sink, hob and fridge",
+    3.4,
+    "scrollTo('.readout');await dragPt(2,40,120,2000);"
+   ],
+   [
+    "Too far? The leg turns red",
+    3.0,
+    "await dragPt(1,0,-150,1800);"
+   ],
+   [
+    "Bring it back: all green",
+    2.8,
+    "await dragPt(1,0,150,1500);"
+   ],
+   [
+    "Every leg in metres and feet",
+    2.6,
+    "scrollTo('.data');"
+   ]
+  ],
+  "vo": [
+   "Does your kitchen pass the work triangle?",
+   "Drag the sink, hob and fridge on the plan.",
+   "Pull one too far, and the leg turns red.",
+   "Bring it back, and everything turns green.",
+   "Every leg is shown in metres and feet.",
+   "Kitchen Work Triangle is free. Link in bio."
+  ]
+ },
+ "room-acoustics": {
+  "no": "T-07",
+  "name": "Room Acoustics RT60",
+  "hook": "Will this room echo?",
+  "steps": [
+   [
+    "Bare office: 1.75 s, too live",
+    2.6,
+    "scrollTo('.readout');"
+   ],
+   [
+    "Add a suspended acoustic ceiling",
+    2.6,
+    "set('mc','12');"
+   ],
+   [
+    "Add wall panels",
+    2.8,
+    "await type('ap','12');"
+   ],
+   [
+    "How much absorption to add",
+    2.6,
+    "scrollTo('.data');"
+   ]
+  ],
+  "vo": [
+   "Will this room echo?",
+   "This bare office rings for one point seven five seconds. Too live.",
+   "Add a suspended acoustic ceiling.",
+   "Then a few acoustic wall panels.",
+   "It tells you exactly how much absorption to add.",
+   "Room Acoustics R T sixty is free. Link in bio."
+  ]
+ },
+ "rainwater-harvest": {
+  "no": "T-08",
+  "name": "Rainwater Harvesting",
+  "hook": "How much rain can your roof collect?",
+  "steps": [
+   [
+    "Pick your city",
+    2.4,
+    "scrollTo('.readout');set('city','1');"
+   ],
+   [
+    "Enter the roof area",
+    2.8,
+    "await type('A','200');"
+   ],
+   [
+    "Tank size and days of supply",
+    2.4,
+    "scrollTo('#sys');"
+   ],
+   [
+    "Every number with its formula",
+    2.6,
+    "scrollTo('.data');"
+   ]
+  ],
+  "vo": [
+   "How much rain can your roof collect?",
+   "Pick your city's rainfall.",
+   "Enter your roof area.",
+   "Get the tank size, and how many days it lasts.",
+   "Every number comes with its formula.",
+   "Rainwater Harvesting is free. Link in bio."
+  ]
+ },
+ "lighting-layout": {
+  "no": "T-09",
+  "name": "Lighting Layout",
+  "hook": "How many lights does this room need?",
+  "steps": [
+   [
+    "Bigger room, more lights",
+    2.8,
+    "scrollTo('.readout');await type('L','9');"
+   ],
+   [
+    "Office desks need 500 lux",
+    2.6,
+    "set('space','500');set('E','500');"
+   ],
+   [
+    "Ceiling grid and spacing",
+    2.6,
+    "scrollTo('#plan');"
+   ],
+   [
+    "Lumen method, step by step",
+    2.6,
+    "scrollTo('.data');"
+   ]
+  ],
+  "vo": [
+   "How many lights does this room need?",
+   "Make the room bigger, and the count updates.",
+   "Office desks need five hundred lux.",
+   "You get a ceiling grid, with spacing.",
+   "And the lumen method, step by step.",
+   "Lighting Layout is free. Link in bio."
+  ]
+ }
+}
