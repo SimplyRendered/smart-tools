@@ -1,0 +1,206 @@
+[
+ {
+  "date": "2026-10-26",
+  "slug": "plot-envelope",
+  "no": "T-16",
+  "name": "Plot Envelope",
+  "slides": [
+   {
+    "t": "hook",
+    "title": "How much can you really build on this plot?",
+    "sub": "Free Plot Envelope tool. Setbacks, ground coverage, FAR and height applied together, with a live 3D envelope.",
+    "img": "plot-envelope_views.png"
+   },
+   {
+    "t": "shot",
+    "kicker": "The tool",
+    "title": "3D envelope and plan, live",
+    "img": "plot-envelope_top.png"
+   },
+   {
+    "t": "list",
+    "kicker": "What it does",
+    "title": "FAR is only one of the limits",
+    "items": [
+     "Setbacks on all four sides",
+     "Ground coverage cap",
+     "FAR and height limit, incl. road width",
+     "Shows which rule governs"
+    ]
+   },
+   {
+    "t": "shot",
+    "kicker": "Which rule governs",
+    "title": "See exactly what limits you",
+    "img": "plot-envelope_data.png"
+   },
+   {
+    "t": "steps",
+    "kicker": "How to use",
+    "title": "Four inputs",
+    "items": [
+     "Enter the plot size",
+     "Add your setbacks",
+     "Set coverage, FAR, height",
+     "Read the buildable area"
+    ]
+   },
+   {
+    "t": "phone",
+    "kicker": "On site",
+    "title": "Works on your phone and offline.",
+    "img": "plot-envelope_phone.png"
+   },
+   {
+    "t": "cta"
+   }
+  ],
+  "caption": "How much can you really build on this plot? 🏗️\n\nNew free tool: Plot Envelope.\nEnter the plot, setbacks, ground coverage, FAR and the height limit. It applies them all together, tells you which rule governs and how much FAR goes unused, with a live 3D envelope, plan and floor schedule.\n\n✅ Setbacks, coverage, FAR and height in one place\n✅ Optional stilt parking and road-width height rule\n✅ Floor-by-floor areas in m² and sq ft\n\n⬇️ Free download / use online:\nsimplyrendered.github.io/smart-tools/plot-envelope\n(tap the link in our bio → T-16)\nWhich limit bites first in your city: FAR or height? 👇\nSave this for your next feasibility study.",
+  "hashtags": "#far #fsi #setbacks #bylaws #feasibilitystudy #siteplanning #urbanplanning #architecture #architect #architecturestudent #indianarchitecture #nbc2016 #architecturetools #freetools #smarttoolseveryweek",
+  "alt": [
+   "3D envelope of a three-storey building on a plot, and the plot plan with setbacks",
+   "Full screenshot of the Plot Envelope tool",
+   "Feature list",
+   "List of rules showing which one governs",
+   "Four steps to use the tool",
+   "Tool running on a phone",
+   "Follow @smart_tools_every_week, link in bio"
+  ]
+ },
+ {
+  "date": "2026-10-28",
+  "slug": "carpet-area",
+  "no": "T-17",
+  "name": "Carpet Area",
+  "slides": [
+   {
+    "t": "hook",
+    "title": "Is carpet really 70% of super built-up?",
+    "sub": "Free Carpet Area tool. RERA carpet, built-up and super built-up from room sizes, with the real price per sq ft.",
+    "img": "carpet-area_views.png"
+   },
+   {
+    "t": "shot",
+    "kicker": "The tool",
+    "title": "Rooms in, area statement out",
+    "img": "carpet-area_top.png"
+   },
+   {
+    "t": "list",
+    "kicker": "What it does",
+    "title": "An area statement in seconds",
+    "items": [
+     "RERA carpet area, §2(k)",
+     "Built-up and super built-up",
+     "Loading factor, in m² and sq ft",
+     "Real price per carpet sq ft"
+    ]
+   },
+   {
+    "t": "shot",
+    "kicker": "Area statement",
+    "title": "Every line, ready to copy",
+    "img": "carpet-area_data.png"
+   },
+   {
+    "t": "steps",
+    "kicker": "How to use",
+    "title": "Four inputs",
+    "items": [
+     "Type your rooms and sizes",
+     "Add walls, balcony, shafts",
+     "Slide the loading %",
+     "Read carpet, built-up, super"
+    ]
+   },
+   {
+    "t": "phone",
+    "kicker": "On site",
+    "title": "Works on your phone and offline.",
+    "img": "carpet-area_phone.png"
+   },
+   {
+    "t": "cta"
+   }
+  ],
+  "caption": "Is carpet area really 70% of super built-up? 🏢\n\nNew free tool: Carpet Area.\nType the rooms and their sizes, add walls, balcony and shafts, and set the loading. It gives the RERA carpet, built-up and super built-up areas in m² and sq ft, and what you really pay per carpet sq ft.\n\n✅ RERA Act 2016 §2(k) carpet area\n✅ Area diagram and full area statement\n✅ Quoted rate vs real rate per carpet sq ft\n\n⬇️ Free download / use online:\nsimplyrendered.github.io/smart-tools/carpet-area\n(tap the link in our bio → T-17)\nWhat loading have you seen on a project lately? 👇\nSave this for your next area statement.",
+  "hashtags": "#carpetarea #rera #superbuiltuparea #areastatement #realestateindia #apartment #floorplan #architecture #architect #architecturestudent #interiordesign #indianarchitecture #architecturetools #freetools #smarttoolseveryweek",
+  "alt": [
+   "Area diagram of a flat: rooms, walls, balcony and common areas, with a stacked bar",
+   "Full screenshot of the Carpet Area tool",
+   "Feature list",
+   "Area statement table from rooms to super built-up",
+   "Four steps to use the tool",
+   "Tool running on a phone",
+   "Follow @smart_tools_every_week, link in bio"
+  ]
+ },
+ {
+  "date": "2026-10-30",
+  "slug": "cut-fill",
+  "no": "T-18",
+  "name": "Cut & Fill",
+  "slides": [
+   {
+    "t": "hook",
+    "title": "How many truckloads will this slope need?",
+    "sub": "Free Cut & Fill tool. Cut, fill, balanced pad level and truckloads for a sloping plot, with contours and a section.",
+    "img": "cut-fill_views.png"
+   },
+   {
+    "t": "shot",
+    "kicker": "The tool",
+    "title": "Contours, pad and section, live",
+    "img": "cut-fill_top.png"
+   },
+   {
+    "t": "list",
+    "kicker": "What it does",
+    "title": "Earthwork, without the guesswork",
+    "items": [
+     "Four corner levels make the ground",
+     "Cut and fill for your pad",
+     "Balanced level with shrinkage",
+     "Truckloads with swell"
+    ]
+   },
+   {
+    "t": "shot",
+    "kicker": "Options",
+    "title": "Compare pad levels side by side",
+    "img": "cut-fill_data.png"
+   },
+   {
+    "t": "steps",
+    "kicker": "How to use",
+    "title": "Four inputs",
+    "items": [
+     "Enter the corner levels",
+     "Place the building pad",
+     "Slide the pad level",
+     "Read cut, fill and loads"
+    ]
+   },
+   {
+    "t": "phone",
+    "kicker": "On site",
+    "title": "Works on your phone and offline.",
+    "img": "cut-fill_phone.png"
+   },
+   {
+    "t": "cta"
+   }
+  ],
+  "caption": "How many truckloads will this slope need? 🚚\n\nNew free tool: Cut & Fill.\nEnter the four corner levels of a sloping plot and place the building pad. It works out cut, fill, the balanced pad level and how many truckloads go out or come in, with contours, a live section and a table of pad level options.\n\n✅ Grid volumes over the pad\n✅ Swell and shrinkage by soil type\n✅ One click to the balanced level\n\n⬇️ Free download / use online:\nsimplyrendered.github.io/smart-tools/cut-fill\n(tap the link in our bio → T-18)\nFlat pad or stepped floors on a slope? 👇\nSave this for your next hillside project.",
+  "hashtags": "#cutandfill #earthwork #sitegrading #slopingsite #hillsidehouse #siteplanning #landscapearchitecture #architecture #architect #architecturestudent #civilengineering #architecturetools #freetools #smarttoolseveryweek",
+  "alt": [
+   "Plot plan with contours, red cut and blue fill on the pad, and a section",
+   "Full screenshot of the Cut & Fill tool",
+   "Feature list",
+   "Table of pad levels with cut, fill and truckloads",
+   "Four steps to use the tool",
+   "Tool running on a phone",
+   "Follow @smart_tools_every_week, link in bio"
+  ]
+ }
+]

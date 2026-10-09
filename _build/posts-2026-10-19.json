@@ -1,0 +1,206 @@
+[
+ {
+  "date": "2026-10-19",
+  "slug": "tile-layout",
+  "no": "T-13",
+  "name": "Floor Tile Layout",
+  "slides": [
+   {
+    "t": "hook",
+    "title": "How many tiles does this room really need?",
+    "sub": "Free Floor Tile Layout. Lays out every tile, counts full and cut ones, and flags thin slivers at the walls.",
+    "img": "tile-layout_hero.png"
+   },
+   {
+    "t": "shot",
+    "kicker": "The tool",
+    "title": "Your room, tiled, as you type",
+    "img": "tile-layout_top.png"
+   },
+   {
+    "t": "list",
+    "kicker": "What it does",
+    "title": "Count tiles, not guesses",
+    "items": [
+     "Straight, offset or diagonal layouts",
+     "Full and cut tiles counted one by one",
+     "Warns about cuts under a third of a tile",
+     "Boxes, skirting and grout worked out"
+    ]
+   },
+   {
+    "t": "shot",
+    "kicker": "Checks",
+    "title": "Tile count vs area method",
+    "img": "tile-layout_detail.png"
+   },
+   {
+    "t": "steps",
+    "kicker": "How to use",
+    "title": "Four inputs",
+    "items": [
+     "Enter the room size",
+     "Pick the tile and tiles per box",
+     "Choose pattern and start point",
+     "Slide to shift the grid"
+    ]
+   },
+   {
+    "t": "phone",
+    "kicker": "On site",
+    "title": "Works on your phone and offline.",
+    "img": "tile-layout_phone.png"
+   },
+   {
+    "t": "cta"
+   }
+  ],
+  "caption": "How many tiles does this room really need? 🟫\n\nNew free tool: Floor Tile Layout.\nEnter the room and tile size. It lays out every tile (straight, offset or diagonal), counts the full and cut tiles, flags thin slivers at the walls and gives boxes, skirting and grout.\n\n✅ Tile-by-tile count, not just area + 10%\n✅ Centred layout for balanced cuts, or shift the grid yourself\n✅ Boxes, skirting tiles and grout in kg\n\n⬇️ Free download / use online:\nsimplyrendered.github.io/smart-tools/tile-layout\n(tap the link in our bio → T-13)\n600 × 600 or 800 × 800: what are your clients choosing? 👇\nSave this for your next flooring plan.",
+  "hashtags": "#flooring #floortiles #tilelayout #tiledesign #vitrifiedtiles #interiordesign #interiordesigner #architecture #architect #architecturestudent #estimation #indianinteriors #architecturetools #freetools #smarttoolseveryweek",
+  "alt": [
+   "Floor plan with tile grid, cut tiles shaded",
+   "Full screenshot of the Floor Tile Layout tool",
+   "Feature list",
+   "Checks and tile count compared with the area method",
+   "Four steps to use the tool",
+   "Tool running on a phone",
+   "Follow @smart_tools_every_week, link in bio"
+  ]
+ },
+ {
+  "date": "2026-10-21",
+  "slug": "room-furnisher",
+  "no": "T-14",
+  "name": "Room Furnisher",
+  "slides": [
+   {
+    "t": "hook",
+    "title": "Will the furniture actually fit?",
+    "sub": "Free Room Furnisher. Arranges a bedroom, living, dining or study automatically with walking clearances.",
+    "img": "room-furnisher_hero.png"
+   },
+   {
+    "t": "shot",
+    "kicker": "The tool",
+    "title": "Auto layout with clearances",
+    "img": "room-furnisher_top.png"
+   },
+   {
+    "t": "list",
+    "kicker": "What it does",
+    "title": "Furniture placed by the rules",
+    "items": [
+     "Bed, sofa, dining table or desk first",
+     "Clearance zones that never hit furniture",
+     "Door swing and windows kept clear",
+     "Flip through every layout that works"
+    ]
+   },
+   {
+    "t": "shot",
+    "kicker": "Checks",
+    "title": "Every piece and clearance listed",
+    "img": "room-furnisher_detail.png"
+   },
+   {
+    "t": "steps",
+    "kicker": "How to use",
+    "title": "Four inputs",
+    "items": [
+     "Pick the room and main piece",
+     "Enter the room size",
+     "Place the door and window",
+     "Press Next layout"
+    ]
+   },
+   {
+    "t": "phone",
+    "kicker": "Client meetings",
+    "title": "Works on your phone and offline.",
+    "img": "room-furnisher_phone.png"
+   },
+   {
+    "t": "cta"
+   }
+  ],
+  "caption": "Will the furniture actually fit? 🛋️\n\nNew free tool: Room Furnisher.\nEnter the room, door and window. It arranges a bedroom, living, dining room or study automatically, keeps standard walking clearances, and lets you flip through every layout that works.\n\n✅ Clearances from Panero, Neufert and Time-Saver Standards\n✅ Door swing and windows kept clear\n✅ Bed, sofa, dining table and desk sizes built in\n\n⬇️ Free download / use online:\nsimplyrendered.github.io/smart-tools/room-furnisher\n(tap the link in our bio → T-14)\nWhat's the smallest bedroom you've had to fit a queen bed in? 👇\nSave this for your next space plan.",
+  "hashtags": "#furniturelayout #spaceplanning #interiordesign #interiordesigner #floorplan #bedroomdesign #livingroomdesign #architecture #architect #architecturestudent #indianinteriors #homedesign #architecturetools #freetools #smarttoolseveryweek",
+  "alt": [
+   "Room plan with furniture placed and clearance zones",
+   "Full screenshot of the Room Furnisher tool",
+   "Feature list",
+   "Checks and furniture table",
+   "Four steps to use the tool",
+   "Tool running on a phone",
+   "Follow @smart_tools_every_week, link in bio"
+  ]
+ },
+ {
+  "date": "2026-10-23",
+  "slug": "sliding-sizer",
+  "no": "T-15",
+  "name": "Sliding Door & Window",
+  "slides": [
+   {
+    "t": "hook",
+    "title": "How wide is each sliding shutter?",
+    "sub": "Free Sliding Door & Window sizer. Shutter and glass sizes, clear opening, glass weight and pocket walls.",
+    "img": "sliding-sizer_hero.png"
+   },
+   {
+    "t": "shot",
+    "kicker": "The tool",
+    "title": "Slide it open to see the gap",
+    "img": "sliding-sizer_top.png"
+   },
+   {
+    "t": "list",
+    "kicker": "What it does",
+    "title": "Every size for the fabricator",
+    "items": [
+     "2, 3 and 4 shutter systems, and pockets",
+     "Interlock overlap built into the sizes",
+     "Clear opening and glass weight on rollers",
+     "Cutting list for shutters, glass and frame"
+    ]
+   },
+   {
+    "t": "shot",
+    "kicker": "Checks",
+    "title": "Checks and cutting list",
+    "img": "sliding-sizer_detail.png"
+   },
+   {
+    "t": "steps",
+    "kicker": "How to use",
+    "title": "Four inputs",
+    "items": [
+     "Pick door or window and the system",
+     "Enter the opening width and height",
+     "Set frame, interlock and glass",
+     "Drag Slide open"
+    ]
+   },
+   {
+    "t": "phone",
+    "kicker": "On site",
+    "title": "Works on your phone and offline.",
+    "img": "sliding-sizer_phone.png"
+   },
+   {
+    "t": "cta"
+   }
+  ],
+  "caption": "How wide is each sliding shutter? 🚪\n\nNew free tool: Sliding Door & Window.\nEnter the opening and pick the system: 2, 3 or 4 shutters, or a pocket door. It gives every shutter and glass size, the real clear opening, the glass weight on the rollers and the pocket wall you need. Drag the slider to open it.\n\n✅ Interlock overlap built into the shutter sizes\n✅ Clear opening and wheelchair width check\n✅ Cutting list for shutters, glass and frame\n\n⬇️ Free download / use online:\nsimplyrendered.github.io/smart-tools/sliding-sizer\n(tap the link in our bio → T-15)\n3-track or 2-track: which do you specify? 👇\nSave this for your next door and window schedule.",
+  "hashtags": "#slidingdoor #slidingwindow #windowdesign #doordesign #aluminiumwindows #upvcwindows #facadedesign #architecture #architect #architecturestudent #workingdrawings #indianarchitecture #architecturetools #freetools #smarttoolseveryweek",
+  "alt": [
+   "Elevation and plan of a four shutter sliding door half open",
+   "Full screenshot of the Sliding Door & Window tool",
+   "Feature list",
+   "Checks and cutting list",
+   "Four steps to use the tool",
+   "Tool running on a phone",
+   "Follow @smart_tools_every_week, link in bio"
+  ]
+ }
+]

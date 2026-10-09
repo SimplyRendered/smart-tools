@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Brick & Mortar Estimator</title>
+<meta name="description" content="How many bricks, cement bags and sand for a wall? Enter the wall and its openings. Every step of the working is shown, the way it's taught.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: drafting sheet — title block header, input column + two drawings, data table below */
+:root{
+  --paper:#F2F3EF; --sheet:#FBFBF8; --ink:#1B2732; --ink-2:#4A5865; --rule:#D5D9D4; --grid:#E6E8E3;
+  --red:#C8432B; --blue:#2E66A6; --sun:#E09A1E; --shadow:rgba(27,39,50,.22);
+  --display:'Barlow Condensed','Arial Narrow',sans-serif; --body:'IBM Plex Sans',system-ui,sans-serif; --mono:'IBM Plex Mono',ui-monospace,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#0E1A26; --sheet:#132233; --ink:#E4ECF2; --ink-2:#9DB0C0; --rule:#2A3D52; --grid:#1B2D40;
+  --red:#FF7A5C; --blue:#6FB0F0; --sun:#FFC04D; --shadow:rgba(140,190,240,.25); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0E1A26; --sheet:#132233; --ink:#E4ECF2; --ink-2:#9DB0C0; --rule:#2A3D52; --grid:#1B2D40;
+  --red:#FF7A5C; --blue:#6FB0F0; --sun:#FFC04D; --shadow:rgba(140,190,240,.25); color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--paper);color:var(--ink);font:15px/1.5 var(--body);padding:16px;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px}
+.sheet{max-width:1180px;margin:0 auto;background:var(--sheet);border:1.5px solid var(--ink);}
+.tb{display:grid;grid-template-columns:1fr auto;border-bottom:1.5px solid var(--ink)}
+.tb h1{font:700 clamp(30px,5vw,46px)/1 var(--display);letter-spacing:.01em;margin:0;padding:18px 20px 14px;text-transform:uppercase;text-wrap:balance}
+.tb h1 small{display:block;font:500 14px/1.4 var(--body);letter-spacing:0;text-transform:none;color:var(--ink-2);margin-top:6px}
+.tb .meta{display:grid;grid-template-columns:auto auto;border-left:1.5px solid var(--ink);font:12px/1.2 var(--mono)}
+.tb .meta div{padding:8px 12px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule)}
+.tb .meta b{display:block;font:600 10px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-bottom:4px}
+.main{display:grid;grid-template-columns:320px 1fr;}
+.inputs{border-right:1.5px solid var(--ink);padding:18px 20px;display:flex;flex-direction:column;gap:14px}
+label{display:flex;flex-direction:column;gap:5px;font:600 11px/1 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+input,select{font:500 15px/1.2 var(--mono);color:var(--ink);background:var(--paper);border:1px solid var(--rule);padding:9px 10px;border-radius:0;width:100%}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
+input[type=range]{padding:0;accent-color:var(--red)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+button{font:600 12px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;background:transparent;color:var(--ink);border:1px solid var(--ink);padding:8px 10px;cursor:pointer}
+button:hover{background:var(--ink);color:var(--sheet)}
+.time{font:500 28px/1 var(--mono);color:var(--red)}
+.views{display:grid;grid-template-columns:1fr 1fr;min-width:0}
+.view{padding:14px 16px 10px;min-width:0;border-bottom:1.5px solid var(--ink)}
+.view+.view{border-left:1px solid var(--rule)}
+.view h2,.data h2{font:600 20px/1 var(--display);text-transform:uppercase;letter-spacing:.04em;margin:0 0 8px;display:flex;justify-content:space-between;gap:8px}
+.view h2 span,.data h2 span{font:400 11px/1.6 var(--mono);color:var(--ink-2);text-transform:none;letter-spacing:0}
+svg{width:100%;height:auto;display:block}
+.readout{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1.5px solid var(--ink)}
+.readout div{padding:12px 16px;border-right:1px solid var(--rule)}
+.readout div:last-child{border-right:0}
+.readout b{display:block;font:600 10px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-bottom:6px}
+.readout span{font:500 24px/1 var(--mono);font-variant-numeric:tabular-nums}
+.readout .hi{color:var(--red)}
+.data{padding:14px 16px}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font:13px/1.3 var(--mono);font-variant-numeric:tabular-nums}
+th,td{padding:6px 10px;border-bottom:1px solid var(--rule);text-align:right;white-space:nowrap}
+th{font:600 10px/1.2 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+th:first-child,td:first-child{text-align:left}
+tr.now td{color:var(--red);font-weight:500}
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;padding:10px 16px;border-top:1.5px solid var(--ink);font:12px/1.4 var(--mono);color:var(--ink-2)}
+.note{font:12px/1.5 var(--body);color:var(--ink-2);margin:0}
+@media (max-width:900px){.main{grid-template-columns:1fr}.inputs{border-right:0;border-bottom:1.5px solid var(--ink)}}
+@media (max-width:640px){.views{grid-template-columns:1fr}.view+.view{border-left:0}.readout{grid-template-columns:repeat(2,1fr)}.readout div:nth-child(2){border-right:0}.readout div{border-bottom:1px solid var(--rule)}.tb{grid-template-columns:1fr}.tb .meta{border-left:0;border-top:1px solid var(--rule)}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.dl{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;padding:12px 20px;border-bottom:1.5px solid var(--ink);background:var(--paper)}
+.dl a.btn{font:600 13px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;background:var(--red);color:#fff;text-decoration:none;padding:11px 14px;border:1px solid var(--red)}
+.dl a.btn:hover{background:var(--ink);border-color:var(--ink);color:var(--sheet)}
+.dl span{font:13px/1.4 var(--body);color:var(--ink-2);flex:1;min-width:180px}
+.dl a.more{font:500 13px/1 var(--mono);color:var(--blue)}
+
+:root{--ok:#2F8A57;--okbg:rgba(47,138,87,.12);--bad:#C8432B;--badbg:rgba(200,67,43,.10);--warn:#B7791F}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ok:#5FD08F;--okbg:rgba(95,208,143,.14);--bad:#FF7A5C;--badbg:rgba(255,122,92,.12);--warn:#F2B84B}}
+:root[data-theme="dark"]{--ok:#5FD08F;--okbg:rgba(95,208,143,.14);--bad:#FF7A5C;--badbg:rgba(255,122,92,.12);--warn:#F2B84B}
+.pill{display:inline-block;font:600 11px/1 var(--body);letter-spacing:.08em;text-transform:uppercase;padding:5px 7px;border:1px solid currentColor}
+.pill.ok{color:var(--ok);background:var(--okbg)} .pill.bad{color:var(--bad);background:var(--badbg)} .pill.warn{color:var(--warn)}
+td.ok{color:var(--ok)} td.bad{color:var(--bad)}
+.readout .ok{color:var(--ok)} .readout .bad{color:var(--bad)}
+.view.full{grid-column:1/-1}
+.checks{list-style:none;margin:0;padding:0}
+.checks li{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:8px 0;border-bottom:1px solid var(--rule);font:13px/1.35 var(--body)}
+.checks li span:first-child{min-width:0}
+select{appearance:auto}
+.view.full svg{max-height:300px}</style>
+</head>
+<body>
+<div class="sheet">
+  <header class="tb">
+    <h1>Brick & Mortar<small>How many bricks, cement bags and sand for a wall? Enter the wall and its openings. Every step of the working is shown, the way it's taught.</small></h1>
+    <div class="meta"><div><b>Sheet</b>T-12</div><div><b>Bricks</b>IS 1077</div><div><b>Units</b>m / mm</div><div><b>By</b>@smart_tools_every_week</div></div>
+  </header>
+  <div class="dl" id="dlbar"><a class="btn" href="brick-estimator.html" download="brick-estimator.html">⬇ Download this app</a><span>Free. One HTML file that works offline. Open it in any browser, no install or sign-up.</span><a class="more" href="../">More free tools →</a></div>
+  <div class="main">
+    <section class="inputs" aria-label="Inputs">
+
+      <label for="bt">Brick
+        <select id="bt">
+          <option value="trad" selected>Non-modular 230 × 110 × 70</option>
+          <option value="mod">Modular 190 × 90 × 90</option>
+          <option value="cus">Custom size</option>
+        </select>
+      </label>
+      <div class="row" style="grid-template-columns:1fr 1fr 1fr">
+        <label for="bl">L mm<input id="bl" type="number" value="230"></label>
+        <label for="bw">W mm<input id="bw" type="number" value="110"></label>
+        <label for="bh">H mm<input id="bh" type="number" value="70"></label>
+      </div>
+      <div class="row">
+        <label for="jt">Joint mm<input id="jt" type="number" value="10"></label>
+        <label for="th">Wall
+          <select id="th"><option value="1">One brick</option><option value="0.5">Half brick</option><option value="1.5">1½ brick</option></select>
+        </label>
+      </div>
+      <label for="L">Wall length m <span id="Lv" class="time" style="font-size:18px"></span><input id="L" type="number" step="0.1" value="12"></label>
+      <label for="H">Wall height m<input id="H" type="number" step="0.1" value="3"></label>
+      <div class="row" style="grid-template-columns:1fr 1fr 1fr">
+        <label for="dn">Doors<input id="dn" type="number" value="1"></label>
+        <label for="dw">W m<input id="dw" type="number" step="0.05" value="1"></label>
+        <label for="dh">H m<input id="dh" type="number" step="0.05" value="2.1"></label>
+      </div>
+      <div class="row" style="grid-template-columns:1fr 1fr 1fr">
+        <label for="wn">Windows<input id="wn" type="number" value="2"></label>
+        <label for="ww">W m<input id="ww" type="number" step="0.05" value="1.5"></label>
+        <label for="wh">H m<input id="wh" type="number" step="0.05" value="1.2"></label>
+      </div>
+      <div class="row">
+        <label for="mix">Mortar 1 :<select id="mix"><option>3</option><option>4</option><option>5</option><option selected>6</option><option>8</option></select></label>
+        <label for="dry">Dry-volume factor<input id="dry" type="number" step="0.01" value="1.27"></label>
+      </div>
+      <label for="waste">Brick wastage %<input id="waste" type="number" step="1" value="5"></label>
+      <p class="note">Mixed mortar shrinks as water fills the voids in sand and cement, so the dry materials are about 27% more than the wet volume left in the wall (some offices use 1.30–1.33). Lintels, sills and RCC bands are not deducted here.</p>
+
+    </section>
+    <section style="min-width:0">
+
+      <div class="readout">
+        <div><b>Bricks</b><span id="oB" class="hi">–</span></div>
+        <div><b>Cement</b><span id="oC">–</span></div>
+        <div><b>Sand</b><span id="oS">–</span></div>
+        <div><b>Wall volume</b><span id="oV">–</span></div>
+      </div>
+      <div class="views">
+        <div class="view full"><h2>Elevation <span id="elLabel"></span></h2><svg id="elev" viewBox="0 0 840 300" role="img" aria-label="Wall elevation with brick courses and openings"></svg></div>
+      </div>
+      <div class="views">
+        <div class="view"><h2>What goes in <span id="mixLabel"></span></h2><svg id="mat" viewBox="0 0 420 300" role="img" aria-label="Brick and mortar share of the wall"></svg></div>
+        <div class="view"><h2>Per unit <span>for rates and checks</span></h2>
+          <div class="tablewrap"><table><thead><tr><th>Quantity</th><th>Per m³</th><th>Per m² face</th></tr></thead><tbody id="per"></tbody></table></div></div>
+      </div>
+      <div class="data">
+        <h2>Working <span>step by step</span></h2>
+        <div class="tablewrap"><table><thead><tr><th>Step</th><th>Value</th><th>How</th></tr></thead><tbody id="tbl"></tbody></table></div>
+      </div>
+
+    </section>
+  </div>
+  <footer class="foot"><span>Free tool · @smart_tools_every_week · simplyrendered.github.io/smart-tools · built with Claude</span><span>Brick sizes per IS 1077:1992 (modular 190×90×90, non-modular 230×110×70). Method: bricks = wall volume ÷ brick + joint volume; dry mortar = wet × 1.27; 50 kg cement bag = 0.0347 m³ (1440 kg/m³). Standard estimating practice (B.N. Dutta, Estimating & Costing). Check your local schedule of rates.</span></footer>
+</div>
+<script>
+if(location.protocol==="file:"){const b=document.getElementById("dlbar");if(b)b.hidden=true;}
+const $=id=>document.getElementById(id);
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const NS="http://www.w3.org/2000/svg";
+function el(tag,attrs,parent,text){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(text!=null)e.textContent=text;parent&&parent.appendChild(e);return e}
+const fmt=(v,d=2)=>Number.isFinite(v)?v.toFixed(d):"–";
+
+const num=(id,min,max,def)=>{const v=parseFloat($(id).value);return Number.isFinite(v)?Math.min(max,Math.max(min,v)):def};
+const SIZES={trad:[230,110,70],mod:[190,90,90]};
+function lockSize(){const p=SIZES[$("bt").value];["bl","bw","bh"].forEach((id,i)=>{$(id).disabled=!!p;if(p)$(id).value=p[i]})}
+$("bt").addEventListener("change",()=>{lockSize();render()});
+function est(){
+  const l=num("bl",50,600,230)/1000,w=num("bw",30,400,110)/1000,h=num("bh",20,400,70)/1000,j=num("jt",0,30,10)/1000;
+  const f=+$("th").value,L=num("L",0.1,500,12),H=num("H",0.1,50,3);
+  const t=$("bt").value==="mod"?f*(l+j):f*l; // measured thickness as in IS 1200: modular 100/200/300, non-modular 115/230/345
+  const dn=Math.round(num("dn",0,100,1)),dw=num("dw",0,20,1),dh=num("dh",0,20,2.1),wn=Math.round(num("wn",0,100,2)),ww=num("ww",0,20,1.5),wh=num("wh",0,20,1.2);
+  const face=L*H,open=Math.min(face,dn*dw*Math.min(dh,H)+wn*ww*Math.min(wh,H)),net=face-open,V=net*t;
+  const vb=(l+j)*(w+j)*(h+j),n=V/vb,waste=num("waste",0,50,5),nW=n*(1+waste/100);
+  const solid=n*l*w*h,wet=Math.max(0,V-solid),k=num("dry",1,1.6,1.27),dry=wet*k,N=+$("mix").value;
+  const cem=dry/(1+N),sand=dry*N/(1+N),bags=cem/0.0347,bagsWet=wet/(1+N)/0.0347;
+  return {l,w,h,j,f,t,L,H,dn,dw,dh,wn,ww,wh,face,open,net,V,vb,n,nW,waste,solid,wet,k,dry,N,cem,sand,bags,bagsWet};
+}
+function render(){
+  const e=est(),ink=css("--ink"),ink2=css("--ink-2"),rule=css("--rule"),red=css("--red"),blue=css("--blue"),sun=css("--sun"),paper=css("--paper"),sheet=css("--sheet");
+  $("Lv").textContent="";
+  $("oB").textContent=Math.ceil(e.nW).toLocaleString("en-IN");$("oC").textContent=fmt(e.bags,1)+" bags";
+  $("oS").textContent=fmt(e.sand,2)+" m³";$("oV").textContent=fmt(e.V,2)+" m³";
+  // ELEVATION with brick pattern (English bond face: stretcher course over header course)
+  const sv=$("elev");sv.innerHTML="";const sc=Math.min(800/e.L,240/e.H),ox=(840-e.L*sc)/2,oy=20;
+  const defs=el("defs",{},sv),cw=(e.l+e.j)*sc,hw=(e.w+e.j)*sc,ch=(e.h+e.j)*sc;
+  const big=cw<2.2||ch<1.2;
+  if(!big){const pat=el("pattern",{id:"bk",patternUnits:"userSpaceOnUse",width:cw*2,height:ch*2,x:ox,y:oy},defs);
+    el("rect",{x:0,y:0,width:cw*2,height:ch*2,fill:css("--grid")},pat);
+    const bf=sun,op=.5;for(let i=0;i<2;i++)el("rect",{x:i*cw+0.5,y:0.5,width:cw-1,height:ch-1,fill:bf,opacity:op},pat);
+    for(let i=0;i<Math.ceil(cw*2/hw)+1;i++)el("rect",{x:i*hw-hw/2+0.5,y:ch+0.5,width:hw-1,height:ch-1,fill:bf,opacity:op},pat);}
+  el("rect",{x:ox,y:oy,width:e.L*sc,height:e.H*sc,fill:big?sun:"url(#bk)",opacity:big?.35:1,stroke:ink,"stroke-width":2},sv);
+  // openings spread evenly: doors from left, windows after
+  const items=[];for(let i=0;i<e.dn;i++)items.push(["d",e.dw,Math.min(e.dh,e.H)]);for(let i=0;i<e.wn;i++)items.push(["w",e.ww,Math.min(e.wh,e.H)]);
+  const tot=items.reduce((s,a)=>s+a[1],0);if(tot<=e.L){const g=(e.L-tot)/(items.length+1);let x=g;
+    items.forEach(a=>{const yb=a[0]==="d"?0:Math.min(0.9,Math.max(0,e.H-a[2]));const X=ox+x*sc,Y=oy+(e.H-yb-a[2])*sc;
+      el("rect",{x:X,y:Y,width:a[1]*sc,height:a[2]*sc,fill:sheet,stroke:ink,"stroke-width":1.5},sv);
+      el("text",{x:X+a[1]*sc/2,y:Y+a[2]*sc/2+4,"text-anchor":"middle",fill:a[0]==="d"?red:blue,"font-size":11,"font-weight":600,"font-family":"IBM Plex Mono, monospace"},sv,a[0]==="d"?"D":"W");x+=a[1]+g;});}
+  el("line",{x1:ox,y1:oy+e.H*sc+16,x2:ox+e.L*sc,y2:oy+e.H*sc+16,stroke:ink2},sv);
+  el("text",{x:420,y:oy+e.H*sc+32,"text-anchor":"middle",fill:ink,"font-size":12,"font-family":"IBM Plex Mono, monospace"},sv,fmt(e.L,2)+" m × "+fmt(e.H,2)+" m · openings "+fmt(e.open,2)+" m²");
+  $("elLabel").textContent=(e.t*1000).toFixed(0)+" mm wall · "+(big?"courses too small to draw":"English bond face");
+  // MATERIALS: wall volume split into brick vs mortar, then dry mortar split cement:sand
+  const mv=$("mat");mv.innerHTML="";const bw=360,x0=30;const fb=e.V>0?Math.min(1,Math.max(0,e.solid/e.V)):0;
+  el("text",{x:x0,y:30,fill:ink2,"font-size":11,"font-family":"IBM Plex Mono, monospace"},mv,"WALL "+fmt(e.V,2)+" m³");
+  el("rect",{x:x0,y:38,width:bw*fb,height:34,fill:sun,opacity:.6},mv);el("rect",{x:x0+bw*fb,y:38,width:Math.max(0,bw*(1-fb)),height:34,fill:ink2,opacity:.5},mv);
+  el("text",{x:x0+6,y:60,fill:ink,"font-size":12,"font-weight":600,"font-family":"IBM Plex Mono, monospace"},mv,"bricks "+fmt(100*fb,0)+"%");
+  el("text",{x:x0+bw-6,y:60,"text-anchor":"end",fill:ink,"font-size":12,"font-weight":600,"font-family":"IBM Plex Mono, monospace"},mv,"mortar "+fmt(100*(1-fb),0)+"%");
+  const mx=Math.max(e.dry,1e-9),s2=bw/mx;
+  el("text",{x:x0,y:108,fill:ink2,"font-size":11,"font-family":"IBM Plex Mono, monospace"},mv,"WET MORTAR "+fmt(e.wet,2)+" m³");
+  el("rect",{x:x0,y:116,width:Math.max(0,e.wet*s2),height:26,fill:ink2,opacity:.5},mv);
+  el("text",{x:x0,y:168,fill:ink2,"font-size":11,"font-family":"IBM Plex Mono, monospace"},mv,"DRY MIX × "+e.k+" = "+fmt(e.dry,2)+" m³");
+  el("rect",{x:x0,y:176,width:Math.max(0,e.cem*s2),height:26,fill:blue,opacity:.8},mv);el("rect",{x:x0+e.cem*s2,y:176,width:Math.max(0,e.sand*s2),height:26,fill:sun,opacity:.35},mv);
+  el("text",{x:x0,y:222,fill:blue,"font-size":12,"font-weight":600,"font-family":"IBM Plex Mono, monospace"},mv,"cement "+fmt(e.cem,3)+" m³ = "+fmt(e.bags,1)+" bags");
+  el("text",{x:x0,y:240,fill:sun,"font-size":12,"font-weight":600,"font-family":"IBM Plex Mono, monospace"},mv,"sand "+fmt(e.sand,2)+" m³ = "+fmt(e.sand*35.315,0)+" cft");
+  const nb=Math.min(40,Math.ceil(e.bags));for(let i=0;i<nb;i++)el("rect",{x:x0+(i%20)*18,y:254+Math.floor(i/20)*20,width:14,height:16,fill:blue,opacity:.85,rx:2},mv);
+  $("mixLabel").textContent="1:"+e.N+" mortar";
+  // per-unit table
+  const per=[["Bricks (no wastage)",fmt(1/e.vb,0),fmt(e.t/e.vb,1)],["Wet mortar m³",fmt(e.V?e.wet/e.V:0,3),fmt(e.V?e.wet/e.V*e.t:0,4)],["Dry mortar m³",fmt(e.V?e.dry/e.V:0,3),fmt(e.V?e.dry/e.V*e.t:0,4)],["Cement bags",fmt(e.V?e.bags/e.V:0,2),fmt(e.V?e.bags/e.V*e.t:0,3)]];
+  const pt=$("per");pt.innerHTML="";per.forEach(r=>{const tr=document.createElement("tr");tr.innerHTML=`<td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td>`;pt.appendChild(tr)});
+  const rows=[["Wall face",fmt(e.face,2)+" m²",fmt(e.L,2)+" × "+fmt(e.H,2)],["Openings",fmt(e.open,2)+" m²",e.dn+" door(s), "+e.wn+" window(s)"],
+    ["Wall volume",fmt(e.V,3)+" m³",fmt(e.net,2)+" m² × "+(e.t*1000).toFixed(0)+" mm"],["Brick + joint",fmt(e.vb*1e6,0)+" cm³",[(e.l+e.j)*1000,(e.w+e.j)*1000,(e.h+e.j)*1000].map(v=>v.toFixed(0)).join(" × ")+" mm"],
+    ["Bricks",fmt(e.n,0),"volume ÷ brick + joint"],["+ wastage",Math.ceil(e.nW).toLocaleString("en-IN"),"+"+e.waste+"%"],
+    ["Wet mortar",fmt(e.wet,3)+" m³","wall − bricks without joints"],["Dry mortar",fmt(e.dry,3)+" m³","wet × "+e.k],
+    ["Cement",fmt(e.cem,3)+" m³","dry ÷ (1 + "+e.N+")"],["Cement bags",fmt(e.bags,2),"÷ 0.0347 m³ per 50 kg bag"],
+    ["Sand",fmt(e.sand,3)+" m³","dry × "+e.N+" ÷ "+(1+e.N)+" · "+fmt(e.sand*35.315,1)+" cft"]];
+  const tb=$("tbl");tb.innerHTML="";rows.forEach(r=>{const tr=document.createElement("tr");tr.innerHTML=`<td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td>`;tb.appendChild(tr)});
+}
+lockSize();
+
+document.querySelectorAll("input,select").forEach(i=>i.addEventListener("input",render));
+window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",render);
+new MutationObserver(render).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+render();
+</script>
+</body>
+</html>

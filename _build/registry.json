@@ -1,91 +1,153 @@
 {
-  "site": "https://simplyrendered.github.io/smart-tools/",
-  "repo": "SimplyRendered/smart-tools",
-  "raw_base": "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/",
-  "metricool_brand_id": "7306873",
-  "next_number": 10,
-  "tools": [
-    {
-      "no": "T-01",
-      "slug": "sun-shadow",
-      "name": "Sun Path & Shadow",
-      "post_date": "2026-10-08",
-      "summary": "NOAA sun position, sun-path diagram, plan shadow, hourly shadow table"
-    },
-    {
-      "no": "T-02",
-      "slug": "vastu-grid",
-      "name": "Vastu Grid Overlay",
-      "post_date": "2026-10-09",
-      "summary": "upload plan, set north, 16/8 zones, 3x3/9x9 grid, save image"
-    },
-    {
-      "no": "T-03",
-      "slug": "sheet-scale",
-      "name": "Sheet Fit & Scale",
-      "post_date": "2026-10-10",
-      "summary": "largest scale per sheet, shrunk print fixer, ruler to real, SVG scale bar"
-    },
-    {
-      "no": "T-04",
-      "slug": "stair-designer",
-      "name": "Staircase Designer",
-      "post_date": "2026-10-09",
-      "summary": "Risers, treads, flights and the slab opening for headroom, checked against NBC 2016, with live section and plan."
-    },
-    {
-      "no": "T-05",
-      "slug": "shading-device",
-      "name": "Shading Device Sizer",
-      "post_date": "2026-10-09",
-      "summary": "Overhang (chajja) and fin depths from real sun angles for any city, wall direction, date and hours."
-    },
-    {
-      "no": "T-06",
-      "slug": "kitchen-triangle",
-      "name": "Kitchen Work Triangle",
-      "post_date": "2026-10-10",
-      "summary": "Drag the sink, hob and fridge on a plan. Each leg and the total are checked live against the work-triangle rules."
-    },
-    {
-      "no": "T-07",
-      "slug": "room-acoustics",
-      "name": "Room Acoustics RT60",
-      "post_date": "2026-10-10",
-      "summary": "Reverberation time from room size and finishes, checked against a target, with how much absorption to add."
-    },
-    {
-      "no": "T-08",
-      "slug": "rainwater-harvest",
-      "name": "Rainwater Harvesting",
-      "post_date": "2026-10-11",
-      "summary": "Yearly roof yield, tank size for a design storm, days of supply and paved runoff for a recharge pit."
-    },
-    {
-      "no": "T-09",
-      "slug": "lighting-layout",
-      "name": "Lighting Layout",
-      "post_date": "2026-10-11",
-      "summary": "How many fittings for your lux target, on an even ceiling grid with spacing check, average lux and W/m²."
-    }
-  ],
-  "backlog": [
-    "Ramp & accessibility checker (Harmonised Guidelines 2021 India / ADA) with plan + section",
-    "Area statement generator: carpet, built-up, super built-up (RERA), FAR/FSI and ground coverage table",
-    "Parking layout counter: ECS per bylaw, bay + aisle geometry, 90/60/45 degree",
-    "Window daylight estimator: WWR and average daylight factor",
-    "Brick & mortar quantity estimator (Indian modular brick) with wall openings",
-    "Plot buildable envelope from setbacks and height (axonometric)",
-    "Door/window schedule maker from a simple table to printable sheet",
-    "Contour & site slope calculator (gradient, cut/fill estimate)",
-    "Toilet/bathroom fixture clearance checker",
-    "AC tonnage / heat load quick estimator",
-    "Column grid & spacing explorer with span rules of thumb",
-    "Golden ratio / proportion grid overlay for elevations",
-    "Parking ramp gradient and turning radius checker",
-    "Setback & FAR envelope for Indian bylaws (user-entered rules)",
-    "Brick bond & wall elevation pattern generator",
-    "Door & window schedule sheet maker",
-    "Contour interpolation from spot levels"
-  ]
+ "site": "https://simplyrendered.github.io/smart-tools/",
+ "repo": "SimplyRendered/smart-tools",
+ "raw_base": "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/",
+ "metricool_brand_id": "7306873",
+ "next_number": 19,
+ "tools": [
+  {
+   "no": "T-01",
+   "slug": "sun-shadow",
+   "name": "Sun Path & Shadow",
+   "post_date": "2026-10-08",
+   "summary": "NOAA sun position, sun-path diagram, plan shadow, hourly shadow table"
+  },
+  {
+   "no": "T-02",
+   "slug": "vastu-grid",
+   "name": "Vastu Grid Overlay",
+   "post_date": "2026-10-09",
+   "summary": "upload plan, set north, 16/8 zones, 3x3/9x9 grid, save image"
+  },
+  {
+   "no": "T-03",
+   "slug": "sheet-scale",
+   "name": "Sheet Fit & Scale",
+   "post_date": "2026-10-10",
+   "summary": "largest scale per sheet, shrunk print fixer, ruler to real, SVG scale bar"
+  },
+  {
+   "no": "T-04",
+   "slug": "stair-designer",
+   "name": "Staircase Designer",
+   "post_date": "2026-10-09",
+   "summary": "Risers, treads, flights and the slab opening for headroom, checked against NBC 2016, with live section and plan."
+  },
+  {
+   "no": "T-05",
+   "slug": "shading-device",
+   "name": "Shading Device Sizer",
+   "post_date": "2026-10-09",
+   "summary": "Overhang (chajja) and fin depths from real sun angles for any city, wall direction, date and hours."
+  },
+  {
+   "no": "T-06",
+   "slug": "kitchen-triangle",
+   "name": "Kitchen Work Triangle",
+   "post_date": "2026-10-10",
+   "summary": "Drag the sink, hob and fridge on a plan. Each leg and the total are checked live against the work-triangle rules."
+  },
+  {
+   "no": "T-07",
+   "slug": "room-acoustics",
+   "name": "Room Acoustics RT60",
+   "post_date": "2026-10-10",
+   "summary": "Reverberation time from room size and finishes, checked against a target, with how much absorption to add."
+  },
+  {
+   "no": "T-08",
+   "slug": "rainwater-harvest",
+   "name": "Rainwater Harvesting",
+   "post_date": "2026-10-11",
+   "summary": "Yearly roof yield, tank size for a design storm, days of supply and paved runoff for a recharge pit."
+  },
+  {
+   "no": "T-09",
+   "slug": "lighting-layout",
+   "name": "Lighting Layout",
+   "post_date": "2026-10-11",
+   "summary": "How many fittings for your lux target, on an even ceiling grid with spacing check, average lux and W/m²."
+  },
+  {
+   "no": "T-10",
+   "slug": "daylight-factor",
+   "name": "Daylight Factor",
+   "post_date": "2026-10-12",
+   "summary": "Average daylight factor (BRE) from room, window, glass and obstruction; IS 2440 targets, NBC window-to-floor rule, window width needed."
+  },
+  {
+   "no": "T-11",
+   "slug": "ramp-designer",
+   "name": "Accessible Ramp",
+   "post_date": "2026-10-14",
+   "summary": "Runs, landings, total length and straight/switchback footprint of a ramp, checked against ADA 2010, UK Part M or custom limits."
+  },
+  {
+   "no": "T-12",
+   "slug": "brick-estimator",
+   "name": "Brick & Mortar",
+   "post_date": "2026-10-16",
+   "summary": "Bricks, cement bags and sand for a wall with openings, IS 1077 sizes, wet-to-dry mortar factor, full working."
+  },
+  {
+   "no": "T-13",
+   "slug": "tile-layout",
+   "name": "Floor Tile Layout",
+   "post_date": "2026-10-19",
+   "summary": "Tile-by-tile floor layout (straight, offset, diagonal), full/cut count, sliver warning, boxes, skirting, grout."
+  },
+  {
+   "no": "T-14",
+   "slug": "room-furnisher",
+   "name": "Room Furnisher",
+   "post_date": "2026-10-21",
+   "summary": "Automatic furniture layout for bedroom, living, dining, study with clearance zones, door swing and window rules; cycles valid layouts."
+  },
+  {
+   "no": "T-15",
+   "slug": "sliding-sizer",
+   "name": "Sliding Door & Window",
+   "post_date": "2026-10-23",
+   "summary": "Shutter and glass sizes with interlock, clear opening, glass weight vs rollers, pocket walls, cutting list; animated opening."
+  },
+  {
+   "no": "T-16",
+   "slug": "plot-envelope",
+   "name": "Plot Envelope & FAR",
+   "post_date": "2026-10-26",
+   "summary": "Setbacks, ground coverage, FAR and height applied together; governing rule, unused FAR, 3D envelope, floor schedule."
+  },
+  {
+   "no": "T-17",
+   "slug": "carpet-area",
+   "name": "Carpet Area (RERA)",
+   "post_date": "2026-10-28",
+   "summary": "RERA carpet, built-up and super built-up from room sizes, loading factor, real price per carpet sq ft, area statement."
+  },
+  {
+   "no": "T-18",
+   "slug": "cut-fill",
+   "name": "Cut & Fill",
+   "post_date": "2026-10-30",
+   "summary": "Four corner levels, building pad, cut/fill volumes, balanced level with shrinkage, truckloads with swell, contours and section."
+  }
+ ],
+ "backlog": [
+  "Parking layout counter: ECS per bylaw, bay + aisle geometry, 90/60/45 degree",
+  "Toilet/bathroom fixture clearance checker",
+  "AC tonnage / heat load quick estimator",
+  "Column grid & spacing explorer with span rules of thumb",
+  "Golden ratio / proportion grid overlay for elevations",
+  "Parking ramp gradient and turning radius checker",
+  "Brick bond & wall elevation pattern generator",
+  "Door & window schedule sheet maker",
+  "Accessible toilet layout checker (turning circle, grab bars, clearances) with plan",
+  "Parking bay & aisle layout for 90/60/45 degree with ECS count (verify bylaw values first)",
+  "Plaster & paint quantity estimator from room sizes (walls, ceiling, openings)",
+  "Retaining wall / earth-cut slope sketcher with angle of repose",
+  "Wall section U-value calculator (layers, ECBC 2017 targets)",
+  "Beam & slab depth from span (IS 456 span/depth ratios with modification factor)",
+  "Septic tank & soak pit sizer (IS 2470) with section",
+  "Fire exit travel distance & staircase width checker (NBC 2016 Part 4)"
+ ]
 }

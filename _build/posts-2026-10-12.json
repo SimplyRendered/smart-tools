@@ -1,0 +1,206 @@
+[
+ {
+  "date": "2026-10-12",
+  "slug": "daylight-factor",
+  "no": "T-10",
+  "name": "Daylight Factor",
+  "slides": [
+   {
+    "t": "hook",
+    "title": "Is 1/10 of the floor enough window?",
+    "sub": "Free Daylight Factor tool. Average DF from room, glass and what's outside, checked against the target.",
+    "img": "daylight-factor_hero.png"
+   },
+   {
+    "t": "shot",
+    "kicker": "The tool",
+    "title": "Section and plan update as you type",
+    "img": "daylight-factor_top.png"
+   },
+   {
+    "t": "list",
+    "kicker": "What it does",
+    "title": "Window size, checked",
+    "items": [
+     "Average daylight factor (BRE method)",
+     "Targets by room: IS 2440 / SP 41",
+     "NBC window-to-floor rule by climate",
+     "Tells you how wide the window should be"
+    ]
+   },
+   {
+    "t": "shot",
+    "kicker": "Pass / fail",
+    "title": "Checks with the fix spelled out",
+    "img": "daylight-factor_detail.png"
+   },
+   {
+    "t": "steps",
+    "kicker": "How to use",
+    "title": "Four inputs",
+    "items": [
+     "Pick the room type",
+     "Enter room size and window",
+     "Set glass and what's opposite",
+     "Read the DF and the fix"
+    ]
+   },
+   {
+    "t": "phone",
+    "kicker": "On site",
+    "title": "Works on your phone and offline.",
+    "img": "daylight-factor_phone.png"
+   },
+   {
+    "t": "cta"
+   }
+  ],
+  "caption": "Is 1/10 of the floor area really enough window? ☀️\n\nNew free tool: Daylight Factor.\nEnter the room size, window, glass and how high the building opposite is. It works out the average daylight factor, compares it with the target for the room and tells you how wide the window needs to be, with a live section and plan.\n\n✅ BRE average daylight factor method, every step shown\n✅ IS 2440 / SP 41 targets (and UK targets)\n✅ NBC 2016 window-to-floor check by climate\n\n⬇️ Free download / use online:\nsimplyrendered.github.io/smart-tools/daylight-factor\n(tap the link in our bio → T-10)\nWhich room in your last project was the darkest? 👇\nSave this for your next window schedule.",
+  "hashtags": "#daylighting #daylightfactor #naturallight #windowdesign #passivedesign #sustainablearchitecture #greenbuilding #architecture #architect #architecturestudent #indianarchitecture #nbc2016 #architecturetools #freetools #smarttoolseveryweek",
+  "alt": [
+   "Room section with sky angle and plan with daylit depth",
+   "Full screenshot of the Daylight Factor tool",
+   "Feature list",
+   "Checks with pass, fail and the window width needed",
+   "Four steps to use the tool",
+   "Tool running on a phone",
+   "Follow @smart_tools_every_week, link in bio"
+  ]
+ },
+ {
+  "date": "2026-10-14",
+  "slug": "ramp-designer",
+  "no": "T-11",
+  "name": "Accessible Ramp",
+  "slides": [
+   {
+    "t": "hook",
+    "title": "How long is a ramp for a 900 mm rise?",
+    "sub": "Free Accessible Ramp tool. Runs, landings, total length and footprint, checked against ADA 2010 or your code.",
+    "img": "ramp-designer_hero.png"
+   },
+   {
+    "t": "shot",
+    "kicker": "The tool",
+    "title": "Section, plan and checks, live",
+    "img": "ramp-designer_top.png"
+   },
+   {
+    "t": "list",
+    "kicker": "What it does",
+    "title": "The whole ramp, not just the slope",
+    "items": [
+     "Splits the rise into runs",
+     "Adds every landing, top and bottom",
+     "Straight or switchback footprint",
+     "ADA 2010, UK Part M or your own limits"
+    ]
+   },
+   {
+    "t": "shot",
+    "kicker": "Plan + checks",
+    "title": "Fits the site? See the footprint",
+    "img": "ramp-designer_detail.png"
+   },
+   {
+    "t": "steps",
+    "kicker": "How to use",
+    "title": "Four inputs",
+    "items": [
+     "Pick the code",
+     "Enter the level difference",
+     "Set the gradient and width",
+     "Choose straight or switchback"
+    ]
+   },
+   {
+    "t": "phone",
+    "kicker": "On site",
+    "title": "Works on your phone and offline.",
+    "img": "ramp-designer_phone.png"
+   },
+   {
+    "t": "cta"
+   }
+  ],
+  "caption": "How long is a ramp for a 900 mm rise? ♿\n\nNew free tool: Accessible Ramp.\nEnter the level difference and gradient. It splits the rise into runs, adds every landing, and gives the total length and the plan footprint for a straight or switchback ramp, with a live section and plan.\n\n✅ ADA 2010 limits built in (1:12, 760 mm per run, 1525 mm landings)\n✅ UK Part M sliding scale, or enter your local code\n✅ Run schedule with levels for your drawings\n\n⬇️ Free download / use online:\nsimplyrendered.github.io/smart-tools/ramp-designer\n(tap the link in our bio → T-11)\nWhat's the hardest place you've had to fit a ramp? 👇\nSave this for your next entrance detail.",
+  "hashtags": "#ramp #accessibledesign #universaldesign #barrierfree #inclusivedesign #accessibility #architecture #architect #architecturestudent #architecturaldetails #indianarchitecture #architectsofinstagram #architecturetools #freetools #smarttoolseveryweek",
+  "alt": [
+   "Ramp section with two runs and three landings",
+   "Full screenshot of the Accessible Ramp tool",
+   "Feature list",
+   "Ramp plan footprint and code checks",
+   "Four steps to use the tool",
+   "Tool running on a phone",
+   "Follow @smart_tools_every_week, link in bio"
+  ]
+ },
+ {
+  "date": "2026-10-16",
+  "slug": "brick-estimator",
+  "no": "T-12",
+  "name": "Brick & Mortar",
+  "slides": [
+   {
+    "t": "hook",
+    "title": "How many bricks and cement bags for this wall?",
+    "sub": "Free Brick & Mortar estimator. Bricks, cement and sand with openings deducted and every step shown.",
+    "img": "brick-estimator_hero.png"
+   },
+   {
+    "t": "shot",
+    "kicker": "The tool",
+    "title": "Wall, openings, quantities",
+    "img": "brick-estimator_top.png"
+   },
+   {
+    "t": "list",
+    "kicker": "What it does",
+    "title": "Estimating, the way it's taught",
+    "items": [
+     "IS 1077 modular or non-modular bricks",
+     "Doors and windows deducted",
+     "Dry-volume factor for mortar (× 1.27)",
+     "Cement bags, sand in m³ and cft"
+    ]
+   },
+   {
+    "t": "shot",
+    "kicker": "Working",
+    "title": "Every step, ready for your sheet",
+    "img": "brick-estimator_detail.png"
+   },
+   {
+    "t": "steps",
+    "kicker": "How to use",
+    "title": "Four inputs",
+    "items": [
+     "Pick the brick and wall thickness",
+     "Enter wall length and height",
+     "Add doors and windows",
+     "Pick the mortar mix"
+    ]
+   },
+   {
+    "t": "phone",
+    "kicker": "On site",
+    "title": "Works on your phone and offline.",
+    "img": "brick-estimator_phone.png"
+   },
+   {
+    "t": "cta"
+   }
+  ],
+  "caption": "How many bricks and cement bags for this wall? 🧱\n\nNew free tool: Brick & Mortar.\nEnter the wall size, thickness and openings. It gives the number of bricks, cement bags and sand for any mortar mix, with a brick elevation and the full working shown step by step.\n\n✅ IS 1077 modular and non-modular bricks\n✅ Doors and windows deducted, wastage added\n✅ Wet to dry mortar (× 1.27), bags and cft\n\n⬇️ Free download / use online:\nsimplyrendered.github.io/smart-tools/brick-estimator\n(tap the link in our bio → T-12)\n1:4 or 1:6 for your walls? 👇\nSave this for your next estimate.",
+  "hashtags": "#brickwork #estimation #quantitysurvey #estimatingandcosting #civilengineering #construction #architecture #architect #architecturestudent #buildingmaterials #indianarchitecture #architecturetools #freetools #smarttoolseveryweek",
+  "alt": [
+   "Wall elevation with brick courses, a door and two windows",
+   "Full screenshot of the Brick & Mortar estimator",
+   "Feature list",
+   "Step by step working table",
+   "Four steps to use the tool",
+   "Tool running on a phone",
+   "Follow @smart_tools_every_week, link in bio"
+  ]
+ }
+]

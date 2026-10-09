@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cut & Fill for a Sloping Plot</title>
+<meta name="description" content="Sloping plot? Set the four corner levels and the building pad. Get cut, fill, the balanced pad level and how many truckloads of earth leave or arrive, with contours and a live section.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: drafting sheet — title block header, input column + two drawings, data table below */
+:root{
+  --paper:#F2F3EF; --sheet:#FBFBF8; --ink:#1B2732; --ink-2:#4A5865; --rule:#D5D9D4; --grid:#E6E8E3;
+  --red:#C8432B; --blue:#2E66A6; --sun:#E09A1E; --shadow:rgba(27,39,50,.22);
+  --display:'Barlow Condensed','Arial Narrow',sans-serif; --body:'IBM Plex Sans',system-ui,sans-serif; --mono:'IBM Plex Mono',ui-monospace,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#0E1A26; --sheet:#132233; --ink:#E4ECF2; --ink-2:#9DB0C0; --rule:#2A3D52; --grid:#1B2D40;
+  --red:#FF7A5C; --blue:#6FB0F0; --sun:#FFC04D; --shadow:rgba(140,190,240,.25); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0E1A26; --sheet:#132233; --ink:#E4ECF2; --ink-2:#9DB0C0; --rule:#2A3D52; --grid:#1B2D40;
+  --red:#FF7A5C; --blue:#6FB0F0; --sun:#FFC04D; --shadow:rgba(140,190,240,.25); color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--paper);color:var(--ink);font:15px/1.5 var(--body);padding:16px;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px}
+.sheet{max-width:1180px;margin:0 auto;background:var(--sheet);border:1.5px solid var(--ink);}
+.tb{display:grid;grid-template-columns:1fr auto;border-bottom:1.5px solid var(--ink)}
+.tb h1{font:700 clamp(30px,5vw,46px)/1 var(--display);letter-spacing:.01em;margin:0;padding:18px 20px 14px;text-transform:uppercase;text-wrap:balance}
+.tb h1 small{display:block;font:500 14px/1.4 var(--body);letter-spacing:0;text-transform:none;color:var(--ink-2);margin-top:6px}
+.tb .meta{display:grid;grid-template-columns:auto auto;border-left:1.5px solid var(--ink);font:12px/1.2 var(--mono)}
+.tb .meta div{padding:8px 12px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule)}
+.tb .meta b{display:block;font:600 10px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-bottom:4px}
+.main{display:grid;grid-template-columns:320px 1fr;}
+.inputs{border-right:1.5px solid var(--ink);padding:18px 20px;display:flex;flex-direction:column;gap:14px}
+label{display:flex;flex-direction:column;gap:5px;font:600 11px/1 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+input,select{font:500 15px/1.2 var(--mono);color:var(--ink);background:var(--paper);border:1px solid var(--rule);padding:9px 10px;border-radius:0;width:100%}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
+input[type=range]{padding:0;accent-color:var(--red)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+button{font:600 12px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;background:transparent;color:var(--ink);border:1px solid var(--ink);padding:8px 10px;cursor:pointer}
+button:hover{background:var(--ink);color:var(--sheet)}
+.time{font:500 28px/1 var(--mono);color:var(--red)}
+.views{display:grid;grid-template-columns:1fr 1fr;min-width:0}
+.view{padding:14px 16px 10px;min-width:0;border-bottom:1.5px solid var(--ink)}
+.view+.view{border-left:1px solid var(--rule)}
+.view h2,.data h2{font:600 20px/1 var(--display);text-transform:uppercase;letter-spacing:.04em;margin:0 0 8px;display:flex;justify-content:space-between;gap:8px}
+.view h2 span,.data h2 span{font:400 11px/1.6 var(--mono);color:var(--ink-2);text-transform:none;letter-spacing:0}
+svg{width:100%;height:auto;display:block}
+.readout{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1.5px solid var(--ink)}
+.readout div{padding:12px 16px;border-right:1px solid var(--rule)}
+.readout div:last-child{border-right:0}
+.readout b{display:block;font:600 10px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-bottom:6px}
+.readout span{font:500 24px/1 var(--mono);font-variant-numeric:tabular-nums}
+.readout .hi{color:var(--red)}
+.data{padding:14px 16px}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font:13px/1.3 var(--mono);font-variant-numeric:tabular-nums}
+th,td{padding:6px 10px;border-bottom:1px solid var(--rule);text-align:right;white-space:nowrap}
+th{font:600 10px/1.2 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+th:first-child,td:first-child{text-align:left}
+tr.now td{color:var(--red);font-weight:500}
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;padding:10px 16px;border-top:1.5px solid var(--ink);font:12px/1.4 var(--mono);color:var(--ink-2)}
+.note{font:12px/1.5 var(--body);color:var(--ink-2);margin:0}
+@media (max-width:900px){.main{grid-template-columns:1fr}.inputs{border-right:0;border-bottom:1.5px solid var(--ink)}}
+@media (max-width:640px){.views{grid-template-columns:1fr}.view+.view{border-left:0}.readout{grid-template-columns:repeat(2,1fr)}.readout div:nth-child(2){border-right:0}.readout div{border-bottom:1px solid var(--rule)}.tb{grid-template-columns:1fr}.tb .meta{border-left:0;border-top:1px solid var(--rule)}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.dl{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;padding:12px 20px;border-bottom:1.5px solid var(--ink);background:var(--paper)}
+.dl a.btn{font:600 13px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;background:var(--red);color:#fff;text-decoration:none;padding:11px 14px;border:1px solid var(--red)}
+.dl a.btn:hover{background:var(--ink);border-color:var(--ink);color:var(--sheet)}
+.dl span{font:13px/1.4 var(--body);color:var(--ink-2);flex:1;min-width:180px}
+.dl a.more{font:500 13px/1 var(--mono);color:var(--blue)}
+
+:root{--ok:#2F8A57;--okbg:rgba(47,138,87,.12);--bad:#C8432B;--badbg:rgba(200,67,43,.10);--warn:#B7791F}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ok:#5FD08F;--okbg:rgba(95,208,143,.14);--bad:#FF7A5C;--badbg:rgba(255,122,92,.12);--warn:#F2B84B}}
+:root[data-theme="dark"]{--ok:#5FD08F;--okbg:rgba(95,208,143,.14);--bad:#FF7A5C;--badbg:rgba(255,122,92,.12);--warn:#F2B84B}
+.pill{display:inline-block;font:600 11px/1 var(--body);letter-spacing:.08em;text-transform:uppercase;padding:5px 7px;border:1px solid currentColor}
+.pill.ok{color:var(--ok);background:var(--okbg)} .pill.bad{color:var(--bad);background:var(--badbg)} .pill.warn{color:var(--warn)}
+td.ok{color:var(--ok)} td.bad{color:var(--bad)}
+.readout .ok{color:var(--ok)} .readout .bad{color:var(--bad)}
+.view.full{grid-column:1/-1}
+.checks{list-style:none;margin:0;padding:0}
+.checks li{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:8px 0;border-bottom:1px solid var(--rule);font:13px/1.35 var(--body)}
+.checks li span:first-child{min-width:0}
+select{appearance:auto}
+#bal{align-self:flex-start}</style>
+</head>
+<body>
+<div class="sheet">
+  <header class="tb">
+    <h1>Cut & Fill<small>Sloping plot? Set the four corner levels and the building pad. Get cut, fill, the balanced pad level and how many truckloads of earth leave or arrive, with contours and a live section.</small></h1>
+    <div class="meta"><div><b>Sheet</b>T-18</div><div><b>Method</b>Grid volumes</div><div><b>Units</b>m / m³</div><div><b>By</b>@smart_tools_every_week</div></div>
+  </header>
+  <div class="dl" id="dlbar"><a class="btn" href="cut-fill.html" download="cut-fill.html">⬇ Download this app</a><span>Free. One HTML file that works offline. Open it in any browser, no install or sign-up.</span><a class="more" href="../">More free tools →</a></div>
+  <div class="main">
+    <section class="inputs" aria-label="Inputs">
+
+      <div class="row">
+        <label for="W">Plot width m<input id="W" type="number" step="0.5" value="15"></label>
+        <label for="D">Plot depth m<input id="D" type="number" step="0.5" value="25"></label>
+      </div>
+      <div class="row">
+        <label for="la">Level rear-left m<input id="la" type="number" step="0.05" value="101.5"></label>
+        <label for="lb">Level rear-right m<input id="lb" type="number" step="0.05" value="101.2"></label>
+      </div>
+      <div class="row">
+        <label for="lc">Level front-left m<input id="lc" type="number" step="0.05" value="99.6"></label>
+        <label for="ld">Level front-right m<input id="ld" type="number" step="0.05" value="99.4"></label>
+      </div>
+      <div class="row">
+        <label for="pw">Pad width m<input id="pw" type="number" step="0.5" value="10"></label>
+        <label for="pd">Pad depth m<input id="pd" type="number" step="0.5" value="14"></label>
+      </div>
+      <div class="row">
+        <label for="px">Pad from left m<input id="px" type="number" step="0.5" value="2.5"></label>
+        <label for="py">Pad from rear m<input id="py" type="number" step="0.5" value="5.5"></label>
+      </div>
+      <label for="pl">Pad level m <span id="plv" class="time" style="font-size:18px"></span><input id="pl" type="range" min="98" max="103" step="0.05" value="100.45"></label>
+      <button type="button" id="bal">Set to balanced level</button>
+      <div class="row">
+        <label for="soil">Soil · swell
+          <select id="soil"><option value="12">Sand · 12%</option><option value="25" selected>Earth · 25%</option><option value="40">Clay · 40%</option><option value="50">Hardpan · 50%</option></select>
+        </label>
+        <label for="sh">Shrinkage %<input id="sh" type="number" step="1" value="10"></label>
+      </div>
+      <label for="tr">Truck (tipper) load m³<input id="tr" type="number" step="0.5" value="10"></label>
+      <p class="note">Swell: dug earth takes up more room in the truck than in the ground. Shrinkage: fill compacted in place takes less room than it did in the ground. So a pad at the average ground level does not balance, and a cut of 100 m³ fills more than 10 trucks of 10 m³.</p>
+
+    </section>
+    <section style="min-width:0">
+
+      <div class="readout">
+        <div><b>Cut (in ground)</b><span id="oC">–</span></div>
+        <div><b>Fill (compacted)</b><span id="oF">–</span></div>
+        <div><b>Balanced level</b><span id="oB">–</span></div>
+        <div><b>Truckloads</b><span id="oT" class="hi">–</span></div>
+      </div>
+      <div class="views">
+        <div class="view"><h2>Plan <span id="planLabel"></span></h2><svg id="plan" viewBox="0 0 420 380" role="img" aria-label="Plot plan with contours and cut and fill on the pad"></svg></div>
+        <div class="view"><h2>Section A–A <span id="secLabel"></span></h2><svg id="sec" viewBox="0 0 420 380" role="img" aria-label="Section through the pad showing cut and fill"></svg></div>
+      </div>
+      <div class="data">
+        <h2>Pad level options <span id="sum"></span></h2>
+        <div class="tablewrap"><table><thead><tr><th>Pad level m</th><th>Cut m³</th><th>Fill m³</th><th>Off site (loose) m³</th><th>Truckloads</th></tr></thead><tbody id="tbl"></tbody></table></div>
+      </div>
+
+    </section>
+  </div>
+  <footer class="foot"><span>Free tool · @smart_tools_every_week · simplyrendered.github.io/smart-tools · built with Claude</span><span>Ground modelled as a bilinear surface through the four corner levels; volumes by fine grid integration over the pad (the grid / borrow-pit method). Swell (bank to loose) and shrinkage (bank to compacted) are typical textbook values (e.g. Peurifoy, Construction Planning, Equipment and Methods); test your soil. Side slopes beyond the pad and topsoil strip are not included.</span></footer>
+</div>
+<script>
+if(location.protocol==="file:"){const b=document.getElementById("dlbar");if(b)b.hidden=true;}
+const $=id=>document.getElementById(id);
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const NS="http://www.w3.org/2000/svg";
+function el(tag,attrs,parent,text){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(text!=null)e.textContent=text;parent&&parent.appendChild(e);return e}
+const fmt=(v,d=2)=>Number.isFinite(v)?v.toFixed(d):"–";
+
+const num=(id,min,max,def)=>{const v=parseFloat($(id).value);return Number.isFinite(v)?Math.min(max,Math.max(min,v)):def};
+function site(){
+  const W=num("W",2,500,15),D=num("D",2,500,25);
+  const la=num("la",-500,9000,101.5),lb=num("lb",-500,9000,101.2),lc=num("lc",-500,9000,99.6),ld=num("ld",-500,9000,99.4);
+  const pw=Math.min(W,num("pw",0.5,500,10)),pd=Math.min(D,num("pd",0.5,500,14));
+  const px=Math.min(W-pw,num("px",0,500,2.5)),py=Math.min(D-pd,num("py",0,500,5.5));
+  const sw=+$("soil").value/100,sh=num("sh",0,40,10)/100,tr=num("tr",1,40,10);
+  const g=(x,y)=>{const u=x/W,v=y/D;return la*(1-u)*(1-v)+lb*u*(1-v)+lc*(1-u)*v+ld*u*v}; // y=0 rear, y=D front
+  return {W,D,la,lb,lc,ld,pw,pd,px,py,sw,sh,tr,g,lo:Math.min(la,lb,lc,ld),hi:Math.max(la,lb,lc,ld)};
+}
+const N=80;
+function vols(s,p){let c=0,f=0;const dA=(s.pw/N)*(s.pd/N);
+  for(let i=0;i<N;i++)for(let j=0;j<N;j++){const d=s.g(s.px+(i+.5)*s.pw/N,s.py+(j+.5)*s.pd/N)-p;if(d>0)c+=d*dA;else f-=d*dA;}
+  const surplus=c-f/(1-s.sh); // bank m³ left over (+) or short (-)
+  const loose=surplus*(1+s.sw),loads=Math.ceil(Math.abs(loose)/s.tr-1e-9);
+  return {c,f,surplus,loose,loads};}
+function balanced(s){let a=s.lo-1,b=s.hi+1;for(let k=0;k<50;k++){const m=(a+b)/2,v=vols(s,m);if(v.c*(1-s.sh)>v.f)a=m;else b=m;}return (a+b)/2;}
+$("bal").addEventListener("click",()=>{const s=site();$("pl").value=(Math.round(balanced(s)*20)/20).toFixed(2);render()});
+function render(){
+  const s=site(),ink=css("--ink"),ink2=css("--ink-2"),rule=css("--rule"),red=css("--red"),blue=css("--blue"),sun=css("--sun"),paper=css("--paper"),sheet=css("--sheet");
+  const pl=$("pl");pl.min=(Math.floor((s.lo-1.5)*20)/20).toFixed(2);pl.max=(Math.ceil((s.hi+1.5)*20)/20).toFixed(2);
+  const p=num("pl",s.lo-1.5,s.hi+1.5,(s.lo+s.hi)/2);$("plv").textContent=p.toFixed(2)+" m";
+  const v=vols(s,p),pb=balanced(s);
+  let avg=0;for(let i=0;i<N;i++)for(let j=0;j<N;j++)avg+=s.g(s.px+(i+.5)*s.pw/N,s.py+(j+.5)*s.pd/N);avg/=N*N;
+  $("oC").textContent=fmt(v.c,1)+" m³";$("oF").textContent=fmt(v.f,1)+" m³";$("oB").textContent=pb.toFixed(2)+" m";
+  $("oT").textContent=v.loads+(v.loose>0.05?" out":v.loose<-0.05?" in":"");
+  // PLAN
+  const sv=$("plan");sv.innerHTML="";const k=Math.min(330/s.W,320/s.D),ox=(420-s.W*k)/2,oy=20;const X=x=>ox+x*k,Y=y=>oy+y*k;
+  el("rect",{x:X(0),y:Y(0),width:s.W*k,height:s.D*k,fill:paper,stroke:ink,"stroke-width":2},sv);
+  // cut/fill cells on pad
+  const M=24,dmax=Math.max(0.3,s.hi-s.lo);
+  for(let i=0;i<M;i++)for(let j=0;j<M;j++){const x=s.px+(i+.5)*s.pw/M,y=s.py+(j+.5)*s.pd/M,d=s.g(x,y)-p;
+    el("rect",{x:X(s.px+i*s.pw/M),y:Y(s.py+j*s.pd/M),width:s.pw*k/M+.3,height:s.pd*k/M+.3,fill:d>0?red:blue,"fill-opacity":Math.min(.75,.12+Math.abs(d)/dmax*.8)},sv);}
+  el("rect",{x:X(s.px),y:Y(s.py),width:s.pw*k,height:s.pd*k,fill:"none",stroke:ink,"stroke-width":2},sv);
+  // contours (marching squares on the bilinear surface)
+  const rng=s.hi-s.lo,step=rng<=1.5?0.1:rng<=4?0.25:rng<=10?0.5:rng<=25?1:Math.pow(10,Math.ceil(Math.log10(rng/25)))*1;
+  const G=40,lev=[];for(let z=Math.ceil(s.lo/step)*step;z<=s.hi+1e-9&&lev.length<60;z+=step)lev.push(+z.toFixed(3));
+  const seg=(z,col,wd,dash)=>{let d="";for(let i=0;i<G;i++)for(let j=0;j<G;j++){const xs=[i,i+1,i+1,i].map(a=>a*s.W/G),ys=[j,j,j+1,j+1].map(b=>b*s.D/G);
+      const vv=xs.map((x,q)=>s.g(x,ys[q])-z),pts=[];for(let q=0;q<4;q++){const a=vv[q],b=vv[(q+1)%4];if((a>0)!==(b>0)){const t=a/(a-b);pts.push([xs[q]+(xs[(q+1)%4]-xs[q])*t,ys[q]+(ys[(q+1)%4]-ys[q])*t]);}}
+      if(pts.length>=2)d+=`M${X(pts[0][0]).toFixed(1)} ${Y(pts[0][1]).toFixed(1)}L${X(pts[1][0]).toFixed(1)} ${Y(pts[1][1]).toFixed(1)}`;}
+    if(d)el("path",{d,stroke:col,"stroke-width":wd,fill:"none","stroke-dasharray":dash||"none"},sv);};
+  lev.forEach((z,i)=>{seg(z,ink2,.8);});
+  // labels along left edge
+  lev.forEach(z=>{const v0=(z-s.la)/(s.lc-s.la);if(Number.isFinite(v0)&&v0>0.03&&v0<0.97)el("text",{x:X(0)-3,y:Y(v0*s.D)+3,"text-anchor":"end",fill:ink2,"font-size":9,"font-family":"IBM Plex Mono, monospace"},sv,z.toFixed(2))});
+  seg(p,sun,2.2,"6 3");
+  // section line
+  const sx=s.px+s.pw/2;el("line",{x1:X(sx),y1:Y(0)-8,x2:X(sx),y2:Y(s.D)+8,stroke:ink,"stroke-width":1,"stroke-dasharray":"8 3 2 3"},sv);
+  el("text",{x:X(sx)+4,y:Y(0)-8,fill:ink,"font-size":10,"font-family":"IBM Plex Mono, monospace"},sv,"A");el("text",{x:X(sx)+4,y:Y(s.D)+16,fill:ink,"font-size":10,"font-family":"IBM Plex Mono, monospace"},sv,"A");
+  [[0,0,s.la],[s.W,0,s.lb],[0,s.D,s.lc],[s.W,s.D,s.ld]].forEach(([x,y,z])=>el("text",{x:X(x)+(x?-4:4),y:Y(y)+(y?-5:12),"text-anchor":x?"end":"start",fill:ink,"font-size":10,"font-weight":600,"font-family":"IBM Plex Mono, monospace"},sv,z.toFixed(2)));
+  el("text",{x:210,y:Y(s.D)+22,"text-anchor":"middle",fill:ink2,"font-size":10,"font-family":"IBM Plex Mono, monospace"},sv,"front · contours every "+step+" m · dashed = pad level");
+  $("planLabel").textContent="red cut · blue fill";
+  // SECTION along y through pad centre
+  const qv=$("sec");qv.innerHTML="";const zs=[];for(let i=0;i<=60;i++)zs.push(s.g(sx,i*s.D/60));
+  const zlo=Math.min(...zs,p)-0.6,zhi=Math.max(...zs,p)+0.6,hx=380/s.D,hz=Math.min(260/(zhi-zlo),hx*8),ve=hz/hx;
+  const SX=y=>20+y*hx,SZ=z=>320-(z-zlo)*hz;
+  let gd=`M${SX(0)} ${SZ(zs[0])}`;zs.forEach((z,i)=>gd+=` L${SX(i*s.D/60)} ${SZ(z)}`);
+  el("path",{d:gd+` L${SX(s.D)} 340 L${SX(0)} 340 Z`,fill:rule,"fill-opacity":.5},qv);
+  // cut and fill polygons between ground and pad
+  const n2=60;for(let i=0;i<n2;i++){const y0=s.py+i*s.pd/n2,y1=s.py+(i+1)*s.pd/n2,g0=s.g(sx,y0),g1=s.g(sx,y1),m=(g0+g1)/2;
+    el("path",{d:`M${SX(y0)} ${SZ(g0)} L${SX(y1)} ${SZ(g1)} L${SX(y1)} ${SZ(p)} L${SX(y0)} ${SZ(p)} Z`,fill:m>p?red:blue,"fill-opacity":.45,stroke:"none"},qv);}
+  el("path",{d:gd,fill:"none",stroke:ink,"stroke-width":2},qv);
+  el("line",{x1:SX(s.py),y1:SZ(p),x2:SX(s.py+s.pd),y2:SZ(p),stroke:sun,"stroke-width":3},qv);
+  const gEnd=s.g(sx,s.py+s.pd),gSt=s.g(sx,s.py);el("text",{x:gEnd<p?SX(s.py+s.pd):SX(s.py),y:SZ(p)-8,"text-anchor":gEnd<p?"end":"start",fill:sun,"font-size":12,"font-weight":600,"font-family":"IBM Plex Mono, monospace"},qv,"pad "+p.toFixed(2));
+  el("text",{x:SX(0),y:SZ(zs[0])-8,fill:ink2,"font-size":10,"font-family":"IBM Plex Mono, monospace"},qv,"rear "+zs[0].toFixed(2));
+  el("text",{x:SX(s.D),y:SZ(zs[60])-8,"text-anchor":"end",fill:ink2,"font-size":10,"font-family":"IBM Plex Mono, monospace"},qv,"front "+zs[60].toFixed(2));
+  el("text",{x:210,y:364,"text-anchor":"middle",fill:ink,"font-size":12,"font-family":"IBM Plex Mono, monospace"},qv,"cut "+fmt(v.c,1)+" m³ · fill "+fmt(v.f,1)+" m³");
+  $("secLabel").textContent=ve>1.05?"heights ×"+ve.toFixed(1):"to scale";
+  // TABLE of options
+  const tb=$("tbl");tb.innerHTML="";const opts=[];for(let d=-1;d<=1.001;d+=0.25)opts.push(+(pb+d).toFixed(2));
+  const addRow=(z,cls,tag)=>{const w=vols(s,z),tr=document.createElement("tr");if(cls)tr.className=cls;
+    tr.innerHTML=`<td>${z.toFixed(2)}${tag?" "+tag:""}</td><td>${fmt(w.c,1)}</td><td>${fmt(w.f,1)}</td><td>${w.loose>=0?"+":"−"}${fmt(Math.abs(w.loose),1)}</td><td>${w.loads} ${w.loose>0.05?"out":w.loose<-0.05?"in":""}</td>`;tb.appendChild(tr)};
+  opts.forEach((z,i)=>addRow(z,"",i===4?"(balanced)":""));addRow(p,"now","(yours)");
+  const naive=Math.ceil(Math.max(0,v.c-v.f)/s.tr-1e-9);
+  $("sum").textContent=`average ground ${avg.toFixed(2)} m · without swell you'd count ${naive} loads`;
+}
+
+document.querySelectorAll("input,select").forEach(i=>i.addEventListener("input",render));
+window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",render);
+new MutationObserver(render).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+render();
+</script>
+</body>
+</html>

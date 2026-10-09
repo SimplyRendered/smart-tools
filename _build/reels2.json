@@ -625,5 +625,594 @@
   "end": {
    "cap": "Lighting Layout<br><em>is free.</em>"
   }
+ },
+ "daylight-factor": {
+  "no": "T-10",
+  "name": "Daylight Factor",
+  "vo": [
+   "Most people make the window a tenth of the floor area.",
+   "Here that's one point four percent daylight. The office needs one point nine.",
+   "Widen the window, and it shows when the room passes.",
+   "It's free, and the link's in my bio."
+  ],
+  "wrong": {
+   "label": "✕ The usual way",
+   "cap": "Window = <em>1/10 of floor?</em>",
+   "html": "<svg viewBox='0 0 920 900' xmlns='http://www.w3.org/2000/svg' font-family='IBM Plex Mono, monospace'><rect x='280' y='120' width='360' height='540' fill='#1E3349' stroke='#E4ECF2' stroke-width='5'/><rect x='370' y='652' width='180' height='16' fill='#4EA3FF'/><text x='460' y='360' fill='#9DB0C0' font-size='34' text-anchor='middle'>floor 24 m²</text><text x='460' y='405' fill='#9DB0C0' font-size='28' text-anchor='middle'>office 4 × 6 m</text><text x='460' y='720' fill='#4EA3FF' font-size='34' text-anchor='middle'>window 2.4 m²</text><text x='460' y='800' fill='#FF6B5C' font-size='44' text-anchor='middle' font-weight='500'>= 1/10 of floor. Enough?</text><text x='460' y='860' fill='#9DB0C0' font-size='30' text-anchor='middle'>window sized by floor area only</text></svg>",
+   "stamp": "top:120px;right:60px"
+  },
+  "appcss": "label[for=room],label[for=W],label[for=D],label[for=H],label[for=N],label[for=wh],label[for=sill],label[for=glass],label[for=frame],label[for=obs],label[for=rw],label[for=rc],label[for=rf],label[for=M],label[for=clim],.inputs .note{display:none!important} .readout div:nth-child(n+3){display:none!important}",
+  "init": [
+   [
+    "setv",
+    "ww",
+    2
+   ]
+  ],
+  "right": [
+   {
+    "cap": "Gets 1.41%, needs <i>1.9%</i>",
+    "actions": [
+     {
+      "at": -0.3,
+      "dur": 0,
+      "scroll": "label[for=ww]",
+      "offset": -16
+     }
+    ]
+   },
+   {
+    "cap": "2.70 m wide = <i>pass</i>",
+    "actions": [
+     {
+      "at": 0.1,
+      "dur": 2.2,
+      "slide": "ww",
+      "from": 2.0,
+      "to": 2.7,
+      "round": 0.05
+     }
+    ]
+   }
+  ],
+  "cmp": {
+   "guess": "2.00 m",
+   "real": "#wwv",
+   "gl": "1/10 of floor",
+   "rl": "For 1.9% DF"
+  },
+  "end": {
+   "cap": "Daylight Factor<br><em>is free.</em>"
+  }
+ },
+ "ramp-designer": {
+  "no": "T-11",
+  "name": "Accessible Ramp",
+  "vo": [
+   "Most people take the rise, times twelve.",
+   "For a nine-hundred rise, that's ten point eight metres. With landings, it's fifteen point four.",
+   "Enter your rise, and it adds every run and landing.",
+   "It's free, and the link's in my bio."
+  ],
+  "wrong": {
+   "label": "✕ The usual way",
+   "cap": "Ramp = <em>rise × 12?</em>",
+   "html": "<svg viewBox='0 0 920 900' xmlns='http://www.w3.org/2000/svg' font-family='IBM Plex Mono, monospace'><path d='M80 620 L840 520 L840 620 Z' fill='#1E3349' stroke='#E4ECF2' stroke-width='5'/><line x1='840' y1='520' x2='900' y2='520' stroke='#E4ECF2' stroke-width='5'/><text x='870' y='575' fill='#F2A93B' font-size='30' text-anchor='middle'>900</text><text x='420' y='540' fill='#F2A93B' font-size='34' text-anchor='middle'>1 : 12</text><line x1='80' y1='680' x2='840' y2='680' stroke='#FF6B5C' stroke-width='5'/><path d='M80 680 l20 -12 v24z M840 680 l-20 -12 v24z' fill='#FF6B5C'/><text x='460' y='740' fill='#FF6B5C' font-size='44' text-anchor='middle' font-weight='500'>900 × 12 = 10.8 m ?</text><text x='460' y='820' fill='#9DB0C0' font-size='30' text-anchor='middle'>rise × 12, one straight slope</text></svg>",
+   "stamp": "top:160px;right:90px"
+  },
+  "appcss": "label[for=code],label[for=n],label[for=lay],label[for=W],label[for=L],label[for=nmax],label[for=rmax],label[for=wmin],label[for=hr],.inputs .note{display:none!important}",
+  "init": [
+   [
+    "setv",
+    "rise",
+    300
+   ]
+  ],
+  "right": [
+   {
+    "cap": "With landings: <i>15.38 m</i>",
+    "actions": [
+     {
+      "at": -0.3,
+      "dur": 0,
+      "scroll": "label[for=rise]",
+      "offset": -16
+     },
+     {
+      "at": 0.4,
+      "dur": 2.8,
+      "slide": "rise",
+      "from": 300,
+      "to": 900,
+      "round": 10
+     }
+    ]
+   },
+   {
+    "cap": "Every run and landing, <i>drawn</i>",
+    "actions": [
+     {
+      "at": 0,
+      "dur": 1.0,
+      "scroll": "#sec",
+      "offset": -60
+     }
+    ]
+   }
+  ],
+  "cmp": {
+   "guess": "10.80 m",
+   "real": "#oLen",
+   "gl": "Rise × 12",
+   "rl": "With landings"
+  },
+  "end": {
+   "cap": "Accessible Ramp<br><em>is free.</em>"
+  }
+ },
+ "brick-estimator": {
+  "no": "T-12",
+  "name": "Brick & Mortar",
+  "vo": [
+   "Most people take cement from the wet mortar volume.",
+   "Dry mix needs a quarter more: eight point four bags, not six point six.",
+   "Enter your wall and openings, and every step is shown.",
+   "It's free, and the link's in my bio."
+  ],
+  "wrong": {
+   "label": "✕ The usual way",
+   "cap": "Cement from <em>wet volume?</em>",
+   "html": "<svg viewBox='0 0 920 900' xmlns='http://www.w3.org/2000/svg' font-family='IBM Plex Mono, monospace'><text x='110' y='250' fill='#9DB0C0' font-size='32'>wet mortar in the wall</text><rect x='110' y='275' width='560' height='90' fill='#9DB0C0' opacity='.55'/><text x='690' y='335' fill='#E4ECF2' font-size='38'>1.61 m³</text><text x='110' y='450' fill='#9DB0C0' font-size='32'>÷ 7 for 1:6 → cement</text><rect x='110' y='480' width='62' height='80' rx='6' fill='#4EA3FF' opacity='.85'/><rect x='190' y='480' width='62' height='80' rx='6' fill='#4EA3FF' opacity='.85'/><rect x='270' y='480' width='62' height='80' rx='6' fill='#4EA3FF' opacity='.85'/><rect x='350' y='480' width='62' height='80' rx='6' fill='#4EA3FF' opacity='.85'/><rect x='430' y='480' width='62' height='80' rx='6' fill='#4EA3FF' opacity='.85'/><rect x='510' y='480' width='62' height='80' rx='6' fill='#4EA3FF' opacity='.85'/><rect x='590' y='480' width='62' height='80' rx='6' fill='#4EA3FF' opacity='.85'/><text x='460' y='680' fill='#FF6B5C' font-size='48' text-anchor='middle' font-weight='500'>6.6 bags ?</text><text x='460' y='760' fill='#9DB0C0' font-size='30' text-anchor='middle'>cement from the wet volume</text></svg>",
+   "stamp": "top:110px;right:70px"
+  },
+  "appcss": "label[for=bt],label[for=bl],label[for=bw],label[for=bh],label[for=jt],label[for=th],label[for=L],label[for=H],label[for=dn],label[for=dw],label[for=dh],label[for=wn],label[for=ww],label[for=wh],label[for=waste],.inputs .note{display:none!important}",
+  "init": [
+   [
+    "setv",
+    "dry",
+    1
+   ]
+  ],
+  "right": [
+   {
+    "cap": "Dry volume × 1.27 = <i>8.4 bags</i>",
+    "actions": [
+     {
+      "at": -0.3,
+      "dur": 0,
+      "scroll": "label[for=mix]",
+      "offset": -16
+     },
+     {
+      "at": 0.4,
+      "dur": 2.6,
+      "slide": "dry",
+      "from": 1.0,
+      "to": 1.27,
+      "round": 0.01
+     }
+    ]
+   },
+   {
+    "cap": "Every step, <i>shown</i>",
+    "actions": [
+     {
+      "at": 0,
+      "dur": 1.0,
+      "scroll": "#mat",
+      "offset": -60
+     }
+    ]
+   }
+  ],
+  "cmp": {
+   "guess": "6.6 bags",
+   "real": "#oC",
+   "gl": "Wet volume",
+   "rl": "Dry volume"
+  },
+  "end": {
+   "cap": "Brick &amp; Mortar<br><em>is free.</em>"
+  }
+ },
+ "tile-layout": {
+  "no": "T-13",
+  "name": "Floor Tile Layout",
+  "vo": [
+   "Most people divide the floor area by the tile, and add ten percent.",
+   "Here that's twenty-six. Counted tile by tile, it's thirty-one.",
+   "Pick your tile and pattern, and it shows every cut.",
+   "It's free, and the link's in my bio."
+  ],
+  "wrong": {
+   "label": "✕ The usual way",
+   "cap": "Area ÷ tile <em>+ 10%?</em>",
+   "html": "<svg viewBox='0 0 920 900' xmlns='http://www.w3.org/2000/svg' font-family='IBM Plex Mono, monospace'><rect x='200' y='140' width='520' height='446' fill='#1E3349' stroke='#E4ECF2' stroke-width='5'/><text x='460' y='330' fill='#9DB0C0' font-size='38' text-anchor='middle'>4.2 × 3.6 m</text><text x='460' y='385' fill='#9DB0C0' font-size='38' text-anchor='middle'>= 15.12 m²</text><text x='460' y='680' fill='#F2A93B' font-size='38' text-anchor='middle'>15.12 ÷ 0.64 + 10%</text><text x='460' y='760' fill='#FF6B5C' font-size='48' text-anchor='middle' font-weight='500'>= 26 tiles ?</text><text x='460' y='830' fill='#9DB0C0' font-size='30' text-anchor='middle'>800 × 800 tiles, area method</text></svg>",
+   "stamp": "top:60px;right:40px"
+  },
+  "appcss": "label[for=W],label[for=size],label[for=a],label[for=b],label[for=box],label[for=pat],label[for=start],label[for=sh],label[for=j],label[for=t],label[for=brk],label[for=dw],label[for=skh],.inputs .note{display:none!important}",
+  "init": [
+   [
+    "setv",
+    "L",
+    3
+   ]
+  ],
+  "right": [
+   {
+    "cap": "Counted: <i>31 tiles</i>",
+    "actions": [
+     {
+      "at": -0.3,
+      "dur": 0,
+      "scroll": "label[for=L]",
+      "offset": -16
+     },
+     {
+      "at": 0.3,
+      "dur": 2.4,
+      "slide": "L",
+      "from": 3.0,
+      "to": 4.2,
+      "round": 0.05
+     }
+    ]
+   },
+   {
+    "cap": "Every cut, <i>shown</i>",
+    "actions": [
+     {
+      "at": 0,
+      "dur": 1.0,
+      "scroll": "#plan",
+      "offset": -60
+     }
+    ]
+   }
+  ],
+  "cmp": {
+   "guess": "26",
+   "real": "#oN",
+   "gl": "Area + 10%",
+   "rl": "Tile by tile"
+  },
+  "end": {
+   "cap": "Floor Tile Layout<br><em>is free.</em>"
+  }
+ },
+ "room-furnisher": {
+  "no": "T-14",
+  "name": "Room Furnisher",
+  "vo": [
+   "Most people check that the bed fits, and call the room done.",
+   "With a wardrobe, desk and walkways, it needs four metres, not three.",
+   "Add the door and window, and it does the layout.",
+   "It's free, and the link's in my bio."
+  ],
+  "wrong": {
+   "label": "✕ The usual way",
+   "cap": "Bed fits = <em>room works?</em>",
+   "html": "<svg viewBox='0 0 920 900' xmlns='http://www.w3.org/2000/svg' font-family='IBM Plex Mono, monospace'><rect x='230' y='150' width='460' height='460' fill='#1E3349' stroke='#E4ECF2' stroke-width='5'/><rect x='385' y='150' width='150' height='200' fill='#132233' stroke='#E4ECF2' stroke-width='3'/><text x='460' y='260' fill='#E4ECF2' font-size='26' text-anchor='middle'>bed</text><text x='460' y='660' fill='#9DB0C0' font-size='34' text-anchor='middle'>3.0 × 3.0 m room</text><text x='460' y='740' fill='#FF6B5C' font-size='46' text-anchor='middle' font-weight='500'>Bed fits. Done ?</text><text x='460' y='810' fill='#9DB0C0' font-size='30' text-anchor='middle'>queen bed 1500 × 2000</text></svg>",
+   "stamp": "top:60px;right:40px"
+  },
+  "appcss": "label[for=type],label[for=W],label[for=opt],label[for=dwall],label[for=dpos],label[for=dwid],label[for=wwall],label[for=wpos],label[for=wwid],label[for=path],.inputs .chips,.inputs .note{display:none!important} .readout div:nth-child(n+3){display:none!important}",
+  "init": [
+   [
+    "setv",
+    "W",
+    3000
+   ],
+   [
+    "setv",
+    "L",
+    3000
+   ]
+  ],
+  "right": [
+   {
+    "cap": "It needs <i>4.0 × 3.0 m</i>",
+    "actions": [
+     {
+      "at": -0.3,
+      "dur": 0,
+      "scroll": "label[for=L]",
+      "offset": -16
+     },
+     {
+      "at": 0.3,
+      "dur": 2.6,
+      "slide": "L",
+      "from": 3000,
+      "to": 4000,
+      "round": 100
+     }
+    ]
+   },
+   {
+    "cap": "Clearances, <i>kept</i>",
+    "actions": [
+     {
+      "at": 0,
+      "dur": 1.0,
+      "scroll": "#plan",
+      "offset": -60
+     }
+    ]
+   }
+  ],
+  "cmp": {
+   "guess": "3.0 × 3.0 m",
+   "real": "#Lv",
+   "gl": "Bed fits",
+   "rl": "All 4 pieces fit"
+  },
+  "end": {
+   "cap": "Room Furnisher<br><em>is free.</em>"
+  }
+ },
+ "sliding-sizer": {
+  "no": "T-15",
+  "name": "Sliding Door & Window",
+  "vo": [
+   "Most people think a two-shutter window opens half its width.",
+   "This fifteen-hundred window only opens six hundred and eighty.",
+   "Pick your system, and it sizes every shutter and pane of glass.",
+   "It's free, and the link's in my bio."
+  ],
+  "wrong": {
+   "label": "✕ The usual way",
+   "cap": "Opens <em>half the width?</em>",
+   "html": "<svg viewBox='0 0 920 900' xmlns='http://www.w3.org/2000/svg' font-family='IBM Plex Mono, monospace'><rect x='160' y='180' width='600' height='480' fill='#132233' stroke='#E4ECF2' stroke-width='5'/><rect x='175' y='195' width='285' height='450' fill='#4EA3FF' opacity='.25' stroke='#E4ECF2' stroke-width='3'/><rect x='460' y='195' width='285' height='450' fill='none' stroke='#9DB0C0' stroke-width='3' stroke-dasharray='10 8'/><line x1='460' y1='700' x2='760' y2='700' stroke='#FF6B5C' stroke-width='5'/><path d='M460 700 l20 -12 v24z M760 700 l-20 -12 v24z' fill='#FF6B5C'/><text x='610' y='760' fill='#FF6B5C' font-size='44' text-anchor='middle' font-weight='500'>opens 750 ?</text><text x='460' y='830' fill='#9DB0C0' font-size='30' text-anchor='middle'>1500 window, half of it open</text></svg>",
+   "stamp": "top:50px;right:40px"
+  },
+  "appcss": "label[for=kind],label[for=sys],label[for=W],label[for=H],label[for=fr],label[for=ov],label[for=st],label[for=hd],label[for=tg],label[for=cap],.inputs .note{display:none!important}",
+  "init": [
+   [
+    "setv",
+    "kind",
+    "win"
+   ],
+   [
+    "setv",
+    "op",
+    0
+   ]
+  ],
+  "right": [
+   {
+    "cap": "Clear gap: <i>680 mm</i>",
+    "actions": [
+     {
+      "at": -0.3,
+      "dur": 0,
+      "scroll": "label[for=op]",
+      "offset": -16
+     },
+     {
+      "at": 0.3,
+      "dur": 2.4,
+      "slide": "op",
+      "from": 0,
+      "to": 100,
+      "round": 1
+     }
+    ]
+   },
+   {
+    "cap": "Every shutter, <i>sized</i>",
+    "actions": [
+     {
+      "at": 0,
+      "dur": 1.0,
+      "scroll": "#cut",
+      "offset": -60
+     }
+    ]
+   }
+  ],
+  "cmp": {
+   "guess": "750 mm",
+   "real": "#oO",
+   "gl": "Half the width",
+   "rl": "Real clear gap"
+  },
+  "end": {
+   "cap": "Sliding Door &amp; Window<br><em>is free.</em>"
+  }
+ },
+ "plot-envelope": {
+  "no": "T-16",
+  "name": "Plot Envelope",
+  "vo": [
+   "Most people multiply the plot area by the FAR.",
+   "Here that's four eighty square metres. With setbacks and a twelve metre limit, it's four nineteen.",
+   "Add your bylaw rules, and it shows which one wins.",
+   "It's free, and the link's in my bio."
+  ],
+  "wrong": {
+   "label": "✕ The usual way",
+   "cap": "Build = <em>plot × FAR?</em>",
+   "html": "<svg viewBox='0 0 920 900' xmlns='http://www.w3.org/2000/svg' font-family='IBM Plex Mono, monospace'><rect x='260' y='170' width='400' height='560' fill='#1E3349' stroke='#E4ECF2' stroke-width='5'/><text x='460' y='150' fill='#9DB0C0' font-size='32' text-anchor='middle'>12 m</text><text x='700' y='460' fill='#9DB0C0' font-size='32'>20 m</text><text x='460' y='420' fill='#E4ECF2' font-size='44' text-anchor='middle'>240 m²</text><text x='460' y='480' fill='#F2A93B' font-size='36' text-anchor='middle'>× FAR 2.0</text><text x='460' y='800' fill='#FF6B5C' font-size='50' text-anchor='middle' font-weight='500'>= 480 m² ?</text><text x='460' y='860' fill='#9DB0C0' font-size='30' text-anchor='middle'>no setbacks, no height limit</text></svg>",
+   "stamp": "top:120px;right:60px"
+  },
+  "appcss": ".inputs label:not([for=hmax]),.inputs .row,.inputs .note{display:none!important}",
+  "init": [
+   [
+    "setv",
+    "hmax",
+    6
+   ]
+  ],
+  "right": [
+   {
+    "cap": "Setbacks + height: <i>419 m²</i>",
+    "actions": [
+     {
+      "at": -0.3,
+      "dur": 0,
+      "scroll": "label[for=hmax]",
+      "offset": -16
+     },
+     {
+      "at": 0.4,
+      "dur": 3.0,
+      "slide": "hmax",
+      "from": 6,
+      "to": 12,
+      "round": 0.5
+     }
+    ]
+   },
+   {
+    "cap": "The rule that <i>governs</i>",
+    "actions": [
+     {
+      "at": 0,
+      "dur": 1.0,
+      "scroll": "#checks",
+      "offset": -60
+     }
+    ]
+   }
+  ],
+  "cmp": {
+   "guess": "480 m²",
+   "real": "#oA",
+   "gl": "Plot × FAR",
+   "rl": "Really buildable"
+  },
+  "end": {
+   "cap": "Plot Envelope<br><em>is free.</em>"
+  }
+ },
+ "carpet-area": {
+  "no": "T-17",
+  "name": "Carpet Area",
+  "vo": [
+   "Most people say carpet is seventy percent of super built-up.",
+   "With thirty percent loading, this flat's carpet is only sixty-four percent.",
+   "Type your room sizes, then slide the loading.",
+   "It's free, and the link's in my bio."
+  ],
+  "wrong": {
+   "label": "✕ The usual way",
+   "cap": "Carpet = <em>70% of super?</em>",
+   "html": "<svg viewBox='0 0 920 900' xmlns='http://www.w3.org/2000/svg' font-family='IBM Plex Mono, monospace'><rect x='160' y='140' width='600' height='600' fill='#F2A93B' fill-opacity='.18' stroke='#F2A93B' stroke-width='4' stroke-dasharray='14 10'/><rect x='211' y='191' width='498' height='498' fill='#1E3349' stroke='#FF6B5C' stroke-width='6'/><text x='460' y='180' fill='#F2A93B' font-size='30' text-anchor='middle'>super built-up 1,129 sq ft</text><text x='460' y='430' fill='#E4ECF2' font-size='44' text-anchor='middle'>carpet</text><text x='460' y='490' fill='#E4ECF2' font-size='36' text-anchor='middle'>1,129 × 0.70</text><text x='460' y='810' fill='#FF6B5C' font-size='50' text-anchor='middle' font-weight='500'>= 790 sq ft ?</text><text x='460' y='870' fill='#9DB0C0' font-size='30' text-anchor='middle'>one ratio for every flat</text></svg>",
+   "stamp": "top:120px;right:60px"
+  },
+  "appcss": ".inputs label:not([for=ld]),.inputs .row,.inputs .note{display:none!important}",
+  "init": [
+   [
+    "setv",
+    "ld",
+    20
+   ]
+  ],
+  "right": [
+   {
+    "cap": "30% loading: <i>carpet 64%</i>",
+    "actions": [
+     {
+      "at": -0.3,
+      "dur": 0,
+      "scroll": "label[for=ld]",
+      "offset": -16
+     },
+     {
+      "at": 0.4,
+      "dur": 3.0,
+      "slide": "ld",
+      "from": 20,
+      "to": 30,
+      "round": 1
+     }
+    ]
+   },
+   {
+    "cap": "Every sq ft, <i>accounted for</i>",
+    "actions": [
+     {
+      "at": 0,
+      "dur": 1.0,
+      "scroll": "#bars",
+      "offset": -60
+     }
+    ]
+   }
+  ],
+  "cmp": {
+   "guess": "70%",
+   "real": "#oR",
+   "gl": "Rule of thumb",
+   "rl": "This flat"
+  },
+  "end": {
+   "cap": "Carpet Area<br><em>is free.</em>"
+  }
+ },
+ "cut-fill": {
+  "no": "T-18",
+  "name": "Cut & Fill",
+  "vo": [
+   "Most people divide the cut by the truck size.",
+   "Two hundred cubic metres looks like twenty loads, but dug earth swells, so it's twenty-five.",
+   "Set your levels, slide the pad, and it does the rest.",
+   "It's free, and the link's in my bio."
+  ],
+  "wrong": {
+   "label": "✕ The usual way",
+   "cap": "Loads = <em>cut ÷ truck?</em>",
+   "html": "<svg viewBox='0 0 920 900' xmlns='http://www.w3.org/2000/svg' font-family='IBM Plex Mono, monospace'><path d='M80 300 L840 520 L840 700 L80 700 Z' fill='#1E3349' stroke='#E4ECF2' stroke-width='5'/><path d='M230 343 L700 480 L700 560 L230 560 Z' fill='#FF6B5C' fill-opacity='.45'/><line x1='230' y1='560' x2='700' y2='560' stroke='#F2A93B' stroke-width='8'/><text x='465' y='640' fill='#F2A93B' font-size='32' text-anchor='middle'>pad</text><text x='460' y='250' fill='#E4ECF2' font-size='40' text-anchor='middle'>cut 200 m³</text><text x='460' y='790' fill='#FF6B5C' font-size='50' text-anchor='middle' font-weight='500'>200 ÷ 10 = 20 loads ?</text><text x='460' y='850' fill='#9DB0C0' font-size='30' text-anchor='middle'>volume in the ground</text></svg>",
+   "stamp": "top:110px;right:60px"
+  },
+  "appcss": ".inputs label:not([for=pl]),.inputs .row,.inputs .note,#bal{display:none!important}",
+  "init": [
+   [
+    "setv",
+    "pl",
+    100.45
+   ]
+  ],
+  "right": [
+   {
+    "cap": "Earth swells: <i>25 loads</i>",
+    "actions": [
+     {
+      "at": -0.3,
+      "dur": 0,
+      "scroll": "label[for=pl]",
+      "offset": -16
+     },
+     {
+      "at": 0.4,
+      "dur": 3.0,
+      "slide": "pl",
+      "from": 100.45,
+      "to": 99.0,
+      "round": 0.05
+     }
+    ]
+   },
+   {
+    "cap": "Cut and fill, <i>in section</i>",
+    "actions": [
+     {
+      "at": 0,
+      "dur": 1.0,
+      "scroll": "#sec",
+      "offset": -60
+     }
+    ]
+   }
+  ],
+  "cmp": {
+   "guess": "20 loads",
+   "real": "#oT",
+   "gl": "Cut ÷ truck",
+   "rl": "With 25% swell"
+  },
+  "end": {
+   "cap": "Cut &amp; Fill<br><em>is free.</em>"
+  }
  }
 }

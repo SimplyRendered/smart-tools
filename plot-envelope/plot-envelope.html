@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Plot Envelope & FAR</title>
+<meta name="description" content="How much can you really build on this plot? Setbacks, ground coverage, FAR and the height limit, all applied together, with the governing rule shown and a live 3D envelope.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: drafting sheet — title block header, input column + two drawings, data table below */
+:root{
+  --paper:#F2F3EF; --sheet:#FBFBF8; --ink:#1B2732; --ink-2:#4A5865; --rule:#D5D9D4; --grid:#E6E8E3;
+  --red:#C8432B; --blue:#2E66A6; --sun:#E09A1E; --shadow:rgba(27,39,50,.22);
+  --display:'Barlow Condensed','Arial Narrow',sans-serif; --body:'IBM Plex Sans',system-ui,sans-serif; --mono:'IBM Plex Mono',ui-monospace,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#0E1A26; --sheet:#132233; --ink:#E4ECF2; --ink-2:#9DB0C0; --rule:#2A3D52; --grid:#1B2D40;
+  --red:#FF7A5C; --blue:#6FB0F0; --sun:#FFC04D; --shadow:rgba(140,190,240,.25); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0E1A26; --sheet:#132233; --ink:#E4ECF2; --ink-2:#9DB0C0; --rule:#2A3D52; --grid:#1B2D40;
+  --red:#FF7A5C; --blue:#6FB0F0; --sun:#FFC04D; --shadow:rgba(140,190,240,.25); color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--paper);color:var(--ink);font:15px/1.5 var(--body);padding:16px;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px}
+.sheet{max-width:1180px;margin:0 auto;background:var(--sheet);border:1.5px solid var(--ink);}
+.tb{display:grid;grid-template-columns:1fr auto;border-bottom:1.5px solid var(--ink)}
+.tb h1{font:700 clamp(30px,5vw,46px)/1 var(--display);letter-spacing:.01em;margin:0;padding:18px 20px 14px;text-transform:uppercase;text-wrap:balance}
+.tb h1 small{display:block;font:500 14px/1.4 var(--body);letter-spacing:0;text-transform:none;color:var(--ink-2);margin-top:6px}
+.tb .meta{display:grid;grid-template-columns:auto auto;border-left:1.5px solid var(--ink);font:12px/1.2 var(--mono)}
+.tb .meta div{padding:8px 12px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule)}
+.tb .meta b{display:block;font:600 10px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-bottom:4px}
+.main{display:grid;grid-template-columns:320px 1fr;}
+.inputs{border-right:1.5px solid var(--ink);padding:18px 20px;display:flex;flex-direction:column;gap:14px}
+label{display:flex;flex-direction:column;gap:5px;font:600 11px/1 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+input,select{font:500 15px/1.2 var(--mono);color:var(--ink);background:var(--paper);border:1px solid var(--rule);padding:9px 10px;border-radius:0;width:100%}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
+input[type=range]{padding:0;accent-color:var(--red)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+button{font:600 12px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;background:transparent;color:var(--ink);border:1px solid var(--ink);padding:8px 10px;cursor:pointer}
+button:hover{background:var(--ink);color:var(--sheet)}
+.time{font:500 28px/1 var(--mono);color:var(--red)}
+.views{display:grid;grid-template-columns:1fr 1fr;min-width:0}
+.view{padding:14px 16px 10px;min-width:0;border-bottom:1.5px solid var(--ink)}
+.view+.view{border-left:1px solid var(--rule)}
+.view h2,.data h2{font:600 20px/1 var(--display);text-transform:uppercase;letter-spacing:.04em;margin:0 0 8px;display:flex;justify-content:space-between;gap:8px}
+.view h2 span,.data h2 span{font:400 11px/1.6 var(--mono);color:var(--ink-2);text-transform:none;letter-spacing:0}
+svg{width:100%;height:auto;display:block}
+.readout{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1.5px solid var(--ink)}
+.readout div{padding:12px 16px;border-right:1px solid var(--rule)}
+.readout div:last-child{border-right:0}
+.readout b{display:block;font:600 10px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-bottom:6px}
+.readout span{font:500 24px/1 var(--mono);font-variant-numeric:tabular-nums}
+.readout .hi{color:var(--red)}
+.data{padding:14px 16px}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font:13px/1.3 var(--mono);font-variant-numeric:tabular-nums}
+th,td{padding:6px 10px;border-bottom:1px solid var(--rule);text-align:right;white-space:nowrap}
+th{font:600 10px/1.2 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+th:first-child,td:first-child{text-align:left}
+tr.now td{color:var(--red);font-weight:500}
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;padding:10px 16px;border-top:1.5px solid var(--ink);font:12px/1.4 var(--mono);color:var(--ink-2)}
+.note{font:12px/1.5 var(--body);color:var(--ink-2);margin:0}
+@media (max-width:900px){.main{grid-template-columns:1fr}.inputs{border-right:0;border-bottom:1.5px solid var(--ink)}}
+@media (max-width:640px){.views{grid-template-columns:1fr}.view+.view{border-left:0}.readout{grid-template-columns:repeat(2,1fr)}.readout div:nth-child(2){border-right:0}.readout div{border-bottom:1px solid var(--rule)}.tb{grid-template-columns:1fr}.tb .meta{border-left:0;border-top:1px solid var(--rule)}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.dl{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;padding:12px 20px;border-bottom:1.5px solid var(--ink);background:var(--paper)}
+.dl a.btn{font:600 13px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;background:var(--red);color:#fff;text-decoration:none;padding:11px 14px;border:1px solid var(--red)}
+.dl a.btn:hover{background:var(--ink);border-color:var(--ink);color:var(--sheet)}
+.dl span{font:13px/1.4 var(--body);color:var(--ink-2);flex:1;min-width:180px}
+.dl a.more{font:500 13px/1 var(--mono);color:var(--blue)}
+
+:root{--ok:#2F8A57;--okbg:rgba(47,138,87,.12);--bad:#C8432B;--badbg:rgba(200,67,43,.10);--warn:#B7791F}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ok:#5FD08F;--okbg:rgba(95,208,143,.14);--bad:#FF7A5C;--badbg:rgba(255,122,92,.12);--warn:#F2B84B}}
+:root[data-theme="dark"]{--ok:#5FD08F;--okbg:rgba(95,208,143,.14);--bad:#FF7A5C;--badbg:rgba(255,122,92,.12);--warn:#F2B84B}
+.pill{display:inline-block;font:600 11px/1 var(--body);letter-spacing:.08em;text-transform:uppercase;padding:5px 7px;border:1px solid currentColor}
+.pill.ok{color:var(--ok);background:var(--okbg)} .pill.bad{color:var(--bad);background:var(--badbg)} .pill.warn{color:var(--warn)}
+td.ok{color:var(--ok)} td.bad{color:var(--bad)}
+.readout .ok{color:var(--ok)} .readout .bad{color:var(--bad)}
+.view.full{grid-column:1/-1}
+.checks{list-style:none;margin:0;padding:0}
+.checks li{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:8px 0;border-bottom:1px solid var(--rule);font:13px/1.35 var(--body)}
+.checks li span:first-child{min-width:0}
+select{appearance:auto}
+</style>
+</head>
+<body>
+<div class="sheet">
+  <header class="tb">
+    <h1>Plot Envelope<small>How much can you really build on this plot? Setbacks, ground coverage, FAR and the height limit, all applied together, with the governing rule shown and a live 3D envelope.</small></h1>
+    <div class="meta"><div><b>Sheet</b>T-16</div><div><b>Rules</b>FAR · coverage · setbacks</div><div><b>Units</b>m / m²</div><div><b>By</b>@smart_tools_every_week</div></div>
+  </header>
+  <div class="dl" id="dlbar"><a class="btn" href="plot-envelope.html" download="plot-envelope.html">⬇ Download this app</a><span>Free. One HTML file that works offline. Open it in any browser, no install or sign-up.</span><a class="more" href="../">More free tools →</a></div>
+  <div class="main">
+    <section class="inputs" aria-label="Inputs">
+
+      <div class="row">
+        <label for="W">Plot frontage m<input id="W" type="number" step="0.5" value="12"></label>
+        <label for="D">Plot depth m<input id="D" type="number" step="0.5" value="20"></label>
+      </div>
+      <div class="row">
+        <label for="sf">Front setback m<input id="sf" type="number" step="0.25" value="3"></label>
+        <label for="sr">Rear setback m<input id="sr" type="number" step="0.25" value="1.5"></label>
+      </div>
+      <div class="row">
+        <label for="sl">Side 1 m<input id="sl" type="number" step="0.25" value="1.5"></label>
+        <label for="ss">Side 2 m<input id="ss" type="number" step="0.25" value="1.5"></label>
+      </div>
+      <div class="row">
+        <label for="gc">Max ground coverage %<input id="gc" type="number" step="1" value="60"></label>
+        <label for="far">FAR / FSI<input id="far" type="number" step="0.05" value="2"></label>
+      </div>
+      <label for="hmax">Max height m <span id="hv" class="time" style="font-size:18px"></span><input id="hmax" type="range" min="6" max="60" step="0.5" value="12"></label>
+      <div class="row">
+        <label for="ftf">Floor to floor m<input id="ftf" type="number" step="0.05" value="3.2"></label>
+        <label for="stilt">Stilt parking
+          <select id="stilt"><option value="0" selected>No stilt</option><option value="1">Stilt (not in FAR)</option></select>
+        </label>
+      </div>
+      <div class="row">
+        <label for="road">Road width m<input id="road" type="number" step="0.5" value="9"></label>
+        <label for="rk">Height ≤ k × (road + front), k<input id="rk" type="number" step="0.1" value="1.5"></label>
+      </div>
+      <p class="note">FAR (FSI) caps the total floor area; ground coverage and setbacks cap the footprint; the height limit caps the number of floors. The smallest wins. Set k to 0 to switch the road-width rule off. Many DCRs exclude stilt parking, lift and stair cores or balconies from FAR: adjust the FAR if yours does.</p>
+
+    </section>
+    <section style="min-width:0">
+
+      <div class="readout">
+        <div><b>Buildable area</b><span id="oA" class="hi">–</span></div>
+        <div><b>Floors</b><span id="oF">–</span></div>
+        <div><b>Footprint</b><span id="oP">–</span></div>
+        <div><b>FAR used</b><span id="oU">–</span></div>
+      </div>
+      <div class="views">
+        <div class="view"><h2>Envelope <span id="axLabel"></span></h2><svg id="ax" viewBox="0 0 420 340" role="img" aria-label="Axonometric of the plot and building envelope"></svg></div>
+        <div class="view"><h2>Plan <span id="planLabel"></span></h2><svg id="plan" viewBox="0 0 420 340" role="img" aria-label="Plot plan with setbacks and footprint"></svg></div>
+      </div>
+      <div class="data">
+        <h2>Which rule governs <span id="gov"></span></h2>
+        <ul class="checks" id="checks"></ul>
+      </div>
+      <div class="data" style="border-top:1px solid var(--rule)">
+        <h2>Floor schedule <span>areas in m² and sq ft</span></h2>
+        <div class="tablewrap"><table><thead><tr><th>Floor</th><th>Level m</th><th>Area m²</th><th>Area sq ft</th><th>Cumulative m²</th></tr></thead><tbody id="tbl"></tbody></table></div>
+      </div>
+
+    </section>
+  </div>
+  <footer class="foot"><span>Free tool · @smart_tools_every_week · simplyrendered.github.io/smart-tools · built with Claude</span><span>Definitions per NBC 2016 Part 3 (FAR = total covered area of all floors ÷ plot area; ground coverage = footprint ÷ plot area). Setbacks, coverage, FAR and height limits vary by city: enter your own Development Control Regulations. Height-by-road rule is a common DCR form; check yours.</span></footer>
+</div>
+<script>
+if(location.protocol==="file:"){const b=document.getElementById("dlbar");if(b)b.hidden=true;}
+const $=id=>document.getElementById(id);
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const NS="http://www.w3.org/2000/svg";
+function el(tag,attrs,parent,text){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(text!=null)e.textContent=text;parent&&parent.appendChild(e);return e}
+const fmt=(v,d=2)=>Number.isFinite(v)?v.toFixed(d):"–";
+
+const num=(id,min,max,def)=>{const v=parseFloat($(id).value);return Number.isFinite(v)?Math.min(max,Math.max(min,v)):def};
+const SQFT=10.7639;
+function env(){
+  const W=num("W",3,500,12),D=num("D",3,500,20);
+  const sf=num("sf",0,50,3),sr=num("sr",0,50,1.5),sl=num("sl",0,50,1.5),ss=num("ss",0,50,1.5);
+  const gc=num("gc",1,100,60),far=num("far",0.1,20,2),hmax=num("hmax",3,300,12),ftf=num("ftf",2.4,6,3.2);
+  const stilt=$("stilt").value==="1",road=num("road",0,200,9),rk=num("rk",0,10,1.5);
+  const plot=W*D,bw=Math.max(0,W-sl-ss),bd=Math.max(0,D-sf-sr),buildable=bw*bd,cov=plot*gc/100;
+  const foot=Math.min(buildable,cov),k=buildable>0?Math.sqrt(foot/buildable):0,fw=bw*k,fd=bd*k;
+  const hRoad=rk>0?rk*(road+sf):Infinity,H=Math.min(hmax,hRoad);
+  const stH=stilt?Math.min(ftf,H):0;
+  const nH=foot>0?Math.min(100,Math.max(0,Math.floor((H-stH)/ftf+1e-9))):0;
+  const farA=far*plot,full=foot>0?Math.min(nH,Math.floor(farA/foot+1e-9)):0;
+  let part=0;if(full<nH&&foot>0)part=Math.max(0,farA-full*foot);
+  const floors=[];for(let i=0;i<full;i++)floors.push(foot);if(part>0.01)floors.push(part);
+  const bua=floors.reduce((s,a)=>s+a,0);
+  let gov;if(foot<=0)gov="setbacks";else if(bua>=farA-0.01)gov="FAR";else gov=H<hmax?"road width":"height";
+  return {W,D,sf,sr,sl,ss,gc,far,hmax,ftf,stilt,road,rk,plot,bw,bd,buildable,cov,foot,fw,fd,hRoad,H,stH,nH,farA,floors,bua,gov};
+}
+function render(){
+  const e=env(),ink=css("--ink"),ink2=css("--ink-2"),rule=css("--rule"),red=css("--red"),blue=css("--blue"),sun=css("--sun"),ok=css("--ok"),paper=css("--paper"),sheet=css("--sheet");
+  $("hv").textContent=fmt(e.hmax,1)+" m";
+  $("oA").textContent=Math.round(e.bua).toLocaleString("en-IN")+" m²";
+  $("oF").textContent=(e.stilt?"S + ":"")+e.floors.length+(e.floors.length&&e.floors[e.floors.length-1]<e.foot-0.01?" (part)":"");
+  $("oP").textContent=fmt(e.foot,1)+" m²";
+  $("oU").textContent=fmt(e.bua/e.plot,2)+" of "+(+e.far.toFixed(2));
+  // AXONOMETRIC (x = frontage, y = depth, z = height)
+  const sv=$("ax");sv.innerHTML="";
+  const c=Math.cos(Math.PI/6),s=Math.sin(Math.PI/6);
+  const topZ=e.stH+e.floors.length*e.ftf,Hdraw=Math.max(e.H,topZ);
+  const spanX=(e.W+e.D)*c,spanY=(e.W+e.D)*s;
+  const sc=Math.min(380/spanX,300/(spanY+Hdraw)),ox=20+e.D*c*sc+(380-spanX*sc)/2,oy=330-(spanY)*sc-6;
+  const P=(x,y,z)=>[ox+(x-y)*c*sc,oy+(x+y)*s*sc-z*sc];
+  const poly=(pts,attrs)=>el("polygon",Object.assign({points:pts.map(p=>p.join(",")).join(" ")},attrs),sv);
+  poly([P(0,0,0),P(e.W,0,0),P(e.W,e.D,0),P(0,e.D,0)],{fill:paper,stroke:ink,"stroke-width":1.5});
+  // setback line on ground
+  const x0=e.sl,y0=e.D-e.sf-e.bd; // y=0 is the rear, y=D the road front
+  poly([P(x0,y0,0),P(x0+e.bw,y0,0),P(x0+e.bw,y0+e.bd,0),P(x0,y0+e.bd,0)],{fill:"none",stroke:red,"stroke-dasharray":"4 3","stroke-width":1});
+  // height limit ghost
+  if(e.bw>0&&e.bd>0){const g=[[x0,y0],[x0+e.bw,y0],[x0+e.bw,y0+e.bd],[x0,y0+e.bd]];
+    poly(g.map(p=>P(p[0],p[1],e.H)),{fill:"none",stroke:ink2,"stroke-dasharray":"2 4","stroke-width":1});
+    [[x0+e.bw,y0],[x0+e.bw,y0+e.bd],[x0,y0+e.bd]].forEach(p=>el("line",{x1:P(p[0],p[1],0)[0],y1:P(p[0],p[1],0)[1],x2:P(p[0],p[1],e.H)[0],y2:P(p[0],p[1],e.H)[1],stroke:ink2,"stroke-dasharray":"2 4","stroke-width":1},sv));}
+  // footprint centred in the buildable rectangle
+  const fx=x0+(e.bw-e.fw)/2,fy=y0+(e.bd-e.fd)/2;
+  const face=(pts,fill,op)=>{poly(pts,{fill:sheet,stroke:"none"});poly(pts,{fill,"fill-opacity":op,stroke:ink,"stroke-width":1})};
+  const box=(z0,z1,depth,fill)=>{const a=fx,b=fy+e.fd-depth,w=e.fw,d=depth;
+    face([P(a+w,b,z0),P(a+w,b+d,z0),P(a+w,b+d,z1),P(a+w,b,z1)],fill,.55);
+    face([P(a,b+d,z0),P(a+w,b+d,z0),P(a+w,b+d,z1),P(a,b+d,z1)],fill,.8);
+    face([P(a,b,z1),P(a+w,b,z1),P(a+w,b+d,z1),P(a,b+d,z1)],fill,.3);};
+  if(e.foot>0){
+    if(e.stilt){box(0,e.stH,e.fd,ink2);}
+    e.floors.forEach((a,i)=>{const z0=e.stH+i*e.ftf;box(z0,z0+e.ftf,e.fd*a/e.foot,i===e.floors.length-1&&a<e.foot-0.01?sun:blue);});
+  }
+  const fr=P(e.W/2,e.D,0);el("text",{x:fr[0],y:Math.min(336,fr[1]+16),"text-anchor":"middle",fill:ink2,"font-size":10,"font-family":"IBM Plex Mono, monospace"},sv,"road "+fmt(e.road,1)+" m");
+  const hp=P(x0,y0,e.H);el("text",{x:hp[0]+4,y:hp[1]-6,fill:ink2,"font-size":10,"font-family":"IBM Plex Mono, monospace"},sv,"limit "+fmt(e.H,1)+" m");
+  $("axLabel").textContent=(e.stilt?"stilt + ":"")+e.floors.length+" floor"+(e.floors.length===1?"":"s")+" · "+fmt(topZ,1)+" m";
+  // PLAN (road at the bottom)
+  const pv=$("plan");pv.innerHTML="";const k=Math.min(330/e.W,260/e.D),px=(420-e.W*k)/2,py=24;
+  const X=x=>px+x*k,Y=y=>py+y*k;
+  el("rect",{x:X(0),y:Y(0),width:e.W*k,height:e.D*k,fill:paper,stroke:ink,"stroke-width":2},pv);
+  if(e.bw>0&&e.bd>0)el("rect",{x:X(x0),y:Y(y0),width:e.bw*k,height:e.bd*k,fill:"none",stroke:red,"stroke-dasharray":"5 4"},pv);
+  if(e.foot>0)el("rect",{x:X(fx),y:Y(fy),width:e.fw*k,height:e.fd*k,fill:blue,opacity:.35,stroke:blue,"stroke-width":1.5},pv);
+  el("rect",{x:X(0)-10,y:Y(e.D)+4,width:e.W*k+20,height:12,fill:rule},pv);
+  el("text",{x:X(e.W/2),y:Y(e.D)+14,"text-anchor":"middle",fill:ink,"font-size":9,"font-family":"IBM Plex Mono, monospace"},pv,"ROAD");
+  const dim=(t,x,y,anchor)=>el("text",{x,y,"text-anchor":anchor||"middle",fill:red,"font-size":11,"font-family":"IBM Plex Mono, monospace"},pv,t);
+  dim(fmt(e.sf,2),X(e.W/2),Y(e.D-e.sf/2)+4);dim(fmt(e.sr,2),X(e.W/2),Y(e.sr/2)+4);
+  dim(fmt(e.sl,2),X(0)-4,Y(e.D/2)+4,"end");dim(fmt(e.ss,2),X(e.W)+4,Y(e.D/2)+4,"start");
+  if(e.foot>0){el("text",{x:X(fx+e.fw/2),y:Y(fy+e.fd/2)-4,"text-anchor":"middle",fill:ink,"font-size":13,"font-weight":600,"font-family":"IBM Plex Mono, monospace"},pv,fmt(e.fw,2)+" × "+fmt(e.fd,2));
+    el("text",{x:X(fx+e.fw/2),y:Y(fy+e.fd/2)+12,"text-anchor":"middle",fill:ink2,"font-size":10,"font-family":"IBM Plex Mono, monospace"},pv,fmt(100*e.foot/e.plot,1)+"% coverage");}
+  el("text",{x:210,y:336,"text-anchor":"middle",fill:ink2,"font-size":11,"font-family":"IBM Plex Mono, monospace"},pv,"plot "+fmt(e.W,1)+" × "+fmt(e.D,1)+" = "+fmt(e.plot,1)+" m²");
+  $("planLabel").textContent=e.buildable>e.cov?"coverage trims the footprint":"setbacks set the footprint";
+  // GOVERNING RULES
+  const nFar=e.foot>0?e.farA/e.foot:0;
+  const C=[[`Setbacks leave ${fmt(e.bw,2)} × ${fmt(e.bd,2)} = ${fmt(e.buildable,1)} m²`,e.buildable<=e.cov,e.buildable<=e.cov?"governs footprint":"ok"],
+    [`Ground coverage ${e.gc}% allows ${fmt(e.cov,1)} m²`,e.cov<e.buildable,e.cov<e.buildable?"governs footprint":"ok"],
+    [`FAR ${fmt(e.far,2)} allows ${fmt(e.farA,1)} m² (${fmt(nFar,2)} floors of footprint)`,e.gov==="FAR",e.gov==="FAR"?"governs":"spare "+fmt(Math.max(0,e.farA-e.bua),0)+" m²"],
+    [`Height ${fmt(e.hmax,1)} m allows ${e.stilt?"stilt + ":""}${e.nH} floors at ${fmt(e.ftf,2)} m`,e.gov==="height","" ],
+    [e.rk>0?`Road rule ${fmt(e.rk,1)} × (${fmt(e.road,1)} + ${fmt(e.sf,2)}) = ${fmt(e.hRoad,1)} m`:"Road-width height rule off",e.gov==="road width",""]];
+  C[3][2]=e.gov==="height"?"governs":"ok";C[4][2]=e.gov==="road width"?"governs":(e.rk>0?"ok":"off");
+  const ul=$("checks");ul.innerHTML="";
+  C.forEach(([t,g,lab])=>{const li=document.createElement("li");const cls=g?"bad":lab==="off"?"warn":"ok";
+    li.innerHTML=`<span>${t}</span><span class="pill ${cls}">${lab}</span>`;ul.appendChild(li)});
+  $("gov").textContent=e.gov==="FAR"?"FAR is used in full":e.gov+" limit governs · "+fmt(Math.max(0,e.farA-e.bua),0)+" m² of FAR unused";
+  // TABLE
+  const tb=$("tbl");tb.innerHTML="";let cum=0,lev=0;
+  const row=(n,l,a,c2)=>{const tr=document.createElement("tr");tr.innerHTML=`<td>${n}</td><td>${fmt(l,2)}</td><td>${fmt(a,1)}</td><td>${Math.round(a*SQFT).toLocaleString("en-IN")}</td><td>${c2}</td>`;tb.appendChild(tr)};
+  if(e.stilt){row("Stilt (parking)",0,e.foot,"not in FAR");lev=e.stH;}
+  const names=["Ground","First","Second","Third","Fourth","Fifth","Sixth","Seventh","Eighth","Ninth"];
+  e.floors.forEach((a,i)=>{cum+=a;const nm=(e.stilt?(i<9?names[i+1]:"Floor "+(i+1)):(i<10?names[i]:"Floor "+i))+(a<e.foot-0.01?" (part)":"");row(nm,lev+i*e.ftf,a,fmt(cum,1))});
+  const tr=document.createElement("tr");tr.className="now";tr.innerHTML=`<td>Total in FAR</td><td></td><td>${fmt(e.bua,1)}</td><td>${Math.round(e.bua*SQFT).toLocaleString("en-IN")}</td><td>FAR ${fmt(e.bua/e.plot,2)}</td>`;tb.appendChild(tr);
+}
+
+document.querySelectorAll("input,select").forEach(i=>i.addEventListener("input",render));
+window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",render);
+new MutationObserver(render).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+render();
+</script>
+</body>
+</html>

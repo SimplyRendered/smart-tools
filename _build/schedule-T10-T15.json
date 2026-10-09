@@ -1,0 +1,753 @@
+{
+ "blogId": "7306873",
+ "note": "Create each with createScheduledPost(blogId, date=<publicationDate.dateTime>+05:30, info=<info as JSON string>). Replace COMMIT_SHA in reel media with the sha of the commit that added the reels. Skip any whose time is already past or already scheduled. Entries 13-18 (T-16..T-18, added 9 Oct when the push was refused again) are scheduled the same way; they also use COMMIT_SHA.",
+ "posts": [
+  {
+   "kind": "carousel",
+   "slug": "daylight-factor",
+   "no": "T-10",
+   "info": {
+    "autoPublish": true,
+    "draft": false,
+    "providers": [
+     {
+      "network": "instagram"
+     }
+    ],
+    "publicationDate": {
+     "dateTime": "2026-10-12T10:00:00",
+     "timezone": "Asia/Calcutta"
+    },
+    "text": "Is 1/10 of the floor area really enough window? ☀️\n\nNew free tool: Daylight Factor.\nEnter the room size, window, glass and how high the building opposite is. It works out the average daylight factor, compares it with the target for the room and tells you how wide the window needs to be, with a live section and plan.\n\n✅ BRE average daylight factor method, every step shown\n✅ IS 2440 / SP 41 targets (and UK targets)\n✅ NBC 2016 window-to-floor check by climate\n\n⬇️ Free download / use online:\nsimplyrendered.github.io/smart-tools/daylight-factor\n(tap the link in our bio → T-10)\nWhich room in your last project was the darkest? 👇\nSave this for your next window schedule.",
+    "firstCommentText": "#daylighting #daylightfactor #naturallight #windowdesign #passivedesign #sustainablearchitecture #greenbuilding #architecture #architect #architecturestudent #indianarchitecture #nbc2016 #architecturetools #freetools #smarttoolseveryweek",
+    "media": [
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-12_daylight-factor_01.jpg",
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-12_daylight-factor_02.jpg",
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-12_daylight-factor_03.jpg",
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-12_daylight-factor_04.jpg",
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-12_daylight-factor_05.jpg",
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-12_daylight-factor_06.jpg",
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-12_daylight-factor_07.jpg"
+    ],
+    "mediaAltText": [
+     "Room section with sky angle and plan with daylit depth",
+     "Full screenshot of the Daylight Factor tool",
+     "Feature list",
+     "Checks with pass, fail and the window width needed",
+     "Four steps to use the tool",
+     "Tool running on a phone",
+     "Follow @smart_tools_every_week, link in bio"
+    ],
+    "instagramData": {
+     "type": "POST",
+     "collaborators": [],
+     "showReelOnFeed": true,
+     "isAiGenerated": false
+    },
+    "smartLinkData": {
+     "ids": []
+    }
+   }
+  },
+  {
+   "kind": "reel",
+   "slug": "daylight-factor",
+   "no": "T-10",
+   "info": {
+    "autoPublish": true,
+    "draft": false,
+    "providers": [
+     {
+      "network": "instagram"
+     }
+    ],
+    "publicationDate": {
+     "dateTime": "2026-10-13T20:00:00",
+     "timezone": "Asia/Calcutta"
+    },
+    "text": "Window = 1/10 of the floor? ❌\n\nIn this 4 × 6 m office that gives just 1.41% daylight. An office needs 1.9%: widen the window from 2.0 to 2.7 m ✅\n\nDaylight Factor works out the average daylight factor from the room, glass and what's outside, and tells you how wide the window should be. Free, no sign-up, works offline.\n\n⬇️ simplyrendered.github.io/smart-tools/daylight-factor\n(link in bio → T-10)\n\nFollow for a new free architecture tool every Mon, Wed & Fri.",
+    "firstCommentText": "#daylighting #daylightfactor #naturallight #windowdesign #passivedesign #sustainablearchitecture #greenbuilding #architecture #architect #architecturestudent #indianarchitecture #nbc2016 #architecturereels #architecturetools #freetools #smarttoolseveryweek",
+    "media": [
+     "https://simplyrendered.github.io/smart-tools/reels/daylight-factor.mp4?v=COMMIT_SHA"
+    ],
+    "mediaAltText": [
+     "Reel comparing a window sized at one tenth of the floor with the width the free Daylight Factor app says the office needs"
+    ],
+    "videoCoverMilliseconds": 1500,
+    "instagramData": {
+     "type": "REEL",
+     "collaborators": [],
+     "showReelOnFeed": true,
+     "isAiGenerated": true
+    },
+    "smartLinkData": {
+     "ids": []
+    }
+   }
+  },
+  {
+   "kind": "carousel",
+   "slug": "ramp-designer",
+   "no": "T-11",
+   "info": {
+    "autoPublish": true,
+    "draft": false,
+    "providers": [
+     {
+      "network": "instagram"
+     }
+    ],
+    "publicationDate": {
+     "dateTime": "2026-10-14T10:00:00",
+     "timezone": "Asia/Calcutta"
+    },
+    "text": "How long is a ramp for a 900 mm rise? ♿\n\nNew free tool: Accessible Ramp.\nEnter the level difference and gradient. It splits the rise into runs, adds every landing, and gives the total length and the plan footprint for a straight or switchback ramp, with a live section and plan.\n\n✅ ADA 2010 limits built in (1:12, 760 mm per run, 1525 mm landings)\n✅ UK Part M sliding scale, or enter your local code\n✅ Run schedule with levels for your drawings\n\n⬇️ Free download / use online:\nsimplyrendered.github.io/smart-tools/ramp-designer\n(tap the link in our bio → T-11)\nWhat's the hardest place you've had to fit a ramp? 👇\nSave this for your next entrance detail.",
+    "firstCommentText": "#ramp #accessibledesign #universaldesign #barrierfree #inclusivedesign #accessibility #architecture #architect #architecturestudent #architecturaldetails #indianarchitecture #architectsofinstagram #architecturetools #freetools #smarttoolseveryweek",
+    "media": [
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-14_ramp-designer_01.jpg",
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-14_ramp-designer_02.jpg",
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-14_ramp-designer_03.jpg",
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-14_ramp-designer_04.jpg",
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-14_ramp-designer_05.jpg",
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-14_ramp-designer_06.jpg",
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-14_ramp-designer_07.jpg"
+    ],
+    "mediaAltText": [
+     "Ramp section with two runs and three landings",
+     "Full screenshot of the Accessible Ramp tool",
+     "Feature list",
+     "Ramp plan footprint and code checks",
+     "Four steps to use the tool",
+     "Tool running on a phone",
+     "Follow @smart_tools_every_week, link in bio"
+    ],
+    "instagramData": {
+     "type": "POST",
+     "collaborators": [],
+     "showReelOnFeed": true,
+     "isAiGenerated": false
+    },
+    "smartLinkData": {
+     "ids": []
+    }
+   }
+  },
+  {
+   "kind": "reel",
+   "slug": "ramp-designer",
+   "no": "T-11",
+   "info": {
+    "autoPublish": true,
+    "draft": false,
+    "providers": [
+     {
+      "network": "instagram"
+     }
+    ],
+    "publicationDate": {
+     "dateTime": "2026-10-15T20:00:00",
+     "timezone": "Asia/Calcutta"
+    },
+    "text": "Ramp = rise × 12? ❌\n\nFor a 900 mm rise that's 10.8 m of slope. Add the landings ADA needs at the bottom, top and between runs and it's 15.38 m ✅\n\nAccessible Ramp splits the rise into runs, adds every landing and draws the section and plan footprint. Free, no sign-up, works offline.\n\n⬇️ simplyrendered.github.io/smart-tools/ramp-designer\n(link in bio → T-11)\n\nFollow for a new free architecture tool every Mon, Wed & Fri.",
+    "firstCommentText": "#ramp #accessibledesign #universaldesign #barrierfree #inclusivedesign #accessibility #architecture #architect #architecturestudent #architecturaldetails #indianarchitecture #architectsofinstagram #architecturereels #architecturetools #freetools #smarttoolseveryweek",
+    "media": [
+     "https://simplyrendered.github.io/smart-tools/reels/ramp-designer.mp4?v=COMMIT_SHA"
+    ],
+    "mediaAltText": [
+     "Reel comparing rise times twelve with the full ramp length including landings in the free Accessible Ramp app"
+    ],
+    "videoCoverMilliseconds": 1500,
+    "instagramData": {
+     "type": "REEL",
+     "collaborators": [],
+     "showReelOnFeed": true,
+     "isAiGenerated": true
+    },
+    "smartLinkData": {
+     "ids": []
+    }
+   }
+  },
+  {
+   "kind": "carousel",
+   "slug": "brick-estimator",
+   "no": "T-12",
+   "info": {
+    "autoPublish": true,
+    "draft": false,
+    "providers": [
+     {
+      "network": "instagram"
+     }
+    ],
+    "publicationDate": {
+     "dateTime": "2026-10-16T10:00:00",
+     "timezone": "Asia/Calcutta"
+    },
+    "text": "How many bricks and cement bags for this wall? 🧱\n\nNew free tool: Brick & Mortar.\nEnter the wall size, thickness and openings. It gives the number of bricks, cement bags and sand for any mortar mix, with a brick elevation and the full working shown step by step.\n\n✅ IS 1077 modular and non-modular bricks\n✅ Doors and windows deducted, wastage added\n✅ Wet to dry mortar (× 1.27), bags and cft\n\n⬇️ Free download / use online:\nsimplyrendered.github.io/smart-tools/brick-estimator\n(tap the link in our bio → T-12)\n1:4 or 1:6 for your walls? 👇\nSave this for your next estimate.",
+    "firstCommentText": "#brickwork #estimation #quantitysurvey #estimatingandcosting #civilengineering #construction #architecture #architect #architecturestudent #buildingmaterials #indianarchitecture #architecturetools #freetools #smarttoolseveryweek",
+    "media": [
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-16_brick-estimator_01.jpg",
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-16_brick-estimator_02.jpg",
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-16_brick-estimator_03.jpg",
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-16_brick-estimator_04.jpg",
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-16_brick-estimator_05.jpg",
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-16_brick-estimator_06.jpg",
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-16_brick-estimator_07.jpg"
+    ],
+    "mediaAltText": [
+     "Wall elevation with brick courses, a door and two windows",
+     "Full screenshot of the Brick & Mortar estimator",
+     "Feature list",
+     "Step by step working table",
+     "Four steps to use the tool",
+     "Tool running on a phone",
+     "Follow @smart_tools_every_week, link in bio"
+    ],
+    "instagramData": {
+     "type": "POST",
+     "collaborators": [],
+     "showReelOnFeed": true,
+     "isAiGenerated": false
+    },
+    "smartLinkData": {
+     "ids": []
+    }
+   }
+  },
+  {
+   "kind": "reel",
+   "slug": "brick-estimator",
+   "no": "T-12",
+   "info": {
+    "autoPublish": true,
+    "draft": false,
+    "providers": [
+     {
+      "network": "instagram"
+     }
+    ],
+    "publicationDate": {
+     "dateTime": "2026-10-17T20:00:00",
+     "timezone": "Asia/Calcutta"
+    },
+    "text": "Cement from the wet mortar volume? ❌\n\nFor a 12 m × 3 m brick wall that's 6.6 bags. Dry mix needs about 27% more (× 1.27): 8.4 bags ✅\n\nBrick & Mortar gives bricks, cement bags and sand for any wall, with openings deducted and every step shown. Free, no sign-up, works offline.\n\n⬇️ simplyrendered.github.io/smart-tools/brick-estimator\n(link in bio → T-12)\n\nFollow for a new free architecture tool every Mon, Wed & Fri.",
+    "firstCommentText": "#brickwork #estimation #quantitysurvey #estimatingandcosting #civilengineering #construction #architecture #architect #architecturestudent #buildingmaterials #indianarchitecture #architecturereels #architecturetools #freetools #smarttoolseveryweek",
+    "media": [
+     "https://simplyrendered.github.io/smart-tools/reels/brick-estimator.mp4?v=COMMIT_SHA"
+    ],
+    "mediaAltText": [
+     "Reel comparing cement worked out from wet mortar volume with the dry-volume figure in the free Brick & Mortar app"
+    ],
+    "videoCoverMilliseconds": 1500,
+    "instagramData": {
+     "type": "REEL",
+     "collaborators": [],
+     "showReelOnFeed": true,
+     "isAiGenerated": true
+    },
+    "smartLinkData": {
+     "ids": []
+    }
+   }
+  },
+  {
+   "kind": "carousel",
+   "slug": "tile-layout",
+   "no": "T-13",
+   "info": {
+    "autoPublish": true,
+    "draft": false,
+    "providers": [
+     {
+      "network": "instagram"
+     }
+    ],
+    "publicationDate": {
+     "dateTime": "2026-10-19T10:00:00",
+     "timezone": "Asia/Calcutta"
+    },
+    "text": "How many tiles does this room really need? 🟫\n\nNew free tool: Floor Tile Layout.\nEnter the room and tile size. It lays out every tile (straight, offset or diagonal), counts the full and cut tiles, flags thin slivers at the walls and gives boxes, skirting and grout.\n\n✅ Tile-by-tile count, not just area + 10%\n✅ Centred layout for balanced cuts, or shift the grid yourself\n✅ Boxes, skirting tiles and grout in kg\n\n⬇️ Free download / use online:\nsimplyrendered.github.io/smart-tools/tile-layout\n(tap the link in our bio → T-13)\n600 × 600 or 800 × 800: what are your clients choosing? 👇\nSave this for your next flooring plan.",
+    "firstCommentText": "#flooring #floortiles #tilelayout #tiledesign #vitrifiedtiles #interiordesign #interiordesigner #architecture #architect #architecturestudent #estimation #indianinteriors #architecturetools #freetools #smarttoolseveryweek",
+    "media": [
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-19_tile-layout_01.jpg",
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-19_tile-layout_02.jpg",
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-19_tile-layout_03.jpg",
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-19_tile-layout_04.jpg",
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-19_tile-layout_05.jpg",
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-19_tile-layout_06.jpg",
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-19_tile-layout_07.jpg"
+    ],
+    "mediaAltText": [
+     "Floor plan with tile grid, cut tiles shaded",
+     "Full screenshot of the Floor Tile Layout tool",
+     "Feature list",
+     "Checks and tile count compared with the area method",
+     "Four steps to use the tool",
+     "Tool running on a phone",
+     "Follow @smart_tools_every_week, link in bio"
+    ],
+    "instagramData": {
+     "type": "POST",
+     "collaborators": [],
+     "showReelOnFeed": true,
+     "isAiGenerated": false
+    },
+    "smartLinkData": {
+     "ids": []
+    }
+   }
+  },
+  {
+   "kind": "reel",
+   "slug": "tile-layout",
+   "no": "T-13",
+   "info": {
+    "autoPublish": true,
+    "draft": false,
+    "providers": [
+     {
+      "network": "instagram"
+     }
+    ],
+    "publicationDate": {
+     "dateTime": "2026-10-20T20:00:00",
+     "timezone": "Asia/Calcutta"
+    },
+    "text": "Floor area ÷ tile + 10%? ❌\n\nFor a 4.2 × 3.6 m room in 800 × 800 tiles that says 26. Counted tile by tile, with every cut, it's 31 ✅\n\nFloor Tile Layout lays out every tile, flags thin slivers at the walls and gives boxes, skirting and grout. Free, no sign-up, works offline.\n\n⬇️ simplyrendered.github.io/smart-tools/tile-layout\n(link in bio → T-13)\n\nFollow for a new free architecture tool every Mon, Wed & Fri.",
+    "firstCommentText": "#flooring #floortiles #tilelayout #tiledesign #vitrifiedtiles #interiordesign #interiordesigner #architecture #architect #architecturestudent #estimation #indianinteriors #architecturereels #architecturetools #freetools #smarttoolseveryweek",
+    "media": [
+     "https://simplyrendered.github.io/smart-tools/reels/tile-layout.mp4?v=COMMIT_SHA"
+    ],
+    "mediaAltText": [
+     "Reel comparing the area-plus-ten-percent tile estimate with the tile-by-tile count in the free Floor Tile Layout app"
+    ],
+    "videoCoverMilliseconds": 1500,
+    "instagramData": {
+     "type": "REEL",
+     "collaborators": [],
+     "showReelOnFeed": true,
+     "isAiGenerated": true
+    },
+    "smartLinkData": {
+     "ids": []
+    }
+   }
+  },
+  {
+   "kind": "carousel",
+   "slug": "room-furnisher",
+   "no": "T-14",
+   "info": {
+    "autoPublish": true,
+    "draft": false,
+    "providers": [
+     {
+      "network": "instagram"
+     }
+    ],
+    "publicationDate": {
+     "dateTime": "2026-10-21T10:00:00",
+     "timezone": "Asia/Calcutta"
+    },
+    "text": "Will the furniture actually fit? 🛋️\n\nNew free tool: Room Furnisher.\nEnter the room, door and window. It arranges a bedroom, living, dining room or study automatically, keeps standard walking clearances, and lets you flip through every layout that works.\n\n✅ Clearances from Panero, Neufert and Time-Saver Standards\n✅ Door swing and windows kept clear\n✅ Bed, sofa, dining table and desk sizes built in\n\n⬇️ Free download / use online:\nsimplyrendered.github.io/smart-tools/room-furnisher\n(tap the link in our bio → T-14)\nWhat's the smallest bedroom you've had to fit a queen bed in? 👇\nSave this for your next space plan.",
+    "firstCommentText": "#furniturelayout #spaceplanning #interiordesign #interiordesigner #floorplan #bedroomdesign #livingroomdesign #architecture #architect #architecturestudent #indianinteriors #homedesign #architecturetools #freetools #smarttoolseveryweek",
+    "media": [
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-21_room-furnisher_01.jpg",
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-21_room-furnisher_02.jpg",
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-21_room-furnisher_03.jpg",
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-21_room-furnisher_04.jpg",
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-21_room-furnisher_05.jpg",
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-21_room-furnisher_06.jpg",
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-21_room-furnisher_07.jpg"
+    ],
+    "mediaAltText": [
+     "Room plan with furniture placed and clearance zones",
+     "Full screenshot of the Room Furnisher tool",
+     "Feature list",
+     "Checks and furniture table",
+     "Four steps to use the tool",
+     "Tool running on a phone",
+     "Follow @smart_tools_every_week, link in bio"
+    ],
+    "instagramData": {
+     "type": "POST",
+     "collaborators": [],
+     "showReelOnFeed": true,
+     "isAiGenerated": false
+    },
+    "smartLinkData": {
+     "ids": []
+    }
+   }
+  },
+  {
+   "kind": "reel",
+   "slug": "room-furnisher",
+   "no": "T-14",
+   "info": {
+    "autoPublish": true,
+    "draft": false,
+    "providers": [
+     {
+      "network": "instagram"
+     }
+    ],
+    "publicationDate": {
+     "dateTime": "2026-10-22T20:00:00",
+     "timezone": "Asia/Calcutta"
+    },
+    "text": "The bed fits, so the room works? ❌\n\nA queen bed fits a 3 × 3 m room. Add a wardrobe, a desk and walking space and the room needs to be 4 × 3 m ✅\n\nRoom Furnisher lays out a bedroom, living, dining room or study automatically with clearances. Free, no sign-up, works offline.\n\n⬇️ simplyrendered.github.io/smart-tools/room-furnisher\n(link in bio → T-14)\n\nFollow for a new free architecture tool every Mon, Wed & Fri.",
+    "firstCommentText": "#furniturelayout #spaceplanning #interiordesign #interiordesigner #floorplan #bedroomdesign #livingroomdesign #architecture #architect #architecturestudent #indianinteriors #homedesign #architecturereels #architecturetools #freetools #smarttoolseveryweek",
+    "media": [
+     "https://simplyrendered.github.io/smart-tools/reels/room-furnisher.mp4?v=COMMIT_SHA"
+    ],
+    "mediaAltText": [
+     "Reel showing a queen bed in a 3 by 3 metre room, then the 4 by 3 metre room the free Room Furnisher app needs for all the furniture"
+    ],
+    "videoCoverMilliseconds": 1500,
+    "instagramData": {
+     "type": "REEL",
+     "collaborators": [],
+     "showReelOnFeed": true,
+     "isAiGenerated": true
+    },
+    "smartLinkData": {
+     "ids": []
+    }
+   }
+  },
+  {
+   "kind": "carousel",
+   "slug": "sliding-sizer",
+   "no": "T-15",
+   "info": {
+    "autoPublish": true,
+    "draft": false,
+    "providers": [
+     {
+      "network": "instagram"
+     }
+    ],
+    "publicationDate": {
+     "dateTime": "2026-10-23T10:00:00",
+     "timezone": "Asia/Calcutta"
+    },
+    "text": "How wide is each sliding shutter? 🚪\n\nNew free tool: Sliding Door & Window.\nEnter the opening and pick the system: 2, 3 or 4 shutters, or a pocket door. It gives every shutter and glass size, the real clear opening, the glass weight on the rollers and the pocket wall you need. Drag the slider to open it.\n\n✅ Interlock overlap built into the shutter sizes\n✅ Clear opening and wheelchair width check\n✅ Cutting list for shutters, glass and frame\n\n⬇️ Free download / use online:\nsimplyrendered.github.io/smart-tools/sliding-sizer\n(tap the link in our bio → T-15)\n3-track or 2-track: which do you specify? 👇\nSave this for your next door and window schedule.",
+    "firstCommentText": "#slidingdoor #slidingwindow #windowdesign #doordesign #aluminiumwindows #upvcwindows #facadedesign #architecture #architect #architecturestudent #workingdrawings #indianarchitecture #architecturetools #freetools #smarttoolseveryweek",
+    "media": [
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-23_sliding-sizer_01.jpg",
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-23_sliding-sizer_02.jpg",
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-23_sliding-sizer_03.jpg",
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-23_sliding-sizer_04.jpg",
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-23_sliding-sizer_05.jpg",
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-23_sliding-sizer_06.jpg",
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-23_sliding-sizer_07.jpg"
+    ],
+    "mediaAltText": [
+     "Elevation and plan of a four shutter sliding door half open",
+     "Full screenshot of the Sliding Door & Window tool",
+     "Feature list",
+     "Checks and cutting list",
+     "Four steps to use the tool",
+     "Tool running on a phone",
+     "Follow @smart_tools_every_week, link in bio"
+    ],
+    "instagramData": {
+     "type": "POST",
+     "collaborators": [],
+     "showReelOnFeed": true,
+     "isAiGenerated": false
+    },
+    "smartLinkData": {
+     "ids": []
+    }
+   }
+  },
+  {
+   "kind": "reel",
+   "slug": "sliding-sizer",
+   "no": "T-15",
+   "info": {
+    "autoPublish": true,
+    "draft": false,
+    "providers": [
+     {
+      "network": "instagram"
+     }
+    ],
+    "publicationDate": {
+     "dateTime": "2026-10-24T20:00:00",
+     "timezone": "Asia/Calcutta"
+    },
+    "text": "A two-shutter window opens half its width? ❌\n\nThis 1500 mm window opens just 680 mm once you allow for the frame and the shutter overlap ✅\n\nSliding Door & Window sizes every shutter and pane of glass, the clear gap and the glass weight. Free, no sign-up, works offline.\n\n⬇️ simplyrendered.github.io/smart-tools/sliding-sizer\n(link in bio → T-15)\n\nFollow for a new free architecture tool every Mon, Wed & Fri.",
+    "firstCommentText": "#slidingdoor #slidingwindow #windowdesign #doordesign #aluminiumwindows #upvcwindows #facadedesign #architecture #architect #architecturestudent #workingdrawings #indianarchitecture #architecturereels #architecturetools #freetools #smarttoolseveryweek",
+    "media": [
+     "https://simplyrendered.github.io/smart-tools/reels/sliding-sizer.mp4?v=COMMIT_SHA"
+    ],
+    "mediaAltText": [
+     "Reel showing a 1500 mm two-shutter sliding window opening only 680 mm in the free Sliding Door & Window app"
+    ],
+    "videoCoverMilliseconds": 1500,
+    "instagramData": {
+     "type": "REEL",
+     "collaborators": [],
+     "showReelOnFeed": true,
+     "isAiGenerated": true
+    },
+    "smartLinkData": {
+     "ids": []
+    }
+   }
+  },
+  {
+   "kind": "carousel",
+   "slug": "plot-envelope",
+   "no": "T-16",
+   "info": {
+    "autoPublish": true,
+    "draft": false,
+    "providers": [
+     {
+      "network": "instagram"
+     }
+    ],
+    "publicationDate": {
+     "dateTime": "2026-10-26T10:00:00",
+     "timezone": "Asia/Calcutta"
+    },
+    "text": "How much can you really build on this plot? 🏗️\n\nNew free tool: Plot Envelope.\nEnter the plot, setbacks, ground coverage, FAR and the height limit. It applies them all together, tells you which rule governs and how much FAR goes unused, with a live 3D envelope, plan and floor schedule.\n\n✅ Setbacks, coverage, FAR and height in one place\n✅ Optional stilt parking and road-width height rule\n✅ Floor-by-floor areas in m² and sq ft\n\n⬇️ Free download / use online:\nsimplyrendered.github.io/smart-tools/plot-envelope\n(tap the link in our bio → T-16)\nWhich limit bites first in your city: FAR or height? 👇\nSave this for your next feasibility study.",
+    "firstCommentText": "#far #fsi #setbacks #bylaws #feasibilitystudy #siteplanning #urbanplanning #architecture #architect #architecturestudent #indianarchitecture #nbc2016 #architecturetools #freetools #smarttoolseveryweek",
+    "media": [
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-26_plot-envelope_01.jpg",
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-26_plot-envelope_02.jpg",
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-26_plot-envelope_03.jpg",
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-26_plot-envelope_04.jpg",
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-26_plot-envelope_05.jpg",
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-26_plot-envelope_06.jpg",
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-26_plot-envelope_07.jpg"
+    ],
+    "mediaAltText": [
+     "3D envelope of a three-storey building on a plot, and the plot plan with setbacks",
+     "Full screenshot of the Plot Envelope tool",
+     "Feature list",
+     "List of rules showing which one governs",
+     "Four steps to use the tool",
+     "Tool running on a phone",
+     "Follow @smart_tools_every_week, link in bio"
+    ],
+    "instagramData": {
+     "type": "POST",
+     "collaborators": [],
+     "showReelOnFeed": true,
+     "isAiGenerated": false
+    },
+    "smartLinkData": {
+     "ids": []
+    }
+   }
+  },
+  {
+   "kind": "reel",
+   "slug": "plot-envelope",
+   "no": "T-16",
+   "info": {
+    "autoPublish": true,
+    "draft": false,
+    "providers": [
+     {
+      "network": "instagram"
+     }
+    ],
+    "publicationDate": {
+     "dateTime": "2026-10-27T13:00:00",
+     "timezone": "Asia/Calcutta"
+    },
+    "text": "Build = plot area × FAR? ❌\n\nOn a 12 × 20 m plot with FAR 2 that says 480 m². With the setbacks and a 12 m height limit you can really build 419 m², and 62 m² of FAR goes unused ✅\n\nPlot Envelope applies setbacks, ground coverage, FAR and height together and shows which rule governs. Free, no sign-up, works offline.\n\n⬇️ simplyrendered.github.io/smart-tools/plot-envelope\n(link in bio → T-16)\n\nFollow for a new free architecture tool every Mon, Wed & Fri.",
+    "firstCommentText": "#far #fsi #setbacks #bylaws #feasibilitystudy #siteplanning #architecture #architect #architecturestudent #architecturereels #indianarchitecture #architecturetools #freetools #smarttoolseveryweek",
+    "media": [
+     "https://simplyrendered.github.io/smart-tools/reels/plot-envelope.mp4?v=COMMIT_SHA"
+    ],
+    "mediaAltText": [
+     "Reel comparing plot area times FAR with the area setbacks and a height limit really allow"
+    ],
+    "videoCoverMilliseconds": 1500,
+    "instagramData": {
+     "type": "REEL",
+     "collaborators": [],
+     "showReelOnFeed": true,
+     "isAiGenerated": true
+    },
+    "smartLinkData": {
+     "ids": []
+    }
+   }
+  },
+  {
+   "kind": "carousel",
+   "slug": "carpet-area",
+   "no": "T-17",
+   "info": {
+    "autoPublish": true,
+    "draft": false,
+    "providers": [
+     {
+      "network": "instagram"
+     }
+    ],
+    "publicationDate": {
+     "dateTime": "2026-10-28T10:00:00",
+     "timezone": "Asia/Calcutta"
+    },
+    "text": "Is carpet area really 70% of super built-up? 🏢\n\nNew free tool: Carpet Area.\nType the rooms and their sizes, add walls, balcony and shafts, and set the loading. It gives the RERA carpet, built-up and super built-up areas in m² and sq ft, and what you really pay per carpet sq ft.\n\n✅ RERA Act 2016 §2(k) carpet area\n✅ Area diagram and full area statement\n✅ Quoted rate vs real rate per carpet sq ft\n\n⬇️ Free download / use online:\nsimplyrendered.github.io/smart-tools/carpet-area\n(tap the link in our bio → T-17)\nWhat loading have you seen on a project lately? 👇\nSave this for your next area statement.",
+    "firstCommentText": "#carpetarea #rera #superbuiltuparea #areastatement #realestateindia #apartment #floorplan #architecture #architect #architecturestudent #interiordesign #indianarchitecture #architecturetools #freetools #smarttoolseveryweek",
+    "media": [
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-28_carpet-area_01.jpg",
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-28_carpet-area_02.jpg",
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-28_carpet-area_03.jpg",
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-28_carpet-area_04.jpg",
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-28_carpet-area_05.jpg",
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-28_carpet-area_06.jpg",
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-28_carpet-area_07.jpg"
+    ],
+    "mediaAltText": [
+     "Area diagram of a flat: rooms, walls, balcony and common areas, with a stacked bar",
+     "Full screenshot of the Carpet Area tool",
+     "Feature list",
+     "Area statement table from rooms to super built-up",
+     "Four steps to use the tool",
+     "Tool running on a phone",
+     "Follow @smart_tools_every_week, link in bio"
+    ],
+    "instagramData": {
+     "type": "POST",
+     "collaborators": [],
+     "showReelOnFeed": true,
+     "isAiGenerated": false
+    },
+    "smartLinkData": {
+     "ids": []
+    }
+   }
+  },
+  {
+   "kind": "reel",
+   "slug": "carpet-area",
+   "no": "T-17",
+   "info": {
+    "autoPublish": true,
+    "draft": false,
+    "providers": [
+     {
+      "network": "instagram"
+     }
+    ],
+    "publicationDate": {
+     "dateTime": "2026-10-29T13:00:00",
+     "timezone": "Asia/Calcutta"
+    },
+    "text": "Carpet = 70% of super built-up? ❌\n\nWith 30% loading, this 2BHK's RERA carpet is 727 sq ft of 1,129 sq ft super built-up: only 64% ✅\n\nCarpet Area gives RERA carpet, built-up and super built-up from your room sizes, plus the real price per carpet sq ft. Free, no sign-up, works offline.\n\n⬇️ simplyrendered.github.io/smart-tools/carpet-area\n(link in bio → T-17)\n\nFollow for a new free architecture tool every Mon, Wed & Fri.",
+    "firstCommentText": "#carpetarea #rera #superbuiltuparea #areastatement #realestateindia #apartment #architecture #architect #architecturestudent #architecturereels #indianarchitecture #architecturetools #freetools #smarttoolseveryweek",
+    "media": [
+     "https://simplyrendered.github.io/smart-tools/reels/carpet-area.mp4?v=COMMIT_SHA"
+    ],
+    "mediaAltText": [
+     "Reel comparing the 70 percent carpet rule of thumb with the 64 percent this flat really gets"
+    ],
+    "videoCoverMilliseconds": 1500,
+    "instagramData": {
+     "type": "REEL",
+     "collaborators": [],
+     "showReelOnFeed": true,
+     "isAiGenerated": true
+    },
+    "smartLinkData": {
+     "ids": []
+    }
+   }
+  },
+  {
+   "kind": "carousel",
+   "slug": "cut-fill",
+   "no": "T-18",
+   "info": {
+    "autoPublish": true,
+    "draft": false,
+    "providers": [
+     {
+      "network": "instagram"
+     }
+    ],
+    "publicationDate": {
+     "dateTime": "2026-10-30T10:00:00",
+     "timezone": "Asia/Calcutta"
+    },
+    "text": "How many truckloads will this slope need? 🚚\n\nNew free tool: Cut & Fill.\nEnter the four corner levels of a sloping plot and place the building pad. It works out cut, fill, the balanced pad level and how many truckloads go out or come in, with contours, a live section and a table of pad level options.\n\n✅ Grid volumes over the pad\n✅ Swell and shrinkage by soil type\n✅ One click to the balanced level\n\n⬇️ Free download / use online:\nsimplyrendered.github.io/smart-tools/cut-fill\n(tap the link in our bio → T-18)\nFlat pad or stepped floors on a slope? 👇\nSave this for your next hillside project.",
+    "firstCommentText": "#cutandfill #earthwork #sitegrading #slopingsite #hillsidehouse #siteplanning #landscapearchitecture #architecture #architect #architecturestudent #civilengineering #architecturetools #freetools #smarttoolseveryweek",
+    "media": [
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-30_cut-fill_01.jpg",
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-30_cut-fill_02.jpg",
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-30_cut-fill_03.jpg",
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-30_cut-fill_04.jpg",
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-30_cut-fill_05.jpg",
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-30_cut-fill_06.jpg",
+     "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/posts/2026-10-30_cut-fill_07.jpg"
+    ],
+    "mediaAltText": [
+     "Plot plan with contours, red cut and blue fill on the pad, and a section",
+     "Full screenshot of the Cut & Fill tool",
+     "Feature list",
+     "Table of pad levels with cut, fill and truckloads",
+     "Four steps to use the tool",
+     "Tool running on a phone",
+     "Follow @smart_tools_every_week, link in bio"
+    ],
+    "instagramData": {
+     "type": "POST",
+     "collaborators": [],
+     "showReelOnFeed": true,
+     "isAiGenerated": false
+    },
+    "smartLinkData": {
+     "ids": []
+    }
+   }
+  },
+  {
+   "kind": "reel",
+   "slug": "cut-fill",
+   "no": "T-18",
+   "info": {
+    "autoPublish": true,
+    "draft": false,
+    "providers": [
+     {
+      "network": "instagram"
+     }
+    ],
+    "publicationDate": {
+     "dateTime": "2026-10-31T13:00:00",
+     "timezone": "Asia/Calcutta"
+    },
+    "text": "Truckloads = cut ÷ truck size? ❌\n\n200 m³ of cut looks like 20 loads of 10 m³. Dug earth swells about 25%, so it's really 25 loads ✅\n\nCut & Fill works out cut, fill, the balanced pad level and truckloads for a sloping plot, with contours and a section. Free, no sign-up, works offline.\n\n⬇️ simplyrendered.github.io/smart-tools/cut-fill\n(link in bio → T-18)\n\nFollow for a new free architecture tool every Mon, Wed & Fri.",
+    "firstCommentText": "#cutandfill #earthwork #sitegrading #slopingsite #siteplanning #architecture #architect #architecturestudent #architecturereels #civilengineering #architecturetools #freetools #smarttoolseveryweek",
+    "media": [
+     "https://simplyrendered.github.io/smart-tools/reels/cut-fill.mp4?v=COMMIT_SHA"
+    ],
+    "mediaAltText": [
+     "Reel comparing cut divided by truck size with the truckloads needed once dug earth swells"
+    ],
+    "videoCoverMilliseconds": 1500,
+    "instagramData": {
+     "type": "REEL",
+     "collaborators": [],
+     "showReelOnFeed": true,
+     "isAiGenerated": true
+    },
+    "smartLinkData": {
+     "ids": []
+    }
+   }
+  }
+ ]
+}
