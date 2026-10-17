@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Wall U-Value Calculator</title>
+<meta name="description" content="Build up the wall layer by layer. Get the U-value, the temperature through the wall and how much insulation it needs to meet the ECBC 2017 limit for your climate.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: drafting sheet — title block header, input column + two drawings, data table below */
+:root{
+  --paper:#F2F3EF; --sheet:#FBFBF8; --ink:#1B2732; --ink-2:#4A5865; --rule:#D5D9D4; --grid:#E6E8E3;
+  --red:#C8432B; --blue:#2E66A6; --sun:#E09A1E; --shadow:rgba(27,39,50,.22);
+  --display:'Barlow Condensed','Arial Narrow',sans-serif; --body:'IBM Plex Sans',system-ui,sans-serif; --mono:'IBM Plex Mono',ui-monospace,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#0E1A26; --sheet:#132233; --ink:#E4ECF2; --ink-2:#9DB0C0; --rule:#2A3D52; --grid:#1B2D40;
+  --red:#FF7A5C; --blue:#6FB0F0; --sun:#FFC04D; --shadow:rgba(140,190,240,.25); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0E1A26; --sheet:#132233; --ink:#E4ECF2; --ink-2:#9DB0C0; --rule:#2A3D52; --grid:#1B2D40;
+  --red:#FF7A5C; --blue:#6FB0F0; --sun:#FFC04D; --shadow:rgba(140,190,240,.25); color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--paper);color:var(--ink);font:15px/1.5 var(--body);padding:16px;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px}
+.sheet{max-width:1180px;margin:0 auto;background:var(--sheet);border:1.5px solid var(--ink);}
+.tb{display:grid;grid-template-columns:1fr auto;border-bottom:1.5px solid var(--ink)}
+.tb h1{font:700 clamp(30px,5vw,46px)/1 var(--display);letter-spacing:.01em;margin:0;padding:18px 20px 14px;text-transform:uppercase;text-wrap:balance}
+.tb h1 small{display:block;font:500 14px/1.4 var(--body);letter-spacing:0;text-transform:none;color:var(--ink-2);margin-top:6px}
+.tb .meta{display:grid;grid-template-columns:auto auto;border-left:1.5px solid var(--ink);font:12px/1.2 var(--mono)}
+.tb .meta div{padding:8px 12px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule)}
+.tb .meta b{display:block;font:600 10px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-bottom:4px}
+.main{display:grid;grid-template-columns:320px 1fr;}
+.inputs{border-right:1.5px solid var(--ink);padding:18px 20px;display:flex;flex-direction:column;gap:14px}
+label{display:flex;flex-direction:column;gap:5px;font:600 11px/1 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+input,select{font:500 15px/1.2 var(--mono);color:var(--ink);background:var(--paper);border:1px solid var(--rule);padding:9px 10px;border-radius:0;width:100%}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
+input[type=range]{padding:0;accent-color:var(--red)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+button{font:600 12px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;background:transparent;color:var(--ink);border:1px solid var(--ink);padding:8px 10px;cursor:pointer}
+button:hover{background:var(--ink);color:var(--sheet)}
+.time{font:500 28px/1 var(--mono);color:var(--red)}
+.views{display:grid;grid-template-columns:1fr 1fr;min-width:0}
+.view{padding:14px 16px 10px;min-width:0;border-bottom:1.5px solid var(--ink)}
+.view+.view{border-left:1px solid var(--rule)}
+.view h2,.data h2{font:600 20px/1 var(--display);text-transform:uppercase;letter-spacing:.04em;margin:0 0 8px;display:flex;justify-content:space-between;gap:8px}
+.view h2 span,.data h2 span{font:400 11px/1.6 var(--mono);color:var(--ink-2);text-transform:none;letter-spacing:0}
+svg{width:100%;height:auto;display:block}
+.readout{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1.5px solid var(--ink)}
+.readout div{padding:12px 16px;border-right:1px solid var(--rule)}
+.readout div:last-child{border-right:0}
+.readout b{display:block;font:600 10px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-bottom:6px}
+.readout span{font:500 24px/1 var(--mono);font-variant-numeric:tabular-nums}
+.readout .hi{color:var(--red)}
+.data{padding:14px 16px}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font:13px/1.3 var(--mono);font-variant-numeric:tabular-nums}
+th,td{padding:6px 10px;border-bottom:1px solid var(--rule);text-align:right;white-space:nowrap}
+th{font:600 10px/1.2 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+th:first-child,td:first-child{text-align:left}
+tr.now td{color:var(--red);font-weight:500}
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;padding:10px 16px;border-top:1.5px solid var(--ink);font:12px/1.4 var(--mono);color:var(--ink-2)}
+.note{font:12px/1.5 var(--body);color:var(--ink-2);margin:0}
+@media (max-width:900px){.main{grid-template-columns:1fr}.inputs{border-right:0;border-bottom:1.5px solid var(--ink)}}
+@media (max-width:640px){.views{grid-template-columns:1fr}.view+.view{border-left:0}.readout{grid-template-columns:repeat(2,1fr)}.readout div:nth-child(2){border-right:0}.readout div{border-bottom:1px solid var(--rule)}.tb{grid-template-columns:1fr}.tb .meta{border-left:0;border-top:1px solid var(--rule)}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.dl{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;padding:12px 20px;border-bottom:1.5px solid var(--ink);background:var(--paper)}
+.dl a.btn{font:600 13px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;background:var(--red);color:#fff;text-decoration:none;padding:11px 14px;border:1px solid var(--red)}
+.dl a.btn:hover{background:var(--ink);border-color:var(--ink);color:var(--sheet)}
+.dl span{font:13px/1.4 var(--body);color:var(--ink-2);flex:1;min-width:180px}
+.dl a.more{font:500 13px/1 var(--mono);color:var(--blue)}
+
+:root{--ok:#2F8A57;--okbg:rgba(47,138,87,.12);--bad:#C8432B;--badbg:rgba(200,67,43,.10);--warn:#B7791F}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ok:#5FD08F;--okbg:rgba(95,208,143,.14);--bad:#FF7A5C;--badbg:rgba(255,122,92,.12);--warn:#F2B84B}}
+:root[data-theme="dark"]{--ok:#5FD08F;--okbg:rgba(95,208,143,.14);--bad:#FF7A5C;--badbg:rgba(255,122,92,.12);--warn:#F2B84B}
+.pill{display:inline-block;font:600 11px/1 var(--body);letter-spacing:.08em;text-transform:uppercase;padding:5px 7px;border:1px solid currentColor}
+.pill.ok{color:var(--ok);background:var(--okbg)} .pill.bad{color:var(--bad);background:var(--badbg)} .pill.warn{color:var(--warn)}
+td.ok{color:var(--ok)} td.bad{color:var(--bad)}
+.readout .ok{color:var(--ok)} .readout .bad{color:var(--bad)}
+.view.full{grid-column:1/-1}
+.checks{list-style:none;margin:0;padding:0}
+.checks li{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:8px 0;border-bottom:1px solid var(--rule);font:13px/1.35 var(--body)}
+.checks li span:first-child{min-width:0}
+select{appearance:auto}
+#slots{display:flex;flex-direction:column;gap:8px}
+.slot{display:grid;grid-template-columns:1fr 84px;gap:8px}
+.slot select,.slot input{font-size:13px;padding:8px}
+.view.full svg{max-height:380px}</style>
+</head>
+<body>
+<div class="sheet">
+  <header class="tb">
+    <h1>Wall U-Value<small>Build up the wall layer by layer. Get the U-value, the temperature through the wall and how much insulation it needs to meet the ECBC 2017 limit for your climate.</small></h1>
+    <div class="meta"><div><b>Sheet</b>T-20</div><div><b>Method</b>ISO 6946 · ECBC 2017</div><div><b>Units</b>W/m²K · mm</div><div><b>By</b>@smart_tools_every_week</div></div>
+  </header>
+  <div class="dl" id="dlbar"><a class="btn" href="wall-u-value.html" download="wall-u-value.html">⬇ Download this app</a><span>Free. One HTML file that works offline. Open it in any browser, no install or sign-up.</span><a class="more" href="../">More free tools →</a></div>
+  <div class="main">
+    <section class="inputs" aria-label="Inputs">
+
+      <label for="pre">Start from
+        <select id="pre">
+          <option value="brick" selected>230 mm brick, plastered</option>
+          <option value="aac">200 mm AAC block, plastered</option>
+          <option value="cavity">Brick cavity wall</option>
+          <option value="rcc">150 mm RCC wall</option>
+          <option value="dry">Brick + dry lining</option>
+        </select>
+      </label>
+      <p class="note">Layers from the outside in:</p>
+      <div id="slots"></div>
+      <label for="kc">Custom material λ W/mK<input id="kc" type="number" step="0.01" value="0.5"></label>
+      <div class="row">
+        <label for="insm">Insulation
+          <select id="insm"></select>
+        </label>
+        <label for="insp">Fixed
+          <select id="insp"><option value="out" selected>Outside</option><option value="in">Inside</option></select>
+        </label>
+      </div>
+      <label for="ins">Insulation thickness <span id="insv" class="time" style="font-size:18px"></span><input id="ins" type="range" min="0" max="150" step="5" value="0"></label>
+      <div class="row">
+        <label for="zone">Climate zone
+          <select id="zone"><option value="0" selected>Composite</option><option value="1">Hot &amp; dry</option><option value="2">Warm &amp; humid</option><option value="3">Temperate</option><option value="4">Cold</option></select>
+        </label>
+        <label for="lvl">Target
+          <select id="lvl">
+            <option value="e_all" selected>ECBC · most buildings</option>
+            <option value="e_small">ECBC · no-star hotel / business &lt;10,000 m²</option>
+            <option value="e_school">ECBC · school &lt;10,000 m²</option>
+            <option value="p_all">ECBC+ · most buildings</option>
+            <option value="s_all">SuperECBC</option>
+            <option value="custom">Custom U</option>
+          </select>
+        </label>
+      </div>
+      <div class="row">
+        <label for="uc">Custom U target<input id="uc" type="number" step="0.01" value="0.40"></label>
+        <label for="area">Wall area m²<input id="area" type="number" step="1" value="30"></label>
+      </div>
+      <div class="row">
+        <label for="to">Outside °C<input id="to" type="number" step="0.5" value="42"></label>
+        <label for="ti">Inside °C<input id="ti" type="number" step="0.5" value="24"></label>
+      </div>
+
+    </section>
+    <section style="min-width:0">
+
+      <div class="readout">
+        <div><b>U-value</b><span id="oU" class="hi">–</span></div>
+        <div><b>Target</b><span id="oT">–</span></div>
+        <div><b>Insulation needed</b><span id="oIns">–</span></div>
+        <div><b>Heat through wall</b><span id="oQ">–</span></div>
+      </div>
+      <div class="views">
+        <div class="view full"><h2>Wall section <span id="secLabel"></span></h2><svg id="sec" viewBox="0 0 840 380" role="img" aria-label="Wall section with temperature line"></svg></div>
+      </div>
+      <div class="views">
+        <div class="view"><h2>Resistance <span>m²K/W</span></h2><svg id="bars" viewBox="0 0 420 260" role="img" aria-label="Thermal resistance by layer"></svg></div>
+        <div class="view"><h2>Checks <span id="sum"></span></h2><ul class="checks" id="checks"></ul></div>
+      </div>
+      <div class="data">
+        <h2>Layer schedule <span>outside → inside</span></h2>
+        <div class="tablewrap"><table><thead><tr><th>Layer</th><th>t (mm)</th><th>λ (W/mK)</th><th>R (m²K/W)</th><th>Share</th><th>Inner face °C</th></tr></thead><tbody id="tbl"></tbody></table></div>
+      </div>
+
+    </section>
+  </div>
+  <footer class="foot"><span>Free tool · @smart_tools_every_week · simplyrendered.github.io/smart-tools · built with Claude</span><span>U = 1 / (Rsi + Σ t/λ + Rse), Rsi 0.13 and Rse 0.04 m²K/W, unventilated cavity 0.18 m²K/W (ISO 6946; ECBC 2017 Tables 4A–4B). Wall limits: ECBC 2017 §4.3.2 (ECBC, ECBC+ and SuperECBC tables). λ values are typical (SP 41, ECBC User Guide, CEPT/Shakti walling study 2020): use the manufacturer's declared value when you have it.</span></footer>
+</div>
+<script>
+if(location.protocol==="file:"){const b=document.getElementById("dlbar");if(b)b.hidden=true;}
+const $=id=>document.getElementById(id);
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const NS="http://www.w3.org/2000/svg";
+function el(tag,attrs,parent,text){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(text!=null)e.textContent=text;parent&&parent.appendChild(e);return e}
+const fmt=(v,d=2)=>Number.isFinite(v)?v.toFixed(d):"–";
+
+const MAT={none:{n:"— no layer —",k:null,c:"none"},plaster:{n:"Cement plaster",k:0.721,c:"#C9C2B2"},brick:{n:"Burnt clay brick",k:0.811,c:"#B5573C"},
+  flyash:{n:"Fly ash brick",k:0.61,c:"#8E8A80"},aac:{n:"AAC block",k:0.183,c:"#D8D5CC"},rcc:{n:"RCC / dense concrete",k:1.58,c:"#7D8790"},
+  gyp:{n:"Gypsum board",k:0.25,c:"#ECE9E0"},air:{n:"Air cavity ≥ 25 mm",r:0.18,c:"none"},custom:{n:"Custom (λ below)",k:null,c:"#9B7FB8"}};
+const INS={xps:{n:"XPS board",k:0.030},eps:{n:"EPS board",k:0.036},puf:{n:"PUF / PIR board",k:0.025},rock:{n:"Rock wool",k:0.040},glass:{n:"Glass wool",k:0.040}};
+// ECBC 2017 §4.3.2 maximum wall U (W/m²K): composite, hot-dry, warm-humid, temperate, cold
+const LIM={e_all:[0.40,0.40,0.40,0.55,0.34],e_small:[0.63,0.63,0.63,0.63,0.40],e_school:[0.85,0.85,0.85,1.00,0.40],p_all:[0.34,0.34,0.34,0.55,0.22],s_all:[0.22,0.22,0.22,0.22,0.22]};
+const PRE={brick:[["plaster",20],["brick",230],["plaster",12]],aac:[["plaster",20],["aac",200],["plaster",12]],
+  cavity:[["plaster",20],["brick",115],["air",50],["brick",115],["plaster",12]],rcc:[["plaster",20],["rcc",150],["plaster",12]],
+  dry:[["plaster",20],["brick",230],["air",25],["gyp",12.5]]};
+const NS_=5,RSI=0.13,RSE=0.04;
+const sl=$("slots");
+for(let i=0;i<NS_;i++){const d=document.createElement("div");d.className="slot";
+  d.innerHTML=`<label for="m${i}" style="display:none">Layer ${i+1}</label><select id="m${i}" aria-label="Layer ${i+1} material">${Object.entries(MAT).map(([k,v])=>`<option value="${k}">${v.n}</option>`).join("")}</select><input id="t${i}" type="number" step="5" aria-label="Layer ${i+1} thickness mm" title="thickness mm">`;sl.appendChild(d)}
+$("insm").innerHTML=Object.entries(INS).map(([k,v])=>`<option value="${k}">${v.n} λ ${v.k}</option>`).join("");
+function loadPreset(){const p=PRE[$("pre").value]||PRE.brick;for(let i=0;i<NS_;i++){const L=p[i];$("m"+i).value=L?L[0]:"none";$("t"+i).value=L?L[1]:0}}
+$("pre").addEventListener("change",()=>{loadPreset();render()});
+const num=(id,min,max,def)=>{const v=parseFloat($(id).value);return Number.isFinite(v)?Math.min(max,Math.max(min,v)):def};
+function calc(insOverride){
+  const kc=num("kc",0.01,10,0.5),insK=INS[$("insm").value].k,ins=insOverride!=null?insOverride:num("ins",0,500,0),pos=$("insp").value;
+  let L=[];
+  for(let i=0;i<NS_;i++){const m=$("m"+i).value,t=num("t"+i,0,2000,0),M=MAT[m];if(m==="none"||t<=0)continue;
+    const k=m==="custom"?kc:M.k;const R=M.r!=null?M.r:t/1000/k;L.push({name:M.n,t,k:M.r!=null?null:k,R,c:M.c,key:m})}
+  if(ins>0){const I={name:INS[$("insm").value].n,t:ins,k:insK,R:ins/1000/insK,c:"#F2C14E",key:"ins"};
+    if(pos==="out"){const j=L.length&&L[0].key==="plaster"?1:0;L.splice(j,0,I)}else{const j=L.length&&(L[L.length-1].key==="plaster"||L[L.length-1].key==="gyp")?L.length-1:L.length;L.splice(j,0,I)}}
+  const Rl=L.reduce((a,b)=>a+b.R,0),Rt=RSE+Rl+RSI,U=1/Rt;
+  const zone=+$("zone").value,lvl=$("lvl").value,target=lvl==="custom"?num("uc",0.05,10,0.4):LIM[lvl][zone];
+  const to=num("to",-50,70,42),ti=num("ti",-30,50,24),A=num("area",0,100000,30),q=U*(to-ti);
+  const passU=u=>Math.round(U*100)/100<=u+1e-9;
+  const need=u=>passU(u)?0:Math.max(0,(1/u-Rt)*insK*1000);
+  return {L,Rl,Rt,U,zone,lvl,target,to,ti,A,q,ins,insK,needT:need(target),need,thick:L.reduce((a,b)=>a+b.t,0)};
+}
+function render(){
+  const s=calc(),ink=css("--ink"),ink2=css("--ink-2"),rule=css("--rule"),red=css("--red"),blue=css("--blue"),ok=css("--ok"),bad=css("--bad"),paper=css("--paper");
+  $("insv").textContent=s.ins+" mm";
+  const pass=Math.round(s.U*100)/100<=s.target+1e-9;
+  $("oU").textContent=fmt(s.U,2);$("oU").className=pass?"ok":"hi";$("oT").textContent="≤ "+fmt(s.target,2);
+  $("oIns").textContent=s.needT<=0?"none more":"+"+Math.ceil(s.needT)+" mm";$("oQ").textContent=fmt(s.q*s.A,0)+" W";
+  // SECTION
+  const sv=$("sec");sv.innerHTML="";const W=840,x0=150,x1=690,tot=Math.max(1,s.thick),y0=40,y1=330;
+  // cavity: draw with min width
+  const ws=s.L.map(l=>Math.max(l.t,8));const tw=ws.reduce((a,b)=>a+b,0);const k=(x1-x0)/tw;let x=x0;const xs=[x0];
+  s.L.forEach((l,i)=>{const w=ws[i]*k;
+    if(l.c!=="none")el("rect",{x,y:y0,width:w,height:y1-y0,fill:l.c,opacity:.85,stroke:ink,"stroke-width":1},sv);
+    else el("rect",{x,y:y0,width:w,height:y1-y0,fill:"none",stroke:ink,"stroke-width":1,"stroke-dasharray":"4 4"},sv);
+    if(l.key==="brick")for(let yy=y0+18;yy<y1;yy+=18)el("line",{x1:x,y1:yy,x2:x+w,y2:yy,stroke:"#00000033"},sv);
+    if(l.key==="ins")for(let yy=y0+6;yy<y1;yy+=14)el("path",{d:`M${x+2} ${yy} q${w/4} 7 ${w/2} 0 t${w/2-4} 0`,stroke:"#00000055",fill:"none"},sv);
+    if(w>26)el("text",{x:x+w/2,y:y1+18,"text-anchor":"middle",fill:ink2,"font-size":11,"font-family":"IBM Plex Mono, monospace"},sv,(+l.t.toFixed(1))+"");
+    x+=w;xs.push(x)});
+  el("text",{x:x0-10,y:y0+14,"text-anchor":"end",fill:ink2,"font-size":12,"font-family":"IBM Plex Sans, sans-serif"},sv,"OUTSIDE");
+  el("text",{x:x1+10,y:y0+14,fill:ink2,"font-size":12,"font-family":"IBM Plex Sans, sans-serif"},sv,"INSIDE");
+  // temperature line
+  const tmin=Math.min(s.to,s.ti)-2,tmax=Math.max(s.to,s.ti)+2,TY=t=>y1-20-(t-tmin)/(tmax-tmin||1)*(y1-y0-50);
+  let T=s.to;const pts=[[30,TY(T)],[x0,TY(T-s.q*RSE)]];T-=s.q*RSE;const temps=[T];
+  s.L.forEach((l,i)=>{T-=s.q*l.R;pts.push([xs[i+1],TY(T)]);temps.push(T)});
+  pts.push([W-30,TY(s.ti)]);
+  el("polyline",{points:pts.map(p=>p.join(",")).join(" "),fill:"none",stroke:red,"stroke-width":3},sv);
+  pts.forEach((p,i)=>{if(i===0||i===pts.length-1)return;el("circle",{cx:p[0],cy:p[1],r:3.5,fill:red},sv)});
+  el("text",{x:30,y:TY(s.to)-10,fill:red,"font-size":13,"font-weight":500,"font-family":"IBM Plex Mono, monospace"},sv,fmt(s.to,1)+"°C");
+  el("text",{x:W-30,y:TY(s.ti)-10,"text-anchor":"end",fill:red,"font-size":13,"font-weight":500,"font-family":"IBM Plex Mono, monospace"},sv,fmt(s.ti,1)+"°C");
+  el("text",{x:x0+4,y:pts[1][1]+(s.to>s.ti?-8:16),fill:ink,"font-size":12,"font-family":"IBM Plex Mono, monospace"},sv,fmt(temps[0],1)+"°");
+  el("text",{x:x1-4,y:pts[pts.length-2][1]+(s.to>s.ti?-8:16),"text-anchor":"end",fill:ink,"font-size":12,"font-family":"IBM Plex Mono, monospace"},sv,fmt(temps[temps.length-1],1)+"°");
+  el("text",{x:W/2,y:y1+40,"text-anchor":"middle",fill:ink,"font-size":13,"font-weight":500,"font-family":"IBM Plex Mono, monospace"},sv,`${fmt(s.thick,0)} mm · U ${fmt(s.U,2)} W/m²K · ${fmt(Math.abs(s.q),1)} W/m²`);
+  $("secLabel").textContent="temperature line, steady state";
+  // BARS
+  const bv=$("bars");bv.innerHTML="";const items=[{name:"Outside film",R:RSE,c:rule}].concat(s.L.map(l=>({name:l.name+(l.t?` ${+l.t.toFixed(1)}`:""),R:l.R,c:l.c==="none"?rule:l.c}))).concat([{name:"Inside film",R:RSI,c:rule}]);
+  const bh=Math.min(28,220/items.length),mx=Math.max(...items.map(i=>i.R),0.2);
+  items.forEach((it,i)=>{const y=10+i*(bh+4);el("rect",{x:170,y,width:Math.max(1,it.R/mx*200),height:bh,fill:it.c,stroke:ink,"stroke-width":.6},bv);
+    el("text",{x:164,y:y+bh/2+4,"text-anchor":"end",fill:ink2,"font-size":11,"font-family":"IBM Plex Sans, sans-serif"},bv,it.name.length>24?it.name.slice(0,23)+"…":it.name);
+    el("text",{x:174+Math.max(1,it.R/mx*200),y:y+bh/2+4,fill:ink,"font-size":11,"font-family":"IBM Plex Mono, monospace"},bv,fmt(it.R,2))});
+  bv.setAttribute("viewBox",`0 0 420 ${Math.max(120,20+items.length*(bh+4))}`);
+  // CHECKS
+  const ul=$("checks");ul.innerHTML="";let fails=0;
+  const add=(t,okk,info)=>{const li=document.createElement("li");if(!okk&&!info)fails++;li.innerHTML=`<span>${t}</span><span class="pill ${info?"warn":okk?"ok":"bad"}">${info?"note":okk?"pass":"fail"}</span>`;ul.appendChild(li)};
+  add(`U ${fmt(s.U,2)} ≤ ${fmt(s.target,2)} W/m²K (${$("lvl").selectedOptions[0].textContent})`,pass);
+  const zn=$("zone").selectedOptions[0].textContent;
+  [["ECBC",LIM.e_all[s.zone]],["ECBC+",LIM.p_all[s.zone]],["SuperECBC",LIM.s_all[s.zone]]].forEach(([n,u])=>{const nd=s.need(u);
+    add(`${n} (${zn}, ≤ ${u}): ${nd<=0?"met":"add "+Math.ceil(nd)+" mm of "+INS[$("insm").value].n}`,nd<=0,false)});
+  add(`Inside wall surface ${fmt(temps[temps.length-1],1)}°C vs room ${fmt(s.ti,1)}°C`,true,true);
+  $("sum").textContent=fails?fails+" not met":"all met";
+  // TABLE
+  const tb=$("tbl");tb.innerHTML="";const row=(a,b,c,d,e,f,cls)=>{const tr=document.createElement("tr");if(cls)tr.className=cls;tr.innerHTML=`<td>${a}</td><td>${b}</td><td>${c}</td><td>${d}</td><td>${e}</td><td>${f}</td>`;tb.appendChild(tr)};
+  row("Outside surface film","–","–",fmt(RSE,2),fmt(RSE/s.Rt*100,0)+"%",fmt(temps[0],1));
+  s.L.forEach((l,i)=>row(l.name,+l.t.toFixed(1),l.k==null?"R 0.18":fmt(l.k,3),fmt(l.R,3),fmt(l.R/s.Rt*100,0)+"%",fmt(temps[i+1],1),l.key==="ins"?"now":""));
+  row("Inside surface film","–","–",fmt(RSI,2),fmt(RSI/s.Rt*100,0)+"%",fmt(s.ti,1));
+  row("Total","<b>"+fmt(s.thick,0)+"</b>","",`<b>${fmt(s.Rt,3)}</b>`,"100%","U "+fmt(s.U,3));
+}
+loadPreset();
+
+document.querySelectorAll("input,select").forEach(i=>i.addEventListener("input",render));
+window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",render);
+new MutationObserver(render).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+render();
+</script>
+</body>
+</html>

@@ -3,7 +3,7 @@
  "repo": "SimplyRendered/smart-tools",
  "raw_base": "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/",
  "metricool_brand_id": "7306873",
- "next_number": 19,
+ "next_number": 22,
  "tools": [
   {
    "no": "T-01",
@@ -130,6 +130,27 @@
    "name": "Cut & Fill",
    "post_date": "2026-10-30",
    "summary": "Four corner levels, building pad, cut/fill volumes, balanced level with shrinkage, truckloads with swell, contours and section."
+  },
+  {
+   "no": "T-19",
+   "slug": "rooftop-solar",
+   "name": "Rooftop Solar Layout",
+   "post_date": "2026-10-19",
+   "summary": "Panel rows with shade-free gaps for the winter sun, parapet and stair-room shadows kept clear, with kWp and yearly units."
+  },
+  {
+   "no": "T-20",
+   "slug": "wall-u-value",
+   "name": "Wall U-Value",
+   "post_date": "2026-10-21",
+   "summary": "Layer-by-layer U-value with the temperature through the wall and the insulation needed for the ECBC 2017 limit in your climate."
+  },
+  {
+   "no": "T-21",
+   "slug": "parking-layout",
+   "name": "Parking Layout",
+   "post_date": "2026-10-23",
+   "summary": "Draws every bay and aisle for 90°, 60°, 45°, 30° or parallel parking, counts the cars that really fit and checks the ECS count."
   }
  ],
  "backlog": [
