@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Plaster & Paint Quantity</title>
+<meta name="description" content="Wall and ceiling plaster, cement, sand and paint for a room, with doors and windows deducted by the IS 1200 area bands. Every opening is drawn on the unfolded walls.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: drafting sheet — title block header, input column + two drawings, data table below */
+:root{
+  --paper:#F2F3EF; --sheet:#FBFBF8; --ink:#1B2732; --ink-2:#4A5865; --rule:#D5D9D4; --grid:#E6E8E3;
+  --red:#C8432B; --blue:#2E66A6; --sun:#E09A1E; --shadow:rgba(27,39,50,.22);
+  --display:'Barlow Condensed','Arial Narrow',sans-serif; --body:'IBM Plex Sans',system-ui,sans-serif; --mono:'IBM Plex Mono',ui-monospace,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#0E1A26; --sheet:#132233; --ink:#E4ECF2; --ink-2:#9DB0C0; --rule:#2A3D52; --grid:#1B2D40;
+  --red:#FF7A5C; --blue:#6FB0F0; --sun:#FFC04D; --shadow:rgba(140,190,240,.25); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0E1A26; --sheet:#132233; --ink:#E4ECF2; --ink-2:#9DB0C0; --rule:#2A3D52; --grid:#1B2D40;
+  --red:#FF7A5C; --blue:#6FB0F0; --sun:#FFC04D; --shadow:rgba(140,190,240,.25); color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--paper);color:var(--ink);font:15px/1.5 var(--body);padding:16px;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px}
+.sheet{max-width:1180px;margin:0 auto;background:var(--sheet);border:1.5px solid var(--ink);}
+.tb{display:grid;grid-template-columns:1fr auto;border-bottom:1.5px solid var(--ink)}
+.tb h1{font:700 clamp(30px,5vw,46px)/1 var(--display);letter-spacing:.01em;margin:0;padding:18px 20px 14px;text-transform:uppercase;text-wrap:balance}
+.tb h1 small{display:block;font:500 14px/1.4 var(--body);letter-spacing:0;text-transform:none;color:var(--ink-2);margin-top:6px}
+.tb .meta{display:grid;grid-template-columns:auto auto;border-left:1.5px solid var(--ink);font:12px/1.2 var(--mono)}
+.tb .meta div{padding:8px 12px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule)}
+.tb .meta b{display:block;font:600 10px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-bottom:4px}
+.main{display:grid;grid-template-columns:320px 1fr;}
+.inputs{border-right:1.5px solid var(--ink);padding:18px 20px;display:flex;flex-direction:column;gap:14px}
+label{display:flex;flex-direction:column;gap:5px;font:600 11px/1 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+input,select{font:500 15px/1.2 var(--mono);color:var(--ink);background:var(--paper);border:1px solid var(--rule);padding:9px 10px;border-radius:0;width:100%}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
+input[type=range]{padding:0;accent-color:var(--red)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+button{font:600 12px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;background:transparent;color:var(--ink);border:1px solid var(--ink);padding:8px 10px;cursor:pointer}
+button:hover{background:var(--ink);color:var(--sheet)}
+.time{font:500 28px/1 var(--mono);color:var(--red)}
+.views{display:grid;grid-template-columns:1fr 1fr;min-width:0}
+.view{padding:14px 16px 10px;min-width:0;border-bottom:1.5px solid var(--ink)}
+.view+.view{border-left:1px solid var(--rule)}
+.view h2,.data h2{font:600 20px/1 var(--display);text-transform:uppercase;letter-spacing:.04em;margin:0 0 8px;display:flex;justify-content:space-between;gap:8px}
+.view h2 span,.data h2 span{font:400 11px/1.6 var(--mono);color:var(--ink-2);text-transform:none;letter-spacing:0}
+svg{width:100%;height:auto;display:block}
+.readout{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1.5px solid var(--ink)}
+.readout div{padding:12px 16px;border-right:1px solid var(--rule)}
+.readout div:last-child{border-right:0}
+.readout b{display:block;font:600 10px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-bottom:6px}
+.readout span{font:500 24px/1 var(--mono);font-variant-numeric:tabular-nums}
+.readout .hi{color:var(--red)}
+.data{padding:14px 16px}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font:13px/1.3 var(--mono);font-variant-numeric:tabular-nums}
+th,td{padding:6px 10px;border-bottom:1px solid var(--rule);text-align:right;white-space:nowrap}
+th{font:600 10px/1.2 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+th:first-child,td:first-child{text-align:left}
+tr.now td{color:var(--red);font-weight:500}
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;padding:10px 16px;border-top:1.5px solid var(--ink);font:12px/1.4 var(--mono);color:var(--ink-2)}
+.note{font:12px/1.5 var(--body);color:var(--ink-2);margin:0}
+@media (max-width:900px){.main{grid-template-columns:1fr}.inputs{border-right:0;border-bottom:1.5px solid var(--ink)}}
+@media (max-width:640px){.views{grid-template-columns:1fr}.view+.view{border-left:0}.readout{grid-template-columns:repeat(2,1fr)}.readout div:nth-child(2){border-right:0}.readout div{border-bottom:1px solid var(--rule)}.tb{grid-template-columns:1fr}.tb .meta{border-left:0;border-top:1px solid var(--rule)}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.dl{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;padding:12px 20px;border-bottom:1.5px solid var(--ink);background:var(--paper)}
+.dl a.btn{font:600 13px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;background:var(--red);color:#fff;text-decoration:none;padding:11px 14px;border:1px solid var(--red)}
+.dl a.btn:hover{background:var(--ink);border-color:var(--ink);color:var(--sheet)}
+.dl span{font:13px/1.4 var(--body);color:var(--ink-2);flex:1;min-width:180px}
+.dl a.more{font:500 13px/1 var(--mono);color:var(--blue)}
+
+:root{--ok:#2F8A57;--okbg:rgba(47,138,87,.12);--bad:#C8432B;--badbg:rgba(200,67,43,.10);--warn:#B7791F}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ok:#5FD08F;--okbg:rgba(95,208,143,.14);--bad:#FF7A5C;--badbg:rgba(255,122,92,.12);--warn:#F2B84B}}
+:root[data-theme="dark"]{--ok:#5FD08F;--okbg:rgba(95,208,143,.14);--bad:#FF7A5C;--badbg:rgba(255,122,92,.12);--warn:#F2B84B}
+.pill{display:inline-block;font:600 11px/1 var(--body);letter-spacing:.08em;text-transform:uppercase;padding:5px 7px;border:1px solid currentColor}
+.pill.ok{color:var(--ok);background:var(--okbg)} .pill.bad{color:var(--bad);background:var(--badbg)} .pill.warn{color:var(--warn)}
+td.ok{color:var(--ok)} td.bad{color:var(--bad)}
+.readout .ok{color:var(--ok)} .readout .bad{color:var(--bad)}
+.view.full{grid-column:1/-1}
+.checks{list-style:none;margin:0;padding:0}
+.checks li{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:8px 0;border-bottom:1px solid var(--rule);font:13px/1.35 var(--body)}
+.checks li span:first-child{min-width:0}
+select{appearance:auto}
+.orow{display:grid;grid-template-columns:1.25fr 1fr 1fr .9fr;gap:6px}.orow input,.orow select{padding:8px 6px;font-size:14px;min-width:0}.oh{display:grid;grid-template-columns:1.25fr 1fr 1fr .9fr;gap:6px;font:600 10px/1 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}.sw{display:inline-block;width:10px;height:10px;margin-right:6px;vertical-align:-1px;border:1px solid var(--ink)}.lg{display:flex;flex-wrap:wrap;gap:6px 16px;font:12px/1.4 var(--body);color:var(--ink-2);margin-top:6px}</style>
+</head>
+<body>
+<div class="sheet">
+  <header class="tb">
+    <h1>Plaster &amp; Paint Quantity<small>Wall and ceiling plaster, cement, sand and paint for a room, with doors and windows deducted by the IS 1200 area bands. Every opening is drawn on the unfolded walls.</small></h1>
+    <div class="meta"><div><b>Sheet</b>T-22</div><div><b>Standard</b>IS 1200 Pt 12 &amp; 13</div><div><b>Units</b>m · mm · L</div><div><b>By</b>@smart_tools_every_week</div></div>
+  </header>
+  <div class="dl" id="dlbar"><a class="btn" href="plaster-paint.html" download="plaster-paint.html">⬇ Download this app</a><span>Free. One HTML file that works offline. Open it in any browser, no install or sign-up.</span><a class="more" href="../">More free tools →</a></div>
+  <div class="main">
+    <section class="inputs" aria-label="Inputs">
+
+      <div class="row">
+        <label for="L">Room length (m)<input id="L" type="number" step="0.1" value="4.2"></label>
+        <label for="W">Room width (m)<input id="W" type="number" step="0.1" value="3.6"></label>
+      </div>
+      <div class="row">
+        <label for="H">Wall height (m)<input id="H" type="number" step="0.05" value="3.0"></label>
+        <label for="T">Wall thickness (mm)<input id="T" type="number" step="10" value="230"></label>
+      </div>
+      <div class="oh"><span>Opening</span><span>Width m</span><span>Height m</span><span>Wall</span></div>
+      <div class="orow"><select id="t1"><option>Door</option><option>Window</option></select><input id="w1" type="number" step="0.05" value="1.0"><input id="h1" type="number" step="0.05" value="2.1"><select id="s1"><option>A</option><option selected>B</option><option>C</option><option>D</option></select></div>
+      <div class="orow"><select id="t2"><option>Door</option><option selected>Window</option></select><input id="w2" type="number" step="0.05" value="1.5"><input id="h2" type="number" step="0.05" value="1.2"><select id="s2"><option selected>A</option><option>B</option><option>C</option><option>D</option></select></div>
+      <div class="orow"><select id="t3"><option>Door</option><option selected>Window</option></select><input id="w3" type="number" step="0.05" value="0.6"><input id="h3" type="number" step="0.05" value="0.6"><select id="s3"><option>A</option><option>B</option><option>C</option><option selected>D</option></select></div>
+      <div class="orow"><select id="t4"><option selected>Door</option><option>Window</option></select><input id="w4" type="number" step="0.05" value="2.4"><input id="h4" type="number" step="0.05" value="2.1"><select id="s4"><option>A</option><option>B</option><option selected>C</option><option>D</option></select></div>
+      <div class="orow"><select id="t5"><option>Door</option><option>Window</option></select><input id="w5" type="number" step="0.05" value="0"><input id="h5" type="number" step="0.05" value="0"><select id="s5"><option>A</option><option>B</option><option>C</option><option>D</option></select></div>
+      <p class="note">Set a width or height to 0 to remove an opening. Walls A and C are the room length, B and D the width.</p>
+      <div class="row">
+        <label for="tp">Wall plaster (mm)<input id="tp" type="number" step="1" value="12"></label>
+        <label for="tc">Ceiling plaster (mm)<input id="tc" type="number" step="1" value="6"></label>
+      </div>
+      <div class="row">
+        <label for="mix">Cement : sand
+          <select id="mix"><option value="4">1 : 4</option><option value="5">1 : 5</option><option value="6" selected>1 : 6</option></select>
+        </label>
+        <label for="ws">Mortar waste (%)<input id="ws" type="number" step="1" value="10"></label>
+      </div>
+      <label for="ceil">Ceiling<select id="ceil"><option value="1" selected>Plaster and paint the ceiling</option><option value="0">Walls only</option></select></label>
+      <div class="row">
+        <label for="cv">Paint (m² per L per coat)<input id="cv" type="number" step="0.5" value="12"></label>
+        <label for="co">Paint coats<input id="co" type="number" step="1" value="2"></label>
+      </div>
+      <div class="row">
+        <label for="pv">Primer (m² per L)<input id="pv" type="number" step="0.5" value="10"></label>
+        <label for="pt">Putty (kg per m², 2 coats)<input id="pt" type="number" step="0.1" value="1.4"></label>
+      </div>
+
+    </section>
+    <section style="min-width:0">
+
+      <div class="readout">
+        <div><b>Plaster area</b><span id="oA" class="hi">–</span></div>
+        <div><b>Cement</b><span id="oC">–</span></div>
+        <div><b>Sand</b><span id="oS">–</span></div>
+        <div><b>Paint</b><span id="oP">–</span></div>
+      </div>
+      <div class="views">
+        <div class="view full"><h2>Walls unfolded <span id="cap"></span></h2><svg id="plan" viewBox="0 0 700 195" role="img" aria-label="The four walls laid out flat with each opening coloured by its deduction rule"></svg>
+        <div class="lg"><span><i class="sw" style="background:var(--rule)"></i>up to 0.5 m²: not deducted</span><span><i class="sw" style="background:var(--sun)"></i>0.5 to 3 m²: deduct once</span><span><i class="sw" style="background:var(--red)"></i>over 3 m²: deduct, add reveals</span></div></div>
+      </div>
+      <div class="data">
+        <h2>Working <span>IS 1200 measurement, step by step</span></h2>
+        <div class="tablewrap"><table><thead><tr><th>Step</th><th>Value</th><th>How</th></tr></thead><tbody id="tbl"></tbody></table></div>
+      </div>
+      <div class="data">
+        <h2>Openings <span>which rule each one falls under</span></h2>
+        <div class="tablewrap"><table><thead><tr><th>Opening</th><th>Area</th><th>Rule</th><th>Deduct</th><th>Reveals</th></tr></thead><tbody id="otb"></tbody></table></div>
+      </div>
+
+    </section>
+  </div>
+  <footer class="foot"><span>Free tool · @smart_tools_every_week · simplyrendered.github.io/smart-tools · built with Claude</span><span>Sources: IS 1200 (Part 12) plastering and (Part 13) painting measurement rules: openings up to 0.5 m² are not deducted, 0.5 to 3 m² are deducted once, over 3 m² are deducted in full and reveals are added. Wet-to-dry mortar 1.27 and paint coverage are typical values; use your supplier's data sheet.</span></footer>
+</div>
+<script>
+if(location.protocol==="file:"){const b=document.getElementById("dlbar");if(b)b.hidden=true;}
+const $=id=>document.getElementById(id);
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const NS="http://www.w3.org/2000/svg";
+function el(tag,attrs,parent,text){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(text!=null)e.textContent=text;parent&&parent.appendChild(e);return e}
+const fmt=(v,d=2)=>Number.isFinite(v)?v.toFixed(d):"–";
+
+function render(){
+  const num=(id,min,max,def)=>{const v=parseFloat($(id).value);return Number.isFinite(v)&&v>=min?Math.min(max,v):def};
+  const L=num("L",0.5,60,0.5),W=num("W",0.5,60,0.5),H=num("H",1,20,3),T=num("T",0,1000,230)/1000;
+  const tp=num("tp",0,50,12)/1000,tc=num("tc",0,50,6)/1000,ws=num("ws",0,100,10)/100,cv=num("cv",1,60,12),co=Math.round(num("co",1,6,2)),pv=num("pv",1,60,10),pt=num("pt",0,10,1.4);
+  const mix=num("mix",1,12,6),withCeil=$("ceil").value==="1";
+  const wallLen={A:L,B:W,C:L,D:W},names=["A","B","C","D"];
+  const ops=[];
+  for(let i=1;i<=5;i++){
+    const w0=num("w"+i,0,60,0),h0=num("h"+i,0,20,0);const side=$("s"+i).value;
+    if(w0<=0||h0<=0)continue;
+    const w=Math.min(w0,wallLen[side]),h=Math.min(h0,H),a=w*h,door=$("t"+i).value==="Door";
+    let rule,ded=0,rev=0;
+    if(a<=0.5){rule="up to 0.5 m²";}
+    else if(a<=3){rule="0.5 to 3 m²";ded=a;}
+    else{rule="over 3 m²";ded=a;rev=(door?2*h+w:2*(h+w))*T;}
+    ops.push({i,type:$("t"+i).value,w,h,a,side,rule,ded,rev,band:a<=0.5?0:a<=3?1:2});
+  }
+  const per=2*(L+W),gross=per*H,dedT=ops.reduce((s,o)=>s+o.ded,0),revT=ops.reduce((s,o)=>s+o.rev,0);
+  const wallA=Math.max(0,gross-dedT+revT),ceilA=withCeil?L*W:0,tot=wallA+ceilA;
+  const wet=(wallA*tp+ceilA*tc)*(1+ws),dry=wet*1.27,cemVol=dry/(1+mix),sandVol=dry*mix/(1+mix),bags=cemVol/0.0347;
+  const paintA=tot,paintL=paintA*co/cv,primL=paintA/pv,puttyKg=wallA*pt+ceilA*pt;
+  $("oA").textContent=fmt(tot,1)+" m²";$("oC").textContent=fmt(bags,1)+" bags";$("oS").textContent=fmt(sandVol,2)+" m³";$("oP").textContent=fmt(paintL,1)+" L";
+  $("cap").textContent=`${fmt(per,1)} m round × ${fmt(H,2)} m high`;
+  const rowsT=[
+    ["Gross wall area",fmt(gross,2)+" m²",`2 × (${fmt(L,2)} + ${fmt(W,2)}) × ${fmt(H,2)}`],
+    ["Openings deducted",fmt(dedT,2)+" m²","only openings over 0.5 m²"],
+    ["Reveals added",fmt(revT,2)+" m²",`jambs and head of openings over 3 m², ${Math.round(T*1000)} mm wall`],
+    ["Net wall area",fmt(wallA,2)+" m²","gross − deducted + reveals"],
+    ["Ceiling area",fmt(ceilA,2)+" m²",withCeil?`${fmt(L,2)} × ${fmt(W,2)}`:"not included"],
+    ["Total to plaster and paint",fmt(tot,2)+" m²","walls + ceiling"],
+    ["Wet mortar",fmt(wet,3)+" m³",`(walls × ${Math.round(tp*1000)} mm + ceiling × ${Math.round(tc*1000)} mm) × ${fmt(1+ws,2)} waste`],
+    ["Dry mortar",fmt(dry,3)+" m³","wet × 1.27"],
+    ["Cement",fmt(bags,1)+" bags",`${fmt(cemVol,3)} m³ = dry ÷ ${1+mix}, at 0.0347 m³ per 50 kg bag`],
+    ["Sand",fmt(sandVol,2)+" m³",`dry × ${mix} ÷ ${1+mix}`],
+    ["Primer",fmt(primL,1)+" L",`${fmt(paintA,1)} m² ÷ ${fmt(pv,1)} m²/L`],
+    ["Putty",fmt(puttyKg,1)+" kg",`${fmt(paintA,1)} m² × ${fmt(pt,1)} kg/m²`],
+    ["Emulsion paint",fmt(paintL,1)+" L",`${fmt(paintA,1)} m² × ${co} coats ÷ ${fmt(cv,1)} m²/L`]];
+  const tb=$("tbl");tb.innerHTML="";rowsT.forEach(r=>{const tr=document.createElement("tr");tr.innerHTML=`<td style="font-family:var(--body);text-align:left">${r[0]}</td><td>${r[1]}</td><td style="white-space:normal;text-align:left">${r[2]}</td>`;tb.appendChild(tr)});
+  const ot=$("otb");ot.innerHTML="";
+  if(!ops.length){const tr=document.createElement("tr");tr.innerHTML='<td colspan="5" style="text-align:left;font-family:var(--body)">No openings entered.</td>';ot.appendChild(tr)}
+  ops.forEach(o=>{const tr=document.createElement("tr");tr.innerHTML=`<td style="font-family:var(--body);text-align:left">${o.type} ${fmt(o.w,2)} × ${fmt(o.h,2)} (wall ${o.side})</td><td>${fmt(o.a,2)} m²</td><td style="white-space:normal;text-align:left">${o.rule}</td><td>${o.ded?fmt(o.ded,2):"0"}</td><td>${o.rev?fmt(o.rev,2):"0"}</td>`;ot.appendChild(tr)});
+  // drawing
+  const s=$("plan");s.innerHTML="";const ink=css("--ink"),ink2=css("--ink-2"),rule=css("--rule"),red=css("--red"),sunc=css("--sun"),sheet=css("--sheet");
+  const k=Math.min(660/per,230/H),ox=20,oy=30,X=v=>ox+v*k,Y=v=>oy+(H-v)*k;
+  el("rect",{x:X(0),y:Y(H),width:per*k,height:H*k,fill:sheet,stroke:ink,"stroke-width":2},s);
+  let x0=0;const starts={};
+  names.forEach(n=>{starts[n]=x0;el("line",{x1:X(x0),y1:Y(H),x2:X(x0),y2:Y(0),stroke:ink,"stroke-width":1.5,"stroke-dasharray":"5 4"},s);
+    el("text",{x:X(x0+wallLen[n]/2),y:Y(H)-8,"text-anchor":"middle",fill:ink2,"font-size":12,"font-family":"IBM Plex Mono, monospace"},s,`${n} · ${fmt(wallLen[n],1)} m`);x0+=wallLen[n]});
+  names.forEach(n=>{const list=ops.filter(o=>o.side===n);if(!list.length)return;
+    const tw=list.reduce((a,o)=>a+o.w,0),gap=Math.max(0,(wallLen[n]-tw)/(list.length+1));let cx=starts[n]+gap;
+    list.forEach(o=>{const col=o.band===0?rule:o.band===1?sunc:red;const door=o.type==="Door";const y0=door?0:Math.min(0.9,Math.max(0,H-o.h-0.2));
+      el("rect",{x:X(cx),y:Y(y0+o.h),width:o.w*k,height:o.h*k,fill:col,"fill-opacity":o.band===0?0.55:0.5,stroke:ink,"stroke-width":1.5},s);
+      if(k*o.w>58&&k*o.h>16)el("text",{x:X(cx+o.w/2),y:Y(y0+o.h/2)+4,"text-anchor":"middle",fill:ink,"font-size":11,"font-family":"IBM Plex Mono, monospace"},s,fmt(o.a,2)+" m²");
+      cx+=o.w+gap});});
+  el("line",{x1:X(0),y1:Y(0),x2:X(per),y2:Y(0),stroke:ink,"stroke-width":2.5},s);
+  el("text",{x:X(0),y:Y(0)+20,fill:ink2,"font-size":11,"font-family":"IBM Plex Mono, monospace"},s,`net wall ${fmt(wallA,1)} m²   ceiling ${fmt(ceilA,1)} m²`);
+}
+
+document.querySelectorAll("input,select").forEach(i=>i.addEventListener("input",render));
+window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",render);
+new MutationObserver(render).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+render();
+</script>
+</body>
+</html>

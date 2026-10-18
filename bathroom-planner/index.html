@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bathroom Planner</title>
+<meta name="description" content="Place the WC, basin, shower and door in a bathroom and see at once which clearances fail: side distances, front space, shower size and the door swing.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: drafting sheet — title block header, input column + two drawings, data table below */
+:root{
+  --paper:#F2F3EF; --sheet:#FBFBF8; --ink:#1B2732; --ink-2:#4A5865; --rule:#D5D9D4; --grid:#E6E8E3;
+  --red:#C8432B; --blue:#2E66A6; --sun:#E09A1E; --shadow:rgba(27,39,50,.22);
+  --display:'Barlow Condensed','Arial Narrow',sans-serif; --body:'IBM Plex Sans',system-ui,sans-serif; --mono:'IBM Plex Mono',ui-monospace,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#0E1A26; --sheet:#132233; --ink:#E4ECF2; --ink-2:#9DB0C0; --rule:#2A3D52; --grid:#1B2D40;
+  --red:#FF7A5C; --blue:#6FB0F0; --sun:#FFC04D; --shadow:rgba(140,190,240,.25); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0E1A26; --sheet:#132233; --ink:#E4ECF2; --ink-2:#9DB0C0; --rule:#2A3D52; --grid:#1B2D40;
+  --red:#FF7A5C; --blue:#6FB0F0; --sun:#FFC04D; --shadow:rgba(140,190,240,.25); color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--paper);color:var(--ink);font:15px/1.5 var(--body);padding:16px;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px}
+.sheet{max-width:1180px;margin:0 auto;background:var(--sheet);border:1.5px solid var(--ink);}
+.tb{display:grid;grid-template-columns:1fr auto;border-bottom:1.5px solid var(--ink)}
+.tb h1{font:700 clamp(30px,5vw,46px)/1 var(--display);letter-spacing:.01em;margin:0;padding:18px 20px 14px;text-transform:uppercase;text-wrap:balance}
+.tb h1 small{display:block;font:500 14px/1.4 var(--body);letter-spacing:0;text-transform:none;color:var(--ink-2);margin-top:6px}
+.tb .meta{display:grid;grid-template-columns:auto auto;border-left:1.5px solid var(--ink);font:12px/1.2 var(--mono)}
+.tb .meta div{padding:8px 12px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule)}
+.tb .meta b{display:block;font:600 10px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-bottom:4px}
+.main{display:grid;grid-template-columns:320px 1fr;}
+.inputs{border-right:1.5px solid var(--ink);padding:18px 20px;display:flex;flex-direction:column;gap:14px}
+label{display:flex;flex-direction:column;gap:5px;font:600 11px/1 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+input,select{font:500 15px/1.2 var(--mono);color:var(--ink);background:var(--paper);border:1px solid var(--rule);padding:9px 10px;border-radius:0;width:100%}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
+input[type=range]{padding:0;accent-color:var(--red)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+button{font:600 12px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;background:transparent;color:var(--ink);border:1px solid var(--ink);padding:8px 10px;cursor:pointer}
+button:hover{background:var(--ink);color:var(--sheet)}
+.time{font:500 28px/1 var(--mono);color:var(--red)}
+.views{display:grid;grid-template-columns:1fr 1fr;min-width:0}
+.view{padding:14px 16px 10px;min-width:0;border-bottom:1.5px solid var(--ink)}
+.view+.view{border-left:1px solid var(--rule)}
+.view h2,.data h2{font:600 20px/1 var(--display);text-transform:uppercase;letter-spacing:.04em;margin:0 0 8px;display:flex;justify-content:space-between;gap:8px}
+.view h2 span,.data h2 span{font:400 11px/1.6 var(--mono);color:var(--ink-2);text-transform:none;letter-spacing:0}
+svg{width:100%;height:auto;display:block}
+.readout{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1.5px solid var(--ink)}
+.readout div{padding:12px 16px;border-right:1px solid var(--rule)}
+.readout div:last-child{border-right:0}
+.readout b{display:block;font:600 10px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-bottom:6px}
+.readout span{font:500 24px/1 var(--mono);font-variant-numeric:tabular-nums}
+.readout .hi{color:var(--red)}
+.data{padding:14px 16px}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font:13px/1.3 var(--mono);font-variant-numeric:tabular-nums}
+th,td{padding:6px 10px;border-bottom:1px solid var(--rule);text-align:right;white-space:nowrap}
+th{font:600 10px/1.2 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+th:first-child,td:first-child{text-align:left}
+tr.now td{color:var(--red);font-weight:500}
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;padding:10px 16px;border-top:1.5px solid var(--ink);font:12px/1.4 var(--mono);color:var(--ink-2)}
+.note{font:12px/1.5 var(--body);color:var(--ink-2);margin:0}
+@media (max-width:900px){.main{grid-template-columns:1fr}.inputs{border-right:0;border-bottom:1.5px solid var(--ink)}}
+@media (max-width:640px){.views{grid-template-columns:1fr}.view+.view{border-left:0}.readout{grid-template-columns:repeat(2,1fr)}.readout div:nth-child(2){border-right:0}.readout div{border-bottom:1px solid var(--rule)}.tb{grid-template-columns:1fr}.tb .meta{border-left:0;border-top:1px solid var(--rule)}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.dl{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;padding:12px 20px;border-bottom:1.5px solid var(--ink);background:var(--paper)}
+.dl a.btn{font:600 13px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;background:var(--red);color:#fff;text-decoration:none;padding:11px 14px;border:1px solid var(--red)}
+.dl a.btn:hover{background:var(--ink);border-color:var(--ink);color:var(--sheet)}
+.dl span{font:13px/1.4 var(--body);color:var(--ink-2);flex:1;min-width:180px}
+.dl a.more{font:500 13px/1 var(--mono);color:var(--blue)}
+
+:root{--ok:#2F8A57;--okbg:rgba(47,138,87,.12);--bad:#C8432B;--badbg:rgba(200,67,43,.10);--warn:#B7791F}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ok:#5FD08F;--okbg:rgba(95,208,143,.14);--bad:#FF7A5C;--badbg:rgba(255,122,92,.12);--warn:#F2B84B}}
+:root[data-theme="dark"]{--ok:#5FD08F;--okbg:rgba(95,208,143,.14);--bad:#FF7A5C;--badbg:rgba(255,122,92,.12);--warn:#F2B84B}
+.pill{display:inline-block;font:600 11px/1 var(--body);letter-spacing:.08em;text-transform:uppercase;padding:5px 7px;border:1px solid currentColor}
+.pill.ok{color:var(--ok);background:var(--okbg)} .pill.bad{color:var(--bad);background:var(--badbg)} .pill.warn{color:var(--warn)}
+td.ok{color:var(--ok)} td.bad{color:var(--bad)}
+.readout .ok{color:var(--ok)} .readout .bad{color:var(--bad)}
+.view.full{grid-column:1/-1}
+.checks{list-style:none;margin:0;padding:0}
+.checks li{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:8px 0;border-bottom:1px solid var(--rule);font:13px/1.35 var(--body)}
+.checks li span:first-child{min-width:0}
+select{appearance:auto}
+.leg2{display:flex;flex-wrap:wrap;gap:6px 16px;font:12px/1.4 var(--body);color:var(--ink-2);margin-top:6px}.sw{display:inline-block;width:10px;height:10px;margin-right:6px;vertical-align:-1px;border:1px dashed var(--ink)}</style>
+</head>
+<body>
+<div class="sheet">
+  <header class="tb">
+    <h1>Bathroom Planner<small>Place the WC, basin, shower and door in a bathroom and see at once which clearances fail: side distances, front space, shower size and the door swing.</small></h1>
+    <div class="meta"><div><b>Sheet</b>T-24</div><div><b>Standard</b>NBC 2016 · IPC/IBC</div><div><b>Units</b>m · mm</div><div><b>By</b>@smart_tools_every_week</div></div>
+  </header>
+  <div class="dl" id="dlbar"><a class="btn" href="bathroom-planner.html" download="bathroom-planner.html">⬇ Download this app</a><span>Free. One HTML file that works offline. Open it in any browser, no install or sign-up.</span><a class="more" href="../">More free tools →</a></div>
+  <div class="main">
+    <section class="inputs" aria-label="Inputs">
+
+      <label for="ty">Room type
+        <select id="ty"><option value="c" selected>Bath + WC (combined)</option><option value="b">Bathroom only</option><option value="w">WC only</option></select>
+      </label>
+      <div class="row">
+        <label for="W">Width, east–west (m)<input id="W" type="number" step="0.05" value="1.8"></label>
+        <label for="D">Depth, north–south (m)<input id="D" type="number" step="0.05" value="2.2"></label>
+      </div>
+      <div class="row">
+        <label for="wcw">WC on wall<select id="wcw"><option selected>N</option><option>E</option><option>S</option><option>W</option></select></label>
+        <label for="wcc">WC centre (m)<input id="wcc" type="number" step="0.05" value="0.5"></label>
+      </div>
+      <div class="row">
+        <label for="bw">Basin on wall<select id="bw"><option>N</option><option>E</option><option>S</option><option selected>W</option></select></label>
+        <label for="bc">Basin centre (m)<input id="bc" type="number" step="0.05" value="1.6"></label>
+      </div>
+      <div class="row">
+        <label for="sc">Shower corner<select id="sc"><option selected>NE</option><option>NW</option><option>SE</option><option>SW</option></select></label>
+        <label for="ss">Shower size (m)<input id="ss" type="number" step="0.05" value="0.9"></label>
+      </div>
+      <div class="row">
+        <label for="dwl">Door on wall<select id="dwl"><option>N</option><option>E</option><option selected>S</option><option>W</option></select></label>
+        <label for="dc">Hinge at (m)<input id="dc" type="number" step="0.05" value="1.0"></label>
+      </div>
+      <div class="row">
+        <label for="dwd">Door width (m)<input id="dwd" type="number" step="0.05" value="0.75"></label>
+        <label for="dsw">Door swings<select id="dsw"><option value="in" selected>Inwards</option><option value="out">Outwards</option></select></label>
+      </div>
+      <p class="note">Positions are measured from the north-west corner along the wall (west to east on N and S walls, north to south on E and W walls). Fixture sizes: WC 400 × 700, basin 500 × 400 mm.</p>
+
+    </section>
+    <section style="min-width:0">
+
+      <div class="readout">
+        <div><b>Room area</b><span id="oA" class="hi">–</span></div>
+        <div><b>NBC minimum</b><span id="oN">–</span></div>
+        <div><b>Checks passed</b><span id="oP">–</span></div>
+        <div><b>Free floor</b><span id="oF">–</span></div>
+      </div>
+      <div class="views">
+        <div class="view full"><h2>Plan <span id="cap"></span></h2><svg id="plan" viewBox="0 0 700 440" role="img" aria-label="Bathroom plan with fixtures, clearance zones and door swing"></svg>
+        <div class="leg2"><span><i class="sw"></i>clear space needed in front of the fixture</span><span>Arc: door swing</span><span>N is at the top</span></div></div>
+      </div>
+      <div class="data">
+        <h2>Checks <span>pass or fail, with the number that decides it</span></h2>
+        <ul class="checks" id="chk"></ul>
+      </div>
+
+    </section>
+  </div>
+  <footer class="foot"><span>Free tool · @smart_tools_every_week · simplyrendered.github.io/smart-tools · built with Claude</span><span>Sources: NBC 2016 minimum sizes (bathroom 1.8 m², WC 1.1 m², combined 2.8 m²; confirm widths with your local bye-law); fixture clearances from IPC 2021 §405.3.1 and IBC §1210 (centreline 381 mm from side wall or obstruction, 533 mm clear in front) and §417.4 (shower at least 900 × 900 mm). Typical fixture sizes: WC 400 × 700, basin 500 × 400 mm.</span></footer>
+</div>
+<script>
+if(location.protocol==="file:"){const b=document.getElementById("dlbar");if(b)b.hidden=true;}
+const $=id=>document.getElementById(id);
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const NS="http://www.w3.org/2000/svg";
+function el(tag,attrs,parent,text){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(text!=null)e.textContent=text;parent&&parent.appendChild(e);return e}
+const fmt=(v,d=2)=>Number.isFinite(v)?v.toFixed(d):"–";
+
+const WCW=0.40,WCD=0.70,BSW=0.50,BSD=0.40,SIDE=0.381,FRONT=0.533,EPS=1e-6;
+function render(){
+  const num=(id,min,max,def)=>{const v=parseFloat($(id).value);return Number.isFinite(v)&&v>=min?Math.min(max,v):def};
+  const W=num("W",0.6,8,1.8),D=num("D",0.6,8,2.2),ty=$("ty").value;
+  const hasWC=ty!=="b",hasBasin=true,hasSh=ty!=="w";
+  const len={N:W,S:W,E:D,W:D};
+  const wcw=$("wcw").value,bw=$("bw").value,sc=$("sc").value,dl=$("dwl").value,dsw=$("dsw").value;
+  const wcc=num("wcc",0,len[wcw],len[wcw]/2),bc=num("bc",0,len[bw],len[bw]/2),ss=num("ss",0.4,2,0.9);
+  const dwd=num("dwd",0.4,1.5,0.75),dc=num("dc",0,len[dl],0);
+  // footprints as {x0,y0,x1,y1}
+  const onWall=(wall,c,w,d)=>wall==="N"?{x0:c-w/2,x1:c+w/2,y0:0,y1:d}:wall==="S"?{x0:c-w/2,x1:c+w/2,y0:D-d,y1:D}:wall==="W"?{x0:0,x1:d,y0:c-w/2,y1:c+w/2}:{x0:W-d,x1:W,y0:c-w/2,y1:c+w/2};
+  const frontZone=(wall,f,w,depth)=>{const c=(f.x0+f.x1)/2,m=(f.y0+f.y1)/2;
+    return wall==="N"?{x0:c-w/2,x1:c+w/2,y0:f.y1,y1:f.y1+depth}:wall==="S"?{x0:c-w/2,x1:c+w/2,y0:f.y0-depth,y1:f.y0}:wall==="W"?{x0:f.x1,x1:f.x1+depth,y0:m-w/2,y1:m+w/2}:{x0:f.x0-depth,x1:f.x0,y0:m-w/2,y1:m+w/2}};
+  const fx=[];
+  if(hasWC){const f=onWall(wcw,wcc,WCW,WCD);fx.push({n:"WC",wall:wcw,c:wcc,w:WCW,f,z:frontZone(wcw,f,WCW,FRONT)})}
+  if(hasBasin){const f=onWall(bw,bc,BSW,BSD);fx.push({n:"Basin",wall:bw,c:bc,w:BSW,f,z:frontZone(bw,f,BSW,FRONT)})}
+  if(hasSh){const f={x0:sc[1]==="W"?0:W-ss,x1:sc[1]==="W"?ss:W,y0:sc[0]==="N"?0:D-ss,y1:sc[0]==="N"?ss:D};fx.push({n:"Shower",f,z:null})}
+  const inter=(a,b)=>Math.min(a.x1,b.x1)-Math.max(a.x0,b.x0)>EPS&&Math.min(a.y1,b.y1)-Math.max(a.y0,b.y0)>EPS;
+  const inside=a=>a.x0>=-EPS&&a.y0>=-EPS&&a.x1<=W+EPS&&a.y1<=D+EPS;
+  // door
+  const hinge=dl==="N"?[dc,0]:dl==="S"?[dc,D]:dl==="W"?[0,dc]:[W,dc];
+  const U=(dl==="N"||dl==="S")?[1,0]:[0,1],Nn=dl==="N"?[0,1]:dl==="S"?[0,-1]:dl==="W"?[1,0]:[-1,0];
+  const doorFits=dc+dwd<=len[dl]+EPS;
+  const swing=[];if(dsw==="in")for(let r=0.04;r<=dwd+1e-9;r+=dwd/14)for(let a=0;a<=90.01;a+=6){const th=a*Math.PI/180;swing.push([hinge[0]+r*(Math.cos(th)*U[0]+Math.sin(th)*Nn[0]),hinge[1]+r*(Math.cos(th)*U[1]+Math.sin(th)*Nn[1])])}
+  const hit=rc=>swing.some(p=>p[0]>rc.x0+EPS&&p[0]<rc.x1-EPS&&p[1]>rc.y0+EPS&&p[1]<rc.y1-EPS);
+  const checks=[];const add=(label,val,ok)=>checks.push({label,val,ok});
+  // NBC size
+  const A=W*D,minW=Math.min(W,D);
+  const nbcA=ty==="c"?2.8:ty==="b"?1.8:1.1,nbcW=ty==="w"?0.9:1.2;
+  add("Room area meets the NBC minimum",`${fmt(A,2)} of ${fmt(nbcA,1)} m²`,A>=nbcA-EPS);
+  add("Narrow side meets the NBC minimum",`${fmt(minW,2)} of ${fmt(nbcW,1)} m`,minW>=nbcW-EPS);
+  // overlap & fit
+  let bad=[];fx.forEach((a,i)=>{if(!inside(a.f))bad.push(a.n+" outside the room");fx.forEach((b,j)=>{if(j>i&&inter(a.f,b.f))bad.push(a.n+" overlaps "+b.n)})});
+  add("Fixtures fit and do not overlap",bad.length?bad[0]:"all inside, none overlapping",bad.length===0);
+  // side clearance for WC and basin
+  fx.filter(o=>o.n!=="Shower").forEach(o=>{
+    const horiz=(o.wall==="N"||o.wall==="S"),Lw=len[o.wall];let left=o.c,right=Lw-o.c;
+    fx.forEach(p=>{if(p===o)return;const a0=horiz?p.f.x0:p.f.y0,a1=horiz?p.f.x1:p.f.y1;
+      // obstruction must reach into the zone in front of the wall (within fixture depth + 0.3)
+      const px0=horiz?p.f.y0:p.f.x0,px1=horiz?p.f.y1:p.f.x1;const dep=o.wall==="N"||o.wall==="W"?[0,0.9]:[(horiz?D:W)-0.9,(horiz?D:W)];
+      if(Math.min(px1,dep[1])-Math.max(px0,dep[0])<=EPS)return;
+      if(a1<=o.c+EPS)left=Math.min(left,o.c-a1);else if(a0>=o.c-EPS)right=Math.min(right,a0-o.c)});
+    const m=Math.min(left,right);o.side=m;
+    add(`${o.n} centreline to side wall or obstruction`,`${Math.round(m*1000)} of ${Math.round(SIDE*1000)} mm`,m>=SIDE-EPS)});
+  // front clear
+  fx.filter(o=>o.z).forEach(o=>{const okIn=inside(o.z);const clash=fx.find(p=>p!==o&&inter(o.z,p.f));
+    add(`${o.n}: ${Math.round(FRONT*1000)} mm clear in front`,!okIn?"runs into a wall":clash?"blocked by "+clash.n:"clear",okIn&&!clash)});
+  // shower size
+  if(hasSh)add("Shower at least 900 × 900 mm",`${Math.round(ss*1000)} × ${Math.round(ss*1000)} mm`,ss>=0.9-EPS);
+  // door
+  add("Door fits in its wall",`${fmt(dc,2)} + ${fmt(dwd,2)} of ${fmt(len[dl],2)} m`,doorFits);
+  if(dsw==="in"){const hits=fx.filter(o=>hit(o.f)).map(o=>o.n);add("Inward door swing clear of fixtures",hits.length?"hits the "+hits.join(" and "):"clear",hits.length===0);
+    const zh=fx.filter(o=>o.z&&hit(o.z)).map(o=>o.n);if(zh.length&&!hits.length)add("Door swing crosses the clear space",zh.join(" and ")+" front zone (allowed, but tight)",true)}
+  else add("Outward door swing","opens into the passage, no clash inside",true);
+  const passed=checks.filter(c=>c.ok).length;
+  const fixA=fx.reduce((s,o)=>s+(o.f.x1-o.f.x0)*(o.f.y1-o.f.y0),0);
+  $("oA").textContent=fmt(A,2)+" m²";$("oN").textContent=fmt(nbcA,1)+" m²";$("oP").textContent=passed+" / "+checks.length;$("oF").textContent=fmt(Math.max(0,A-fixA),2)+" m²";
+  $("oP").className=passed===checks.length?"ok":"bad";$("oA").className=A>=nbcA-EPS?"ok":"bad";
+  $("cap").textContent=passed===checks.length?"every check passes":(checks.length-passed)+" to fix";
+  const ul=$("chk");ul.innerHTML="";checks.forEach(c=>{const li=document.createElement("li");li.innerHTML=`<span>${c.label}</span><span class="pill ${c.ok?"ok":"bad"}">${c.val} ${c.ok?"✓":"✕"}</span>`;ul.appendChild(li)});
+  // draw
+  const s=$("plan");s.innerHTML="";const ink=css("--ink"),ink2=css("--ink-2"),rule=css("--rule"),red=css("--red"),sunc=css("--sun"),sheet=css("--sheet"),blue=css("--blue");
+  const ok=css("--ok")||"#2F8A57",badc=css("--bad")||red;
+  const k=Math.min(520/W,350/D),ox=(700-W*k)/2,oy=(440-D*k)/2,X=v=>ox+v*k,Y=v=>oy+v*k;
+  el("rect",{x:X(0),y:Y(0),width:W*k,height:D*k,fill:sheet,stroke:"none"},s);
+  fx.forEach(o=>{if(o.z){const z=o.z;const bd=!inside(z)||fx.some(p=>p!==o&&inter(z,p.f));el("rect",{x:X(Math.max(0,z.x0)),y:Y(Math.max(0,z.y0)),width:(Math.min(W,z.x1)-Math.max(0,z.x0))*k,height:(Math.min(D,z.y1)-Math.max(0,z.y0))*k,fill:bd?badc:ok,"fill-opacity":0.14,stroke:bd?badc:ok,"stroke-dasharray":"5 4"},s)}});
+  fx.forEach(o=>{const f=o.f;const bad2=fx.some(p=>p!==o&&inter(f,p.f))||!inside(f);
+    el("rect",{x:X(f.x0),y:Y(f.y0),width:(f.x1-f.x0)*k,height:(f.y1-f.y0)*k,fill:o.n==="Shower"?blue:rule,"fill-opacity":o.n==="Shower"?0.25:0.9,stroke:bad2?badc:ink,"stroke-width":bad2?3:1.6},s);
+    if(o.n==="Shower"){el("line",{x1:X(f.x0),y1:Y(f.y0),x2:X(f.x1),y2:Y(f.y1),stroke:blue,"stroke-opacity":.6},s);el("line",{x1:X(f.x1),y1:Y(f.y0),x2:X(f.x0),y2:Y(f.y1),stroke:blue,"stroke-opacity":.6},s)}
+    else{const cx=(f.x0+f.x1)/2,cy=(f.y0+f.y1)/2,horiz=o.wall==="N"||o.wall==="S";const rx=horiz?(f.x1-f.x0)/2*0.78:(f.x1-f.x0)*0.36,ry=horiz?(f.y1-f.y0)*0.36:(f.y1-f.y0)/2*0.78;
+      const dd=0.1,ex=cx+(o.wall==="W"?dd:o.wall==="E"?-dd:0),ey=cy+(o.wall==="N"?dd:o.wall==="S"?-dd:0);
+      el("ellipse",{cx:X(ex),cy:Y(ey),rx:rx*k,ry:ry*k,fill:"none",stroke:ink2,"stroke-width":1.3},s)}
+    const lx=(f.x0+f.x1)/2,ly=(f.y0+f.y1)/2;
+    el("text",{x:X(lx),y:Y(ly)+4,"text-anchor":"middle",fill:ink,"font-size":11,"font-family":"IBM Plex Mono, monospace"},s,o.n);});
+  // walls
+  el("rect",{x:X(0),y:Y(0),width:W*k,height:D*k,fill:"none",stroke:ink,"stroke-width":4},s);
+  // door gap + leaf + arc
+  const P=(a,b)=>[X(a),Y(b)];
+  const ends=[hinge,[hinge[0]+U[0]*dwd,hinge[1]+U[1]*dwd]];
+  const gp=ends.map(e=>P(e[0],e[1]));el("line",{x1:gp[0][0],y1:gp[0][1],x2:gp[1][0],y2:gp[1][1],stroke:sheet,"stroke-width":6},s);
+  const sg=dsw==="in"?1:-1;const leafEnd=[hinge[0]+sg*Nn[0]*dwd,hinge[1]+sg*Nn[1]*dwd];const hp=P(hinge[0],hinge[1]),le=P(leafEnd[0],leafEnd[1]),cl=gp[1];
+  el("line",{x1:hp[0],y1:hp[1],x2:le[0],y2:le[1],stroke:ink,"stroke-width":3},s);
+  const sweep=(U[0]*Nn[1]-U[1]*Nn[0])*sg>0?1:0;
+  el("path",{d:`M${cl[0]} ${cl[1]} A${dwd*k} ${dwd*k} 0 0 ${sweep} ${le[0]} ${le[1]}`,fill:"none",stroke:ink2,"stroke-dasharray":"4 4"},s);
+  el("text",{x:X(0),y:Y(0)-10,fill:ink2,"font-size":11,"font-family":"IBM Plex Mono, monospace"},s,`${fmt(W,2)} × ${fmt(D,2)} m`);
+}
+
+document.querySelectorAll("input,select").forEach(i=>i.addEventListener("input",render));
+window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",render);
+new MutationObserver(render).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+render();
+</script>
+</body>
+</html>

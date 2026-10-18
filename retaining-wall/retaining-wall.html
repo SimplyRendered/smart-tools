@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Retaining Wall Check</title>
+<meta name="description" content="Will this gravity retaining wall overturn, slide or overload the soil? Rankine earth pressure, factors of safety and the base pressure, with a live section and the smallest base width that passes.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: drafting sheet — title block header, input column + two drawings, data table below */
+:root{
+  --paper:#F2F3EF; --sheet:#FBFBF8; --ink:#1B2732; --ink-2:#4A5865; --rule:#D5D9D4; --grid:#E6E8E3;
+  --red:#C8432B; --blue:#2E66A6; --sun:#E09A1E; --shadow:rgba(27,39,50,.22);
+  --display:'Barlow Condensed','Arial Narrow',sans-serif; --body:'IBM Plex Sans',system-ui,sans-serif; --mono:'IBM Plex Mono',ui-monospace,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#0E1A26; --sheet:#132233; --ink:#E4ECF2; --ink-2:#9DB0C0; --rule:#2A3D52; --grid:#1B2D40;
+  --red:#FF7A5C; --blue:#6FB0F0; --sun:#FFC04D; --shadow:rgba(140,190,240,.25); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0E1A26; --sheet:#132233; --ink:#E4ECF2; --ink-2:#9DB0C0; --rule:#2A3D52; --grid:#1B2D40;
+  --red:#FF7A5C; --blue:#6FB0F0; --sun:#FFC04D; --shadow:rgba(140,190,240,.25); color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--paper);color:var(--ink);font:15px/1.5 var(--body);padding:16px;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px}
+.sheet{max-width:1180px;margin:0 auto;background:var(--sheet);border:1.5px solid var(--ink);}
+.tb{display:grid;grid-template-columns:1fr auto;border-bottom:1.5px solid var(--ink)}
+.tb h1{font:700 clamp(30px,5vw,46px)/1 var(--display);letter-spacing:.01em;margin:0;padding:18px 20px 14px;text-transform:uppercase;text-wrap:balance}
+.tb h1 small{display:block;font:500 14px/1.4 var(--body);letter-spacing:0;text-transform:none;color:var(--ink-2);margin-top:6px}
+.tb .meta{display:grid;grid-template-columns:auto auto;border-left:1.5px solid var(--ink);font:12px/1.2 var(--mono)}
+.tb .meta div{padding:8px 12px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule)}
+.tb .meta b{display:block;font:600 10px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-bottom:4px}
+.main{display:grid;grid-template-columns:320px 1fr;}
+.inputs{border-right:1.5px solid var(--ink);padding:18px 20px;display:flex;flex-direction:column;gap:14px}
+label{display:flex;flex-direction:column;gap:5px;font:600 11px/1 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+input,select{font:500 15px/1.2 var(--mono);color:var(--ink);background:var(--paper);border:1px solid var(--rule);padding:9px 10px;border-radius:0;width:100%}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
+input[type=range]{padding:0;accent-color:var(--red)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+button{font:600 12px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;background:transparent;color:var(--ink);border:1px solid var(--ink);padding:8px 10px;cursor:pointer}
+button:hover{background:var(--ink);color:var(--sheet)}
+.time{font:500 28px/1 var(--mono);color:var(--red)}
+.views{display:grid;grid-template-columns:1fr 1fr;min-width:0}
+.view{padding:14px 16px 10px;min-width:0;border-bottom:1.5px solid var(--ink)}
+.view+.view{border-left:1px solid var(--rule)}
+.view h2,.data h2{font:600 20px/1 var(--display);text-transform:uppercase;letter-spacing:.04em;margin:0 0 8px;display:flex;justify-content:space-between;gap:8px}
+.view h2 span,.data h2 span{font:400 11px/1.6 var(--mono);color:var(--ink-2);text-transform:none;letter-spacing:0}
+svg{width:100%;height:auto;display:block}
+.readout{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1.5px solid var(--ink)}
+.readout div{padding:12px 16px;border-right:1px solid var(--rule)}
+.readout div:last-child{border-right:0}
+.readout b{display:block;font:600 10px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-bottom:6px}
+.readout span{font:500 24px/1 var(--mono);font-variant-numeric:tabular-nums}
+.readout .hi{color:var(--red)}
+.data{padding:14px 16px}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font:13px/1.3 var(--mono);font-variant-numeric:tabular-nums}
+th,td{padding:6px 10px;border-bottom:1px solid var(--rule);text-align:right;white-space:nowrap}
+th{font:600 10px/1.2 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+th:first-child,td:first-child{text-align:left}
+tr.now td{color:var(--red);font-weight:500}
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;padding:10px 16px;border-top:1.5px solid var(--ink);font:12px/1.4 var(--mono);color:var(--ink-2)}
+.note{font:12px/1.5 var(--body);color:var(--ink-2);margin:0}
+@media (max-width:900px){.main{grid-template-columns:1fr}.inputs{border-right:0;border-bottom:1.5px solid var(--ink)}}
+@media (max-width:640px){.views{grid-template-columns:1fr}.view+.view{border-left:0}.readout{grid-template-columns:repeat(2,1fr)}.readout div:nth-child(2){border-right:0}.readout div{border-bottom:1px solid var(--rule)}.tb{grid-template-columns:1fr}.tb .meta{border-left:0;border-top:1px solid var(--rule)}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.dl{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;padding:12px 20px;border-bottom:1.5px solid var(--ink);background:var(--paper)}
+.dl a.btn{font:600 13px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;background:var(--red);color:#fff;text-decoration:none;padding:11px 14px;border:1px solid var(--red)}
+.dl a.btn:hover{background:var(--ink);border-color:var(--ink);color:var(--sheet)}
+.dl span{font:13px/1.4 var(--body);color:var(--ink-2);flex:1;min-width:180px}
+.dl a.more{font:500 13px/1 var(--mono);color:var(--blue)}
+
+:root{--ok:#2F8A57;--okbg:rgba(47,138,87,.12);--bad:#C8432B;--badbg:rgba(200,67,43,.10);--warn:#B7791F}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ok:#5FD08F;--okbg:rgba(95,208,143,.14);--bad:#FF7A5C;--badbg:rgba(255,122,92,.12);--warn:#F2B84B}}
+:root[data-theme="dark"]{--ok:#5FD08F;--okbg:rgba(95,208,143,.14);--bad:#FF7A5C;--badbg:rgba(255,122,92,.12);--warn:#F2B84B}
+.pill{display:inline-block;font:600 11px/1 var(--body);letter-spacing:.08em;text-transform:uppercase;padding:5px 7px;border:1px solid currentColor}
+.pill.ok{color:var(--ok);background:var(--okbg)} .pill.bad{color:var(--bad);background:var(--badbg)} .pill.warn{color:var(--warn)}
+td.ok{color:var(--ok)} td.bad{color:var(--bad)}
+.readout .ok{color:var(--ok)} .readout .bad{color:var(--bad)}
+.view.full{grid-column:1/-1}
+.checks{list-style:none;margin:0;padding:0}
+.checks li{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:8px 0;border-bottom:1px solid var(--rule);font:13px/1.35 var(--body)}
+.checks li span:first-child{min-width:0}
+select{appearance:auto}
+.chk{display:flex;justify-content:space-between;gap:10px}</style>
+</head>
+<body>
+<div class="sheet">
+  <header class="tb">
+    <h1>Retaining Wall Check<small>Will this gravity retaining wall overturn, slide or overload the soil? Rankine earth pressure, factors of safety and the base pressure, with a live section and the smallest base width that passes.</small></h1>
+    <div class="meta"><div><b>Sheet</b>T-23</div><div><b>Method</b>Rankine · gravity wall</div><div><b>Units</b>m · kN · kPa</div><div><b>By</b>@smart_tools_every_week</div></div>
+  </header>
+  <div class="dl" id="dlbar"><a class="btn" href="retaining-wall.html" download="retaining-wall.html">⬇ Download this app</a><span>Free. One HTML file that works offline. Open it in any browser, no install or sign-up.</span><a class="more" href="../">More free tools →</a></div>
+  <div class="main">
+    <section class="inputs" aria-label="Inputs">
+
+      <div class="row">
+        <label for="H">Wall height H (m)<input id="H" type="number" step="0.1" value="3.0"></label>
+        <label for="t">Top width (m)<input id="t" type="number" step="0.05" value="0.45"></label>
+      </div>
+      <div class="row">
+        <label for="B">Base width B (m)<input id="B" type="number" step="0.05" value="1.5"></label>
+        <label for="q">Surcharge (kN/m²)<input id="q" type="number" step="1" value="5"></label>
+      </div>
+      <label for="wm">Wall material
+        <select id="wm"><option value="24" selected>Plain concrete (24 kN/m³)</option><option value="22">Stone masonry (22 kN/m³, typical)</option><option value="18.8">Brick masonry (18.8 kN/m³)</option></select>
+      </label>
+      <div class="row">
+        <label for="phi">Soil friction angle φ (°)<input id="phi" type="number" step="1" value="30"></label>
+        <label for="g">Soil unit weight (kN/m³)<input id="g" type="number" step="0.5" value="18"></label>
+      </div>
+      <div class="row">
+        <label for="mu">Base friction μ (blank = auto)<input id="mu" type="number" step="0.05" placeholder="tan(2φ/3)"></label>
+        <label for="sbc">Safe bearing (kPa)<input id="sbc" type="number" step="10" value="150"></label>
+      </div>
+      <p class="note">Assumes dry, level backfill and no water behind the wall: always provide weepholes and a drainage layer. Toe soil resistance is ignored (on the safe side).</p>
+
+    </section>
+    <section style="min-width:0">
+
+      <div class="readout">
+        <div><b>Overturning</b><span id="oO" class="hi">–</span></div>
+        <div><b>Sliding</b><span id="oS">–</span></div>
+        <div><b>Max base pressure</b><span id="oQ">–</span></div>
+        <div><b>Smallest base</b><span id="oB">–</span></div>
+      </div>
+      <div class="views">
+        <div class="view full"><h2>Section <span id="cap"></span></h2><svg id="plan" viewBox="0 0 700 380" role="img" aria-label="Section of the retaining wall with earth pressure, weight and base pressure"></svg></div>
+      </div>
+      <div class="data">
+        <h2>Checks <span>needed ≥ 2.0 · ≥ 1.5 · inside middle third · pressure within bearing</span></h2>
+        <ul class="checks" id="chk"></ul>
+      </div>
+      <div class="data">
+        <h2>Working <span>per metre length of wall</span></h2>
+        <div class="tablewrap"><table><thead><tr><th>Step</th><th>Value</th><th>How</th></tr></thead><tbody id="tbl"></tbody></table></div>
+      </div>
+
+    </section>
+  </div>
+  <footer class="foot"><span>Free tool · @smart_tools_every_week · simplyrendered.github.io/smart-tools · built with Claude</span><span>Sources: Rankine active earth pressure Ka = (1 − sin φ) ÷ (1 + sin φ); base friction μ = tan(2φ/3); factors of safety 2.0 overturning and 1.5 sliding as in common IS practice (IS 14458, IS 1904); unit weights from IS 875 Part 1. Dry, level backfill, no water. For preliminary sizing only: the wall must be designed and checked by a structural or geotechnical engineer.</span></footer>
+</div>
+<script>
+if(location.protocol==="file:"){const b=document.getElementById("dlbar");if(b)b.hidden=true;}
+const $=id=>document.getElementById(id);
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const NS="http://www.w3.org/2000/svg";
+function el(tag,attrs,parent,text){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(text!=null)e.textContent=text;parent&&parent.appendChild(e);return e}
+const fmt=(v,d=2)=>Number.isFinite(v)?v.toFixed(d):"–";
+
+function analyse(H,t,B,phiDeg,gs,gw,q,muIn,sbc){
+  const phi=phiDeg*Math.PI/180,Ka=(1-Math.sin(phi))/(1+Math.sin(phi));
+  const mu=Number.isFinite(muIn)&&muIn>0?muIn:Math.tan(2*phi/3);
+  const Pa1=0.5*Ka*gs*H*H,Pa2=Ka*q*H,Pa=Pa1+Pa2;
+  const Mo=Pa1*H/3+Pa2*H/2;
+  const tt=Math.min(t,B);
+  const W1=tt*H*gw,x1=tt/2;
+  const W2=0.5*(B-tt)*H*gw,x2=tt+(B-tt)/3;
+  const W3=0.5*(B-tt)*H*gs,x3=(tt+2*B)/3;
+  const V=W1+W2+W3,Mr=W1*x1+W2*x2+W3*x3;
+  const fo=Mo>0?Mr/Mo:99,fs=Pa>0?mu*V/Pa:99;
+  const xbar=(Mr-Mo)/V,e=B/2-xbar;
+  let qmax,qmin;
+  if(xbar<=0){qmax=Infinity;qmin=0}
+  else if(Math.abs(e)<=B/6){qmax=V/B*(1+6*e/B);qmin=V/B*(1-6*e/B)}
+  else{qmax=2*V/(3*xbar);qmin=0}
+  return {Ka,mu,Pa1,Pa2,Pa,Mo,W1,W2,W3,x1,x2,x3,V,Mr,fo,fs,xbar,e,qmax,qmin,ok:fo>=2&&fs>=1.5&&Math.abs(e)<=B/6&&qmax<=sbc};
+}
+function render(){
+  const num=(id,min,max,def)=>{const v=parseFloat($(id).value);return Number.isFinite(v)&&v>=min?Math.min(max,v):def};
+  const H=num("H",0.5,12,3),t=num("t",0.2,5,0.45),B=num("B",0.3,15,1.2),q=num("q",0,100,5),phi=num("phi",0,45,30),g=num("g",10,24,18),sbc=num("sbc",20,2000,150),gw=num("wm",10,30,24);
+  const muRaw=parseFloat($("mu").value);const muIn=Number.isFinite(muRaw)&&muRaw>0?Math.min(1,muRaw):NaN;
+  const r=analyse(H,t,B,phi,g,gw,q,muIn,sbc);
+  let minB=NaN;for(let b=Math.max(0.2*H,t);b<=1.5*H+1e-9;b+=0.01){if(analyse(H,t,b,phi,g,gw,q,muIn,sbc).ok){minB=Math.ceil(b*20-1e-9)/20;break}}
+  const P=(v,d)=>v>=99?"> 99":fmt(v,d);
+  $("oO").textContent=P(r.fo,2);$("oS").textContent=P(r.fs,2);$("oQ").textContent=Number.isFinite(r.qmax)?Math.round(r.qmax)+" kPa":"overturns";
+  $("oB").textContent=Number.isFinite(minB)?fmt(minB,2)+" m":"> "+fmt(1.5*H,1)+" m";
+  $("oO").className=r.fo>=2?"ok":"bad";$("oS").className=r.fs>=1.5?"ok":"bad";$("oQ").className=r.qmax<=sbc&&r.xbar>0?"ok":"bad";
+  $("cap").textContent=r.ok?"passes all four checks":"fails: widen the base";
+  const checks=[["Overturning FOS = Mr ÷ Mo",`${P(r.fo,2)} (needs ≥ 2.0)`,r.fo>=2],["Sliding FOS = μ × V ÷ Pa",`${P(r.fs,2)} (needs ≥ 1.5)`,r.fs>=1.5],["Resultant in middle third (e ≤ B/6)",`e = ${fmt(r.e,2)} m, limit ${fmt(B/6,2)} m`,Math.abs(r.e)<=B/6],["Max base pressure ≤ safe bearing",`${Number.isFinite(r.qmax)?Math.round(r.qmax):"∞"} of ${Math.round(sbc)} kPa`,r.qmax<=sbc]];
+  const ul=$("chk");ul.innerHTML="";checks.forEach(c=>{const li=document.createElement("li");li.innerHTML=`<span>${c[0]}</span><span class="pill ${c[2]?"ok":"bad"}">${c[1]} ${c[2]?"✓":"✕"}</span>`;ul.appendChild(li)});
+  const rowsT=[
+    ["Active pressure coefficient Ka",fmt(r.Ka,3),`(1 − sin ${phi}°) ÷ (1 + sin ${phi}°)`],
+    ["Base friction μ",fmt(r.mu,2),Number.isFinite(muIn)?"entered":"tan(2φ ÷ 3)"],
+    ["Earth thrust from soil",fmt(r.Pa1,1)+" kN/m",`½ × ${fmt(r.Ka,3)} × ${fmt(g,1)} × ${fmt(H,2)}²`],
+    ["Thrust from surcharge",fmt(r.Pa2,1)+" kN/m",`${fmt(r.Ka,3)} × ${fmt(q,0)} × ${fmt(H,2)}`],
+    ["Overturning moment Mo",fmt(r.Mo,1)+" kN·m/m","soil thrust × H/3 + surcharge thrust × H/2"],
+    ["Wall weight",fmt(r.W1+r.W2,1)+" kN/m",`${fmt(gw,1)} kN/m³ × wall section`],
+    ["Soil on the sloping back",fmt(r.W3,1)+" kN/m","triangle of backfill over the back face"],
+    ["Total vertical load V",fmt(r.V,1)+" kN/m","wall + soil on back"],
+    ["Restoring moment Mr (about the toe)",fmt(r.Mr,1)+" kN·m/m","sum of weight × lever arm"],
+    ["Resultant from toe",fmt(r.xbar,2)+" m",`(Mr − Mo) ÷ V; eccentricity e = ${fmt(r.e,2)} m`],
+    ["Base pressure toe / heel",`${Number.isFinite(r.qmax)?Math.round(r.qmax):"∞"} / ${Math.round(r.qmin)} kPa`,"V ÷ B × (1 ± 6e ÷ B)"]];
+  const tb=$("tbl");tb.innerHTML="";rowsT.forEach(x=>{const tr=document.createElement("tr");tr.innerHTML=`<td style="font-family:var(--body);text-align:left">${x[0]}</td><td>${x[1]}</td><td style="white-space:normal;text-align:left">${x[2]}</td>`;tb.appendChild(tr)});
+  // drawing
+  const s=$("plan");s.innerHTML="";const ink=css("--ink"),ink2=css("--ink-2"),rule=css("--rule"),red=css("--red"),sunc=css("--sun"),blue=css("--blue"),sheet=css("--sheet");
+  const ok=css("--ok")||"#2F8A57",bad=css("--bad")||red;
+  const extra=Math.max(B,1.2),k=Math.min(260/H,330/(extra+B+1.6)),gx=120,gy=40,X=v=>gx+v*k,Y=v=>gy+(H-v)*k+10;
+  const tt=Math.min(t,B);
+  // soil
+  const sx=X(B+1.7);
+  el("path",{d:`M${X(tt)} ${Y(H)} L${X(B)} ${Y(0)} L${sx} ${Y(0)} L${sx} ${Y(H)} Z`,fill:sunc,"fill-opacity":0.22,stroke:"none"},s);
+  el("line",{x1:X(tt),y1:Y(H),x2:sx,y2:Y(H),stroke:ink2,"stroke-dasharray":"4 4"},s);
+  // surcharge arrows
+  if(q>0)for(let i=0;i<5;i++){const x=X(B+0.25+i*(1.4/4));el("line",{x1:x,y1:Y(H)-26,x2:x,y2:Y(H)-4,stroke:blue,"stroke-width":1.5},s);el("path",{d:`M${x-4} ${Y(H)-10} L${x} ${Y(H)-3} L${x+4} ${Y(H)-10}`,fill:"none",stroke:blue,"stroke-width":1.5},s)}
+  if(q>0)el("text",{x:X(B+0.2),y:Y(H)-32,fill:blue,"font-size":11,"font-family":"IBM Plex Mono, monospace"},s,`q = ${fmt(q,0)} kPa`);
+  // wall
+  el("path",{d:`M${X(0)} ${Y(H)} L${X(tt)} ${Y(H)} L${X(B)} ${Y(0)} L${X(0)} ${Y(0)} Z`,fill:rule,"fill-opacity":0.8,stroke:ink,"stroke-width":2},s);
+  // ground line
+  el("line",{x1:X(-1.0),y1:Y(0),x2:sx,y2:Y(0),stroke:ink,"stroke-width":2.5},s);
+  // earth pressure diagram on the heel plane (triangle + rectangle)
+  const sc=Math.min(70,110/(r.Ka*g*H+r.Ka*q+0.001)*1);
+  const pTop=r.Ka*q*sc,pBot=(r.Ka*q+r.Ka*g*H)*sc;
+  el("path",{d:`M${X(B)} ${Y(H)} L${X(B)+pTop} ${Y(H)} L${X(B)+pBot} ${Y(0)} L${X(B)} ${Y(0)} Z`,fill:red,"fill-opacity":0.18,stroke:red,"stroke-width":1.2},s);
+  const ya=Y(Math.max(0.05,r.Mo/Math.max(r.Pa,0.001)));
+  el("line",{x1:X(B)+pBot+34,y1:ya,x2:X(B)+4,y2:ya,stroke:red,"stroke-width":2.5},s);
+  el("path",{d:`M${X(B)+10} ${ya-6} L${X(B)+2} ${ya} L${X(B)+10} ${ya+6}`,fill:"none",stroke:red,"stroke-width":2.5},s);
+  el("text",{x:X(B)+pBot+38,y:ya+4,fill:red,"font-size":12,"font-family":"IBM Plex Mono, monospace"},s,`Pa ${fmt(r.Pa,1)}`);
+  // weight arrow
+  const wx=X(Math.max(0.05,Math.min(B,r.xbar)));
+  el("line",{x1:wx,y1:Y(H)-6,x2:wx,y2:Y(0)-2,stroke:ok,"stroke-width":2,"stroke-dasharray":"6 4"},s);
+  el("text",{x:wx+6,y:Y(H*0.5),fill:ink,"font-size":12,"font-family":"IBM Plex Mono, monospace"},s,`V ${fmt(r.V,0)}`);
+  // base pressure diagram under base
+  const qs=Number.isFinite(r.qmax)?50/Math.max(r.qmax,1):0,y0=Y(0);
+  if(Number.isFinite(r.qmax)){el("path",{d:`M${X(0)} ${y0} L${X(B)} ${y0} L${X(B)} ${y0+r.qmin*qs} L${X(0)} ${y0+r.qmax*qs} Z`,fill:r.qmax<=sbc?ok:bad,"fill-opacity":0.25,stroke:r.qmax<=sbc?ok:bad},s);
+    el("text",{x:X(0)-6,y:y0+r.qmax*qs+4,"text-anchor":"end",fill:ink2,"font-size":11,"font-family":"IBM Plex Mono, monospace"},s,Math.round(r.qmax)+" kPa")}
+  // labels
+  el("text",{x:X(0)-8,y:Y(H/2),"text-anchor":"end",fill:ink2,"font-size":12,"font-family":"IBM Plex Mono, monospace"},s,`H ${fmt(H,2)} m`);
+  el("text",{x:X(B/2),y:Y(0)-8,"text-anchor":"middle",fill:ink,"font-size":12,"font-family":"IBM Plex Mono, monospace"},s,`B ${fmt(B,2)}`);
+  el("text",{x:X(0),y:Y(H)-12,fill:ink2,"font-size":11,"font-family":"IBM Plex Mono, monospace"},s,"toe at left");
+  el("text",{x:X(B+0.2),y:Y(H*0.3),fill:ink2,"font-size":12,"font-family":"IBM Plex Mono, monospace"},s,`backfill φ ${fmt(phi,0)}°`);
+}
+
+document.querySelectorAll("input,select").forEach(i=>i.addEventListener("input",render));
+window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",render);
+new MutationObserver(render).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+render();
+</script>
+</body>
+</html>

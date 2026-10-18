@@ -3,7 +3,7 @@
  "repo": "SimplyRendered/smart-tools",
  "raw_base": "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/",
  "metricool_brand_id": "7306873",
- "next_number": 22,
+ "next_number": 25,
  "tools": [
   {
    "no": "T-01",
@@ -151,11 +151,30 @@
    "name": "Parking Layout",
    "post_date": "2026-10-23",
    "summary": "Draws every bay and aisle for 90°, 60°, 45°, 30° or parallel parking, counts the cars that really fit and checks the ECS count."
+  },
+  {
+   "no": "T-22",
+   "slug": "plaster-paint",
+   "name": "Plaster & Paint Quantity",
+   "post_date": "2026-10-26",
+   "summary": "Plaster area with IS 1200 opening deductions and reveals, cement, sand, primer, putty and paint, walls drawn flat."
+  },
+  {
+   "no": "T-23",
+   "slug": "retaining-wall",
+   "name": "Retaining Wall Check",
+   "post_date": "2026-10-28",
+   "summary": "Rankine thrust, overturning and sliding factors, base pressure and smallest passing base for a gravity wall."
+  },
+  {
+   "no": "T-24",
+   "slug": "bathroom-planner",
+   "name": "Bathroom Planner",
+   "post_date": "2026-10-30",
+   "summary": "WC, basin, shower and door placed on a plan, checked for NBC size, IPC/IBC clearances, shower size and door swing."
   }
  ],
  "backlog": [
-  "Parking layout counter: ECS per bylaw, bay + aisle geometry, 90/60/45 degree",
-  "Toilet/bathroom fixture clearance checker",
   "AC tonnage / heat load quick estimator",
   "Column grid & spacing explorer with span rules of thumb",
   "Golden ratio / proportion grid overlay for elevations",
@@ -163,12 +182,13 @@
   "Brick bond & wall elevation pattern generator",
   "Door & window schedule sheet maker",
   "Accessible toilet layout checker (turning circle, grab bars, clearances) with plan",
-  "Parking bay & aisle layout for 90/60/45 degree with ECS count (verify bylaw values first)",
-  "Plaster & paint quantity estimator from room sizes (walls, ceiling, openings)",
-  "Retaining wall / earth-cut slope sketcher with angle of repose",
-  "Wall section U-value calculator (layers, ECBC 2017 targets)",
   "Beam & slab depth from span (IS 456 span/depth ratios with modification factor)",
   "Septic tank & soak pit sizer (IS 2470) with section",
-  "Fire exit travel distance & staircase width checker (NBC 2016 Part 4)"
+  "Fire exit travel distance & staircase width checker (NBC 2016 Part 4)",
+  "Beam & slab depth from span (IS 456 cl 23.2.1; needs the Fig 4 modification-factor data verified from the code text first)",
+  "Septic tank & soak pit sizer (IS 2470; verify the Part 1 table from the standard)",
+  "Door clear-width & corridor checker for fire exits (NBC Part 4; verify values)",
+  "Window ventilation: air changes per hour and openable area per room (NBC Part 8)",
+  "Cantilever retaining wall (stem and base slab) quick sizer"
  ]
 }
