@@ -3,7 +3,7 @@
  "repo": "SimplyRendered/smart-tools",
  "raw_base": "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/",
  "metricool_brand_id": "7306873",
- "next_number": 25,
+ "next_number": 28,
  "tools": [
   {
    "no": "T-01",
@@ -172,23 +172,43 @@
    "name": "Bathroom Planner",
    "post_date": "2026-10-30",
    "summary": "WC, basin, shower and door placed on a plan, checked for NBC size, IPC/IBC clearances, shower size and door swing."
+  },
+  {
+   "no": "T-25",
+   "slug": "camera-fov",
+   "name": "Camera Lens & Framing",
+   "post_date": "2026-11-02",
+   "summary": "Field of view in plan and section, wall framing check and the longest lens that fits."
+  },
+  {
+   "no": "T-26",
+   "slug": "roof-pitch",
+   "name": "Roof Pitch & Rafter",
+   "post_date": "2026-11-04",
+   "summary": "Ridge rise, rafter length, true sloping area and sheet count from the roof angle."
+  },
+  {
+   "no": "T-27",
+   "slug": "render-print",
+   "name": "Render Size for Print",
+   "post_date": "2026-11-06",
+   "summary": "Pixels needed for a sheet from the viewing distance (1 arcmin acuity), against 300 ppi, with your render checked."
   }
  ],
  "backlog": [
   "AC tonnage / heat load quick estimator",
   "Column grid & spacing explorer with span rules of thumb",
-  "Golden ratio / proportion grid overlay for elevations",
   "Parking ramp gradient and turning radius checker",
   "Brick bond & wall elevation pattern generator",
   "Door & window schedule sheet maker",
   "Accessible toilet layout checker (turning circle, grab bars, clearances) with plan",
-  "Beam & slab depth from span (IS 456 span/depth ratios with modification factor)",
   "Septic tank & soak pit sizer (IS 2470) with section",
   "Fire exit travel distance & staircase width checker (NBC 2016 Part 4)",
-  "Beam & slab depth from span (IS 456 cl 23.2.1; needs the Fig 4 modification-factor data verified from the code text first)",
   "Septic tank & soak pit sizer (IS 2470; verify the Part 1 table from the standard)",
   "Door clear-width & corridor checker for fire exits (NBC Part 4; verify values)",
   "Window ventilation: air changes per hour and openable area per room (NBC Part 8)",
-  "Cantilever retaining wall (stem and base slab) quick sizer"
+  "Cantilever retaining wall (stem and base slab) quick sizer",
+  "Render queue time estimator from samples, resolution and cores",
+  "Window glare and sun-angle check for a facade (verify against standard)"
  ]
 }

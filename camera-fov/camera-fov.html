@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Camera Lens & Room Framing</title>
+<meta name="description" content="Pick a lens and place the camera. See the field of view in plan and section, whether the whole wall fits, and the longest lens that still frames it.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: drafting sheet — title block header, input column + two drawings, data table below */
+:root{
+  --paper:#F2F3EF; --sheet:#FBFBF8; --ink:#1B2732; --ink-2:#4A5865; --rule:#D5D9D4; --grid:#E6E8E3;
+  --red:#C8432B; --blue:#2E66A6; --sun:#E09A1E; --shadow:rgba(27,39,50,.22);
+  --display:'Barlow Condensed','Arial Narrow',sans-serif; --body:'IBM Plex Sans',system-ui,sans-serif; --mono:'IBM Plex Mono',ui-monospace,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#0E1A26; --sheet:#132233; --ink:#E4ECF2; --ink-2:#9DB0C0; --rule:#2A3D52; --grid:#1B2D40;
+  --red:#FF7A5C; --blue:#6FB0F0; --sun:#FFC04D; --shadow:rgba(140,190,240,.25); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0E1A26; --sheet:#132233; --ink:#E4ECF2; --ink-2:#9DB0C0; --rule:#2A3D52; --grid:#1B2D40;
+  --red:#FF7A5C; --blue:#6FB0F0; --sun:#FFC04D; --shadow:rgba(140,190,240,.25); color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--paper);color:var(--ink);font:15px/1.5 var(--body);padding:16px;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px}
+.sheet{max-width:1180px;margin:0 auto;background:var(--sheet);border:1.5px solid var(--ink);}
+.tb{display:grid;grid-template-columns:1fr auto;border-bottom:1.5px solid var(--ink)}
+.tb h1{font:700 clamp(30px,5vw,46px)/1 var(--display);letter-spacing:.01em;margin:0;padding:18px 20px 14px;text-transform:uppercase;text-wrap:balance}
+.tb h1 small{display:block;font:500 14px/1.4 var(--body);letter-spacing:0;text-transform:none;color:var(--ink-2);margin-top:6px}
+.tb .meta{display:grid;grid-template-columns:auto auto;border-left:1.5px solid var(--ink);font:12px/1.2 var(--mono)}
+.tb .meta div{padding:8px 12px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule)}
+.tb .meta b{display:block;font:600 10px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-bottom:4px}
+.main{display:grid;grid-template-columns:320px 1fr;}
+.inputs{border-right:1.5px solid var(--ink);padding:18px 20px;display:flex;flex-direction:column;gap:14px}
+label{display:flex;flex-direction:column;gap:5px;font:600 11px/1 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+input,select{font:500 15px/1.2 var(--mono);color:var(--ink);background:var(--paper);border:1px solid var(--rule);padding:9px 10px;border-radius:0;width:100%}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
+input[type=range]{padding:0;accent-color:var(--red)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+button{font:600 12px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;background:transparent;color:var(--ink);border:1px solid var(--ink);padding:8px 10px;cursor:pointer}
+button:hover{background:var(--ink);color:var(--sheet)}
+.time{font:500 28px/1 var(--mono);color:var(--red)}
+.views{display:grid;grid-template-columns:1fr 1fr;min-width:0}
+.view{padding:14px 16px 10px;min-width:0;border-bottom:1.5px solid var(--ink)}
+.view+.view{border-left:1px solid var(--rule)}
+.view h2,.data h2{font:600 20px/1 var(--display);text-transform:uppercase;letter-spacing:.04em;margin:0 0 8px;display:flex;justify-content:space-between;gap:8px}
+.view h2 span,.data h2 span{font:400 11px/1.6 var(--mono);color:var(--ink-2);text-transform:none;letter-spacing:0}
+svg{width:100%;height:auto;display:block}
+.readout{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1.5px solid var(--ink)}
+.readout div{padding:12px 16px;border-right:1px solid var(--rule)}
+.readout div:last-child{border-right:0}
+.readout b{display:block;font:600 10px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-bottom:6px}
+.readout span{font:500 24px/1 var(--mono);font-variant-numeric:tabular-nums}
+.readout .hi{color:var(--red)}
+.data{padding:14px 16px}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font:13px/1.3 var(--mono);font-variant-numeric:tabular-nums}
+th,td{padding:6px 10px;border-bottom:1px solid var(--rule);text-align:right;white-space:nowrap}
+th{font:600 10px/1.2 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+th:first-child,td:first-child{text-align:left}
+tr.now td{color:var(--red);font-weight:500}
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;padding:10px 16px;border-top:1.5px solid var(--ink);font:12px/1.4 var(--mono);color:var(--ink-2)}
+.note{font:12px/1.5 var(--body);color:var(--ink-2);margin:0}
+@media (max-width:900px){.main{grid-template-columns:1fr}.inputs{border-right:0;border-bottom:1.5px solid var(--ink)}}
+@media (max-width:640px){.views{grid-template-columns:1fr}.view+.view{border-left:0}.readout{grid-template-columns:repeat(2,1fr)}.readout div:nth-child(2){border-right:0}.readout div{border-bottom:1px solid var(--rule)}.tb{grid-template-columns:1fr}.tb .meta{border-left:0;border-top:1px solid var(--rule)}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.dl{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;padding:12px 20px;border-bottom:1.5px solid var(--ink);background:var(--paper)}
+.dl a.btn{font:600 13px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;background:var(--red);color:#fff;text-decoration:none;padding:11px 14px;border:1px solid var(--red)}
+.dl a.btn:hover{background:var(--ink);border-color:var(--ink);color:var(--sheet)}
+.dl span{font:13px/1.4 var(--body);color:var(--ink-2);flex:1;min-width:180px}
+.dl a.more{font:500 13px/1 var(--mono);color:var(--blue)}
+
+:root{--ok:#2F8A57;--okbg:rgba(47,138,87,.12);--bad:#C8432B;--badbg:rgba(200,67,43,.10);--warn:#B7791F}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ok:#5FD08F;--okbg:rgba(95,208,143,.14);--bad:#FF7A5C;--badbg:rgba(255,122,92,.12);--warn:#F2B84B}}
+:root[data-theme="dark"]{--ok:#5FD08F;--okbg:rgba(95,208,143,.14);--bad:#FF7A5C;--badbg:rgba(255,122,92,.12);--warn:#F2B84B}
+.pill{display:inline-block;font:600 11px/1 var(--body);letter-spacing:.08em;text-transform:uppercase;padding:5px 7px;border:1px solid currentColor}
+.pill.ok{color:var(--ok);background:var(--okbg)} .pill.bad{color:var(--bad);background:var(--badbg)} .pill.warn{color:var(--warn)}
+td.ok{color:var(--ok)} td.bad{color:var(--bad)}
+.readout .ok{color:var(--ok)} .readout .bad{color:var(--bad)}
+.view.full{grid-column:1/-1}
+.checks{list-style:none;margin:0;padding:0}
+.checks li{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:8px 0;border-bottom:1px solid var(--rule);font:13px/1.35 var(--body)}
+.checks li span:first-child{min-width:0}
+select{appearance:auto}
+</style>
+</head>
+<body>
+<div class="sheet">
+  <header class="tb">
+    <h1>Camera Lens & Framing<small>Pick a lens and place the camera. See the field of view in plan and section, whether the whole wall fits, and the longest lens that still frames it.</small></h1>
+    <div class="meta"><div><b>Sheet</b>T-25</div><div><b>Method</b>FOV = 2·atan(s / 2f)</div><div><b>Units</b>m · mm</div><div><b>By</b>@smart_tools_every_week</div></div>
+  </header>
+  <div class="dl" id="dlbar"><a class="btn" href="camera-fov.html" download="camera-fov.html">⬇ Download this app</a><span>Free. One HTML file that works offline. Open it in any browser, no install or sign-up.</span><a class="more" href="../">More free tools →</a></div>
+  <div class="main">
+    <section class="inputs" aria-label="Inputs">
+
+      <label for="sen">Sensor / film back
+        <select id="sen">
+          <option value="ff" selected>Full frame 36 × 24 (Blender default)</option>
+          <option value="aps">APS-C 23.6 × 15.7</option>
+          <option value="mft">Micro 4/3 17.3 × 13</option>
+          <option value="cus">Custom</option>
+        </select>
+      </label>
+      <div class="row">
+        <label for="sw">Sensor width mm<input id="sw" type="number" step="0.1" value="36" disabled></label>
+        <label for="sh">Sensor height mm<input id="sh" type="number" step="0.1" value="24" disabled></label>
+      </div>
+      <label for="ori">Frame
+        <select id="ori"><option value="l" selected>Landscape</option><option value="p">Portrait</option></select>
+      </label>
+      <label for="f">Focal length <span id="fv" class="time" style="font-size:18px"></span><input id="f" type="range" min="8" max="200" step="1" value="24"></label>
+      <div class="row">
+        <label for="W">Wall width m<input id="W" type="number" step="0.1" value="4.2"></label>
+        <label for="Ht">Wall height m<input id="Ht" type="number" step="0.1" value="2.7"></label>
+      </div>
+      <div class="row">
+        <label for="D">Room depth m<input id="D" type="number" step="0.1" value="5.5"></label>
+        <label for="d">Camera to wall m<input id="d" type="number" step="0.1" value="5"></label>
+      </div>
+      <label for="hc">Camera height m<input id="hc" type="number" step="0.1" value="1.2"></label>
+      <p class="note">The camera looks straight at the wall with no tilt, so vertical lines stay vertical. Eye level is about 1.6 m; interior renders often sit lower at 1.0–1.3 m. Past about 90° horizontal view, objects at the edges stretch noticeably.</p>
+
+    </section>
+    <section style="min-width:0">
+
+      <div class="readout">
+        <div><b>Horizontal view</b><span id="oH" class="hi">–</span></div>
+        <div><b>Vertical view</b><span id="oV">–</span></div>
+        <div><b>Sees at the wall</b><span id="oCov">–</span></div>
+        <div><b>Longest lens that fits</b><span id="oMax">–</span></div>
+      </div>
+      <div class="views">
+        <div class="view"><h2>Plan <span id="planLabel"></span></h2><svg id="plan" viewBox="0 0 420 330" role="img" aria-label="Plan view of the camera cone"></svg></div>
+        <div class="view"><h2>Section <span id="secLabel"></span></h2><svg id="sec" viewBox="0 0 420 330" role="img" aria-label="Section view of the camera cone"></svg></div>
+      </div>
+      <div class="views">
+        <div class="view full"><h2>Checks <span id="sum"></span></h2><ul class="checks" id="checks"></ul></div>
+      </div>
+      <div class="data">
+        <h2>Common lenses <span id="tblNote"></span></h2>
+        <div class="tablewrap"><table><thead><tr><th>Lens (mm)</th><th>Horizontal</th><th>Vertical</th><th>Sees at wall (m)</th><th>Camera needed (m)</th><th>Frames wall</th></tr></thead><tbody id="tbl"></tbody></table></div>
+      </div>
+
+    </section>
+  </div>
+  <footer class="foot"><span>Free tool · @smart_tools_every_week · simplyrendered.github.io/smart-tools · built with Claude</span><span>Field of view from the pinhole camera model: FOV = 2·atan(sensor size ÷ 2 × focal length). Sensor sizes: Full frame 36 × 24 mm, APS-C (Nikon/Sony) 23.6 × 15.7 mm, Micro 4/3 17.3 × 13 mm; 35 mm equivalent = f × 43.27 ÷ sensor diagonal. Set the same sensor width in Blender, 3ds Max, V-Ray or Lumion.</span></footer>
+</div>
+<script>
+if(location.protocol==="file:"){const b=document.getElementById("dlbar");if(b)b.hidden=true;}
+const $=id=>document.getElementById(id);
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const NS="http://www.w3.org/2000/svg";
+function el(tag,attrs,parent,text){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(text!=null)e.textContent=text;parent&&parent.appendChild(e);return e}
+const fmt=(v,d=2)=>Number.isFinite(v)?v.toFixed(d):"–";
+
+const num=(id,min,max,def)=>{const v=parseFloat($(id).value);return Number.isFinite(v)?Math.min(max,Math.max(min,v)):def};
+const SENS={ff:[36,24],aps:[23.6,15.7],mft:[17.3,13],cus:null};
+function lockSensor(){const p=SENS[$("sen").value];$("sw").disabled=$("sh").disabled=!!p;if(p){$("sw").value=p[0];$("sh").value=p[1];}}
+$("sen").addEventListener("change",()=>{lockSensor();render()});
+const D2R=Math.PI/180;
+function calc(f,sw,sh,W,Ht,d,hc){
+  const h=2*Math.atan(sw/(2*f)),v=2*Math.atan(sh/(2*f)),tH=Math.tan(h/2),tV=Math.tan(v/2);
+  const m=Math.max(Ht-hc,hc,0.01);
+  const covW=2*d*tH,covUp=d*tV;
+  const needW=W/(2*tH),needH=m/tV,need=Math.max(needW,needH);
+  const fitW=covW>=W-1e-9,fitH=covUp>=m-1e-9;
+  return {h,v,tH,tV,m,covW,covUp,covH:2*covUp,need,needW,needH,fitW,fitH,fmax:Math.min(sw*d/W,sh*d/(2*m))};
+}
+function render(){
+  const ink=css("--ink"),ink2=css("--ink-2"),rule=css("--rule"),red=css("--red"),blue=css("--blue"),ok=css("--ok"),sun=css("--sun");
+  const sw0=num("sw",3,100,36),sh0=num("sh",2,100,24),port=$("ori").value==="p",sw=port?sh0:sw0,sh=port?sw0:sh0;
+  const f=num("f",8,200,24),W=num("W",0.5,100,4.2),Ht=num("Ht",0.5,50,2.7),D=num("D",0.5,200,5.5),d=num("d",0.2,200,5),hc=num("hc",0,50,1.2);
+  const diag=Math.hypot(sw0,sh0),eq=f*43.27/diag;
+  const c=calc(f,sw,sh,W,Ht,d,hc);
+  $("fv").textContent=f+" mm"+(Math.abs(eq-f)>0.5?"  (≈"+Math.round(eq)+" mm full frame)":"");
+  $("oH").textContent=fmt(c.h/D2R,1)+"°";$("oV").textContent=fmt(c.v/D2R,1)+"°";
+  $("oCov").textContent=fmt(c.covW,1)+" × "+fmt(c.covH,1)+" m";
+  $("oMax").textContent=fmt(c.fmax,0)+" mm";
+  const inside=d<=D+1e-9,needInside=c.need<=D+1e-9;
+  const C=[[`Wall width ${fmt(W,1)} m: lens sees ${fmt(c.covW,2)} m`,c.fitW],
+    [`Wall height ${fmt(Ht,1)} m: lens sees ${fmt(Math.max(0,hc-c.covUp),2)} to ${fmt(hc+c.covUp,2)} m above the floor`,c.fitH],
+    [`Camera stays inside the ${fmt(D,1)} m deep room (${fmt(d,1)} m from the wall)`,inside],
+    [`Distance needed for this lens: ${fmt(c.need,2)} m (${c.needW>=c.needH?"width":"height"} decides)`,needInside],
+    [`Horizontal view ${fmt(c.h/D2R,0)}° (strong edge stretching above about 90°)`,c.h/D2R<=90]];
+  const ul=$("checks");ul.innerHTML="";let fails=0;
+  C.forEach(([t,okk])=>{const li=document.createElement("li");if(!okk)fails++;li.innerHTML=`<span>${t}</span><span class="pill ${okk?"ok":"bad"}">${okk?"pass":"fail"}</span>`;ul.appendChild(li)});
+  $("sum").textContent=fails?fails+" to fix":"wall fits the frame";
+  // PLAN: far wall at top, camera below
+  const pv=$("plan");pv.innerHTML="";
+  const ext=Math.max(W,c.covW)*1.08,deep=Math.max(D,d)*1.08,k=Math.min(380/ext,285/deep),cx=210,top=24;
+  const X=x=>cx+x*k,Y=y=>top+y*k;
+  el("rect",{x:X(-W/2),y:Y(0),width:W*k,height:D*k,fill:"none",stroke:ink,"stroke-width":2},pv);
+  el("line",{x1:X(-W/2),y1:Y(0),x2:X(W/2),y2:Y(0),stroke:red,"stroke-width":4},pv);
+  const half=d*c.tH;
+  const pts=`${X(0)},${Y(d)} ${X(-half)},${Y(0)} ${X(half)},${Y(0)}`;
+  el("polygon",{points:pts,fill:c.fitW?ok:red,"fill-opacity":.18,stroke:c.fitW?ok:red,"stroke-width":1.5},pv);
+  el("circle",{cx:X(0),cy:Y(d),r:5,fill:inside?ink:red},pv);
+  el("text",{x:X(0)+9,y:Y(d)+4,fill:ink2,"font-size":11,"font-family":"IBM Plex Mono, monospace"},pv,"camera");
+  el("text",{x:X(0),y:Y(0)-6,"text-anchor":"middle",fill:red,"font-size":11,"font-weight":500,"font-family":"IBM Plex Mono, monospace"},pv,"wall "+fmt(W,1)+" m");
+  el("text",{x:X(0),y:Y(d*0.55),"text-anchor":"middle",fill:ink,"font-size":13,"font-weight":600,"font-family":"IBM Plex Mono, monospace"},pv,fmt(c.h/D2R,0)+"°");
+  $("planLabel").textContent=c.fitW?"full width in frame":"wall cut off by "+fmt(W-c.covW,1)+" m";
+  // SECTION: floor at bottom, far wall at right, camera on left
+  const sv=$("sec");sv.innerHTML="";
+  const x0=Math.min(0,D-d),xs=Math.max(D,D)-x0,ymax=Math.max(Ht,hc+c.covUp*0.0,hc)*1.12;
+  const ks=Math.min(390/xs,290/ymax),ox=15-x0*ks,gy=296;
+  const SX=x=>ox+x*ks,SY=y=>gy-y*ks;
+  el("line",{x1:SX(x0),y1:SY(0),x2:SX(D),y2:SY(0),stroke:ink,"stroke-width":2},sv);
+  el("line",{x1:SX(D),y1:SY(0),x2:SX(D),y2:SY(Ht),stroke:red,"stroke-width":4},sv);
+  el("line",{x1:SX(Math.max(0,x0)),y1:SY(Ht),x2:SX(D),y2:SY(Ht),stroke:ink,"stroke-width":1.5,"stroke-dasharray":"5 4"},sv);
+  const cxp=D-d,upY=hc+c.covUp,dnY=hc-c.covUp;
+  const clipY=y=>Math.min(Math.max(y,-0.12*Ht),Ht*1.55);
+  el("polygon",{points:`${SX(cxp)},${SY(hc)} ${SX(D)},${SY(clipY(upY))} ${SX(D)},${SY(clipY(dnY))}`,fill:c.fitH?ok:red,"fill-opacity":.18,stroke:c.fitH?ok:red,"stroke-width":1.5},sv);
+  el("circle",{cx:SX(cxp),cy:SY(hc),r:5,fill:ink},sv);
+  el("text",{x:SX(cxp)+8,y:SY(hc)-8,fill:ink2,"font-size":11,"font-family":"IBM Plex Mono, monospace"},sv,"camera "+fmt(hc,1)+" m");
+  el("text",{x:SX(D)-6,y:SY(Ht/2),"text-anchor":"end",fill:red,"font-size":11,"font-weight":500,"font-family":"IBM Plex Mono, monospace"},sv,fmt(Ht,1)+" m");
+  el("text",{x:SX(cxp+d*0.5),y:SY(hc)+(hc>Ht/2?18:-18),"text-anchor":"middle",fill:ink,"font-size":13,"font-weight":600,"font-family":"IBM Plex Mono, monospace"},sv,fmt(c.v/D2R,0)+"°");
+  $("secLabel").textContent=c.fitH?"floor to ceiling in frame":"top or bottom cut off";
+  // TABLE
+  const tb=$("tbl");tb.innerHTML="";
+  const lens=[14,16,18,20,24,28,35,50,85];if(!lens.includes(f))lens.push(f);lens.sort((a,b)=>a-b);
+  lens.forEach(L=>{const r=calc(L,sw,sh,W,Ht,d,hc),fits=r.fitW&&r.fitH,tr=document.createElement("tr");if(L===f)tr.className="now";
+    tr.innerHTML=`<td>${L}</td><td>${fmt(r.h/D2R,1)}°</td><td>${fmt(r.v/D2R,1)}°</td><td>${fmt(r.covW,2)}</td><td class="${r.need<=D?"":"bad"}">${fmt(r.need,2)}</td><td class="${fits?"ok":"bad"}">${fits?"yes":"no"}</td>`;tb.appendChild(tr)});
+  $("tblNote").textContent="for the wall and distance above";
+}
+lockSensor();
+
+document.querySelectorAll("input,select").forEach(i=>i.addEventListener("input",render));
+window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",render);
+new MutationObserver(render).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+render();
+</script>
+</body>
+</html>

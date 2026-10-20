@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Roof Pitch & Rafter Calculator</title>
+<meta name="description" content="Set the roof angle. Get the ridge height, rafter length, true roof area and sheet count, with the pitch in degrees, percent, 1 in n and rise per 12.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: drafting sheet — title block header, input column + two drawings, data table below */
+:root{
+  --paper:#F2F3EF; --sheet:#FBFBF8; --ink:#1B2732; --ink-2:#4A5865; --rule:#D5D9D4; --grid:#E6E8E3;
+  --red:#C8432B; --blue:#2E66A6; --sun:#E09A1E; --shadow:rgba(27,39,50,.22);
+  --display:'Barlow Condensed','Arial Narrow',sans-serif; --body:'IBM Plex Sans',system-ui,sans-serif; --mono:'IBM Plex Mono',ui-monospace,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#0E1A26; --sheet:#132233; --ink:#E4ECF2; --ink-2:#9DB0C0; --rule:#2A3D52; --grid:#1B2D40;
+  --red:#FF7A5C; --blue:#6FB0F0; --sun:#FFC04D; --shadow:rgba(140,190,240,.25); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0E1A26; --sheet:#132233; --ink:#E4ECF2; --ink-2:#9DB0C0; --rule:#2A3D52; --grid:#1B2D40;
+  --red:#FF7A5C; --blue:#6FB0F0; --sun:#FFC04D; --shadow:rgba(140,190,240,.25); color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--paper);color:var(--ink);font:15px/1.5 var(--body);padding:16px;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px}
+.sheet{max-width:1180px;margin:0 auto;background:var(--sheet);border:1.5px solid var(--ink);}
+.tb{display:grid;grid-template-columns:1fr auto;border-bottom:1.5px solid var(--ink)}
+.tb h1{font:700 clamp(30px,5vw,46px)/1 var(--display);letter-spacing:.01em;margin:0;padding:18px 20px 14px;text-transform:uppercase;text-wrap:balance}
+.tb h1 small{display:block;font:500 14px/1.4 var(--body);letter-spacing:0;text-transform:none;color:var(--ink-2);margin-top:6px}
+.tb .meta{display:grid;grid-template-columns:auto auto;border-left:1.5px solid var(--ink);font:12px/1.2 var(--mono)}
+.tb .meta div{padding:8px 12px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule)}
+.tb .meta b{display:block;font:600 10px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-bottom:4px}
+.main{display:grid;grid-template-columns:320px 1fr;}
+.inputs{border-right:1.5px solid var(--ink);padding:18px 20px;display:flex;flex-direction:column;gap:14px}
+label{display:flex;flex-direction:column;gap:5px;font:600 11px/1 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+input,select{font:500 15px/1.2 var(--mono);color:var(--ink);background:var(--paper);border:1px solid var(--rule);padding:9px 10px;border-radius:0;width:100%}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
+input[type=range]{padding:0;accent-color:var(--red)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+button{font:600 12px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;background:transparent;color:var(--ink);border:1px solid var(--ink);padding:8px 10px;cursor:pointer}
+button:hover{background:var(--ink);color:var(--sheet)}
+.time{font:500 28px/1 var(--mono);color:var(--red)}
+.views{display:grid;grid-template-columns:1fr 1fr;min-width:0}
+.view{padding:14px 16px 10px;min-width:0;border-bottom:1.5px solid var(--ink)}
+.view+.view{border-left:1px solid var(--rule)}
+.view h2,.data h2{font:600 20px/1 var(--display);text-transform:uppercase;letter-spacing:.04em;margin:0 0 8px;display:flex;justify-content:space-between;gap:8px}
+.view h2 span,.data h2 span{font:400 11px/1.6 var(--mono);color:var(--ink-2);text-transform:none;letter-spacing:0}
+svg{width:100%;height:auto;display:block}
+.readout{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1.5px solid var(--ink)}
+.readout div{padding:12px 16px;border-right:1px solid var(--rule)}
+.readout div:last-child{border-right:0}
+.readout b{display:block;font:600 10px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-bottom:6px}
+.readout span{font:500 24px/1 var(--mono);font-variant-numeric:tabular-nums}
+.readout .hi{color:var(--red)}
+.data{padding:14px 16px}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font:13px/1.3 var(--mono);font-variant-numeric:tabular-nums}
+th,td{padding:6px 10px;border-bottom:1px solid var(--rule);text-align:right;white-space:nowrap}
+th{font:600 10px/1.2 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+th:first-child,td:first-child{text-align:left}
+tr.now td{color:var(--red);font-weight:500}
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;padding:10px 16px;border-top:1.5px solid var(--ink);font:12px/1.4 var(--mono);color:var(--ink-2)}
+.note{font:12px/1.5 var(--body);color:var(--ink-2);margin:0}
+@media (max-width:900px){.main{grid-template-columns:1fr}.inputs{border-right:0;border-bottom:1.5px solid var(--ink)}}
+@media (max-width:640px){.views{grid-template-columns:1fr}.view+.view{border-left:0}.readout{grid-template-columns:repeat(2,1fr)}.readout div:nth-child(2){border-right:0}.readout div{border-bottom:1px solid var(--rule)}.tb{grid-template-columns:1fr}.tb .meta{border-left:0;border-top:1px solid var(--rule)}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.dl{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;padding:12px 20px;border-bottom:1.5px solid var(--ink);background:var(--paper)}
+.dl a.btn{font:600 13px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;background:var(--red);color:#fff;text-decoration:none;padding:11px 14px;border:1px solid var(--red)}
+.dl a.btn:hover{background:var(--ink);border-color:var(--ink);color:var(--sheet)}
+.dl span{font:13px/1.4 var(--body);color:var(--ink-2);flex:1;min-width:180px}
+.dl a.more{font:500 13px/1 var(--mono);color:var(--blue)}
+
+:root{--ok:#2F8A57;--okbg:rgba(47,138,87,.12);--bad:#C8432B;--badbg:rgba(200,67,43,.10);--warn:#B7791F}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ok:#5FD08F;--okbg:rgba(95,208,143,.14);--bad:#FF7A5C;--badbg:rgba(255,122,92,.12);--warn:#F2B84B}}
+:root[data-theme="dark"]{--ok:#5FD08F;--okbg:rgba(95,208,143,.14);--bad:#FF7A5C;--badbg:rgba(255,122,92,.12);--warn:#F2B84B}
+.pill{display:inline-block;font:600 11px/1 var(--body);letter-spacing:.08em;text-transform:uppercase;padding:5px 7px;border:1px solid currentColor}
+.pill.ok{color:var(--ok);background:var(--okbg)} .pill.bad{color:var(--bad);background:var(--badbg)} .pill.warn{color:var(--warn)}
+td.ok{color:var(--ok)} td.bad{color:var(--bad)}
+.readout .ok{color:var(--ok)} .readout .bad{color:var(--bad)}
+.view.full{grid-column:1/-1}
+.checks{list-style:none;margin:0;padding:0}
+.checks li{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:8px 0;border-bottom:1px solid var(--rule);font:13px/1.35 var(--body)}
+.checks li span:first-child{min-width:0}
+select{appearance:auto}
+</style>
+</head>
+<body>
+<div class="sheet">
+  <header class="tb">
+    <h1>Roof Pitch & Rafter<small>Set the roof angle. Get the ridge height, rafter length, true roof area and sheet count, with the pitch in degrees, percent, 1 in n and rise per 12.</small></h1>
+    <div class="meta"><div><b>Sheet</b>T-26</div><div><b>Method</b>Plane geometry</div><div><b>Units</b>m · mm</div><div><b>By</b>@smart_tools_every_week</div></div>
+  </header>
+  <div class="dl" id="dlbar"><a class="btn" href="roof-pitch.html" download="roof-pitch.html">⬇ Download this app</a><span>Free. One HTML file that works offline. Open it in any browser, no install or sign-up.</span><a class="more" href="../">More free tools →</a></div>
+  <div class="main">
+    <section class="inputs" aria-label="Inputs">
+
+      <label for="typ">Roof type
+        <select id="typ"><option value="gable" selected>Gable (two slopes)</option><option value="mono">Mono-pitch (one slope)</option></select>
+      </label>
+      <label for="a">Pitch angle <span id="av" class="time" style="font-size:18px"></span><input id="a" type="range" min="2" max="60" step="0.5" value="30"></label>
+      <div class="row">
+        <label for="B">Building width m<input id="B" type="number" step="0.1" value="6"></label>
+        <label for="Lb">Building length m<input id="Lb" type="number" step="0.1" value="9"></label>
+      </div>
+      <div class="row">
+        <label for="o">Overhang m<input id="o" type="number" step="0.05" value="0.45"></label>
+        <label for="pc">Cover per piece m²<input id="pc" type="number" step="0.01" value="0.5"></label>
+      </div>
+      <label for="w">Wastage %<input id="w" type="number" step="1" value="7"></label>
+      <p class="note">Overhang is measured horizontally and applied on all four sides. Width is across the slope(s). Enter the effective cover of one sheet or tile (after laps) from the maker's data.</p>
+
+    </section>
+    <section style="min-width:0">
+
+      <div class="readout">
+        <div><b>Ridge rise</b><span id="oRise" class="hi">–</span></div>
+        <div><b>Rafter length</b><span id="oRaf">–</span></div>
+        <div><b>Roof area</b><span id="oArea">–</span></div>
+        <div><b>Pieces</b><span id="oPcs">–</span></div>
+      </div>
+      <div class="views">
+        <div class="view"><h2>Section <span id="secLabel"></span></h2><svg id="sec" viewBox="0 0 420 300" role="img" aria-label="Roof section"></svg></div>
+        <div class="view"><h2>Pitch, four ways <span></span></h2><ul class="checks" id="eq"></ul><p class="note" id="usual" style="margin-top:10px"></p></div>
+      </div>
+      <div class="views"><div class="view full"><h2>Roof plan <span id="planLabel"></span></h2><svg id="plan" viewBox="0 0 840 230" role="img" aria-label="Roof plan" style="max-height:230px"></svg></div></div>
+      <div class="data">
+        <h2>Common pitches <span id="tblNote">for this width and overhang</span></h2>
+        <div class="tablewrap"><table><thead><tr><th>Angle</th><th>1 in n</th><th>Percent</th><th>Rise per 12</th><th>Ridge rise (m)</th><th>Rafter (m)</th><th>Area × plan</th></tr></thead><tbody id="tbl"></tbody></table></div>
+      </div>
+
+    </section>
+  </div>
+  <footer class="foot"><span>Free tool · @smart_tools_every_week · simplyrendered.github.io/smart-tools · built with Claude</span><span>Plane geometry: rise = run × tan θ, rafter = run ÷ cos θ, sloping area = plan area ÷ cos θ. Check the roofing maker's minimum pitch and fixing details for your sheet or tile, and your structural engineer for rafter sizes.</span></footer>
+</div>
+<script>
+if(location.protocol==="file:"){const b=document.getElementById("dlbar");if(b)b.hidden=true;}
+const $=id=>document.getElementById(id);
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const NS="http://www.w3.org/2000/svg";
+function el(tag,attrs,parent,text){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(text!=null)e.textContent=text;parent&&parent.appendChild(e);return e}
+const fmt=(v,d=2)=>Number.isFinite(v)?v.toFixed(d):"–";
+
+const num=(id,min,max,def)=>{const v=parseFloat($(id).value);return Number.isFinite(v)?Math.min(max,Math.max(min,v)):def};
+const R=Math.PI/180;
+function roof(a,B,Lb,o,typ){
+  const t=Math.tan(a*R),c=Math.cos(a*R);
+  const run=typ==="gable"?B/2+o:B+2*o;
+  return {t,c,run,raf:run/c,rise:typ==="gable"?B/2*t:B*t,drop:o*t,fac:1/c};
+}
+function render(){
+  const ink=css("--ink"),ink2=css("--ink-2"),rule=css("--rule"),red=css("--red"),blue=css("--blue");
+  const a=num("a",2,60,30),B=num("B",1,100,6),Lb=num("Lb",1,200,9),o=num("o",0,3,0.45),pc=num("pc",0.01,50,0.5),w=num("w",0,100,7),typ=$("typ").value;
+  const r=roof(a,B,Lb,o,typ),plan=(B+2*o)*(Lb+2*o),area=plan*r.fac,pcs=Math.ceil(area*(1+w/100)/pc-1e-9);
+  $("av").textContent=fmt(a,1)+"°";
+  $("oRise").textContent=fmt(r.rise,2)+" m";$("oRaf").textContent=fmt(r.raf,2)+" m";
+  $("oArea").textContent=fmt(area,1)+" m²";$("oPcs").textContent=pcs.toLocaleString("en-IN");
+  const eq=[["Degrees",fmt(a,1)+"°"],["Percent (rise ÷ run)",fmt(100*r.t,1)+" %"],["1 in n",a>0?"1 in "+fmt(1/r.t,2):"–"],["Rise per 12 (in/ft)",fmt(12*r.t,2)+" : 12"]];
+  $("eq").innerHTML=eq.map(([k,v])=>`<li><span>${k}</span><span class="pill warn" style="font-family:var(--mono)">${v}</span></li>`).join("");
+  $("usual").innerHTML=`Plan area is ${fmt(plan,1)} m². The sloping roof is <b>${fmt(area,1)} m²</b>, which is ${fmt(100*(r.fac-1),1)}% more. Use the sloping area for sheets, tiles and waterproofing.`;
+  // SECTION
+  const sv=$("sec");sv.innerHTML="";
+  const W=B+2*o,H=(typ==="gable"?B/2*r.t:B*r.t)+o*r.t,hw=Math.min(0.8,Math.max(0.5,B/8)),wallH=Math.max(0.5,Math.min(3,B*0.45));
+  const tot=wallH+H+0.2,k=Math.min(360/W,215/tot),ox=(420-W*k)/2,gy=265;
+  const X=x=>ox+x*k,Y=y=>gy-y*k;
+  const x1=o,x2=o+B;
+  el("line",{x1:X(x1)-12,y1:Y(0),x2:X(x2)+12,y2:Y(0),stroke:ink,"stroke-width":2},sv);
+  el("rect",{x:X(x1),y:Y(wallH),width:0.2*k,height:wallH*k,fill:rule,stroke:ink},sv);
+  el("rect",{x:X(x2)-0.2*k,y:Y(wallH),width:0.2*k,height:wallH*k,fill:rule,stroke:ink},sv);
+  let pts;
+  if(typ==="gable"){pts=[[0,wallH-o*r.t],[W/2,wallH+B/2*r.t],[W,wallH-o*r.t]];}
+  else{pts=[[0,wallH-o*r.t],[W,wallH+B*r.t+o*r.t]];}
+  el("polyline",{points:pts.map(p=>X(p[0])+","+Y(p[1])).join(" "),fill:"none",stroke:red,"stroke-width":3},sv);
+  if(typ==="gable"){el("polygon",{points:`${X(x1)},${Y(wallH)} ${X(W/2)},${Y(wallH+B/2*r.t)} ${X(x2)},${Y(wallH)}`,fill:red,"fill-opacity":.12,stroke:"none"},sv);
+    el("line",{x1:X(W/2),y1:Y(wallH),x2:X(W/2),y2:Y(wallH+B/2*r.t),stroke:blue,"stroke-dasharray":"4 3"},sv);
+    el("text",{x:X(W/2)+6,y:Y(wallH+B/4*r.t),fill:blue,"font-size":12,"font-family":"IBM Plex Mono, monospace"},sv,fmt(r.rise,2)+" m");}
+  else{el("polygon",{points:`${X(x1)},${Y(wallH)} ${X(x2)},${Y(wallH+B*r.t)} ${X(x2)},${Y(wallH)}`,fill:red,"fill-opacity":.12,stroke:"none"},sv);
+    el("text",{x:X(x2)-8,y:Y(wallH+B*r.t/2),"text-anchor":"end",fill:blue,"font-size":12,"font-family":"IBM Plex Mono, monospace"},sv,fmt(r.rise,2)+" m");}
+  const ax=typ==="gable"?X(W*0.22):X(W*0.3),ay=Y(wallH-o*r.t+ (typ==="gable"?W*0.22:W*0.3)*r.t);
+  el("text",{x:X(0)+4,y:Y(wallH-o*r.t)+16,fill:ink,"font-size":13,"font-weight":600,"font-family":"IBM Plex Mono, monospace"},sv,fmt(a,0)+"°");
+  el("line",{x1:X(0),y1:gy+16,x2:X(W),y2:gy+16,stroke:ink2},sv);
+  el("text",{x:X(W/2),y:gy+30,"text-anchor":"middle",fill:ink,"font-size":12,"font-family":"IBM Plex Mono, monospace"},sv,"width incl. overhang "+fmt(W,2)+" m");
+  $("secLabel").textContent="rafter "+fmt(r.raf,2)+" m along the slope";
+  // PLAN
+  const pv=$("plan");pv.innerHTML="";
+  const PW=B+2*o,PL=Lb+2*o,kp=Math.min(800/PL,190/PW),px=(840-PL*kp)/2,py=(230-PW*kp)/2;
+  const rr=el("rect",{x:px,y:py,width:PL*kp,height:PW*kp,fill:red,"fill-opacity":.10,stroke:ink,"stroke-width":2},pv);
+  el("rect",{x:px+o*kp,y:py+o*kp,width:Lb*kp,height:B*kp,fill:"none",stroke:ink2,"stroke-dasharray":"5 4"},pv);
+  if(typ==="gable")el("line",{x1:px,y1:py+PW*kp/2,x2:px+PL*kp,y2:py+PW*kp/2,stroke:red,"stroke-width":3},pv);
+  const lab=(x,y,t)=>el("text",{x,y,"text-anchor":"middle",fill:ink,"font-size":13,"font-family":"IBM Plex Mono, monospace"},pv,t);
+  lab(px+PL*kp/2,py-6<10?12:py-6,"");
+  lab(px+PL*kp/2,py+PW*kp/2+(typ==="gable"?-8:4),typ==="gable"?"ridge":"slopes up to the high wall");
+  $("planLabel").textContent=fmt(PL,2)+" × "+fmt(PW,2)+" m in plan";
+  // TABLE
+  const tb=$("tbl");tb.innerHTML="";
+  const angs=[5,10,15,20,25,30,35,40,45];if(!angs.includes(a))angs.push(a);angs.sort((x,y)=>x-y);
+  angs.forEach(g=>{const q=roof(g,B,Lb,o,typ),tr=document.createElement("tr");if(g===a)tr.className="now";
+    tr.innerHTML=`<td>${fmt(g,g%1?1:0)}°</td><td>1 in ${fmt(1/q.t,1)}</td><td>${fmt(100*q.t,1)}%</td><td>${fmt(12*q.t,1)}</td><td>${fmt(q.rise,2)}</td><td>${fmt(q.raf,2)}</td><td>× ${fmt(q.fac,3)}</td>`;tb.appendChild(tr)});
+}
+
+document.querySelectorAll("input,select").forEach(i=>i.addEventListener("input",render));
+window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",render);
+new MutationObserver(render).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+render();
+</script>
+</body>
+</html>
