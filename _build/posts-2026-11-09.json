@@ -1,0 +1,206 @@
+[
+ {
+  "date": "2026-11-09",
+  "slug": "natural-ventilation",
+  "no": "T-28",
+  "name": "Natural Ventilation",
+  "slides": [
+   {
+    "t": "hook",
+    "title": "Is the whole window your ventilation area?",
+    "sub": "Free Natural Ventilation tool. Wind and stack airflow, air changes per hour and a rate check.",
+    "img": "natural-ventilation_views.png"
+   },
+   {
+    "t": "shot",
+    "kicker": "The tool",
+    "title": "Live drawing and readouts",
+    "img": "natural-ventilation_top.png"
+   },
+   {
+    "t": "list",
+    "kicker": "What it does",
+    "title": "Air moves through the small opening",
+    "items": [
+     "Wind and stack airflow together",
+     "Smaller opening governs",
+     "Air changes per hour",
+     "Rate check by room use"
+    ]
+   },
+   {
+    "t": "shot",
+    "kicker": "Wind sensitivity",
+    "title": "Calm day to strong breeze",
+    "img": "natural-ventilation_views2.png"
+   },
+   {
+    "t": "steps",
+    "kicker": "How to use",
+    "title": "Four inputs",
+    "items": [
+     "Enter the room size",
+     "Set inlet and outlet areas",
+     "Add wind and temperatures",
+     "Read the airflow and ACH"
+    ]
+   },
+   {
+    "t": "phone",
+    "kicker": "On site",
+    "title": "Works on your phone and offline.",
+    "img": "natural-ventilation_phone.png"
+   },
+   {
+    "t": "cta"
+   }
+  ],
+  "caption": "Is the whole window your ventilation area? 🌬️\nNew free tool: Natural Ventilation.\nEnter the room, openings and wind. It gives wind and stack airflow, air changes per hour and a rate check.\n✅ Smaller opening governs the flow\n✅ Calm-day stack check\n✅ Wind sensitivity table\n⬇️ Free download / use online:\nsimplyrendered.github.io/smart-tools/natural-ventilation\n(tap the link in our bio → T-28)\nCross or single-sided: what do you design? 👇\nSave this for your next design review.",
+  "hashtags": "#naturalventilation #crossventilation #passivedesign #stackeffect #sustainablearchitecture #buildingphysics #greenbuilding #thermalcomfort #architecture #architect #architecturestudent #indianarchitecture #architecturetools #freetools #smarttoolseveryweek",
+  "alt": [
+   "Section and plan of a room with wind and stack airflow arrows",
+   "Full screenshot of the Natural Ventilation tool",
+   "Feature list",
+   "Checks and a wind sensitivity table",
+   "Four steps to use the tool",
+   "Tool running on a phone",
+   "Follow @smart_tools_every_week, link in bio"
+  ]
+ },
+ {
+  "date": "2026-11-11",
+  "slug": "arch-setting-out",
+  "no": "T-29",
+  "name": "Arch Setting-out",
+  "slides": [
+   {
+    "t": "hook",
+    "title": "Is the radius really span² ÷ 8 × rise?",
+    "sub": "Free Arch & Curve Setting-out tool. Radius, centre, arc length and site ordinates.",
+    "img": "arch-setting-out_views.png"
+   },
+   {
+    "t": "shot",
+    "kicker": "The tool",
+    "title": "Live drawing and readouts",
+    "img": "arch-setting-out_top.png"
+   },
+   {
+    "t": "list",
+    "kicker": "What it does",
+    "title": "From span and rise to pegs on site",
+    "items": [
+     "True radius and centre point",
+     "Arc length of the curve",
+     "Table of plumb ordinates",
+     "Voussoirs drawn radial"
+    ]
+   },
+   {
+    "t": "shot",
+    "kicker": "Setting out",
+    "title": "Ordinates and working",
+    "img": "arch-setting-out_views2.png"
+   },
+   {
+    "t": "steps",
+    "kicker": "How to use",
+    "title": "Two numbers",
+    "items": [
+     "Enter span and rise",
+     "Read radius and centre",
+     "Pick the number of ordinates",
+     "Peg the curve on site"
+    ]
+   },
+   {
+    "t": "phone",
+    "kicker": "On site",
+    "title": "Works on your phone and offline.",
+    "img": "arch-setting-out_phone.png"
+   },
+   {
+    "t": "cta"
+   }
+  ],
+  "caption": "Is radius really span² ÷ 8 × rise? 🏛️\nNew free tool: Arch & Curve Setting-out.\nEnter span and rise. It gives radius, centre, arc length and site ordinates, with voussoirs drawn.\n✅ Exact circle, not the shortcut\n✅ Ordinates from the centre line\n✅ Every step shown\n⬇️ Free download / use online:\nsimplyrendered.github.io/smart-tools/arch-setting-out\n(tap the link in our bio → T-29)\nSegmental or semicircular: which do you draw? 👇\nSave this for your next curved opening.",
+  "hashtags": "#arch #archdesign #brickarch #settingout #sitesetting #curvedwall #masonry #construction #architecture #architect #architecturestudent #indianarchitecture #architecturetools #freetools #smarttoolseveryweek",
+  "alt": [
+   "Segmental arch with ordinates, voussoirs and the centre point",
+   "Full screenshot of the Arch and Curve Setting-out tool",
+   "Feature list",
+   "Table of setting-out ordinates and the working",
+   "Four steps to use the tool",
+   "Tool running on a phone",
+   "Follow @smart_tools_every_week, link in bio"
+  ]
+ },
+ {
+  "date": "2026-11-13",
+  "slug": "driveway-turning",
+  "no": "T-30",
+  "name": "Driveway Turning",
+  "slides": [
+   {
+    "t": "hook",
+    "title": "Will the car really make that turn?",
+    "sub": "Free Driveway Turning tool. Swept path, clearance and the narrowest lane for a 90° corner.",
+    "img": "driveway-turning_views.png"
+   },
+   {
+    "t": "shot",
+    "kicker": "The tool",
+    "title": "Live drawing and readouts",
+    "img": "driveway-turning_top.png"
+   },
+   {
+    "t": "list",
+    "kicker": "What it does",
+    "title": "The body swings wider than the wheel",
+    "items": [
+     "Swept path round a 90° corner",
+     "Clearance to every wall",
+     "Narrowest lane that works",
+     "Hatchback, SUV or custom car"
+    ]
+   },
+   {
+    "t": "shot",
+    "kicker": "Lane needed",
+    "title": "Checks and lane widths",
+    "img": "driveway-turning_views2.png"
+   },
+   {
+    "t": "steps",
+    "kicker": "How to use",
+    "title": "Four inputs",
+    "items": [
+     "Pick the design car",
+     "Enter the two lane widths",
+     "Slide the car round the turn",
+     "Read the clearance"
+    ]
+   },
+   {
+    "t": "phone",
+    "kicker": "On site",
+    "title": "Works on your phone and offline.",
+    "img": "driveway-turning_phone.png"
+   },
+   {
+    "t": "cta"
+   }
+  ],
+  "caption": "Will the car really make that turn? 🚗\nNew free tool: Driveway Turning.\nPick a car and two lane widths. It draws the swept path round a 90° corner and the narrowest lane.\n✅ Body swing, not just brochure radius\n✅ Slide the car round the corner\n✅ Hatchback, SUV or your own car\n⬇️ Free download / use online:\nsimplyrendered.github.io/smart-tools/driveway-turning\n(tap the link in our bio → T-30)\nHow tight is the turn on your current job? 👇\nSave this for your next driveway.",
+  "hashtags": "#driveway #turningradius #sweptpath #siteplanning #parkingdesign #gatedesign #roaddesign #basementparking #architecture #architect #architecturestudent #indianarchitecture #architecturetools #freetools #smarttoolseveryweek",
+  "alt": [
+   "Plan of a car turning a 90 degree corner with its swept path",
+   "Full screenshot of the Driveway Turning tool",
+   "Feature list",
+   "Checks and a table of the lane each car needs",
+   "Four steps to use the tool",
+   "Tool running on a phone",
+   "Follow @smart_tools_every_week, link in bio"
+  ]
+ }
+]

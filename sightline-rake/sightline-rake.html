@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sightline & Seating Rake</title>
+<meta name="description" content="Set the number of rows, the row depth and the C-value. Get the riser of every row so each seat sees over the heads in front, drawn as a live section with the sightlines.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: drafting sheet — title block header, input column + two drawings, data table below */
+:root{
+  --paper:#F2F3EF; --sheet:#FBFBF8; --ink:#1B2732; --ink-2:#4A5865; --rule:#D5D9D4; --grid:#E6E8E3;
+  --red:#C8432B; --blue:#2E66A6; --sun:#E09A1E; --shadow:rgba(27,39,50,.22);
+  --display:'Barlow Condensed','Arial Narrow',sans-serif; --body:'IBM Plex Sans',system-ui,sans-serif; --mono:'IBM Plex Mono',ui-monospace,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#0E1A26; --sheet:#132233; --ink:#E4ECF2; --ink-2:#9DB0C0; --rule:#2A3D52; --grid:#1B2D40;
+  --red:#FF7A5C; --blue:#6FB0F0; --sun:#FFC04D; --shadow:rgba(140,190,240,.25); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0E1A26; --sheet:#132233; --ink:#E4ECF2; --ink-2:#9DB0C0; --rule:#2A3D52; --grid:#1B2D40;
+  --red:#FF7A5C; --blue:#6FB0F0; --sun:#FFC04D; --shadow:rgba(140,190,240,.25); color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--paper);color:var(--ink);font:15px/1.5 var(--body);padding:16px;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px}
+.sheet{max-width:1180px;margin:0 auto;background:var(--sheet);border:1.5px solid var(--ink);}
+.tb{display:grid;grid-template-columns:1fr auto;border-bottom:1.5px solid var(--ink)}
+.tb h1{font:700 clamp(30px,5vw,46px)/1 var(--display);letter-spacing:.01em;margin:0;padding:18px 20px 14px;text-transform:uppercase;text-wrap:balance}
+.tb h1 small{display:block;font:500 14px/1.4 var(--body);letter-spacing:0;text-transform:none;color:var(--ink-2);margin-top:6px}
+.tb .meta{display:grid;grid-template-columns:auto auto;border-left:1.5px solid var(--ink);font:12px/1.2 var(--mono)}
+.tb .meta div{padding:8px 12px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule)}
+.tb .meta b{display:block;font:600 10px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-bottom:4px}
+.main{display:grid;grid-template-columns:320px 1fr;}
+.inputs{border-right:1.5px solid var(--ink);padding:18px 20px;display:flex;flex-direction:column;gap:14px}
+label{display:flex;flex-direction:column;gap:5px;font:600 11px/1 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+input,select{font:500 15px/1.2 var(--mono);color:var(--ink);background:var(--paper);border:1px solid var(--rule);padding:9px 10px;border-radius:0;width:100%}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
+input[type=range]{padding:0;accent-color:var(--red)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+button{font:600 12px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;background:transparent;color:var(--ink);border:1px solid var(--ink);padding:8px 10px;cursor:pointer}
+button:hover{background:var(--ink);color:var(--sheet)}
+.time{font:500 28px/1 var(--mono);color:var(--red)}
+.views{display:grid;grid-template-columns:1fr 1fr;min-width:0}
+.view{padding:14px 16px 10px;min-width:0;border-bottom:1.5px solid var(--ink)}
+.view+.view{border-left:1px solid var(--rule)}
+.view h2,.data h2{font:600 20px/1 var(--display);text-transform:uppercase;letter-spacing:.04em;margin:0 0 8px;display:flex;justify-content:space-between;gap:8px}
+.view h2 span,.data h2 span{font:400 11px/1.6 var(--mono);color:var(--ink-2);text-transform:none;letter-spacing:0}
+svg{width:100%;height:auto;display:block}
+.readout{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1.5px solid var(--ink)}
+.readout div{padding:12px 16px;border-right:1px solid var(--rule)}
+.readout div:last-child{border-right:0}
+.readout b{display:block;font:600 10px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-bottom:6px}
+.readout span{font:500 24px/1 var(--mono);font-variant-numeric:tabular-nums}
+.readout .hi{color:var(--red)}
+.data{padding:14px 16px}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font:13px/1.3 var(--mono);font-variant-numeric:tabular-nums}
+th,td{padding:6px 10px;border-bottom:1px solid var(--rule);text-align:right;white-space:nowrap}
+th{font:600 10px/1.2 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+th:first-child,td:first-child{text-align:left}
+tr.now td{color:var(--red);font-weight:500}
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;padding:10px 16px;border-top:1.5px solid var(--ink);font:12px/1.4 var(--mono);color:var(--ink-2)}
+.note{font:12px/1.5 var(--body);color:var(--ink-2);margin:0}
+@media (max-width:900px){.main{grid-template-columns:1fr}.inputs{border-right:0;border-bottom:1.5px solid var(--ink)}}
+@media (max-width:640px){.views{grid-template-columns:1fr}.view+.view{border-left:0}.readout{grid-template-columns:repeat(2,1fr)}.readout div:nth-child(2){border-right:0}.readout div{border-bottom:1px solid var(--rule)}.tb{grid-template-columns:1fr}.tb .meta{border-left:0;border-top:1px solid var(--rule)}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.dl{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;padding:12px 20px;border-bottom:1.5px solid var(--ink);background:var(--paper)}
+.dl a.btn{font:600 13px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;background:var(--red);color:#fff;text-decoration:none;padding:11px 14px;border:1px solid var(--red)}
+.dl a.btn:hover{background:var(--ink);border-color:var(--ink);color:var(--sheet)}
+.dl span{font:13px/1.4 var(--body);color:var(--ink-2);flex:1;min-width:180px}
+.dl a.more{font:500 13px/1 var(--mono);color:var(--blue)}
+
+:root{--ok:#2F8A57;--okbg:rgba(47,138,87,.12);--bad:#C8432B;--badbg:rgba(200,67,43,.10);--warn:#B7791F}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ok:#5FD08F;--okbg:rgba(95,208,143,.14);--bad:#FF7A5C;--badbg:rgba(255,122,92,.12);--warn:#F2B84B}}
+:root[data-theme="dark"]{--ok:#5FD08F;--okbg:rgba(95,208,143,.14);--bad:#FF7A5C;--badbg:rgba(255,122,92,.12);--warn:#F2B84B}
+.pill{display:inline-block;font:600 11px/1 var(--body);letter-spacing:.08em;text-transform:uppercase;padding:5px 7px;border:1px solid currentColor}
+.pill.ok{color:var(--ok);background:var(--okbg)} .pill.bad{color:var(--bad);background:var(--badbg)} .pill.warn{color:var(--warn)}
+td.ok{color:var(--ok)} td.bad{color:var(--bad)}
+.readout .ok{color:var(--ok)} .readout .bad{color:var(--bad)}
+.view.full{grid-column:1/-1}
+.checks{list-style:none;margin:0;padding:0}
+.checks li{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:8px 0;border-bottom:1px solid var(--rule);font:13px/1.35 var(--body)}
+.checks li span:first-child{min-width:0}
+select{appearance:auto}
+.view.full svg{max-height:430px}</style>
+</head>
+<body>
+<div class="sheet">
+  <header class="tb">
+    <h1>Sightline & Seating Rake<small>Set the number of rows, the row depth and the C-value. Get the riser of every row so each seat sees over the heads in front, drawn as a live section with the sightlines.</small></h1>
+    <div class="meta"><div><b>Sheet</b>T-31</div><div><b>Method</b>C-value sightline</div><div><b>Units</b>mm</div><div><b>By</b>@smart_tools_every_week</div></div>
+  </header>
+  <div class="dl" id="dlbar"><a class="btn" href="sightline-rake.html" download="sightline-rake.html">⬇ Download this app</a><span>Free. One HTML file that works offline. Open it in any browser, no install or sign-up.</span><a class="more" href="../">More free tools →</a></div>
+  <div class="main">
+    <section class="inputs" aria-label="Inputs">
+
+      <div class="row">
+        <label for="N">Rows<input id="N" type="number" step="1" value="14"></label>
+        <label for="d">Row depth mm<input id="d" type="number" step="10" value="900"></label>
+      </div>
+      <div class="row">
+        <label for="D1">Focus to row 1 mm<input id="D1" type="number" step="100" value="3000"></label>
+        <label for="Hf">Focus above row 1 floor mm<input id="Hf" type="number" step="50" value="1000"></label>
+      </div>
+      <label for="eye">Seated eye height mm<input id="eye" type="number" step="10" value="1100"></label>
+      <label for="cpre">C-value
+        <select id="cpre"><option value="60">60 mm · minimum</option><option value="90" selected>90 mm · good</option><option value="120">120 mm · ideal</option><option value="c">Custom</option></select>
+      </label>
+      <label for="C">C-value mm<input id="C" type="number" step="5" value="90"></label>
+      <label for="rnd">Round each riser up to
+        <select id="rnd"><option value="0">No rounding</option><option value="5" selected>5 mm</option><option value="10">10 mm</option></select>
+      </label>
+      <p class="note">Focus point: the lowest point everyone must see (stage edge or bottom of the screen). Row depth is back to back. Eye height 1100 mm is typical for a seated adult; use 1000 to 1050 for a low-slung cinema seat.</p>
+
+    </section>
+    <section style="min-width:0">
+
+      <div class="readout">
+        <div><b>Total rise</b><span id="oR" class="hi">–</span></div>
+        <div><b>Biggest riser</b><span id="oM">–</span></div>
+        <div><b>Hall depth</b><span id="oD">–</span></div>
+        <div><b>Real min C</b><span id="oC">–</span></div>
+      </div>
+      <div class="views">
+        <div class="view full"><h2>Section <span id="secLabel"></span></h2><svg id="sec" viewBox="0 0 840 340" role="img" aria-label="Auditorium section with sightlines"></svg></div>
+      </div>
+      <div class="views">
+        <div class="view full"><h2>Checks <span id="sum"></span></h2><ul class="checks" id="checks"></ul></div>
+      </div>
+      <div class="data"><h2>Row schedule <span>mm</span></h2><div class="tablewrap" style="max-height:340px;overflow-y:auto"><table><thead><tr><th>Row</th><th>From focus</th><th>Riser</th><th>Floor</th><th>C</th></tr></thead><tbody id="tb"></tbody></table></div></div>
+
+    </section>
+  </div>
+  <footer class="foot"><span>Free tool · @smart_tools_every_week · simplyrendered.github.io/smart-tools · built with Claude</span><span>C-value = vertical clearance of the sightline above the eye of the person in front; the common range is 60 mm (minimum) to 120 mm (ideal), see Time-Saver Standards, Neufert and Wikipedia 'Sightline (architecture)'. Rows are solved with similar triangles from the focus point. Check fire and aisle-step rules with your local code.</span></footer>
+</div>
+<script>
+if(location.protocol==="file:"){const b=document.getElementById("dlbar");if(b)b.hidden=true;}
+const $=id=>document.getElementById(id);
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const NS="http://www.w3.org/2000/svg";
+function el(tag,attrs,parent,text){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(text!=null)e.textContent=text;parent&&parent.appendChild(e);return e}
+const fmt=(v,d=2)=>Number.isFinite(v)?v.toFixed(d):"–";
+
+const num=(id,min,max,def)=>{const v=parseFloat($(id).value);return Number.isFinite(v)?Math.min(max,Math.max(min,v)):def};
+$("cpre").addEventListener("change",()=>{const v=$("cpre").value;if(v!=="c")$("C").value=v;render()});
+$("C").addEventListener("input",()=>{const p=$("cpre");const m=["60","90","120"].includes($("C").value);p.value=m?$("C").value:"c"});
+function calc(){
+  const N=Math.round(num("N",2,60,14)),d=num("d",500,1500,900),D1=num("D1",500,30000,3000),Hf=num("Hf",-2000,4000,1000),eye=num("eye",800,1400,1100),C=num("C",0,300,90),rnd=num("rnd",0,50,5);
+  const rows=[];let prevE=0,prevF=0;
+  for(let i=0;i<N;i++){
+    const D=D1+i*d;let F,E;
+    if(i===0){F=-Hf;E=F+eye;rows.push({n:1,D,F,E,riser:0,c:NaN});}
+    else{
+      const Dp=D-d,Ereq=D*(prevE+C)/Dp;let riser=Math.max(0,Ereq-eye-prevF);
+      if(rnd>0)riser=Math.ceil(riser/rnd-1e-9)*rnd;
+      F=prevF+riser;E=F+eye;
+      const cc=E*Dp/D-prevE;
+      rows.push({n:i+1,D,F,E,riser,c:cc});
+    }
+    prevE=E;prevF=F;
+  }
+  const rise=rows[N-1].F-rows[0].F,maxR=Math.max(0,...rows.map(r=>r.riser)),minC=rows.length>1?Math.min(...rows.slice(1).map(r=>r.c)):C;
+  return {N,d,D1,Hf,eye,C,rnd,rows,rise,maxR,minC,depth:(N-1)*d,slope:Math.atan2(rise,(N-1)*d)*180/Math.PI,angle:Math.atan2(rows[N-1].E,rows[N-1].D)*180/Math.PI};
+}
+function render(){
+  const c=calc(),ink=css("--ink"),ink2=css("--ink-2"),rule=css("--rule"),red=css("--red"),blue=css("--blue"),sheet=css("--sheet"),sun=css("--sun");
+  $("oR").textContent=Math.round(c.rise)+" mm";$("oM").textContent=Math.round(c.maxR)+" mm";$("oD").textContent=(c.depth/1000).toFixed(1)+" m";$("oC").textContent=Math.round(c.minC)+" mm";
+  const C=[[`Every row clears the heads in front by ≥ ${Math.round(c.C)} mm (real minimum ${fmt(c.minC,0)} mm)`,c.minC>=c.C-0.01],
+    [`C-value ${Math.round(c.C)} mm ${c.C>=120?"is ideal":c.C>=90?"is good":c.C>=60?"is the minimum (staggered seats help)":"is below the usual 60 mm minimum"}`,c.C>=60,"warn"],
+    [`Biggest riser ${Math.round(c.maxR)} mm ${c.maxR>450?"is steep: stepped terraces and aisle stairs needed":"is gentle enough for a continuous tier"}`,c.maxR<=450,"warn"],
+    [`Average slope ${fmt(c.slope,1)}° over ${(c.depth/1000).toFixed(1)} m of seating`,true,"info"],
+    [`Last row looks ${fmt(c.angle,1)}° ${c.angle>=0?"up":"down"} to the focus point`,true,"info"]];
+  const ul=$("checks");ul.innerHTML="";let fails=0;
+  C.forEach(([t,okk,kind])=>{const li=document.createElement("li");const cls=kind==="info"?"warn":okk?"ok":kind==="warn"?"warn":"bad";if(!okk&&!kind)fails++;
+    li.innerHTML=`<span>${t}</span><span class="pill ${cls}">${kind==="info"?"note":okk?"pass":kind==="warn"?"check":"fail"}</span>`;ul.appendChild(li)});
+  $("sum").textContent=fails?fails+" failing":"all checks met";
+  // drawing
+  const sv=$("sec");sv.innerHTML="";const R=c.rows,last=R[R.length-1];
+  const x0=-1800,x1=last.D+c.d,vmin=Math.min(-c.Hf,0)-250,vmax=Math.max(last.E,0)+450;
+  const sc=Math.min(790/(x1-x0),300/(vmax-vmin)),ox=24-x0*sc,oy=10+vmax*sc;
+  const X=x=>ox+x*sc,Y=v=>oy-v*sc;
+  el("line",{x1:X(x0),y1:Y(-c.Hf),x2:X(x1),y2:Y(-c.Hf),stroke:rule,"stroke-dasharray":"4 4"},sv);
+  el("rect",{x:X(x0),y:Y(0),width:(0-x0)*sc,height:Math.max(0,(c.Hf)*sc),fill:rule,opacity:.5,stroke:ink2},sv);
+  let pts=[`${X(x0)},${Y(-c.Hf)}`];
+  R.forEach(r=>{const xa=r.D-c.d/2,xb=r.D+c.d/2;pts.push(`${X(xa)},${Y(r.F)}`,`${X(xb)},${Y(r.F)}`)});
+  const lastF=last.F;
+  el("polygon",{points:pts.join(" ")+` ${X(last.D+c.d/2)},${Y(vmin)} ${X(x0)},${Y(vmin)}`,fill:sheet,stroke:ink,"stroke-width":1.8},sv);
+  // sightlines
+  R.forEach((r,i)=>{if(i>0&&(i===R.length-1||R.length<=16||i%3===0))el("line",{x1:X(0),y1:Y(0),x2:X(r.D),y2:Y(r.E),stroke:i===R.length-1?red:blue,"stroke-width":i===R.length-1?2:.8,opacity:i===R.length-1?1:.45},sv)});
+  R.forEach((r,i)=>{const hx=X(r.D),hy=Y(r.E),rad=Math.max(2.5,110*sc);
+    el("line",{x1:hx,y1:hy,x2:hx,y2:Y(r.F),stroke:ink2,"stroke-width":Math.max(1,rad*.7),"stroke-linecap":"round",opacity:.35},sv);
+    el("circle",{cx:hx,cy:hy,r:rad,fill:i===R.length-1?red:sun,stroke:ink,"stroke-width":.8},sv)});
+  el("circle",{cx:X(0),cy:Y(0),r:5,fill:red},sv);
+  el("text",{x:X(0)+8,y:Y(0)-8,fill:ink,"font-size":12,"font-family":"IBM Plex Mono, monospace"},sv,"focus point");
+  if(R.length>1){const p=R[R.length-2],yy=p.E*(1)+0;const hl=last.E*p.D/last.D; // sightline height at the row in front
+    el("line",{x1:X(p.D),y1:Y(p.E),x2:X(p.D),y2:Y(hl),stroke:red,"stroke-width":2.5},sv);
+    el("text",{x:X(p.D)-8,y:Y(hl)-6,fill:red,"font-size":12,"text-anchor":"end","font-family":"IBM Plex Mono, monospace"},sv,"C "+Math.round(c.minC>0?last.c:0)+" mm");}
+  el("text",{x:X(x0)+4,y:Y(vmin)-4,fill:ink2,"font-size":11,"font-family":"IBM Plex Mono, monospace"},sv,"stage / screen");
+  $("secLabel").textContent=c.N+" rows · rise "+Math.round(c.rise)+" mm";
+  const tb=$("tb");tb.innerHTML="";R.forEach(r=>{const tr=document.createElement("tr");tr.innerHTML=`<td>${r.n}</td><td>${Math.round(r.D)}</td><td>${r.n===1?"–":Math.round(r.riser)}</td><td>${Math.round(r.F-R[0].F)}</td><td>${r.n===1?"–":Math.round(r.c)}</td>`;tb.appendChild(tr)});
+}
+
+document.querySelectorAll("input,select").forEach(i=>i.addEventListener("input",render));
+window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",render);
+new MutationObserver(render).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+render();
+</script>
+</body>
+</html>

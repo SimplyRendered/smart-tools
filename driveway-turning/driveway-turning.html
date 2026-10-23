@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Driveway Turning Check</title>
+<meta name="description" content="Pick a car and the width of the lane it arrives in and the lane it turns into. See the swept path round a 90° corner, the clearance to the walls, and the narrowest lane that lets this car turn in one move.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: drafting sheet — title block header, input column + two drawings, data table below */
+:root{
+  --paper:#F2F3EF; --sheet:#FBFBF8; --ink:#1B2732; --ink-2:#4A5865; --rule:#D5D9D4; --grid:#E6E8E3;
+  --red:#C8432B; --blue:#2E66A6; --sun:#E09A1E; --shadow:rgba(27,39,50,.22);
+  --display:'Barlow Condensed','Arial Narrow',sans-serif; --body:'IBM Plex Sans',system-ui,sans-serif; --mono:'IBM Plex Mono',ui-monospace,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#0E1A26; --sheet:#132233; --ink:#E4ECF2; --ink-2:#9DB0C0; --rule:#2A3D52; --grid:#1B2D40;
+  --red:#FF7A5C; --blue:#6FB0F0; --sun:#FFC04D; --shadow:rgba(140,190,240,.25); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0E1A26; --sheet:#132233; --ink:#E4ECF2; --ink-2:#9DB0C0; --rule:#2A3D52; --grid:#1B2D40;
+  --red:#FF7A5C; --blue:#6FB0F0; --sun:#FFC04D; --shadow:rgba(140,190,240,.25); color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--paper);color:var(--ink);font:15px/1.5 var(--body);padding:16px;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px}
+.sheet{max-width:1180px;margin:0 auto;background:var(--sheet);border:1.5px solid var(--ink);}
+.tb{display:grid;grid-template-columns:1fr auto;border-bottom:1.5px solid var(--ink)}
+.tb h1{font:700 clamp(30px,5vw,46px)/1 var(--display);letter-spacing:.01em;margin:0;padding:18px 20px 14px;text-transform:uppercase;text-wrap:balance}
+.tb h1 small{display:block;font:500 14px/1.4 var(--body);letter-spacing:0;text-transform:none;color:var(--ink-2);margin-top:6px}
+.tb .meta{display:grid;grid-template-columns:auto auto;border-left:1.5px solid var(--ink);font:12px/1.2 var(--mono)}
+.tb .meta div{padding:8px 12px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule)}
+.tb .meta b{display:block;font:600 10px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-bottom:4px}
+.main{display:grid;grid-template-columns:320px 1fr;}
+.inputs{border-right:1.5px solid var(--ink);padding:18px 20px;display:flex;flex-direction:column;gap:14px}
+label{display:flex;flex-direction:column;gap:5px;font:600 11px/1 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+input,select{font:500 15px/1.2 var(--mono);color:var(--ink);background:var(--paper);border:1px solid var(--rule);padding:9px 10px;border-radius:0;width:100%}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
+input[type=range]{padding:0;accent-color:var(--red)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+button{font:600 12px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;background:transparent;color:var(--ink);border:1px solid var(--ink);padding:8px 10px;cursor:pointer}
+button:hover{background:var(--ink);color:var(--sheet)}
+.time{font:500 28px/1 var(--mono);color:var(--red)}
+.views{display:grid;grid-template-columns:1fr 1fr;min-width:0}
+.view{padding:14px 16px 10px;min-width:0;border-bottom:1.5px solid var(--ink)}
+.view+.view{border-left:1px solid var(--rule)}
+.view h2,.data h2{font:600 20px/1 var(--display);text-transform:uppercase;letter-spacing:.04em;margin:0 0 8px;display:flex;justify-content:space-between;gap:8px}
+.view h2 span,.data h2 span{font:400 11px/1.6 var(--mono);color:var(--ink-2);text-transform:none;letter-spacing:0}
+svg{width:100%;height:auto;display:block}
+.readout{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1.5px solid var(--ink)}
+.readout div{padding:12px 16px;border-right:1px solid var(--rule)}
+.readout div:last-child{border-right:0}
+.readout b{display:block;font:600 10px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-bottom:6px}
+.readout span{font:500 24px/1 var(--mono);font-variant-numeric:tabular-nums}
+.readout .hi{color:var(--red)}
+.data{padding:14px 16px}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font:13px/1.3 var(--mono);font-variant-numeric:tabular-nums}
+th,td{padding:6px 10px;border-bottom:1px solid var(--rule);text-align:right;white-space:nowrap}
+th{font:600 10px/1.2 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+th:first-child,td:first-child{text-align:left}
+tr.now td{color:var(--red);font-weight:500}
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;padding:10px 16px;border-top:1.5px solid var(--ink);font:12px/1.4 var(--mono);color:var(--ink-2)}
+.note{font:12px/1.5 var(--body);color:var(--ink-2);margin:0}
+@media (max-width:900px){.main{grid-template-columns:1fr}.inputs{border-right:0;border-bottom:1.5px solid var(--ink)}}
+@media (max-width:640px){.views{grid-template-columns:1fr}.view+.view{border-left:0}.readout{grid-template-columns:repeat(2,1fr)}.readout div:nth-child(2){border-right:0}.readout div{border-bottom:1px solid var(--rule)}.tb{grid-template-columns:1fr}.tb .meta{border-left:0;border-top:1px solid var(--rule)}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.dl{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;padding:12px 20px;border-bottom:1.5px solid var(--ink);background:var(--paper)}
+.dl a.btn{font:600 13px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;background:var(--red);color:#fff;text-decoration:none;padding:11px 14px;border:1px solid var(--red)}
+.dl a.btn:hover{background:var(--ink);border-color:var(--ink);color:var(--sheet)}
+.dl span{font:13px/1.4 var(--body);color:var(--ink-2);flex:1;min-width:180px}
+.dl a.more{font:500 13px/1 var(--mono);color:var(--blue)}
+
+:root{--ok:#2F8A57;--okbg:rgba(47,138,87,.12);--bad:#C8432B;--badbg:rgba(200,67,43,.10);--warn:#B7791F}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ok:#5FD08F;--okbg:rgba(95,208,143,.14);--bad:#FF7A5C;--badbg:rgba(255,122,92,.12);--warn:#F2B84B}}
+:root[data-theme="dark"]{--ok:#5FD08F;--okbg:rgba(95,208,143,.14);--bad:#FF7A5C;--badbg:rgba(255,122,92,.12);--warn:#F2B84B}
+.pill{display:inline-block;font:600 11px/1 var(--body);letter-spacing:.08em;text-transform:uppercase;padding:5px 7px;border:1px solid currentColor}
+.pill.ok{color:var(--ok);background:var(--okbg)} .pill.bad{color:var(--bad);background:var(--badbg)} .pill.warn{color:var(--warn)}
+td.ok{color:var(--ok)} td.bad{color:var(--bad)}
+.readout .ok{color:var(--ok)} .readout .bad{color:var(--bad)}
+.view.full{grid-column:1/-1}
+.checks{list-style:none;margin:0;padding:0}
+.checks li{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:8px 0;border-bottom:1px solid var(--rule);font:13px/1.35 var(--body)}
+.checks li span:first-child{min-width:0}
+select{appearance:auto}
+.view.full svg{max-height:520px}</style>
+</head>
+<body>
+<div class="sheet">
+  <header class="tb">
+    <h1>Driveway Turning<small>Pick a car and the width of the lane it arrives in and the lane it turns into. See the swept path round a 90° corner, the clearance to the walls, and the narrowest lane that lets this car turn in one move.</small></h1>
+    <div class="meta"><div><b>Sheet</b>T-30</div><div><b>Method</b>Swept path</div><div><b>Units</b>m</div><div><b>By</b>@smart_tools_every_week</div></div>
+  </header>
+  <div class="dl" id="dlbar"><a class="btn" href="driveway-turning.html" download="driveway-turning.html">⬇ Download this app</a><span>Free. One HTML file that works offline. Open it in any browser, no install or sign-up.</span><a class="more" href="../">More free tools →</a></div>
+  <div class="main">
+    <section class="inputs" aria-label="Inputs">
+
+      <label for="car">Design car
+        <select id="car">
+          <option value="h">Hatchback (3.85 m)</option>
+          <option value="s" selected>Compact SUV (4.30 m)</option>
+          <option value="l">Large SUV (4.80 m)</option>
+          <option value="c">Custom</option>
+        </select>
+      </label>
+      <div class="row">
+        <label for="A">Arriving lane m<input id="A" type="number" step="0.1" value="4.5"></label>
+        <label for="B">Lane turned into m<input id="B" type="number" step="0.1" value="3.5"></label>
+      </div>
+      <label for="pos">Car position on the turn <span id="posv" class="time" style="font-size:18px"></span><input id="pos" type="range" min="0" max="100" step="1" value="50"></label>
+      <div class="row">
+        <label for="len">Car length m<input id="len" type="number" step="0.05" value="4.3"></label>
+        <label for="wid">Car width m<input id="wid" type="number" step="0.05" value="1.79"></label>
+      </div>
+      <div class="row">
+        <label for="wb">Wheelbase m<input id="wb" type="number" step="0.05" value="2.61"></label>
+        <label for="fo">Front overhang m<input id="fo" type="number" step="0.05" value="0.9"></label>
+      </div>
+      <label for="rk">Turning radius, kerb to kerb m<input id="rk" type="number" step="0.1" value="5.3"></label>
+      <p class="note">Turning radius is the figure in the car's brochure (kerb to kerb). The car arrives in the lane on the left and turns left into the lane going up. The corner on the inside of the turn is a square wall or pillar. Clearance is the smallest gap between any part of the body and a wall.</p>
+
+    </section>
+    <section style="min-width:0">
+
+      <div class="readout">
+        <div><b>Verdict</b><span id="oV" class="hi">–</span></div>
+        <div><b>Clearance</b><span id="oC">–</span></div>
+        <div><b>Narrowest equal lane</b><span id="oN">–</span></div>
+        <div><b>Body swing radius</b><span id="oW">–</span></div>
+      </div>
+      <div class="views">
+        <div class="view full"><h2>Swept path, plan <span id="plL"></span></h2><svg id="pl" viewBox="0 0 840 520" role="img" aria-label="Plan of a car turning a corner with its swept path"></svg></div>
+      </div>
+      <div class="views">
+        <div class="view"><h2>Checks <span id="sum"></span></h2><ul class="checks" id="checks"></ul></div>
+        <div class="view"><h2>Lane needed <span>arriving = turned into</span></h2><div class="tablewrap"><table><thead><tr><th>Car</th><th>Narrowest lane</th><th>Rm</th><th>Swing R</th></tr></thead><tbody id="tb"></tbody></table></div></div>
+      </div>
+
+    </section>
+  </div>
+  <footer class="foot"><span>Free tool · @smart_tools_every_week · simplyrendered.github.io/smart-tools · built with Claude</span><span>Single-track (bicycle) model: the car turns about a point on the rear-axle line. Rear-axle centre radius Rm = √(Rk² − wheelbase²) − track/2 from the published kerb-to-kerb turning radius Rk; outer front corner radius = √((Rm + W/2)² + (wheelbase + front overhang)²). Car sizes are typical, not exact; enter your design vehicle. Low-speed geometry only: no tyre slip, no reversing, square inner corner. Always draw the design vehicle's swept path on the final drawing.</span></footer>
+</div>
+<script>
+if(location.protocol==="file:"){const b=document.getElementById("dlbar");if(b)b.hidden=true;}
+const $=id=>document.getElementById(id);
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const NS="http://www.w3.org/2000/svg";
+function el(tag,attrs,parent,text){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(text!=null)e.textContent=text;parent&&parent.appendChild(e);return e}
+const fmt=(v,d=2)=>Number.isFinite(v)?v.toFixed(d):"–";
+
+const num=(id,min,max,def)=>{const v=parseFloat($(id).value);return Number.isFinite(v)?Math.min(max,Math.max(min,v)):def};
+const CARS={h:{n:"Hatchback",len:3.85,wid:1.735,wb:2.45,fo:0.8,rk:4.8},s:{n:"Compact SUV",len:4.3,wid:1.79,wb:2.61,fo:0.9,rk:5.3},l:{n:"Large SUV",len:4.8,wid:1.855,wb:2.745,fo:0.95,rk:5.8}};
+$("car").addEventListener("change",()=>{const k=CARS[$("car").value];if(k){["len","wid","wb","fo","rk"].forEach(i=>$(i).value=k[i])}render()});
+["len","wid","wb","fo","rk"].forEach(i=>$(i).addEventListener("input",()=>{if($("car").value!=="c"&&document.activeElement===$(i))$("car").value="c"}));
+function carParams(o){
+  const len=o.len,wid=o.wid,wb=Math.min(o.wb,len*0.9),fo=Math.min(o.fo,len-wb-0.1),ro=Math.max(0.1,len-wb-fo);
+  const tr=Math.max(0.5,wid-0.2),rk=Math.max(o.rk,Math.hypot(wb,tr/2)+tr/2+0.05);
+  const Rm=Math.sqrt(Math.max(0.01,rk*rk-wb*wb))-tr/2;
+  const Rout=Math.hypot(Rm+wid/2,wb+fo),Rin=Math.max(0,Rm-wid/2);
+  return {len,wid,wb,fo,ro,tr,rk,Rm:Math.max(0.5,Rm),Rout,Rin};
+}
+function carPoly(c,x,y,h){ // reference = rear axle centre, heading h; local (u forward, v left)
+  const L=[[-c.ro,-c.wid/2],[c.wb+c.fo,-c.wid/2],[c.wb+c.fo,c.wid/2],[-c.ro,c.wid/2]];
+  const ch=Math.cos(h),sh=Math.sin(h);return L.map(([u,v])=>[x+u*ch-v*sh,y+u*sh+v*ch]);
+}
+function pathPoint(P,t){ // t 0..1 along straight-in, arc, straight-out; returns x,y,heading
+  const S=6,arcL=Math.PI/2*P.Rr,tot=2*S+arcL,d=t*tot;
+  if(d<S)return [P.xc-P.Rr-(S-d),P.yc,0];
+  if(d<S+arcL){const a=(d-S)/P.Rr;return [P.xc-P.Rr+P.Rr*Math.sin(a),P.yc+P.Rr-P.Rr*Math.cos(a),a]}
+  return [P.xc,P.yc+P.Rr+(d-S-arcL),Math.PI/2];
+}
+function dist(p,xr,xi,Ay){ // clearance of one point to walls: bottom y=0, right x=xr, inner block x<=xi,y>=Ay
+  let d=Math.min(p[1],xr-p[0]);
+  let q;
+  if(p[0]<=xi&&p[1]>=Ay)q=-Math.min(xi-p[0],p[1]-Ay);
+  else if(p[0]>xi&&p[1]>=Ay)q=p[0]-xi;
+  else if(p[0]<=xi&&p[1]<Ay)q=Ay-p[1];
+  else q=Math.hypot(p[0]-xi,p[1]-Ay);
+  return Math.min(d,q);
+}
+function clearance(c,P,A,B,xr){
+  const xi=xr-B;let m=1e9;
+  const N=44;
+  for(let k=0;k<=N;k++){
+    const [x,y,h]=pathPoint(P,k/N),poly=carPoly(c,x,y,h);
+    for(let e=0;e<4;e++){const p0=poly[e],p1=poly[(e+1)%4];for(let s=0;s<6;s++){const f=s/6;m=Math.min(m,dist([p0[0]+(p1[0]-p0[0])*f,p0[1]+(p1[1]-p0[1])*f],xr,xi,A))}}
+  }
+  return m;
+}
+function best(c,A,B,xr){
+  let bm=-1e9,bp=null;const xi=xr-B;
+  for(let i=0;i<=8;i++)for(let j=0;j<=8;j++)for(let k=0;k<5;k++){
+    const yc=c.wid/2+(A-c.wid)*(i/8),xc=xi+c.wid/2+(B-c.wid)*(j/8),Rr=c.Rm+k*0.6;
+    if(A<c.wid||B<c.wid){}
+    const P={yc,xc,Rr},m=clearance(c,P,A,B,xr);
+    if(m>bm){bm=m;bp=P}
+  }
+  return {m:bm,P:bp};
+}
+function narrowest(c){
+  let lo=c.wid,hi=14;
+  if(best(c,hi,hi,hi).m<0)return NaN;
+  for(let i=0;i<11;i++){const mid=(lo+hi)/2;if(best(c,mid,mid,mid).m>=0)hi=mid;else lo=mid}
+  return hi;
+}
+function calc(){
+  const o={len:num("len",2,12,4.3),wid:num("wid",1,3,1.79),wb:num("wb",1.2,6,2.61),fo:num("fo",0.2,2,0.9),rk:num("rk",2,15,5.3)};
+  const A=num("A",1.5,12,4.5),B=num("B",1.5,12,3.5),pos=num("pos",0,100,50)/100;
+  const c=carParams(o),xr=B+6; // right wall; the lane turned into occupies x in [xr-B,xr]
+  const b=best(c,A,B,xr);
+  return {c,A,B,pos,xr,b};
+}
+function render(){
+  const {c,A,B,pos,xr,b}=calc();
+  const ink=css("--ink"),ink2=css("--ink-2"),rule=css("--rule"),red=css("--red"),blue=css("--blue"),sheet=css("--sheet"),ok=css("--ok"),bad=css("--bad"),sun=css("--sun");
+  $("posv").textContent=Math.round(pos*100)+"%";
+  const clr=b.m,pass=clr>=0;
+  const nar=narrowest(c);
+  $("oV").textContent=pass?"Turns in one move":"Needs reversing";$("oV").className=pass?"":"bad";$("oV").style.fontSize="19px";
+  $("oC").textContent=(clr*1000>=0?"":"–")+Math.abs(Math.round(clr*1000))+" mm"+(pass?"":" short");$("oC").className=pass?"":"bad";
+  $("oN").textContent=Number.isFinite(nar)?fmt(nar,2)+" m":"> 14 m";
+  $("oW").textContent=fmt(c.Rout,2)+" m";
+  const C=[[`Car body clears every wall by ${Math.round(clr*1000)} mm at its tightest`,pass],
+    [`Arriving lane ${fmt(A,1)} m vs ${fmt(c.wid,2)} m car: ${fmt(A-c.wid,2)} m spare in a straight line`,A>=c.wid+0.6,"warn"],
+    [`Needs a ${Number.isFinite(nar)?fmt(nar,2):">14"} m lane (both lanes equal) to turn without reversing`,A>=nar&&B>=nar,"warn"],
+    [`Body swings ${fmt(c.Rout,2)} m from the turning point, wider than the ${fmt(c.rk,2)} m brochure radius (that is the outer wheel)`,true,"info"]];
+  const ul=$("checks");ul.innerHTML="";let fails=0;
+  C.forEach(([t,okk,kind])=>{const li=document.createElement("li");const cls=kind==="info"?"warn":okk?"ok":kind==="warn"?"warn":"bad";if(!okk&&!kind)fails++;
+    li.innerHTML=`<span>${t}</span><span class="pill ${cls}">${kind==="info"?"note":okk?"pass":kind==="warn"?"check":"fail"}</span>`;ul.appendChild(li)});
+  $("sum").textContent=pass?"fits":"does not fit";
+  // DRAWING: x to the right, y up. World extent
+  const sv=$("pl");sv.innerHTML="";
+  const x0=-3.2,x1=xr+0.8,y0=-0.6,y1=A+Math.max(4.8,c.len+0.8);
+  const sc=Math.min(800/(x1-x0),490/(y1-y0)),ox=(840-(x1-x0)*sc)/2,oy=520-(520-(y1-y0)*sc)/2;
+  const X=v=>ox+(v-x0)*sc,Y=v=>oy-(v-y0)*sc;
+  const xi=xr-B;
+  // free space
+  el("rect",{x:X(x0),y:Y(A),width:(xr-x0)*sc,height:A*sc,fill:rule,opacity:.35},sv);
+  el("rect",{x:X(xi),y:Y(y1),width:B*sc,height:(y1-A)*sc,fill:rule,opacity:.35},sv);
+  // walls: outer (bottom + right), inner block
+  el("polyline",{points:`${X(x0)},${Y(0)} ${X(xr)},${Y(0)} ${X(xr)},${Y(y1)}`,fill:"none",stroke:ink,"stroke-width":4},sv);
+  el("polyline",{points:`${X(x0)},${Y(A)} ${X(xi)},${Y(A)} ${X(xi)},${Y(y1)}`,fill:"none",stroke:ink,"stroke-width":4},sv);
+  el("rect",{x:X(x0),y:Y(y1),width:(xi-x0)*sc,height:(y1-A)*sc,fill:ink,opacity:.07},sv);
+  // swept footprint: union of car polygons
+  const P=b.P,N=90;
+  for(let k=0;k<=N;k++){const [x,y,h]=pathPoint(P,k/N),poly=carPoly(c,x,y,h);el("polygon",{points:poly.map(p=>X(p[0])+","+Y(p[1])).join(" "),fill:pass?blue:red,opacity:.07},sv)}
+  // rear axle path
+  const pts=[];for(let k=0;k<=N;k++){const [x,y]=pathPoint(P,k/N);pts.push(X(x)+","+Y(y))}
+  el("polyline",{points:pts.join(" "),fill:"none",stroke:sun,"stroke-width":2,"stroke-dasharray":"6 5"},sv);
+  // car at slider position
+  const [cx,cy,ch]=pathPoint(P,0.12+0.76*pos),poly=carPoly(c,cx,cy,ch);
+  el("polygon",{points:poly.map(p=>X(p[0])+","+Y(p[1])).join(" "),fill:sheet,stroke:pass?ink:red,"stroke-width":2.5},sv);
+  // wheels + front marker
+  const wheel=(u,v)=>{const a=[u-0.32,v-0.11],b2=[u+0.32,v-0.11],c2=[u+0.32,v+0.11],d=[u-0.32,v+0.11];
+    const T=([uu,vv])=>{const hh=ch;return [cx+uu*Math.cos(hh)-vv*Math.sin(hh),cy+uu*Math.sin(hh)+vv*Math.cos(hh)]};
+    el("polygon",{points:[a,b2,c2,d].map(T).map(p=>X(p[0])+","+Y(p[1])).join(" "),fill:ink2},sv)};
+  [[0,c.tr/2],[0,-c.tr/2],[c.wb,c.tr/2],[c.wb,-c.tr/2]].forEach(([u,v])=>wheel(u,v));
+  const fm=[cx+(c.wb+c.fo)*Math.cos(ch),cy+(c.wb+c.fo)*Math.sin(ch)];el("circle",{cx:X(fm[0]),cy:Y(fm[1]),r:5,fill:red},sv);
+  // dims
+  el("text",{x:X(x0)+8,y:Y(0)-8,fill:ink2,"font-size":13,"font-family":"IBM Plex Mono, monospace"},sv,"arriving lane "+fmt(A,1)+" m");
+  el("text",{x:X(xi)-8,y:Y(y1)+22,"text-anchor":"end",fill:ink2,"font-size":13,"font-family":"IBM Plex Mono, monospace"},sv,"lane "+fmt(B,1)+" m →");
+  $("plL").textContent=fmt(c.len,2)+" m car · swing "+fmt(c.Rout,2)+" m · "+(pass?"clear":"hits a wall");
+  // TABLE
+  const tb=$("tb");tb.innerHTML="";
+  ["h","s","l"].forEach(k=>{const cc=carParams(CARS[k]),n2=narrowest(cc),tr=document.createElement("tr");if($("car").value===k)tr.className="now";
+    tr.innerHTML=`<td>${CARS[k].n}</td><td>${Number.isFinite(n2)?fmt(n2,2):">14"} m</td><td>${fmt(cc.Rm,2)}</td><td>${fmt(cc.Rout,2)}</td>`;tb.appendChild(tr)});
+  const tr2=document.createElement("tr");if($("car").value==="c")tr2.className="now";tr2.innerHTML=`<td>Your car</td><td>${Number.isFinite(nar)?fmt(nar,2):">14"} m</td><td>${fmt(c.Rm,2)}</td><td>${fmt(c.Rout,2)}</td>`;tb.appendChild(tr2);
+}
+
+document.querySelectorAll("input,select").forEach(i=>i.addEventListener("input",render));
+window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",render);
+new MutationObserver(render).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+render();
+</script>
+</body>
+</html>

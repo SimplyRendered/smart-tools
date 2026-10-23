@@ -1,0 +1,206 @@
+[
+ {
+  "date": "2026-11-16",
+  "slug": "sightline-rake",
+  "no": "T-31",
+  "name": "Sightline & Seating Rake",
+  "slides": [
+   {
+    "t": "hook",
+    "title": "Can the back row see over the heads in front?",
+    "sub": "Free Sightline & Seating Rake tool. The riser of every row from the C-value, with live sightlines.",
+    "img": "sightline-rake_views.png"
+   },
+   {
+    "t": "shot",
+    "kicker": "The tool",
+    "title": "Section with every sightline",
+    "img": "sightline-rake_top.png"
+   },
+   {
+    "t": "list",
+    "kicker": "What it does",
+    "title": "Riser by riser, not by guess",
+    "items": [
+     "Riser for every row from the C-value",
+     "Rounded up to 5 mm or 10 mm",
+     "Live section with sightlines",
+     "Total rise, slope and last-row angle"
+    ]
+   },
+   {
+    "t": "shot",
+    "kicker": "Row schedule",
+    "title": "Every riser, ready for your section",
+    "img": "sightline-rake_data.png"
+   },
+   {
+    "t": "steps",
+    "kicker": "How to use",
+    "title": "Four inputs",
+    "items": [
+     "Set rows and row depth",
+     "Enter the focus point",
+     "Pick a C-value",
+     "Read every riser"
+    ]
+   },
+   {
+    "t": "phone",
+    "kicker": "On site",
+    "title": "Works on your phone and offline.",
+    "img": "sightline-rake_phone.png"
+   },
+   {
+    "t": "cta"
+   }
+  ],
+  "caption": "Can the back row see over the heads in front? 🎭\nNew free tool: Sightline & Seating Rake.\nEnter rows, row depth and C-value. It solves every riser and draws the sightlines.\n✅ Riser per row, rounded to 5 mm\n✅ Live section with every sightline\n✅ C-value presets: 60, 90, 120 mm\n⬇️ Free download / use online:\nsimplyrendered.github.io/smart-tools/sightline-rake\n(tap the link in our bio → T-31)\nWhat's your next tiered room? 👇\nSave this for your next auditorium.",
+  "hashtags": "#sightline #auditoriumdesign #seatingrake #lecturehall #cinemadesign #theatredesign #sectiondrawing #acousticdesign #architecture #architect #architecturestudent #interiordesign #architecturetools #freetools #smarttoolseveryweek",
+  "alt": [
+   "Auditorium section with sightlines over every row",
+   "Full screenshot of the Sightline & Seating Rake tool",
+   "Feature list",
+   "Row schedule with risers and C-values",
+   "Four steps to use the tool",
+   "Tool running on a phone",
+   "Follow @smart_tools_every_week, link in bio"
+  ]
+ },
+ {
+  "date": "2026-11-18",
+  "slug": "drain-gradient",
+  "no": "T-32",
+  "name": "Drain Gradient & Invert Levels",
+  "slides": [
+   {
+    "t": "hook",
+    "title": "Is 1 in 100 enough fall for your drain?",
+    "sub": "Free Drain Gradient tool. Fall, invert levels, cover and flow speed on a live long section.",
+    "img": "drain-gradient_views.png"
+   },
+   {
+    "t": "shot",
+    "kicker": "The tool",
+    "title": "Long section and pipe flow",
+    "img": "drain-gradient_top.png"
+   },
+   {
+    "t": "list",
+    "kicker": "What it does",
+    "title": "From gradient to invert levels",
+    "items": [
+     "Fall and end invert from 1 in N",
+     "Invert and cover at every manhole",
+     "Flow speed in a part-full pipe",
+     "Self-cleansing velocity check"
+    ]
+   },
+   {
+    "t": "shot",
+    "kicker": "Invert levels",
+    "title": "A table for every manhole",
+    "img": "drain-gradient_data.png"
+   },
+   {
+    "t": "steps",
+    "kicker": "How to use",
+    "title": "Four inputs",
+    "items": [
+     "Pick pipe and material",
+     "Enter length and gradient",
+     "Add ground levels",
+     "Read the invert levels"
+    ]
+   },
+   {
+    "t": "phone",
+    "kicker": "On site",
+    "title": "Works on your phone and offline.",
+    "img": "drain-gradient_phone.png"
+   },
+   {
+    "t": "cta"
+   }
+  ],
+  "caption": "Is 1 in 100 enough fall for your drain? 🚰\nNew free tool: Drain Gradient & Invert Levels.\nEnter pipe, length, gradient and ground levels. It gives the fall, every manhole invert and the flow speed.\n✅ Manning flow in a part-full pipe\n✅ Cover and invert table per manhole\n✅ Live long section\n⬇️ Free download / use online:\nsimplyrendered.github.io/smart-tools/drain-gradient\n(tap the link in our bio → T-32)\nYour gradient for a 100 mm drain? 👇\nSave this for your next drainage plan.",
+  "hashtags": "#drainage #plumbing #sewerage #invertlevel #drainagedesign #sitedrainage #manhole #plumbingdesign #architecture #architect #architecturestudent #civilengineering #architecturetools #freetools #smarttoolseveryweek",
+  "alt": [
+   "Long section of a drain with invert levels and manholes",
+   "Full screenshot of the Drain Gradient tool",
+   "Feature list",
+   "Invert levels table",
+   "Four steps to use the tool",
+   "Tool running on a phone",
+   "Follow @smart_tools_every_week, link in bio"
+  ]
+ },
+ {
+  "date": "2026-11-20",
+  "slug": "water-demand",
+  "no": "T-33",
+  "name": "Water Demand & Tank Sizing",
+  "slides": [
+   {
+    "t": "hook",
+    "title": "How big should the overhead tank be?",
+    "sub": "Free Water Demand tool. NBC litres per head, sump, overhead tank and pump for any building.",
+    "img": "water-demand_views.png"
+   },
+   {
+    "t": "shot",
+    "kicker": "The tool",
+    "title": "Building section and demand split",
+    "img": "water-demand_top.png"
+   },
+   {
+    "t": "list",
+    "kicker": "What it does",
+    "title": "From users to tank sizes",
+    "items": [
+     "NBC litres per head by building type",
+     "Drinking and flushing split",
+     "Sump and overhead tank sizes",
+     "Pump flow, head and kW"
+    ]
+   },
+   {
+    "t": "shot",
+    "kicker": "Sizing summary",
+    "title": "Every size with its working",
+    "img": "water-demand_data.png"
+   },
+   {
+    "t": "steps",
+    "kicker": "How to use",
+    "title": "Four inputs",
+    "items": [
+     "Pick the building type",
+     "Enter units and users",
+     "Set tank share and height",
+     "Read tanks and pump"
+    ]
+   },
+   {
+    "t": "phone",
+    "kicker": "On site",
+    "title": "Works on your phone and offline.",
+    "img": "water-demand_phone.png"
+   },
+   {
+    "t": "cta"
+   }
+  ],
+  "caption": "How big should the overhead tank be? 💧\nNew free tool: Water Demand & Tank Sizing.\nPick the building type and users. It gives daily demand, sump, overhead tank and pump.\n✅ NBC 2016 litres per head by type\n✅ Tanks rounded to standard sizes\n✅ Pump flow, head and kW\n⬇️ Free download / use online:\nsimplyrendered.github.io/smart-tools/water-demand\n(tap the link in our bio → T-33)\nHow many litres per head do you plan for? 👇\nSave this for your next plumbing layout.",
+  "hashtags": "#waterdemand #overheadtank #sump #plumbing #nbc2016 #watersupply #buildingservices #plumbingdesign #architecture #architect #architecturestudent #indianarchitecture #architecturetools #freetools #smarttoolseveryweek",
+  "alt": [
+   "Building section with sump, pump and overhead tank, and the demand split",
+   "Full screenshot of the Water Demand tool",
+   "Feature list",
+   "Sizing summary table",
+   "Four steps to use the tool",
+   "Tool running on a phone",
+   "Follow @smart_tools_every_week, link in bio"
+  ]
+ }
+]

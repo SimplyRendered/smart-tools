@@ -3,7 +3,7 @@
  "repo": "SimplyRendered/smart-tools",
  "raw_base": "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/",
  "metricool_brand_id": "7306873",
- "next_number": 28,
+ "next_number": 34,
  "tools": [
   {
    "no": "T-01",
@@ -193,6 +193,48 @@
    "name": "Render Size for Print",
    "post_date": "2026-11-06",
    "summary": "Pixels needed for a sheet from the viewing distance (1 arcmin acuity), against 300 ppi, with your render checked."
+  },
+  {
+   "no": "T-28",
+   "slug": "natural-ventilation",
+   "name": "Natural Ventilation",
+   "post_date": "2026-11-09",
+   "summary": "Wind (Cd·A·V) and stack airflow through two openings, air changes per hour and the IMC ventilation rate check."
+  },
+  {
+   "no": "T-29",
+   "slug": "arch-setting-out",
+   "name": "Arch & Curve Setting-out",
+   "post_date": "2026-11-11",
+   "summary": "Circular-segment radius, centre, arc length and setting-out ordinates from span and rise, with voussoirs drawn."
+  },
+  {
+   "no": "T-30",
+   "slug": "driveway-turning",
+   "name": "Driveway Turning",
+   "post_date": "2026-11-13",
+   "summary": "Single-track swept path of a car round a 90° corner with wall clearance and the narrowest lane that works."
+  },
+  {
+   "no": "T-31",
+   "slug": "sightline-rake",
+   "name": "Sightline & Seating Rake",
+   "post_date": "2026-11-16",
+   "summary": "Riser of every row from the C-value so each seat sees over the heads in front, with a live section."
+  },
+  {
+   "no": "T-32",
+   "slug": "drain-gradient",
+   "name": "Drain Gradient & Invert Levels",
+   "post_date": "2026-11-18",
+   "summary": "Fall, invert levels and cover at each manhole, with Manning flow speed and a self-cleansing check."
+  },
+  {
+   "no": "T-33",
+   "slug": "water-demand",
+   "name": "Water Demand & Tank Sizing",
+   "post_date": "2026-11-20",
+   "summary": "Daily water demand from NBC litres per head, sump, overhead tank and pump size for any building."
   }
  ],
  "backlog": [
@@ -202,13 +244,15 @@
   "Brick bond & wall elevation pattern generator",
   "Door & window schedule sheet maker",
   "Accessible toilet layout checker (turning circle, grab bars, clearances) with plan",
-  "Septic tank & soak pit sizer (IS 2470) with section",
   "Fire exit travel distance & staircase width checker (NBC 2016 Part 4)",
-  "Septic tank & soak pit sizer (IS 2470; verify the Part 1 table from the standard)",
   "Door clear-width & corridor checker for fire exits (NBC Part 4; verify values)",
   "Window ventilation: air changes per hour and openable area per room (NBC Part 8)",
   "Cantilever retaining wall (stem and base slab) quick sizer",
   "Render queue time estimator from samples, resolution and cores",
-  "Window glare and sun-angle check for a facade (verify against standard)"
+  "Window glare and sun-angle check for a facade (verify against standard)",
+  "Septic tank & soak pit sizer (verify IS 2470 table)",
+  "Stormwater drain and gutter sizer (Manning, first principles)",
+  "Lift (elevator) count and car size for a building",
+  "Spiral staircase geometry and headroom"
  ]
 }

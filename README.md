@@ -24,5 +24,11 @@ Live: https://simplyrendered.github.io/smart-tools/
 | T-16 | Plot Envelope & FAR | [open](https://simplyrendered.github.io/smart-tools/plot-envelope/) | [plot-envelope.html](plot-envelope/plot-envelope.html) |
 | T-17 | Carpet Area (RERA) | [open](https://simplyrendered.github.io/smart-tools/carpet-area/) | [carpet-area.html](carpet-area/carpet-area.html) |
 | T-18 | Cut & Fill | [open](https://simplyrendered.github.io/smart-tools/cut-fill/) | [cut-fill.html](cut-fill/cut-fill.html) |
+| T-28 | Natural Ventilation | [open](https://simplyrendered.github.io/smart-tools/natural-ventilation/) | [natural-ventilation.html](natural-ventilation/natural-ventilation.html) |
+| T-29 | Arch & Curve Setting-out | [open](https://simplyrendered.github.io/smart-tools/arch-setting-out/) | [arch-setting-out.html](arch-setting-out/arch-setting-out.html) |
+| T-30 | Driveway Turning | [open](https://simplyrendered.github.io/smart-tools/driveway-turning/) | [driveway-turning.html](driveway-turning/driveway-turning.html) |
+| T-31 | Sightline & Seating Rake | [open](https://simplyrendered.github.io/smart-tools/sightline-rake/) | [sightline-rake.html](sightline-rake/sightline-rake.html) |
+| T-32 | Drain Gradient & Invert Levels | [open](https://simplyrendered.github.io/smart-tools/drain-gradient/) | [drain-gradient.html](drain-gradient/drain-gradient.html) |
+| T-33 | Water Demand & Tank Sizing | [open](https://simplyrendered.github.io/smart-tools/water-demand/) | [water-demand.html](water-demand/water-demand.html) |
 
 Each app is a single self-contained HTML file. Download it and open it in any browser; it works offline.
