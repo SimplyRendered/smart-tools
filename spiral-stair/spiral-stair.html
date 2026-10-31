@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Spiral Staircase Geometry</title>
+<meta name="description" content="Enter the floor height, the stair radius and the tread angle. Get the risers, the tread depth where you really walk, the clear width, the floor opening needed for headroom and the checks, on a live plan and unrolled section.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: drafting sheet — title block header, input column + two drawings, data table below */
+:root{
+  --paper:#F2F3EF; --sheet:#FBFBF8; --ink:#1B2732; --ink-2:#4A5865; --rule:#D5D9D4; --grid:#E6E8E3;
+  --red:#C8432B; --blue:#2E66A6; --sun:#E09A1E; --shadow:rgba(27,39,50,.22);
+  --display:'Barlow Condensed','Arial Narrow',sans-serif; --body:'IBM Plex Sans',system-ui,sans-serif; --mono:'IBM Plex Mono',ui-monospace,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#0E1A26; --sheet:#132233; --ink:#E4ECF2; --ink-2:#9DB0C0; --rule:#2A3D52; --grid:#1B2D40;
+  --red:#FF7A5C; --blue:#6FB0F0; --sun:#FFC04D; --shadow:rgba(140,190,240,.25); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0E1A26; --sheet:#132233; --ink:#E4ECF2; --ink-2:#9DB0C0; --rule:#2A3D52; --grid:#1B2D40;
+  --red:#FF7A5C; --blue:#6FB0F0; --sun:#FFC04D; --shadow:rgba(140,190,240,.25); color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--paper);color:var(--ink);font:15px/1.5 var(--body);padding:16px;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px}
+.sheet{max-width:1180px;margin:0 auto;background:var(--sheet);border:1.5px solid var(--ink);}
+.tb{display:grid;grid-template-columns:1fr auto;border-bottom:1.5px solid var(--ink)}
+.tb h1{font:700 clamp(30px,5vw,46px)/1 var(--display);letter-spacing:.01em;margin:0;padding:18px 20px 14px;text-transform:uppercase;text-wrap:balance}
+.tb h1 small{display:block;font:500 14px/1.4 var(--body);letter-spacing:0;text-transform:none;color:var(--ink-2);margin-top:6px}
+.tb .meta{display:grid;grid-template-columns:auto auto;border-left:1.5px solid var(--ink);font:12px/1.2 var(--mono)}
+.tb .meta div{padding:8px 12px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule)}
+.tb .meta b{display:block;font:600 10px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-bottom:4px}
+.main{display:grid;grid-template-columns:320px 1fr;}
+.inputs{border-right:1.5px solid var(--ink);padding:18px 20px;display:flex;flex-direction:column;gap:14px}
+label{display:flex;flex-direction:column;gap:5px;font:600 11px/1 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+input,select{font:500 15px/1.2 var(--mono);color:var(--ink);background:var(--paper);border:1px solid var(--rule);padding:9px 10px;border-radius:0;width:100%}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
+input[type=range]{padding:0;accent-color:var(--red)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+button{font:600 12px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;background:transparent;color:var(--ink);border:1px solid var(--ink);padding:8px 10px;cursor:pointer}
+button:hover{background:var(--ink);color:var(--sheet)}
+.time{font:500 28px/1 var(--mono);color:var(--red)}
+.views{display:grid;grid-template-columns:1fr 1fr;min-width:0}
+.view{padding:14px 16px 10px;min-width:0;border-bottom:1.5px solid var(--ink)}
+.view+.view{border-left:1px solid var(--rule)}
+.view h2,.data h2{font:600 20px/1 var(--display);text-transform:uppercase;letter-spacing:.04em;margin:0 0 8px;display:flex;justify-content:space-between;gap:8px}
+.view h2 span,.data h2 span{font:400 11px/1.6 var(--mono);color:var(--ink-2);text-transform:none;letter-spacing:0}
+svg{width:100%;height:auto;display:block}
+.readout{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1.5px solid var(--ink)}
+.readout div{padding:12px 16px;border-right:1px solid var(--rule)}
+.readout div:last-child{border-right:0}
+.readout b{display:block;font:600 10px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-bottom:6px}
+.readout span{font:500 24px/1 var(--mono);font-variant-numeric:tabular-nums}
+.readout .hi{color:var(--red)}
+.data{padding:14px 16px}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font:13px/1.3 var(--mono);font-variant-numeric:tabular-nums}
+th,td{padding:6px 10px;border-bottom:1px solid var(--rule);text-align:right;white-space:nowrap}
+th{font:600 10px/1.2 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+th:first-child,td:first-child{text-align:left}
+tr.now td{color:var(--red);font-weight:500}
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;padding:10px 16px;border-top:1.5px solid var(--ink);font:12px/1.4 var(--mono);color:var(--ink-2)}
+.note{font:12px/1.5 var(--body);color:var(--ink-2);margin:0}
+@media (max-width:900px){.main{grid-template-columns:1fr}.inputs{border-right:0;border-bottom:1.5px solid var(--ink)}}
+@media (max-width:640px){.views{grid-template-columns:1fr}.view+.view{border-left:0}.readout{grid-template-columns:repeat(2,1fr)}.readout div:nth-child(2){border-right:0}.readout div{border-bottom:1px solid var(--rule)}.tb{grid-template-columns:1fr}.tb .meta{border-left:0;border-top:1px solid var(--rule)}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.dl{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;padding:12px 20px;border-bottom:1.5px solid var(--ink);background:var(--paper)}
+.dl a.btn{font:600 13px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;background:var(--red);color:#fff;text-decoration:none;padding:11px 14px;border:1px solid var(--red)}
+.dl a.btn:hover{background:var(--ink);border-color:var(--ink);color:var(--sheet)}
+.dl span{font:13px/1.4 var(--body);color:var(--ink-2);flex:1;min-width:180px}
+.dl a.more{font:500 13px/1 var(--mono);color:var(--blue)}
+
+:root{--ok:#2F8A57;--okbg:rgba(47,138,87,.12);--bad:#C8432B;--badbg:rgba(200,67,43,.10);--warn:#B7791F}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ok:#5FD08F;--okbg:rgba(95,208,143,.14);--bad:#FF7A5C;--badbg:rgba(255,122,92,.12);--warn:#F2B84B}}
+:root[data-theme="dark"]{--ok:#5FD08F;--okbg:rgba(95,208,143,.14);--bad:#FF7A5C;--badbg:rgba(255,122,92,.12);--warn:#F2B84B}
+.pill{display:inline-block;font:600 11px/1 var(--body);letter-spacing:.08em;text-transform:uppercase;padding:5px 7px;border:1px solid currentColor}
+.pill.ok{color:var(--ok);background:var(--okbg)} .pill.bad{color:var(--bad);background:var(--badbg)} .pill.warn{color:var(--warn)}
+td.ok{color:var(--ok)} td.bad{color:var(--bad)}
+.readout .ok{color:var(--ok)} .readout .bad{color:var(--bad)}
+.view.full{grid-column:1/-1}
+.checks{list-style:none;margin:0;padding:0}
+.checks li{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:8px 0;border-bottom:1px solid var(--rule);font:13px/1.35 var(--body)}
+.checks li span:first-child{min-width:0}
+select{appearance:auto}
+</style>
+</head>
+<body>
+<div class="sheet">
+  <header class="tb">
+    <h1>Spiral Staircase Geometry<small>Enter the floor height, the stair radius and the tread angle. Get the risers, the tread depth where you really walk, the clear width, the floor opening needed for headroom and the checks, on a live plan and unrolled section.</small></h1>
+    <div class="meta"><div><b>Sheet</b>T-34</div><div><b>Method</b>Geometry + walkline</div><div><b>Units</b>mm, degrees</div><div><b>By</b>@smart_tools_every_week</div></div>
+  </header>
+  <div class="dl" id="dlbar"><a class="btn" href="spiral-stair.html" download="spiral-stair.html">⬇ Download this app</a><span>Free. One HTML file that works offline. Open it in any browser, no install or sign-up.</span><a class="more" href="../">More free tools →</a></div>
+  <div class="main">
+    <section class="inputs" aria-label="Inputs">
+
+      <div class="row">
+        <label for="H">Floor to floor mm<input id="H" type="number" step="50" value="3000"></label>
+        <label for="R">Outer radius mm<input id="R" type="number" step="25" value="1000"></label>
+      </div>
+      <div class="row">
+        <label for="r0">Centre pole radius mm<input id="r0" type="number" step="5" value="75"></label>
+        <label for="hr">Handrail intrusion mm<input id="hr" type="number" step="5" value="50"></label>
+      </div>
+      <div class="row">
+        <label for="rt">Target riser mm<input id="rt" type="number" step="5" value="200"></label>
+        <label for="th">Tread angle °<input id="th" type="number" step="0.5" value="30"></label>
+      </div>
+      <div class="row">
+        <label for="sl">Slab thickness mm<input id="sl" type="number" step="10" value="150"></label>
+        <label for="tk">Tread thickness mm<input id="tk" type="number" step="5" value="40"></label>
+      </div>
+      <div class="row">
+        <label for="dir">Climbing direction
+          <select id="dir"><option value="1" selected>Clockwise</option><option value="-1">Anticlockwise</option></select>
+        </label>
+        <label for="wo">Walkline from pole mm<input id="wo" type="number" step="5" value="305"></label>
+      </div>
+      <div class="row">
+        <label for="lw">Min clear width mm<input id="lw" type="number" step="10" value="660"></label>
+        <label for="lt">Min walkline tread mm<input id="lt" type="number" step="5" value="190"></label>
+      </div>
+      <div class="row">
+        <label for="lr">Max riser mm<input id="lr" type="number" step="1" value="241"></label>
+        <label for="lh">Min headroom mm<input id="lh" type="number" step="10" value="1982"></label>
+      </div>
+      <p class="note">Walkline is where people actually put their feet, 305 mm (12 in) out from the narrow edge. A spiral tread is a wedge, so the width you can use depends on where you measure. Limits are editable: set them to your own code.</p>
+
+    </section>
+    <section style="min-width:0">
+
+      <div class="readout">
+        <div><b>Risers</b><span id="oN" class="hi">–</span></div>
+        <div><b>Tread at walkline</b><span id="oT">–</span></div>
+        <div><b>Clear width</b><span id="oW">–</span></div>
+        <div><b>Opening sweep</b><span id="oO">–</span></div>
+      </div>
+      <div class="views">
+        <div class="view"><h2>Plan <span id="pLabel"></span></h2><svg id="pl" viewBox="0 0 400 400" role="img" aria-label="Spiral stair plan" style="max-height:420px"></svg></div>
+        <div class="view"><h2>Checks <span id="sum"></span></h2><ul class="checks" id="checks"></ul></div>
+      </div>
+      <div class="views">
+        <div class="view full"><h2>Unrolled section <span id="uLabel"></span></h2><svg id="un" viewBox="0 0 560 250" role="img" aria-label="Unrolled elevation of the stair"></svg></div>
+      </div>
+      <div class="data"><h2>Tread schedule <span>mm</span></h2><div class="tablewrap"><table><thead><tr><th>Tread</th><th>Top level</th><th>Walkline depth</th><th>Outer depth</th><th>Headroom</th></tr></thead><tbody id="tb"></tbody></table></div></div>
+
+    </section>
+  </div>
+  <footer class="foot"><span>Free tool · @smart_tools_every_week · simplyrendered.github.io/smart-tools · built with Claude</span><span>Geometry: riser = floor height ÷ number of risers; walkline tread depth = (pole radius + 305 mm) × tread angle in radians; 2R + T comfort rule (Blondel, textbook). Default limits follow IRC 2018 R311.7.10.1 for spiral stairs (clear width 660 mm, tread 190 mm at 12 in from the narrow edge, riser at most 241 mm, headroom 1982 mm), as quoted in a municipal residential stair guide. All limits are editable: check your own code (NBC 2016 Part 4 for egress stairs) and the manufacturer for a kit stair.</span></footer>
+</div>
+<script>
+if(location.protocol==="file:"){const b=document.getElementById("dlbar");if(b)b.hidden=true;}
+const $=id=>document.getElementById(id);
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const NS="http://www.w3.org/2000/svg";
+function el(tag,attrs,parent,text){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(text!=null)e.textContent=text;parent&&parent.appendChild(e);return e}
+const fmt=(v,d=2)=>Number.isFinite(v)?v.toFixed(d):"–";
+
+const num=(id,min,max,def)=>{const v=parseFloat($(id).value);return Number.isFinite(v)?Math.min(max,Math.max(min,v)):def};
+function calc(){
+  const H=num("H",1500,6000,3000),r0=num("r0",0,300,75),R0=num("R",500,2000,1000),R=Math.max(R0,r0+200),hr=num("hr",0,150,50),
+    rt=num("rt",120,260,200),th=num("th",10,60,30),sl=num("sl",0,600,150),tk=num("tk",0,100,40),dir=+$("dir").value===-1?-1:1,
+    wo=num("wo",100,600,305),lw=num("lw",300,1500,660),lt=num("lt",50,400,190),lr=num("lr",100,400,241),lh=num("lh",1500,2500,1982);
+  const N=Math.max(2,Math.round(H/rt)),riser=H/N,T=N-1,thr=th*Math.PI/180,total=T*th;
+  const rw=Math.min(R-20,r0+wo),walk=rw*thr,outer=R*thr,narrow=r0*thr;
+  const clear=R-r0-hr,soffit=H-sl;
+  const rows=[];let jmin=T;
+  for(let i=0;i<T;i++){const top=(i+1)*riser,hd=soffit-top;rows.push({i,top,walk,outer,hd});}
+  for(let i=0;i<T;i++){if(rows[i].hd<lh){jmin=i;break}}
+  const openAng=(T-jmin)*th,tpt=360/th,between=riser*tpt-tk;
+  return {H,R,r0,hr,rt,th,thr,sl,tk,dir,wo,lw,lt,lr,lh,N,riser,T,total,rw,walk,outer,narrow,clear,soffit,rows,jmin,openAng,tpt,between,blondel:2*riser+walk,
+    lap:total>360};
+}
+function render(){
+  const c=calc(),ink=css("--ink"),ink2=css("--ink-2"),rule=css("--rule"),red=css("--red"),blue=css("--blue"),sheet=css("--sheet"),sun=css("--sun"),ok=css("--ok");
+  $("oN").textContent=c.N+" × "+fmt(c.riser,0)+" mm";$("oT").textContent=fmt(c.walk,0)+" mm";$("oW").textContent=fmt(c.clear,0)+" mm";
+  $("oO").textContent=fmt(c.openAng,0)+"°";
+  $("oT").className=c.walk<c.lt?"bad":"";$("oW").className=c.clear<c.lw?"bad":"";
+  const C=[[`Riser ${fmt(c.riser,0)} mm is at most ${fmt(c.lr,0)} mm`,c.riser<=c.lr],
+   [`Tread at the walkline ${fmt(c.walk,0)} mm is at least ${fmt(c.lt,0)} mm (needs ${fmt(Math.ceil(c.lt/c.rw*180/Math.PI*10)/10,1)}° at this radius)`,c.walk>=c.lt],
+   [`Clear width ${fmt(c.clear,0)} mm is at least ${fmt(c.lw,0)} mm`,c.clear>=c.lw],
+   [c.lap?`Headroom between turns ${fmt(c.between,0)} mm is at least ${fmt(c.lh,0)} mm`:`Less than one full turn: no tread sits above another`,!c.lap||c.between>=c.lh],
+   [`Comfort 2R + T = ${fmt(c.blondel,0)} mm (aim for about 600 to 650)`,c.blondel>=590&&c.blondel<=660,"warn"],
+   [`Floor opening sweeps ${fmt(c.openAng,0)}° of the circle (${c.T-c.jmin} treads) for ${fmt(c.lh,0)} mm headroom`,true,"info"]];
+  const ul=$("checks");ul.innerHTML="";let fails=0;
+  C.forEach(([t,okk,kind])=>{const li=document.createElement("li");const cls=kind==="info"?"warn":okk?"ok":kind==="warn"?"warn":"bad";if(!okk&&!kind)fails++;
+    li.innerHTML=`<span>${t}</span><span class="pill ${cls}">${kind==="info"?"note":okk?"pass":kind==="warn"?"check":"fail"}</span>`;ul.appendChild(li)});
+  $("sum").textContent=fails?fails+" failing":"all checks met";
+  // plan
+  const pl=$("pl");pl.innerHTML="";const cx=200,cy=200,s=165/c.R,d=c.dir;
+  const P=(r,a)=>[cx+r*s*Math.cos(a),cy+r*s*Math.sin(a)];
+  const a0=-Math.PI/2;
+  const wedge=(i,j,ra,rb,extra)=>{const A=a0+d*i*c.thr,B=a0+d*j*c.thr,p1=P(ra,A),p2=P(rb,A),p3=P(rb,B),p4=P(ra,B);const lg=Math.abs(B-A)>Math.PI?1:0,sw=d>0?1:0;
+    return `M ${p1[0]} ${p1[1]} L ${p2[0]} ${p2[1]} A ${rb*s} ${rb*s} 0 ${lg} ${sw} ${p3[0]} ${p3[1]} L ${p4[0]} ${p4[1]} A ${ra*s} ${ra*s} 0 ${lg} ${1-sw} ${p1[0]} ${p1[1]} Z`};
+  el("circle",{cx,cy,r:c.R*s,fill:"none",stroke:rule,"stroke-dasharray":"4 4"},pl);
+  c.rows.forEach(r=>{const i=r.i;const hot=i>=c.jmin;
+    el("path",{d:wedge(i,i+1,c.r0,c.R),fill:hot?sun:sheet,"fill-opacity":hot?.25:1,stroke:ink,"stroke-width":1.2},pl);
+    const mid=a0+d*(i+.5)*c.thr,q=P(c.r0+(c.R-c.r0)*(i<c.tpt?.78:.5),mid);
+    el("text",{x:q[0],y:q[1]+3,"text-anchor":"middle","font-size":c.th<18?8:10,fill:ink2,"font-family":"IBM Plex Mono, monospace"},pl,String(i+1));});
+  el("circle",{cx,cy,r:c.rw*s,fill:"none",stroke:red,"stroke-dasharray":"3 3","stroke-width":1.4},pl);
+  el("circle",{cx,cy,r:Math.max(c.r0*s,2),fill:ink,opacity:.85},pl);
+  if(c.T-c.jmin>0&&c.openAng>0){const oa=Math.min(c.openAng,359.9);const A=a0+d*c.jmin*c.thr,B=A+d*oa*Math.PI/180,rr=(c.R+60)*s,rr2=(c.R+20)*s;
+    const p1=[cx+rr2*Math.cos(A),cy+rr2*Math.sin(A)],p2=[cx+rr*Math.cos(A),cy+rr*Math.sin(A)],p3=[cx+rr*Math.cos(B),cy+rr*Math.sin(B)],p4=[cx+rr2*Math.cos(B),cy+rr2*Math.sin(B)];
+    const lg=oa>180?1:0,sw=d>0?1:0;
+    el("path",{d:`M ${p1[0]} ${p1[1]} L ${p2[0]} ${p2[1]} A ${rr} ${rr} 0 ${lg} ${sw} ${p3[0]} ${p3[1]} L ${p4[0]} ${p4[1]} A ${rr2} ${rr2} 0 ${lg} ${1-sw} ${p1[0]} ${p1[1]} Z`,fill:red,opacity:.35,stroke:red},pl);}
+  el("text",{x:cx,y:392,"text-anchor":"middle","font-size":11,fill:ink2,"font-family":"IBM Plex Mono, monospace"},pl,"Ø "+fmt(c.R*2,0)+" mm · walkline Ø "+fmt(c.rw*2,0)+" mm (red dashed)");
+  $("pLabel").textContent=c.T+" treads · "+fmt(c.total,0)+"° turn";
+  // unrolled
+  const un=$("un");un.innerHTML="";const ox=40,oy=20,W=500,Hh=190,sx=W/Math.max(c.total+c.th,1),sy=Hh/c.H;
+  const X=a=>ox+a*sx,Y=h=>oy+Hh-h*sy;
+  el("line",{x1:ox,y1:Y(0),x2:ox+W,y2:Y(0),stroke:ink,"stroke-width":2},un);
+  el("line",{x1:ox,y1:Y(c.H),x2:ox+W,y2:Y(c.H),stroke:ink,"stroke-width":2},un);
+  el("rect",{x:X(c.jmin*c.th),y:Y(c.H),width:Math.max(0,ox+W-X(c.jmin*c.th)),height:Math.max(0,c.sl*sy),fill:rule,opacity:.7},un);
+  el("rect",{x:X(0),y:Y(c.H),width:Math.max(0,X(c.jmin*c.th)-X(0)),height:Math.max(0,c.sl*sy),fill:ink2,opacity:.6},un);
+  let pts=`${X(0)},${Y(0)}`;
+  c.rows.forEach(r=>{pts+=` ${X(r.i*c.th)},${Y(r.top)} ${X((r.i+1)*c.th)},${Y(r.top)}`;});
+  el("polyline",{points:`${X(0)},${Y(0)} ${X(0)},${Y(c.rows[0]?c.rows[0].top:0)} `+pts.split(" ").slice(1).join(" "),fill:"none",stroke:blue,"stroke-width":2},un);
+  const hx=X(Math.max(0,c.jmin-1)*c.th),hl=Math.min(c.lh,c.soffit-((Math.max(0,c.jmin-1))+1)*c.riser+c.lh);
+  if(c.jmin>0&&c.jmin<=c.T){const lvl=c.jmin*c.riser;el("line",{x1:hx,y1:Y(lvl),x2:hx,y2:Y(lvl+c.lh),stroke:red,"stroke-width":2,"stroke-dasharray":"4 3"},un);
+    el("text",{x:hx+6,y:Y(lvl+c.lh/2),fill:red,"font-size":11,"font-family":"IBM Plex Mono, monospace"},un,fmt(c.lh,0)+" clear");}
+  el("text",{x:ox,y:oy+Hh+22,fill:ink2,"font-size":11,"font-family":"IBM Plex Mono, monospace"},un,"turn 0° to "+fmt(c.total,0)+"° · dark = slab, light = opening");
+  el("text",{x:ox+W,y:Y(c.H)-5,"text-anchor":"end",fill:ink2,"font-size":11,"font-family":"IBM Plex Mono, monospace"},un,"upper floor +"+fmt(c.H,0));
+  $("uLabel").textContent="riser "+fmt(c.riser,1)+" mm";
+  const tb=$("tb");tb.innerHTML="";c.rows.forEach(r=>{const tr=document.createElement("tr");
+    tr.innerHTML=`<td>${r.i+1}</td><td>${fmt(r.top,0)}</td><td class="${c.walk<c.lt?"bad":""}">${fmt(r.walk,0)}</td><td>${fmt(r.outer,0)}</td><td class="${r.hd<c.lh?"bad":""}">${r.hd<c.lh?"open above":fmt(r.hd,0)}</td>`;tb.appendChild(tr)});
+}
+
+document.querySelectorAll("input,select").forEach(i=>i.addEventListener("input",render));
+window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",render);
+new MutationObserver(render).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+render();
+</script>
+</body>
+</html>

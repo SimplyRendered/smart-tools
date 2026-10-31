@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AC Cooling Load</title>
+<meta name="description" content="Enter the room, the window and what happens inside. Get the cooling load item by item in watts and tons of refrigeration, the next standard AC size and how far the 1 TR per 100 sq ft rule is off, on a live plan and load chart.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: drafting sheet — title block header, input column + two drawings, data table below */
+:root{
+  --paper:#F2F3EF; --sheet:#FBFBF8; --ink:#1B2732; --ink-2:#4A5865; --rule:#D5D9D4; --grid:#E6E8E3;
+  --red:#C8432B; --blue:#2E66A6; --sun:#E09A1E; --shadow:rgba(27,39,50,.22);
+  --display:'Barlow Condensed','Arial Narrow',sans-serif; --body:'IBM Plex Sans',system-ui,sans-serif; --mono:'IBM Plex Mono',ui-monospace,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#0E1A26; --sheet:#132233; --ink:#E4ECF2; --ink-2:#9DB0C0; --rule:#2A3D52; --grid:#1B2D40;
+  --red:#FF7A5C; --blue:#6FB0F0; --sun:#FFC04D; --shadow:rgba(140,190,240,.25); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0E1A26; --sheet:#132233; --ink:#E4ECF2; --ink-2:#9DB0C0; --rule:#2A3D52; --grid:#1B2D40;
+  --red:#FF7A5C; --blue:#6FB0F0; --sun:#FFC04D; --shadow:rgba(140,190,240,.25); color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--paper);color:var(--ink);font:15px/1.5 var(--body);padding:16px;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px}
+.sheet{max-width:1180px;margin:0 auto;background:var(--sheet);border:1.5px solid var(--ink);}
+.tb{display:grid;grid-template-columns:1fr auto;border-bottom:1.5px solid var(--ink)}
+.tb h1{font:700 clamp(30px,5vw,46px)/1 var(--display);letter-spacing:.01em;margin:0;padding:18px 20px 14px;text-transform:uppercase;text-wrap:balance}
+.tb h1 small{display:block;font:500 14px/1.4 var(--body);letter-spacing:0;text-transform:none;color:var(--ink-2);margin-top:6px}
+.tb .meta{display:grid;grid-template-columns:auto auto;border-left:1.5px solid var(--ink);font:12px/1.2 var(--mono)}
+.tb .meta div{padding:8px 12px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule)}
+.tb .meta b{display:block;font:600 10px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-bottom:4px}
+.main{display:grid;grid-template-columns:320px 1fr;}
+.inputs{border-right:1.5px solid var(--ink);padding:18px 20px;display:flex;flex-direction:column;gap:14px}
+label{display:flex;flex-direction:column;gap:5px;font:600 11px/1 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+input,select{font:500 15px/1.2 var(--mono);color:var(--ink);background:var(--paper);border:1px solid var(--rule);padding:9px 10px;border-radius:0;width:100%}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
+input[type=range]{padding:0;accent-color:var(--red)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+button{font:600 12px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;background:transparent;color:var(--ink);border:1px solid var(--ink);padding:8px 10px;cursor:pointer}
+button:hover{background:var(--ink);color:var(--sheet)}
+.time{font:500 28px/1 var(--mono);color:var(--red)}
+.views{display:grid;grid-template-columns:1fr 1fr;min-width:0}
+.view{padding:14px 16px 10px;min-width:0;border-bottom:1.5px solid var(--ink)}
+.view+.view{border-left:1px solid var(--rule)}
+.view h2,.data h2{font:600 20px/1 var(--display);text-transform:uppercase;letter-spacing:.04em;margin:0 0 8px;display:flex;justify-content:space-between;gap:8px}
+.view h2 span,.data h2 span{font:400 11px/1.6 var(--mono);color:var(--ink-2);text-transform:none;letter-spacing:0}
+svg{width:100%;height:auto;display:block}
+.readout{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1.5px solid var(--ink)}
+.readout div{padding:12px 16px;border-right:1px solid var(--rule)}
+.readout div:last-child{border-right:0}
+.readout b{display:block;font:600 10px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-bottom:6px}
+.readout span{font:500 24px/1 var(--mono);font-variant-numeric:tabular-nums}
+.readout .hi{color:var(--red)}
+.data{padding:14px 16px}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font:13px/1.3 var(--mono);font-variant-numeric:tabular-nums}
+th,td{padding:6px 10px;border-bottom:1px solid var(--rule);text-align:right;white-space:nowrap}
+th{font:600 10px/1.2 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+th:first-child,td:first-child{text-align:left}
+tr.now td{color:var(--red);font-weight:500}
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;padding:10px 16px;border-top:1.5px solid var(--ink);font:12px/1.4 var(--mono);color:var(--ink-2)}
+.note{font:12px/1.5 var(--body);color:var(--ink-2);margin:0}
+@media (max-width:900px){.main{grid-template-columns:1fr}.inputs{border-right:0;border-bottom:1.5px solid var(--ink)}}
+@media (max-width:640px){.views{grid-template-columns:1fr}.view+.view{border-left:0}.readout{grid-template-columns:repeat(2,1fr)}.readout div:nth-child(2){border-right:0}.readout div{border-bottom:1px solid var(--rule)}.tb{grid-template-columns:1fr}.tb .meta{border-left:0;border-top:1px solid var(--rule)}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.dl{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;padding:12px 20px;border-bottom:1.5px solid var(--ink);background:var(--paper)}
+.dl a.btn{font:600 13px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;background:var(--red);color:#fff;text-decoration:none;padding:11px 14px;border:1px solid var(--red)}
+.dl a.btn:hover{background:var(--ink);border-color:var(--ink);color:var(--sheet)}
+.dl span{font:13px/1.4 var(--body);color:var(--ink-2);flex:1;min-width:180px}
+.dl a.more{font:500 13px/1 var(--mono);color:var(--blue)}
+
+:root{--ok:#2F8A57;--okbg:rgba(47,138,87,.12);--bad:#C8432B;--badbg:rgba(200,67,43,.10);--warn:#B7791F}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ok:#5FD08F;--okbg:rgba(95,208,143,.14);--bad:#FF7A5C;--badbg:rgba(255,122,92,.12);--warn:#F2B84B}}
+:root[data-theme="dark"]{--ok:#5FD08F;--okbg:rgba(95,208,143,.14);--bad:#FF7A5C;--badbg:rgba(255,122,92,.12);--warn:#F2B84B}
+.pill{display:inline-block;font:600 11px/1 var(--body);letter-spacing:.08em;text-transform:uppercase;padding:5px 7px;border:1px solid currentColor}
+.pill.ok{color:var(--ok);background:var(--okbg)} .pill.bad{color:var(--bad);background:var(--badbg)} .pill.warn{color:var(--warn)}
+td.ok{color:var(--ok)} td.bad{color:var(--bad)}
+.readout .ok{color:var(--ok)} .readout .bad{color:var(--bad)}
+.view.full{grid-column:1/-1}
+.checks{list-style:none;margin:0;padding:0}
+.checks li{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:8px 0;border-bottom:1px solid var(--rule);font:13px/1.35 var(--body)}
+.checks li span:first-child{min-width:0}
+select{appearance:auto}
+</style>
+</head>
+<body>
+<div class="sheet">
+  <header class="tb">
+    <h1>AC Cooling Load<small>Enter the room, the window and what happens inside. Get the cooling load item by item in watts and tons of refrigeration, the next standard AC size and how far the 1 TR per 100 sq ft rule is off, on a live plan and load chart.</small></h1>
+    <div class="meta"><div><b>Sheet</b>T-36</div><div><b>Method</b>Heat balance, peak hour</div><div><b>Units</b>m, W, TR</div><div><b>By</b>@smart_tools_every_week</div></div>
+  </header>
+  <div class="dl" id="dlbar"><a class="btn" href="cooling-load.html" download="cooling-load.html">⬇ Download this app</a><span>Free. One HTML file that works offline. Open it in any browser, no install or sign-up.</span><a class="more" href="../">More free tools →</a></div>
+  <div class="main">
+    <section class="inputs" aria-label="Inputs">
+
+      <div class="row">
+        <label for="L">Room length m<input id="L" type="number" step="0.1" value="5"></label>
+        <label for="W">Room width m<input id="W" type="number" step="0.1" value="4"></label>
+      </div>
+      <div class="row">
+        <label for="H">Ceiling height m<input id="H" type="number" step="0.1" value="3"></label>
+        <label for="ex">Exposed wall length m<input id="ex" type="number" step="0.1" value="5"></label>
+      </div>
+      <div class="row">
+        <label for="or">Exposed wall faces
+          <select id="or"><option value="N">North</option><option value="E">East</option><option value="S">South</option><option value="W" selected>West</option></select>
+        </label>
+        <label for="wa">Window area m²<input id="wa" type="number" step="0.5" value="3"></label>
+      </div>
+      <div class="row">
+        <label for="gl">Glazing
+          <select id="gl"><option value="0.80,5.8">Single clear</option><option value="0.45,5.6">Single reflective</option><option value="0.70,2.8" selected>Double clear</option><option value="0.40,1.8">Double low-e</option></select>
+        </label>
+        <label for="sh">Shading factor<input id="sh" type="number" step="0.1" value="1"></label>
+      </div>
+      <div class="row">
+        <label for="rf">Roof above
+          <select id="rf"><option value="1" selected>Top floor (sun on roof)</option><option value="0">Another floor above</option></select>
+        </label>
+        <label for="to">Outdoor °C<input id="to" type="number" step="1" value="40"></label>
+      </div>
+      <div class="row">
+        <label for="ti">Indoor °C<input id="ti" type="number" step="0.5" value="24"></label>
+        <label for="np">People<input id="np" type="number" step="1" value="4"></label>
+      </div>
+      <div class="row">
+        <label for="lt">Lighting W/m²<input id="lt" type="number" step="1" value="10"></label>
+        <label for="eq">Equipment W<input id="eq" type="number" step="50" value="300"></label>
+      </div>
+      <div class="row">
+        <label for="fa">Fresh air L/s each<input id="fa" type="number" step="0.5" value="5"></label>
+        <label for="dw">Moisture gap g/kg<input id="dw" type="number" step="0.5" value="6"></label>
+      </div>
+      <div class="row">
+        <label for="uw">Wall U W/m²K<input id="uw" type="number" step="0.1" value="2"></label>
+        <label for="ur">Roof U W/m²K<input id="ur" type="number" step="0.1" value="2.8"></label>
+      </div>
+      <div class="row">
+        <label for="is">Peak sun on glass W/m²<input id="is" type="number" step="10" value="520"></label>
+        <label for="sf">Safety margin %<input id="sf" type="number" step="5" value="10"></label>
+      </div>
+      <p class="note">Peak sun on glass fills in when you change the wall direction (typical clear-day values for a low latitude, edit them). Wall U 2.0 is a plastered 230 mm brick wall (see the Wall U-Value tool). The sun adds 5 K to walls and 15 K to roofs on top of the air temperature difference.</p>
+
+    </section>
+    <section style="min-width:0">
+
+      <div class="readout">
+        <div><b>Cooling load</b><span id="oW" class="hi">–</span></div>
+        <div><b>Tonnage</b><span id="oT">–</span></div>
+        <div><b>Next AC size</b><span id="oS">–</span></div>
+        <div><b>1 TR / 100 sq ft rule</b><span id="oR">–</span></div>
+      </div>
+      <div class="views">
+        <div class="view"><h2>Plan <span id="pLabel"></span></h2><svg id="pl" viewBox="0 0 360 300" role="img" aria-label="Room plan with window and sun" style="max-height:320px"></svg></div>
+        <div class="view"><h2>Where the heat comes from <span id="bLabel"></span></h2><svg id="bar" viewBox="0 0 360 300" role="img" aria-label="Load breakdown bars" style="max-height:340px"></svg></div>
+      </div>
+      <div class="data"><h2>Load schedule <span>peak hour</span></h2><div class="tablewrap"><table><thead><tr><th>Source</th><th>Watts</th><th>TR</th><th>Share</th></tr></thead><tbody id="tb"></tbody></table></div></div>
+
+    </section>
+  </div>
+  <footer class="foot"><span>Free tool · @smart_tools_every_week · simplyrendered.github.io/smart-tools · built with Claude</span><span>Each load is a first-principles heat balance: wall and roof conduction = U × A × (ΔT + sun add-on); glass conduction = U × A × ΔT; glass solar = A × SHGC × peak solar × shading; people, lights and equipment as watts; fresh air sensible = 1.21 W per L/s per K (air density × specific heat) and latent = 3.0 W per L/s per g/kg (density × 2501 kJ/kg). 1 TR = 12,000 Btu/h = 3.517 kW. The glazing, U-value, solar and per-person numbers are typical early-design values and are all editable: this is an estimate, not an HVAC design. Have an HVAC engineer size the final system (ISHRAE / ASHRAE load calculation).</span></footer>
+</div>
+<script>
+if(location.protocol==="file:"){const b=document.getElementById("dlbar");if(b)b.hidden=true;}
+const $=id=>document.getElementById(id);
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const NS="http://www.w3.org/2000/svg";
+function el(tag,attrs,parent,text){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(text!=null)e.textContent=text;parent&&parent.appendChild(e);return e}
+const fmt=(v,d=2)=>Number.isFinite(v)?v.toFixed(d):"–";
+
+const num=(id,min,max,def)=>{const v=parseFloat($(id).value);return Number.isFinite(v)?Math.min(max,Math.max(min,v)):def};
+const SUN={N:130,E:520,S:260,W:520};
+$("or").addEventListener("change",()=>{$("is").value=SUN[$("or").value]||520;render()});
+const SIZES=[0.75,1,1.5,2,2.5,3,4,5,7.5,10,15,20,30,50];
+function calc(){
+  const L=num("L",1,30,5),W=num("W",1,30,4),H=num("H",2,8,3),ex=num("ex",0,40,5),wa0=num("wa",0,60,3),to=num("to",20,55,40),ti=num("ti",16,30,24),
+    np=Math.round(num("np",0,200,4)),lt=num("lt",0,60,10),eq=num("eq",0,50000,300),fa=num("fa",0,30,5),dw=num("dw",0,20,6),uw=num("uw",0.1,6,2),ur=num("ur",0.1,6,2.8),
+    is=num("is",0,1100,520),sf=num("sf",0,50,10),sh=num("sh",0,1,1),pp=($("gl").value||"0.7,2.8").split(",").map(Number);
+  const SHGC=pp[0]||0.7,UG=pp[1]||2.8,roof=$("rf").value==="1",area=L*W,dT=to-ti,
+    wallGross=ex*H,wa=Math.min(wa0,wallGross),wall=wallGross-wa;
+  const items=[
+    ["Walls",uw*wall*Math.max(0,dT+5)],
+    ["Roof",roof?ur*area*Math.max(0,dT+15):0],
+    ["Glass heat conduction",UG*wa*dT],
+    ["Sun through glass",wa*SHGC*is*sh],
+    ["People",np*130],
+    ["Lights",lt*area],
+    ["Equipment",eq],
+    ["Fresh air (temperature)",1.21*fa*np*dT],
+    ["Fresh air (humidity)",3.0*fa*np*dw]];
+  const ppl=items.find(x=>x[0]==="People");
+  const sens=parseFloat($("np").value);
+  const sum=items.reduce((a,b)=>a+Math.max(0,b[1]),0),total=sum*(1+sf/100),tr=total/3517,
+    next=SIZES.find(s=>s>=tr-1e-9)||SIZES[SIZES.length-1],sqft=area*10.7639,rule=sqft/100;
+  return {L,W,H,ex,wa,dT,to,ti,np,sf,roof,area,items,sum,total,tr,next,sqft,rule,or:$("or").value,wall,is,SHGC,UG};
+}
+function render(){
+  const c=calc(),ink=css("--ink"),ink2=css("--ink-2"),rule=css("--rule"),red=css("--red"),blue=css("--blue"),sheet=css("--sheet"),sun=css("--sun");
+  $("oW").textContent=fmt(c.total/1000,2)+" kW";$("oT").textContent=fmt(c.tr,2)+" TR";$("oS").textContent=fmt(c.next,2).replace(/\.?0+$/,"")+" TR";
+  $("oR").textContent=fmt(c.rule,1)+" TR";$("oR").className=c.rule>c.tr*1.15?"bad":"";
+  // plan
+  const pl=$("pl");pl.innerHTML="";const s=Math.min(240/c.L,170/c.W),w=c.L*s,h=c.W*s,ox=(360-w)/2,oy=(300-h)/2;
+  el("rect",{x:ox,y:oy,width:w,height:h,fill:sheet,stroke:ink,"stroke-width":c.roof?5:3},pl);
+  const o=c.or,wl=Math.min(c.wa/Math.max(c.H,1),(o==="N"||o==="S"?w:h)-10);
+  let g,sx,sy,ax,ay;
+  if(o==="N"){g=[ox+(w-wl)/2,oy-2,wl,6];sx=ox+w/2;sy=oy-48;ax=0;ay=1}
+  else if(o==="S"){g=[ox+(w-wl)/2,oy+h-4,wl,6];sx=ox+w/2;sy=oy+h+48;ax=0;ay=-1}
+  else if(o==="W"){g=[ox-2,oy+(h-wl)/2,6,wl];sx=ox-48;sy=oy+h/2;ax=1;ay=0}
+  else{g=[ox+w-4,oy+(h-wl)/2,6,wl];sx=ox+w+48;sy=oy+h/2;ax=-1;ay=0}
+  el("rect",{x:g[0],y:g[1],width:g[2],height:g[3],fill:blue,stroke:blue},pl);
+  for(let k=-1;k<=1;k++){const px=o==="N"||o==="S"?sx+k*18:sx,py=o==="N"||o==="S"?sy:sy+k*18;
+    el("line",{x1:px,y1:py,x2:px+ax*34,y2:py+ay*34,stroke:sun,"stroke-width":3},pl);
+    el("path",{d:`M ${px+ax*34-ay*5-ax*6} ${py+ay*34+ax*5-ay*6} L ${px+ax*38} ${py+ay*38} L ${px+ax*34+ay*5-ax*6} ${py+ay*34-ax*5-ay*6}`,fill:"none",stroke:sun,"stroke-width":3},pl);}
+  el("text",{x:180,y:oy+h/2+4,"text-anchor":"middle",fill:ink,"font-size":13,"font-family":"IBM Plex Mono, monospace"},pl,fmt(c.area,1)+" m² · "+fmt(c.sqft,0)+" sq ft");
+  el("text",{x:180,y:20,"text-anchor":"middle",fill:ink2,"font-size":11,"font-family":"IBM Plex Mono, monospace"},pl,"N ↑");
+  el("text",{x:180,y:292,"text-anchor":"middle",fill:ink2,"font-size":11,"font-family":"IBM Plex Mono, monospace"},pl,c.roof?"thick walls = roof in sun":"another floor above");
+  $("pLabel").textContent=({N:"north",E:"east",S:"south",W:"west"})[o]+" window "+fmt(c.wa,1)+" m²";
+  // bars
+  const bs=$("bar");bs.innerHTML="";const mx=Math.max(1,...c.items.map(x=>Math.max(0,x[1])));
+  c.items.forEach((it,i)=>{const y=14+i*30,wv=Math.max(0,it[1])/mx*170;
+    el("text",{x:4,y:y+10,fill:ink2,"font-size":10,"font-family":"IBM Plex Mono, monospace"},bs,it[0]);
+    el("rect",{x:4,y:y+14,width:Math.max(1,wv),height:9,fill:it[0]==="Sun through glass"?sun:blue,opacity:.85},bs);
+    el("text",{x:Math.max(1,wv)+10,y:y+23,fill:ink,"font-size":11,"font-family":"IBM Plex Mono, monospace"},bs,fmt(Math.max(0,it[1]),0)+" W");});
+  $("bLabel").textContent=fmt(c.sum,0)+" W + "+fmt(c.sf,0)+"%";
+  const tb=$("tb");tb.innerHTML="";c.items.forEach(it=>{const v=Math.max(0,it[1]),tr=document.createElement("tr");tr.innerHTML=`<td>${it[0]}</td><td>${fmt(v,0)}</td><td>${fmt(v/3517,2)}</td><td>${fmt(c.sum>0?v/c.sum*100:0,0)}%</td>`;tb.appendChild(tr)});
+  const t2=document.createElement("tr");t2.innerHTML=`<td><b>Total + ${fmt(c.sf,0)}% margin</b></td><td><b>${fmt(c.total,0)}</b></td><td><b>${fmt(c.tr,2)}</b></td><td>100%</td>`;tb.appendChild(t2);
+}
+
+document.querySelectorAll("input,select").forEach(i=>i.addEventListener("input",render));
+window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",render);
+new MutationObserver(render).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,206 @@
+[
+ {
+  "date": "2026-11-30",
+  "slug": "car-ramp",
+  "no": "T-37",
+  "name": "Car Ramp Scrape Check",
+  "slides": [
+   {
+    "t": "hook",
+    "title": "Is a ramp under 1 in 6 safe for every car?",
+    "sub": "Free Car Ramp Scrape Check. Nose, belly and tail tested at the top and bottom of the ramp.",
+    "img": "car-ramp_views.png"
+   },
+   {
+    "t": "shot",
+    "kicker": "The tool",
+    "title": "Car on the ramp profile",
+    "img": "car-ramp_top.png"
+   },
+   {
+    "t": "list",
+    "kicker": "What it does",
+    "title": "From slope to scrape check",
+    "items": [
+     "Nose, belly and tail checked live",
+     "Shortest transition that clears",
+     "Steepest slope your transitions allow",
+     "Editable car data and slope limit"
+    ]
+   },
+   {
+    "t": "shot",
+    "kicker": "Levels and lengths for your drawing",
+    "title": "Ramp sections",
+    "img": "car-ramp_data.png"
+   },
+   {
+    "t": "steps",
+    "kicker": "How to use",
+    "title": "Four inputs",
+    "items": [
+     "Enter floor height and slope",
+     "Pick or edit your car",
+     "Set the transition length",
+     "Read the clearance"
+    ]
+   },
+   {
+    "t": "phone",
+    "kicker": "On site",
+    "title": "Works on your phone and offline.",
+    "img": "car-ramp_phone.png"
+   },
+   {
+    "t": "cta"
+   }
+  ],
+  "caption": "Is a ramp under 1 in 6 safe for every car? 🚗\nNew free tool: Car Ramp Scrape Check.\nEnter the floor height, slope and your car. It checks the nose, belly and tail at the top and bottom.\n✅ Live car on the ramp profile\n✅ Shortest transition that clears\n✅ Editable car and slope limit\n⬇️ Free download / use online:\nsimplyrendered.github.io/smart-tools/car-ramp\n(tap the link in our bio → T-37)\nWhat slope do you use for basements? 👇\nSave this for your next basement plan.",
+  "hashtags": "#carramp #basementparking #parkingramp #rampdesign #ramp #parkingdesign #siteplanning #sweptpath #buildingdesign #architecture #architect #architecturestudent #indianarchitecture #architecturetools #freetools #smarttoolseveryweek",
+  "alt": [
+   "Ramp profile with a low car at the crest and its clearance",
+   "Full screenshot of the Car Ramp Scrape Check tool",
+   "Feature list",
+   "Table of ramp sections with lengths and levels",
+   "Four steps to use the tool",
+   "Tool running on a phone",
+   "Follow @smart_tools_every_week, link in bio"
+  ]
+ },
+ {
+  "date": "2026-12-02",
+  "slug": "baluster-spacing",
+  "no": "T-38",
+  "name": "Baluster & Slat Spacing",
+  "slides": [
+   {
+    "t": "hook",
+    "title": "How many balusters fit this railing bay?",
+    "sub": "Free Baluster & Slat Spacing tool. Equal gaps in every bay, checked against the sphere rule.",
+    "img": "baluster-spacing_views.png"
+   },
+   {
+    "t": "shot",
+    "kicker": "The tool",
+    "title": "Elevation with every baluster",
+    "img": "baluster-spacing_top.png"
+   },
+   {
+    "t": "list",
+    "kicker": "What it does",
+    "title": "Equal gaps, every bay",
+    "items": [
+     "Posts spread evenly along the run",
+     "Equal gaps, no odd one at the end",
+     "Sphere test at the post",
+     "Cut list and setting-out table"
+    ]
+   },
+   {
+    "t": "shot",
+    "kicker": "Counts, gaps and cut list",
+    "title": "Quantities and checks",
+    "img": "baluster-spacing_data.png"
+   },
+   {
+    "t": "steps",
+    "kicker": "How to use",
+    "title": "Four inputs",
+    "items": [
+     "Enter railing length",
+     "Set post and baluster size",
+     "Set the largest gap",
+     "Mark out from the table"
+    ]
+   },
+   {
+    "t": "phone",
+    "kicker": "On site",
+    "title": "Works on your phone and offline.",
+    "img": "baluster-spacing_phone.png"
+   },
+   {
+    "t": "cta"
+   }
+  ],
+  "caption": "How many balusters fit this railing bay? 🪜\nNew free tool: Baluster & Slat Spacing.\nEnter length, post and baluster sizes and the largest gap. It gives posts, balusters per bay and the equal gap.\n✅ Equal gaps, no odd one at the end\n✅ Sphere test at the post\n✅ Setting-out table and cut list\n⬇️ Free download / use online:\nsimplyrendered.github.io/smart-tools/baluster-spacing\n(tap the link in our bio → T-38)\nGlass or balusters on your last job? 👇\nSave this for your next balcony.",
+  "hashtags": "#baluster #railing #balustrade #balcony #staircase #handrail #guardrail #fencedesign #timberslats #buildingcode #architecture #architect #architecturestudent #architecturetools #freetools #smarttoolseveryweek",
+  "alt": [
+   "Railing elevation with posts and evenly spaced balusters",
+   "Full screenshot of the Baluster & Slat Spacing tool",
+   "Feature list",
+   "Table of quantities and checks",
+   "Four steps to use the tool",
+   "Tool running on a phone",
+   "Follow @smart_tools_every_week, link in bio"
+  ]
+ },
+ {
+  "date": "2026-12-04",
+  "slug": "perspective-setup",
+  "no": "T-39",
+  "name": "Perspective Setup",
+  "slides": [
+   {
+    "t": "hook",
+    "title": "Do your vanishing points fall off the sheet?",
+    "sub": "Free Perspective Setup tool. Both vanishing points in mm, the view angle and a scaled sheet layout.",
+    "img": "perspective-setup_views.png"
+   },
+   {
+    "t": "shot",
+    "kicker": "The tool",
+    "title": "Your sheet at scale",
+    "img": "perspective-setup_top.png"
+   },
+   {
+    "t": "list",
+    "kicker": "What it does",
+    "title": "From station point to sheet",
+    "items": [
+     "Vanishing points in mm on A4 to A1",
+     "View angle against a 60° cone",
+     "Building drawn to scale on the sheet",
+     "Corner positions to mark on paper"
+    ]
+   },
+   {
+    "t": "shot",
+    "kicker": "Every corner in millimetres",
+    "title": "Where to mark it",
+    "img": "perspective-setup_data.png"
+   },
+   {
+    "t": "steps",
+    "kicker": "How to use",
+    "title": "Four inputs",
+    "items": [
+     "Enter building and eye height",
+     "Set distance and wall angle",
+     "Pick scale and sheet",
+     "Mark the points on paper"
+    ]
+   },
+   {
+    "t": "phone",
+    "kicker": "On site",
+    "title": "Works on your phone and offline.",
+    "img": "perspective-setup_phone.png"
+   },
+   {
+    "t": "cta"
+   }
+  ],
+  "caption": "Do your vanishing points fall off the sheet? 📐\nNew free tool: Perspective Setup.\nEnter building, eye height, distance and angle. It gives both vanishing points in mm, the view angle and a scaled sheet.\n✅ A4 to A1 sheet check\n✅ Warns when the view is stretched\n✅ Corner positions to mark\n⬇️ Free download / use online:\nsimplyrendered.github.io/smart-tools/perspective-setup\n(tap the link in our bio → T-39)\nHand-drawn or Blender: which do you use? 👇\nSave this for your next view.",
+  "hashtags": "#perspective #twopointperspective #perspectivedrawing #vanishingpoint #architecturaldrawing #handdrawing #sketching #architecturestudent #designstudio #architecture #architect #architectureschool #architecturetools #freetools #smarttoolseveryweek",
+  "alt": [
+   "Sheet layout with horizon, two vanishing points and a building in perspective",
+   "Full screenshot of the Perspective Setup tool",
+   "Feature list",
+   "Table of corner positions in millimetres",
+   "Four steps to use the tool",
+   "Tool running on a phone",
+   "Follow @smart_tools_every_week, link in bio"
+  ]
+ }
+]

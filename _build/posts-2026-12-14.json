@@ -1,0 +1,206 @@
+[
+ {
+  "date": "2026-12-14",
+  "slug": "plot-area",
+  "no": "T-43",
+  "name": "Plot Area from Sides",
+  "slides": [
+   {
+    "t": "hook",
+    "title": "Is (a+c)/2 × (b+d)/2 really the plot area?",
+    "sub": "Free Plot Area tool. Four sides and a diagonal give the true area, drawn to scale.",
+    "img": "plot-area_views.png"
+   },
+   {
+    "t": "shot",
+    "kicker": "The tool",
+    "title": "Plot Area from Sides, live",
+    "img": "plot-area_top.png"
+   },
+   {
+    "t": "list",
+    "kicker": "What it does",
+    "title": "From tape to true area",
+    "items": [
+     "Two triangles by Heron's formula",
+     "Plot drawn to scale with angles",
+     "Shortcut error shown in %",
+     "m², sq ft, gaj, guntha, cent, acre"
+    ]
+   },
+   {
+    "t": "shot",
+    "kicker": "Every unit",
+    "title": "Area in m², sq ft, guntha and more",
+    "img": "plot-area_data.png"
+   },
+   {
+    "t": "steps",
+    "kicker": "How to use",
+    "title": "Four steps",
+    "items": [
+     "Enter the four sides",
+     "Add diagonal AC",
+     "Optional: tape BD to check",
+     "Read the true area"
+    ]
+   },
+   {
+    "t": "phone",
+    "kicker": "On site",
+    "title": "Works on your phone and offline.",
+    "img": "plot-area_phone.png"
+   },
+   {
+    "t": "cta"
+   }
+  ],
+  "caption": "Is (a+c)/2 × (b+d)/2 really the plot area? 📐\nNew free tool: Plot Area from Sides.\nEnter four sides and one diagonal. It finds the true area from two triangles and draws the plot to scale.\n✅ Heron's formula, every step shown\n✅ Corner angles and a closure check\n✅ m², sq ft, gaj, guntha, cent, acre\n⬇️ Free download / use online:\nsimplyrendered.github.io/smart-tools/plot-area\n(tap the link in our bio → T-43)\nHow do you measure odd plots? 👇\nSave this for your next site visit.",
+  "hashtags": "#plotarea #landsurvey #sitemeasurement #sitevisit #siteplanning #areacalculation #plotsize #realestateindia #architecture #architect #architecturestudent #indianarchitecture #architecturetools #freetools #smarttoolseveryweek",
+  "alt": [
+   "Skewed four-sided plot drawn to scale, split into two triangles with areas and angles",
+   "Full screenshot of the Plot Area from Sides tool",
+   "Feature list",
+   "Table of the area in m², sq ft, sq yd, guntha, cent, acre and hectare",
+   "Four steps to use the tool",
+   "Tool running on a phone",
+   "Follow @smart_tools_every_week, link in bio"
+  ]
+ },
+ {
+  "date": "2026-12-16",
+  "slug": "sign-letters",
+  "no": "T-44",
+  "name": "Sign Letter Height",
+  "slides": [
+   {
+    "t": "hook",
+    "title": "How tall should the letters on this sign be?",
+    "sub": "Free Sign Letter Height tool. ADA 703.5.5 minimum from distance and mounting height.",
+    "img": "sign-letters_views.png"
+   },
+   {
+    "t": "shot",
+    "kicker": "The tool",
+    "title": "Sign Letter Height, live",
+    "img": "sign-letters_top.png"
+   },
+   {
+    "t": "list",
+    "kicker": "What it does",
+    "title": "Letters people can read",
+    "items": [
+     "ADA Table 703.5.5 minimum height",
+     "Live elevation with the sightline",
+     "Compared with 1 in per 10 ft",
+     "Check your planned letter size"
+    ]
+   },
+   {
+    "t": "shot",
+    "kicker": "Quick table",
+    "title": "Minimum height for every distance",
+    "img": "sign-letters_data.png"
+   },
+   {
+    "t": "steps",
+    "kicker": "How to use",
+    "title": "Four steps",
+    "items": [
+     "Enter the viewing distance",
+     "Set the mounting height",
+     "Add your letter size",
+     "Read the minimum"
+    ]
+   },
+   {
+    "t": "phone",
+    "kicker": "On site",
+    "title": "Works on your phone and offline.",
+    "img": "sign-letters_phone.png"
+   },
+   {
+    "t": "cta"
+   }
+  ],
+  "caption": "How tall should the letters on this sign be? 🪧\nNew free tool: Sign Letter Height.\nEnter the viewing distance and mounting height. It gives the ADA minimum letter height on a live elevation.\n✅ ADA 2010 Table 703.5.5 built in\n✅ Compared with 1 in per 10 ft\n✅ Distance table for all heights\n⬇️ Free download / use online:\nsimplyrendered.github.io/smart-tools/sign-letters\n(tap the link in our bio → T-44)\nWhat size do you specify? 👇\nSave this for your next signage schedule.",
+  "hashtags": "#signage #wayfinding #signagedesign #environmentalgraphics #accessibility #universaldesign #adacompliance #interiordesign #architecture #architect #architecturestudent #graphicdesign #architecturetools #freetools #smarttoolseveryweek",
+  "alt": [
+   "Elevation of a viewer and a wall sign with the sightline and height bands",
+   "Full screenshot of the Sign Letter Height tool",
+   "Feature list",
+   "Table of minimum letter height by viewing distance for three mounting heights",
+   "Four steps to use the tool",
+   "Tool running on a phone",
+   "Follow @smart_tools_every_week, link in bio"
+  ]
+ },
+ {
+  "date": "2026-12-18",
+  "slug": "model-scale",
+  "no": "T-45",
+  "name": "Model Scale & Board",
+  "slides": [
+   {
+    "t": "hook",
+    "title": "Which board thickness for a 1:100 model?",
+    "sub": "Free Model Scale tool. Every wall, slab and height in model mm, with the best board.",
+    "img": "model-scale_views.png"
+   },
+   {
+    "t": "shot",
+    "kicker": "The tool",
+    "title": "Model Scale & Board, live",
+    "img": "model-scale_top.png"
+   },
+   {
+    "t": "list",
+    "kicker": "What it does",
+    "title": "Scale first, then cut",
+    "items": [
+     "Every element in model mm",
+     "Best board or stack of two",
+     "Model base size and figure",
+     "Sheets of board to buy"
+    ]
+   },
+   {
+    "t": "shot",
+    "kicker": "Cutting list",
+    "title": "Ready for the model workshop",
+    "img": "model-scale_data.png"
+   },
+   {
+    "t": "steps",
+    "kicker": "How to use",
+    "title": "Four steps",
+    "items": [
+     "Pick the scale",
+     "List your boards",
+     "Enter walls and slabs",
+     "Read the cutting list"
+    ]
+   },
+   {
+    "t": "phone",
+    "kicker": "On site",
+    "title": "Works on your phone and offline.",
+    "img": "model-scale_phone.png"
+   },
+   {
+    "t": "cta"
+   }
+  ],
+  "caption": "Which board thickness for a 1:100 model? 🏠\nNew free tool: Model Scale & Board.\nPick the scale and the boards you can buy. It gives every wall and slab in model mm and the best board to match.\n✅ Single board or a stack of two\n✅ Base size and a scale figure\n✅ Sheets of board to buy\n⬇️ Free download / use online:\nsimplyrendered.github.io/smart-tools/model-scale\n(tap the link in our bio → T-45)\nFoam board or mount board? 👇\nSave this for your next jury model.",
+  "hashtags": "#architecturemodel #modelmaking #architecturalmodel #physicalmodel #scalemodel #foamboard #maquette #designstudio #architecture #architect #architecturestudent #archistudent #architecturetools #freetools #smarttoolseveryweek",
+  "alt": [
+   "Model section with wall and slab boards and a scale figure",
+   "Full screenshot of the Model Scale & Board tool",
+   "Feature list",
+   "Cutting list with real size, size at scale, best board and error",
+   "Four steps to use the tool",
+   "Tool running on a phone",
+   "Follow @smart_tools_every_week, link in bio"
+  ]
+ }
+]

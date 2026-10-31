@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Screen Size for a Room</title>
+<meta name="description" content="Enter how far the back and front rows sit and what people will look at. Get the screen size the room really needs, where to mount it, the ceiling and viewing-angle checks and the projector throw, on a live section and plan.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: drafting sheet — title block header, input column + two drawings, data table below */
+:root{
+  --paper:#F2F3EF; --sheet:#FBFBF8; --ink:#1B2732; --ink-2:#4A5865; --rule:#D5D9D4; --grid:#E6E8E3;
+  --red:#C8432B; --blue:#2E66A6; --sun:#E09A1E; --shadow:rgba(27,39,50,.22);
+  --display:'Barlow Condensed','Arial Narrow',sans-serif; --body:'IBM Plex Sans',system-ui,sans-serif; --mono:'IBM Plex Mono',ui-monospace,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#0E1A26; --sheet:#132233; --ink:#E4ECF2; --ink-2:#9DB0C0; --rule:#2A3D52; --grid:#1B2D40;
+  --red:#FF7A5C; --blue:#6FB0F0; --sun:#FFC04D; --shadow:rgba(140,190,240,.25); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0E1A26; --sheet:#132233; --ink:#E4ECF2; --ink-2:#9DB0C0; --rule:#2A3D52; --grid:#1B2D40;
+  --red:#FF7A5C; --blue:#6FB0F0; --sun:#FFC04D; --shadow:rgba(140,190,240,.25); color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--paper);color:var(--ink);font:15px/1.5 var(--body);padding:16px;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px}
+.sheet{max-width:1180px;margin:0 auto;background:var(--sheet);border:1.5px solid var(--ink);}
+.tb{display:grid;grid-template-columns:1fr auto;border-bottom:1.5px solid var(--ink)}
+.tb h1{font:700 clamp(30px,5vw,46px)/1 var(--display);letter-spacing:.01em;margin:0;padding:18px 20px 14px;text-transform:uppercase;text-wrap:balance}
+.tb h1 small{display:block;font:500 14px/1.4 var(--body);letter-spacing:0;text-transform:none;color:var(--ink-2);margin-top:6px}
+.tb .meta{display:grid;grid-template-columns:auto auto;border-left:1.5px solid var(--ink);font:12px/1.2 var(--mono)}
+.tb .meta div{padding:8px 12px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule)}
+.tb .meta b{display:block;font:600 10px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-bottom:4px}
+.main{display:grid;grid-template-columns:320px 1fr;}
+.inputs{border-right:1.5px solid var(--ink);padding:18px 20px;display:flex;flex-direction:column;gap:14px}
+label{display:flex;flex-direction:column;gap:5px;font:600 11px/1 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+input,select{font:500 15px/1.2 var(--mono);color:var(--ink);background:var(--paper);border:1px solid var(--rule);padding:9px 10px;border-radius:0;width:100%}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
+input[type=range]{padding:0;accent-color:var(--red)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+button{font:600 12px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;background:transparent;color:var(--ink);border:1px solid var(--ink);padding:8px 10px;cursor:pointer}
+button:hover{background:var(--ink);color:var(--sheet)}
+.time{font:500 28px/1 var(--mono);color:var(--red)}
+.views{display:grid;grid-template-columns:1fr 1fr;min-width:0}
+.view{padding:14px 16px 10px;min-width:0;border-bottom:1.5px solid var(--ink)}
+.view+.view{border-left:1px solid var(--rule)}
+.view h2,.data h2{font:600 20px/1 var(--display);text-transform:uppercase;letter-spacing:.04em;margin:0 0 8px;display:flex;justify-content:space-between;gap:8px}
+.view h2 span,.data h2 span{font:400 11px/1.6 var(--mono);color:var(--ink-2);text-transform:none;letter-spacing:0}
+svg{width:100%;height:auto;display:block}
+.readout{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1.5px solid var(--ink)}
+.readout div{padding:12px 16px;border-right:1px solid var(--rule)}
+.readout div:last-child{border-right:0}
+.readout b{display:block;font:600 10px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-bottom:6px}
+.readout span{font:500 24px/1 var(--mono);font-variant-numeric:tabular-nums}
+.readout .hi{color:var(--red)}
+.data{padding:14px 16px}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font:13px/1.3 var(--mono);font-variant-numeric:tabular-nums}
+th,td{padding:6px 10px;border-bottom:1px solid var(--rule);text-align:right;white-space:nowrap}
+th{font:600 10px/1.2 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+th:first-child,td:first-child{text-align:left}
+tr.now td{color:var(--red);font-weight:500}
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;padding:10px 16px;border-top:1.5px solid var(--ink);font:12px/1.4 var(--mono);color:var(--ink-2)}
+.note{font:12px/1.5 var(--body);color:var(--ink-2);margin:0}
+@media (max-width:900px){.main{grid-template-columns:1fr}.inputs{border-right:0;border-bottom:1.5px solid var(--ink)}}
+@media (max-width:640px){.views{grid-template-columns:1fr}.view+.view{border-left:0}.readout{grid-template-columns:repeat(2,1fr)}.readout div:nth-child(2){border-right:0}.readout div{border-bottom:1px solid var(--rule)}.tb{grid-template-columns:1fr}.tb .meta{border-left:0;border-top:1px solid var(--rule)}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.dl{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;padding:12px 20px;border-bottom:1.5px solid var(--ink);background:var(--paper)}
+.dl a.btn{font:600 13px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;background:var(--red);color:#fff;text-decoration:none;padding:11px 14px;border:1px solid var(--red)}
+.dl a.btn:hover{background:var(--ink);border-color:var(--ink);color:var(--sheet)}
+.dl span{font:13px/1.4 var(--body);color:var(--ink-2);flex:1;min-width:180px}
+.dl a.more{font:500 13px/1 var(--mono);color:var(--blue)}
+
+:root{--ok:#2F8A57;--okbg:rgba(47,138,87,.12);--bad:#C8432B;--badbg:rgba(200,67,43,.10);--warn:#B7791F}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ok:#5FD08F;--okbg:rgba(95,208,143,.14);--bad:#FF7A5C;--badbg:rgba(255,122,92,.12);--warn:#F2B84B}}
+:root[data-theme="dark"]{--ok:#5FD08F;--okbg:rgba(95,208,143,.14);--bad:#FF7A5C;--badbg:rgba(255,122,92,.12);--warn:#F2B84B}
+.pill{display:inline-block;font:600 11px/1 var(--body);letter-spacing:.08em;text-transform:uppercase;padding:5px 7px;border:1px solid currentColor}
+.pill.ok{color:var(--ok);background:var(--okbg)} .pill.bad{color:var(--bad);background:var(--badbg)} .pill.warn{color:var(--warn)}
+td.ok{color:var(--ok)} td.bad{color:var(--bad)}
+.readout .ok{color:var(--ok)} .readout .bad{color:var(--bad)}
+.view.full{grid-column:1/-1}
+.checks{list-style:none;margin:0;padding:0}
+.checks li{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:8px 0;border-bottom:1px solid var(--rule);font:13px/1.35 var(--body)}
+.checks li span:first-child{min-width:0}
+select{appearance:auto}
+.view.full svg{max-height:320px}</style>
+</head>
+<body>
+<div class="sheet">
+  <header class="tb">
+    <h1>Screen Size for a Room<small>Enter how far the back and front rows sit and what people will look at. Get the screen size the room really needs, where to mount it, the ceiling and viewing-angle checks and the projector throw, on a live section and plan.</small></h1>
+    <div class="meta"><div><b>Sheet</b>T-42</div><div><b>Method</b>4/6/8 image-height rule</div><div><b>Units</b>m, inches</div><div><b>By</b>@smart_tools_every_week</div></div>
+  </header>
+  <div class="dl" id="dlbar"><a class="btn" href="screen-size.html" download="screen-size.html">⬇ Download this app</a><span>Free. One HTML file that works offline. Open it in any browser, no install or sign-up.</span><a class="more" href="../">More free tools →</a></div>
+  <div class="main">
+    <section class="inputs" aria-label="Inputs">
+
+      <div class="row">
+        <label for="far">Farthest viewer m<input id="far" type="number" step="0.1" value="8.5"></label>
+        <label for="near">Closest viewer m<input id="near" type="number" step="0.1" value="3.0"></label>
+      </div>
+      <label for="ct">What they look at
+        <select id="ct">
+          <option value="4">Fine detail, CAD, drawings · ÷4</option>
+          <option value="6" selected>Text, slides, spreadsheets · ÷6</option>
+          <option value="8">Video, pictures · ÷8</option>
+        </select>
+      </label>
+      <div class="row">
+        <label for="ar">Aspect
+          <select id="ar"><option value="16,9" selected>16:9</option><option value="16,10">16:10</option><option value="4,3">4:3</option><option value="21,9">21:9</option></select>
+        </label>
+        <label for="pl">Planned display inch<input id="pl" type="number" step="1" value="86"></label>
+      </div>
+      <div class="row">
+        <label for="ch">Ceiling height m<input id="ch" type="number" step="0.05" value="3.0"></label>
+        <label for="sb">Screen bottom m<input id="sb" type="number" step="0.05" value="1.2"></label>
+      </div>
+      <div class="row">
+        <label for="eye">Seated eye height m<input id="eye" type="number" step="0.05" value="1.2"></label>
+        <label for="hw">Front row half-width m<input id="hw" type="number" step="0.1" value="1.6"></label>
+      </div>
+      <label for="tr">Projector throw ratio<input id="tr" type="number" step="0.05" value="1.5"></label>
+      <p class="note">Distances are measured from the screen. Front row half-width: from the room centre line to the outer seat of the front row. Throw ratio is in the projector's data sheet (short throw about 0.5, standard 1.2 to 2.0). Displays are sized by their diagonal in inches.</p>
+
+    </section>
+    <section style="min-width:0">
+
+      <div class="readout">
+        <div><b>Screen needed</b><span id="oD" class="hi">–</span></div>
+        <div><b>Image height</b><span id="oH">–</span></div>
+        <div><b>Planned display reads to</b><span id="oP">–</span></div>
+        <div><b>Projector throw</b><span id="oT">–</span></div>
+      </div>
+      <div class="views">
+        <div class="view full"><h2>Section <span id="seL"></span></h2><svg id="se" viewBox="0 0 580 215" role="img" aria-label="Room section with the screen and the viewers"></svg></div>
+        <div class="view"><h2>Plan <span id="plL"></span></h2><svg id="pn" viewBox="0 0 420 300" role="img" aria-label="Plan with viewing angles"></svg></div>
+        <div class="view"><h2>Checks <span id="ckL"></span></h2><ul class="checks" id="checks"></ul></div>
+      </div>
+      <div class="data"><h2>Standard sizes in this room <span id="dtL"></span></h2><div class="tablewrap"><table><thead><tr><th>Diagonal</th><th>Width × height</th><th>Readable to</th><th>Front row from</th><th>Top edge</th><th>Throw</th><th></th></tr></thead><tbody id="tb"></tbody></table></div></div>
+
+    </section>
+  </div>
+  <footer class="foot"><span>Free tool · @smart_tools_every_week · simplyrendered.github.io/smart-tools · built with Claude</span><span>Image height ≥ farthest viewer ÷ 4 (fine detail, CAD), ÷ 6 (reading text, spreadsheets) or ÷ 8 (video, images); closest viewer ≥ 2 × image height; screen bottom about 1.1 to 1.2 m above the floor; viewers within 30° of the screen axis (45° at most); screen centre no more than 20° above eye level (Projection Rules, proav.de, after the InfoComm/AVIXA 4/6/8 rule). The newer ANSI/AVIXA V202.01:2016 (DISCAS) sizes from the actual content and is worth using for critical rooms. Throw distance = throw ratio × image width.</span></footer>
+</div>
+<script>
+if(location.protocol==="file:"){const b=document.getElementById("dlbar");if(b)b.hidden=true;}
+const $=id=>document.getElementById(id);
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const NS="http://www.w3.org/2000/svg";
+function el(tag,attrs,parent,text){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(text!=null)e.textContent=text;parent&&parent.appendChild(e);return e}
+const fmt=(v,d=2)=>Number.isFinite(v)?v.toFixed(d):"–";
+
+const num=(id,min,max,def)=>{const v=parseFloat($(id).value);return Number.isFinite(v)?Math.min(max,Math.max(min,v)):def};
+const SIZES=[55,65,75,86,98,110,120,135,150,180,200];
+const IN=0.0254,deg=r=>r*180/Math.PI;
+function calc(){
+  const [aw,ah]=$("ar").value.split(",").map(Number);const k=[4,6,8].includes(+$("ct").value)?+$("ct").value:6;
+  const p={far:num("far",1,100,8.5),near:num("near",0.3,50,2.5),k,aw,ah,pl:num("pl",10,400,86),ch:num("ch",2,30,3),sb:num("sb",0,10,1.2),eye:num("eye",0.5,3,1.2),hw:num("hw",0,30,1.6),tr:num("tr",0.1,10,1.5)};
+  if(p.near>p.far)p.near=p.far;
+  const hk=Math.hypot(aw,ah);p.hf=ah/hk;p.wf=aw/hk; // height and width per unit diagonal
+  p.hMin=p.far/k;p.hMax=p.near/2;p.h=p.hMin;p.w=p.h*aw/ah;p.diag=p.h/p.hf/IN;
+  p.top=p.sb+p.h;p.throwD=p.tr*p.w;
+  p.vang=deg(Math.atan((p.sb+p.h/2-p.eye)/p.near));p.hang=deg(Math.atan(p.hw/p.near));
+  p.plH=p.pl*IN*p.hf;p.plW=p.pl*IN*p.wf;p.plReach=p.plH*k;
+  p.checks=[
+    ["Closest row at least 2 × image height",p.near>=2*p.h-1e-9,`${fmt(p.near,1)} m vs ${fmt(2*p.h,2)} m`],
+    ["Top of image below the ceiling",p.top<=p.ch-0.05,`top at ${fmt(p.top,2)} m, ceiling ${fmt(p.ch,2)} m`],
+    ["Screen centre ≤ 20° above front-row eyes",p.vang<=20,`${fmt(p.vang,1)}°`],
+    ["Front row within 45° of the axis",p.hang<=45,`${fmt(p.hang,0)}° (ideal ≤ 30°)`],
+    ["Planned "+Math.round(p.pl)+"\" display big enough",p.plReach>=p.far-1e-9,`readable to ${fmt(p.plReach,1)} m`]];
+  return p;
+}
+function render(){
+  const p=calc(),ink=css("--ink"),ink2=css("--ink-2"),rule=css("--rule"),red=css("--red"),blue=css("--blue"),sheet=css("--sheet"),sun=css("--sun"),ok=css("--ok"),bad=css("--bad");
+  const M="IBM Plex Mono, monospace";
+  $("oD").textContent=Math.ceil(p.diag)+"\"";$("oH").textContent=fmt(p.h,2)+" m";
+  $("oP").textContent=fmt(p.plReach,1)+" m";$("oP").className=p.plReach>=p.far-1e-9?"ok":"bad";
+  $("oT").textContent=fmt(p.throwD,2)+" m";
+  // section
+  const sv=$("se");sv.innerHTML="";const D=Math.max(p.far+1,p.throwD+0.5),Hh=Math.max(p.ch,p.top+0.2),sc=Math.min(480/D,180/Hh),x0=56,gy=205,X=d=>x0+d*sc,Y=h=>gy-h*sc;
+  el("line",{x1:x0-20,y1:gy,x2:X(D),y2:gy,stroke:ink,"stroke-width":2},sv);
+  el("line",{x1:x0-20,y1:Y(p.ch),x2:X(D),y2:Y(p.ch),stroke:ink,"stroke-width":2},sv);
+  el("line",{x1:x0,y1:gy,x2:x0,y2:Y(p.ch),stroke:ink,"stroke-width":3},sv);
+  const top=p.top>p.ch-0.05;
+  el("rect",{x:x0,y:Y(p.top),width:6,height:p.h*sc,fill:top?bad:blue},sv);
+  if(p.plH>0)el("rect",{x:x0+8,y:Y(p.sb+p.plH),width:4,height:p.plH*sc,fill:sun},sv);
+  const ce=p.sb+p.h/2;
+  for(const [d,c,lab] of [[p.near,ink2,"front"],[p.far,red,"back"]]){
+    el("circle",{cx:X(d),cy:Y(p.eye),r:7,fill:c},sv);el("line",{x1:X(d),y1:Y(p.eye)+7,x2:X(d),y2:gy,stroke:c,"stroke-width":2},sv);
+    el("line",{x1:X(d),y1:Y(p.eye),x2:x0+6,y2:Y(p.top),stroke:c,"stroke-dasharray":"5 4",opacity:.8},sv);
+    el("line",{x1:X(d),y1:Y(p.eye),x2:x0+6,y2:Y(p.sb),stroke:c,"stroke-dasharray":"5 4",opacity:.8},sv);
+    el("text",{x:X(d),y:Y(p.eye)-14,"text-anchor":"middle",fill:c,"font-size":13,"font-family":M},sv,`${fmt(d,1)} m`)}
+  // projector
+  if(p.throwD<D){el("rect",{x:X(p.throwD)-12,y:Y(p.ch)+4,width:24,height:12,fill:ink2},sv);
+    el("line",{x1:X(p.throwD)-12,y1:Y(p.ch)+10,x2:x0+6,y2:Y(p.top),stroke:sun,opacity:.6},sv);el("line",{x1:X(p.throwD)-12,y1:Y(p.ch)+10,x2:x0+6,y2:Y(p.sb),stroke:sun,opacity:.6},sv);
+    el("text",{x:X(p.throwD),y:Y(p.ch)+32,"text-anchor":"middle",fill:ink2,"font-size":12,"font-family":M},sv,`projector ${fmt(p.throwD,2)} m`)}
+  el("text",{x:x0+14,y:Y(p.top)-6,fill:ink,"font-size":13,"font-family":M},sv,`${Math.ceil(p.diag)}" · ${fmt(p.h,2)} m high`);
+  el("text",{x:x0+14,y:Y(p.sb)+16,fill:sun,"font-size":12,"font-family":M},sv,`planned ${Math.round(p.pl)}" = ${fmt(p.plH,2)} m high`);
+  el("text",{x:x0-8,y:Y(p.sb)+4,"text-anchor":"end",fill:ink2,"font-size":11,"font-family":M},sv,fmt(p.sb,2));
+  $("seL").textContent=`farthest ÷ ${p.k} = image height`;
+  // plan
+  const s2=$("pn");s2.innerHTML="";const W=Math.max(p.w,p.hw*2,1)+1,ps=Math.min(380/W,250/Math.max(p.far,1)),cx=210,py=30,PX=x=>cx+x*ps,PY=d=>py+d*ps;
+  const wedge=(a,c,o)=>{const r=Math.max(p.far,1)*ps*1.02,t=a*Math.PI/180;el("path",{d:`M${cx},${py} L${cx-r*Math.sin(t)},${py+r*Math.cos(t)} A${r},${r} 0 0 0 ${cx+r*Math.sin(t)},${py+r*Math.cos(t)} Z`,fill:c,opacity:o},s2)};
+  wedge(45,sun,.12);wedge(30,ok,.14);
+  el("line",{x1:PX(-p.w/2),y1:py,x2:PX(p.w/2),y2:py,stroke:blue,"stroke-width":6},s2);
+  el("line",{x1:PX(-p.hw),y1:PY(p.near),x2:PX(p.hw),y2:PY(p.near),stroke:p.hang<=45?ink2:bad,"stroke-width":5},s2);
+  el("line",{x1:PX(-p.hw),y1:PY(p.far),x2:PX(p.hw),y2:PY(p.far),stroke:red,"stroke-width":5},s2);
+  el("text",{x:cx,y:py+18,"text-anchor":"middle",fill:ink,"font-size":12,"font-family":M},s2,`screen ${fmt(p.w,2)} m wide`);
+  el("text",{x:cx,y:Math.min(292,PY(p.far)+18),"text-anchor":"middle",fill:red,"font-size":12,"font-family":M},s2,"back row");
+  el("text",{x:8,y:292,fill:ok,"font-size":11,"font-family":M},s2,"green 30°  ·  amber 45°");
+  $("plL").textContent=`front row at ${fmt(p.hang,0)}°`;
+  $("checks").innerHTML=p.checks.map(([t,o,v])=>`<li><span>${t}<br><small style="color:var(--ink-2);font-family:var(--mono)">${v}</small></span><span class="pill ${o?'ok':'bad'}">${o?'ok':'no'}</span></li>`).join("");
+  const nb=p.checks.filter(c=>!c[1]).length;$("ckL").textContent=nb?nb+" to fix":"all pass";
+  // table
+  $("tb").innerHTML=SIZES.map(s=>{const h=s*IN*p.hf,w=s*IN*p.wf,reach=h*p.k,topE=p.sb+h,okk=reach>=p.far-1e-9&&topE<=p.ch-0.05&&p.near>=2*h-1e-9;
+    return `<tr${Math.ceil(p.diag)<=s&&SIZES.filter(z=>z<s).every(z=>z<Math.ceil(p.diag))?' class="now"':''}><td>${s}"</td><td>${fmt(w,2)} × ${fmt(h,2)} m</td><td class="${reach>=p.far-1e-9?'ok':'bad'}">${fmt(reach,1)} m</td><td class="${p.near>=2*h-1e-9?'ok':'bad'}">${fmt(2*h,2)} m</td><td class="${topE<=p.ch-0.05?'ok':'bad'}">${fmt(topE,2)} m</td><td>${fmt(p.tr*w,2)} m</td><td><span class="pill ${okk?'ok':'bad'}">${okk?'works':'no'}</span></td></tr>`}).join("");
+  $("dtL").textContent=`back row ${fmt(p.far,1)} m · ÷${p.k}`;
+}
+
+document.querySelectorAll("input,select").forEach(i=>i.addEventListener("input",render));
+window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",render);
+new MutationObserver(render).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+render();
+</script>
+</body>
+</html>

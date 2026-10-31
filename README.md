@@ -24,11 +24,32 @@ Live: https://simplyrendered.github.io/smart-tools/
 | T-16 | Plot Envelope & FAR | [open](https://simplyrendered.github.io/smart-tools/plot-envelope/) | [plot-envelope.html](plot-envelope/plot-envelope.html) |
 | T-17 | Carpet Area (RERA) | [open](https://simplyrendered.github.io/smart-tools/carpet-area/) | [carpet-area.html](carpet-area/carpet-area.html) |
 | T-18 | Cut & Fill | [open](https://simplyrendered.github.io/smart-tools/cut-fill/) | [cut-fill.html](cut-fill/cut-fill.html) |
+| T-19 | Rooftop Solar Layout | [open](https://simplyrendered.github.io/smart-tools/rooftop-solar/) | [rooftop-solar.html](rooftop-solar/rooftop-solar.html) |
+| T-20 | Wall U-Value | [open](https://simplyrendered.github.io/smart-tools/wall-u-value/) | [wall-u-value.html](wall-u-value/wall-u-value.html) |
+| T-21 | Parking Layout | [open](https://simplyrendered.github.io/smart-tools/parking-layout/) | [parking-layout.html](parking-layout/parking-layout.html) |
+| T-22 | Plaster & Paint Quantity | [open](https://simplyrendered.github.io/smart-tools/plaster-paint/) | [plaster-paint.html](plaster-paint/plaster-paint.html) |
+| T-23 | Retaining Wall Check | [open](https://simplyrendered.github.io/smart-tools/retaining-wall/) | [retaining-wall.html](retaining-wall/retaining-wall.html) |
+| T-24 | Bathroom Planner | [open](https://simplyrendered.github.io/smart-tools/bathroom-planner/) | [bathroom-planner.html](bathroom-planner/bathroom-planner.html) |
+| T-25 | Camera Lens & Framing | [open](https://simplyrendered.github.io/smart-tools/camera-fov/) | [camera-fov.html](camera-fov/camera-fov.html) |
+| T-26 | Roof Pitch & Rafter | [open](https://simplyrendered.github.io/smart-tools/roof-pitch/) | [roof-pitch.html](roof-pitch/roof-pitch.html) |
+| T-27 | Render Size for Print | [open](https://simplyrendered.github.io/smart-tools/render-print/) | [render-print.html](render-print/render-print.html) |
 | T-28 | Natural Ventilation | [open](https://simplyrendered.github.io/smart-tools/natural-ventilation/) | [natural-ventilation.html](natural-ventilation/natural-ventilation.html) |
 | T-29 | Arch & Curve Setting-out | [open](https://simplyrendered.github.io/smart-tools/arch-setting-out/) | [arch-setting-out.html](arch-setting-out/arch-setting-out.html) |
 | T-30 | Driveway Turning | [open](https://simplyrendered.github.io/smart-tools/driveway-turning/) | [driveway-turning.html](driveway-turning/driveway-turning.html) |
 | T-31 | Sightline & Seating Rake | [open](https://simplyrendered.github.io/smart-tools/sightline-rake/) | [sightline-rake.html](sightline-rake/sightline-rake.html) |
 | T-32 | Drain Gradient & Invert Levels | [open](https://simplyrendered.github.io/smart-tools/drain-gradient/) | [drain-gradient.html](drain-gradient/drain-gradient.html) |
 | T-33 | Water Demand & Tank Sizing | [open](https://simplyrendered.github.io/smart-tools/water-demand/) | [water-demand.html](water-demand/water-demand.html) |
+| T-34 | Spiral Staircase Geometry | [open](https://simplyrendered.github.io/smart-tools/spiral-stair/) | [spiral-stair.html](spiral-stair/spiral-stair.html) |
+| T-35 | Gutter & Downpipe Sizer | [open](https://simplyrendered.github.io/smart-tools/gutter-sizer/) | [gutter-sizer.html](gutter-sizer/gutter-sizer.html) |
+| T-36 | AC Cooling Load | [open](https://simplyrendered.github.io/smart-tools/cooling-load/) | [cooling-load.html](cooling-load/cooling-load.html) |
+| T-37 | Car Ramp Scrape Check | [open](https://simplyrendered.github.io/smart-tools/car-ramp/) | [car-ramp.html](car-ramp/car-ramp.html) |
+| T-38 | Baluster & Slat Spacing | [open](https://simplyrendered.github.io/smart-tools/baluster-spacing/) | [baluster-spacing.html](baluster-spacing/baluster-spacing.html) |
+| T-39 | Perspective Setup | [open](https://simplyrendered.github.io/smart-tools/perspective-setup/) | [perspective-setup.html](perspective-setup/perspective-setup.html) |
+| T-40 | Shelf Sag Check | [open](https://simplyrendered.github.io/smart-tools/shelf-sag/) | [shelf-sag.html](shelf-sag/shelf-sag.html) |
+| T-41 | Curtain Fabric Calculator | [open](https://simplyrendered.github.io/smart-tools/curtain-fabric/) | [curtain-fabric.html](curtain-fabric/curtain-fabric.html) |
+| T-42 | Screen Size for a Room | [open](https://simplyrendered.github.io/smart-tools/screen-size/) | [screen-size.html](screen-size/screen-size.html) |
+| T-43 | Plot Area from Sides | [open](https://simplyrendered.github.io/smart-tools/plot-area/) | [plot-area.html](plot-area/plot-area.html) |
+| T-44 | Sign Letter Height | [open](https://simplyrendered.github.io/smart-tools/sign-letters/) | [sign-letters.html](sign-letters/sign-letters.html) |
+| T-45 | Model Scale & Board | [open](https://simplyrendered.github.io/smart-tools/model-scale/) | [model-scale.html](model-scale/model-scale.html) |
 
 Each app is a single self-contained HTML file. Download it and open it in any browser; it works offline.

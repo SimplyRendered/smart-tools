@@ -1584,5 +1584,796 @@
   "end": {
    "cap": "Right-size <em>every tank</em>"
   }
+ },
+ "spiral-stair": {
+  "no": "T-34",
+  "name": "Spiral Stair",
+  "vo": [
+   "Judging a spiral tread by its outer edge? That looks like five hundred twenty four millimetres.",
+   "But where you walk, it's only one hundred ninety nine.",
+   "Shrink the tread angle and watch it fall.",
+   "It's free, and the link's in my bio."
+  ],
+  "wrong": {
+   "label": "✕ The usual way",
+   "cap": "Judge it <em>by the rim?</em>",
+   "html": "<svg viewBox='0 0 920 900' xmlns='http://www.w3.org/2000/svg' font-family='IBM Plex Mono, monospace'><path d='M 445 694 L 250 356 A 420 420 0 0 1 670 356 L 475 694 A 30 30 0 0 0 445 694 Z' fill='#1E3349' stroke='#E4ECF2' stroke-width='5'/><circle cx='460' cy='720' r='30' fill='#9DB0C0'/><text x='460' y='150' fill='#E4ECF2' font-size='54' text-anchor='middle'>524 mm deep</text><text x='460' y='205' fill='#9DB0C0' font-size='30' text-anchor='middle'>measured at the outer edge</text><line x1='250' y1='326' x2='670' y2='326' stroke='#FF6B5C' stroke-width='5'/><text x='460' y='275' fill='#FF6B5C' font-size='38' text-anchor='middle'>but nobody walks on the rim</text></svg>",
+   "stamp": "right:40px;top:790px"
+  },
+  "appcss": ".inputs,.dl{display:none!important}.main{grid-template-columns:1fr!important}.tb{display:none}.views ~ .views{display:none}.data{display:none}",
+  "init": [],
+  "right": [
+   {
+    "cap": "Walkline tread <i>199 mm</i>",
+    "actions": [
+     {
+      "at": -0.3,
+      "dur": 0,
+      "scroll": ".readout",
+      "offset": -4
+     }
+    ]
+   },
+   {
+    "cap": "Smaller angle, <i>tighter tread</i>",
+    "actions": [
+     {
+      "at": 0,
+      "dur": 2.1,
+      "slide": "th",
+      "from": 30,
+      "to": 22,
+      "round": 0.5
+     }
+    ]
+   }
+  ],
+  "cmp": {
+   "guess": "524 mm",
+   "real": "#oT",
+   "gl": "At the rim",
+   "rl": "Walkline now"
+  },
+  "end": {
+   "cap": "Treads you can <em>really use</em>"
+  }
+ },
+ "gutter-sizer": {
+  "no": "T-35",
+  "name": "Gutter Sizer",
+  "vo": [
+   "One downpipe for every fifty square metres? That ignores how hard it rains.",
+   "At two hundred fifty millimetres an hour, this roof needs two pipes.",
+   "Slide the rainfall and watch the pipe count change.",
+   "It's free, and the link's in my bio."
+  ],
+  "wrong": {
+   "label": "✕ The usual way",
+   "cap": "One pipe <em>per 50 m²?</em>",
+   "html": "<svg viewBox='0 0 920 900' xmlns='http://www.w3.org/2000/svg' font-family='IBM Plex Mono, monospace'><rect x='150' y='170' width='620' height='330' fill='#1E3349' stroke='#E4ECF2' stroke-width='5'/><rect x='150' y='500' width='620' height='26' fill='#6FB0F0' opacity='.45' stroke='#6FB0F0' stroke-width='4'/><circle cx='170' cy='513' r='14' fill='#FF6B5C'/><line x1='170' y1='527' x2='170' y2='620' stroke='#FF6B5C' stroke-width='9'/><text x='460' y='350' fill='#E4ECF2' font-size='62' text-anchor='middle'>50 m² roof</text><text x='460' y='420' fill='#9DB0C0' font-size='34' text-anchor='middle'>1 downpipe per 50 m²</text><text x='460' y='80' fill='#FF6B5C' font-size='42' text-anchor='middle'>same pipe in drizzle</text><text x='460' y='128' fill='#FF6B5C' font-size='42' text-anchor='middle'>and in a cloudburst?</text></svg>",
+   "stamp": "right:40px;top:790px"
+  },
+  "appcss": ".inputs,.dl{display:none!important}.main{grid-template-columns:1fr!important}.tb{display:none}.views ~ .views{display:none}.data{display:none}",
+  "init": [
+   [
+    "setv",
+    "L",
+    10
+   ],
+   [
+    "setv",
+    "W",
+    5
+   ],
+   [
+    "setv",
+    "i",
+    150
+   ]
+  ],
+  "right": [
+   {
+    "cap": "150 mm/h: <i>one pipe</i>",
+    "actions": [
+     {
+      "at": -0.3,
+      "dur": 0,
+      "scroll": ".readout",
+      "offset": -4
+     }
+    ]
+   },
+   {
+    "cap": "Heavier rain, <i>more pipes</i>",
+    "actions": [
+     {
+      "at": 0,
+      "dur": 2.1,
+      "slide": "i",
+      "from": 150,
+      "to": 250,
+      "round": 10
+     }
+    ]
+   }
+  ],
+  "cmp": {
+   "guess": "1 pipe",
+   "real": "#oN",
+   "gl": "Usual way",
+   "rl": "Pipes now"
+  },
+  "end": {
+   "cap": "Pipes sized <em>for the storm</em>"
+  }
+ },
+ "cooling-load": {
+  "no": "T-36",
+  "name": "AC Load",
+  "vo": [
+   "One ton for every hundred square feet? For this room, that says two point two.",
+   "Counting the sun, roof and people, it's one point six four tons.",
+   "Add shading and watch the load drop.",
+   "It's free, and the link's in my bio."
+  ],
+  "wrong": {
+   "label": "✕ The usual way",
+   "cap": "1 TR per <em>100 sq ft?</em>",
+   "html": "<svg viewBox='0 0 920 900' xmlns='http://www.w3.org/2000/svg' font-family='IBM Plex Mono, monospace'><rect x='200' y='230' width='520' height='400' fill='#1E3349' stroke='#E4ECF2' stroke-width='5'/><rect x='194' y='350' width='12' height='160' fill='#6FB0F0'/><text x='460' y='390' fill='#E4ECF2' font-size='54' text-anchor='middle'>215 sq ft</text><text x='460' y='460' fill='#E4ECF2' font-size='46' text-anchor='middle'>÷ 100 = 2.2 TR</text><text x='460' y='200' fill='#9DB0C0' font-size='34' text-anchor='middle'>1 TR per 100 sq ft</text><text x='460' y='80' fill='#FF6B5C' font-size='42' text-anchor='middle'>sun, roof and people</text><text x='460' y='128' fill='#FF6B5C' font-size='42' text-anchor='middle'>not counted</text></svg>",
+   "stamp": "right:40px;top:790px"
+  },
+  "appcss": ".inputs,.dl{display:none!important}.main{grid-template-columns:1fr!important}.tb{display:none}.data{display:none}",
+  "init": [],
+  "right": [
+   {
+    "cap": "Real load <i>1.64 TR</i>",
+    "actions": [
+     {
+      "at": -0.3,
+      "dur": 0,
+      "scroll": ".readout",
+      "offset": -4
+     }
+    ]
+   },
+   {
+    "cap": "More shade, <i>less tonnage</i>",
+    "actions": [
+     {
+      "at": 0,
+      "dur": 2.1,
+      "slide": "sh",
+      "from": 1,
+      "to": 0.4,
+      "round": 0.05
+     }
+    ]
+   }
+  ],
+  "cmp": {
+   "guess": "2.2 TR",
+   "real": "#oT",
+   "gl": "Usual rule",
+   "rl": "Tonnage now"
+  },
+  "end": {
+   "cap": "AC sized <em>to the heat</em>"
+  }
+ },
+ "car-ramp": {
+  "no": "T-37",
+  "name": "Car Ramp",
+  "vo": [
+   "Slope under one in six, so every car clears?",
+   "Not a low sports car. It clears by just two millimetres at the crest.",
+   "Lengthen the transition and watch it grow.",
+   "It's free, and the link's in my bio."
+  ],
+  "wrong": {
+   "label": "✕ The usual way",
+   "cap": "Slope fine, <em>so car fine?</em>",
+   "html": "<svg viewBox='0 0 920 900' xmlns='http://www.w3.org/2000/svg' font-family='IBM Plex Mono, monospace'><text x='460' y='120' fill='#E4ECF2' font-size='44' text-anchor='middle'>ramp slope 1 in 6 (16.7%)</text><text x='460' y='180' fill='#3FD08F' font-size='44' text-anchor='middle'>within the limit ✓</text><text x='460' y='250' fill='#FF6B5C' font-size='44' text-anchor='middle'>so every car clears?</text><g transform='translate(0,60)'><polygon points='40,430 330,430 840,700 840,860 40,860' fill='#6FB0F0' opacity='.18'/><polyline points='40,430 330,430 840,700' fill='none' stroke='#E4ECF2' stroke-width='6'/><g transform='rotate(14 330 430)'><polygon points='150,414 150,370 230,340 330,330 400,352 430,390 430,414 150,414' fill='#6FB0F0' opacity='.55' stroke='#6FB0F0' stroke-width='5'/><circle cx='205' cy='418' r='26' fill='#132233' stroke='#E4ECF2' stroke-width='5'/><circle cx='375' cy='418' r='26' fill='#132233' stroke='#E4ECF2' stroke-width='5'/></g></g><text x='60' y='330' fill='#9DB0C0' font-size='34' text-anchor='start'>a low sports car, belly 110 mm</text></svg>",
+   "stamp": "right:40px;top:790px"
+  },
+  "appcss": ".dl{display:none!important}.tb{display:none}.inputs .row:not(:nth-of-type(2)),.inputs>label,.inputs .note,.inputs button,.inputs label[for=mg]{display:none!important}.inputs{padding:10px 16px!important}.views .view:nth-child(1),.views .view:nth-child(3){display:none}.data{display:none}.foot{display:none}",
+  "init": [
+   [
+    "setv",
+    "hh",
+    3
+   ],
+   [
+    "setv",
+    "sl",
+    16.7
+   ],
+   [
+    "setv",
+    "wb",
+    2.6
+   ],
+   [
+    "setv",
+    "gc",
+    0.11
+   ],
+   [
+    "setv",
+    "fo",
+    0.95
+   ],
+   [
+    "setv",
+    "ro",
+    0.95
+   ],
+   [
+    "setv",
+    "ap",
+    11
+   ],
+   [
+    "setv",
+    "dp",
+    14
+   ],
+   [
+    "setv",
+    "lt",
+    0
+   ]
+  ],
+  "right": [
+   {
+    "cap": "Low car · <i>2 mm clear</i>",
+    "actions": [
+     {
+      "at": -0.3,
+      "dur": 0,
+      "scroll": ".readout",
+      "offset": -20
+     }
+    ]
+   },
+   {
+    "cap": "Longer transition, <i>more room</i>",
+    "actions": [
+     {
+      "at": 0.1,
+      "dur": 2.0,
+      "slide": "lt",
+      "from": 0,
+      "to": 1.5,
+      "round": 0.1
+     }
+    ]
+   }
+  ],
+  "cmp": {
+   "guess": "Slope OK",
+   "real": "#oMin",
+   "gl": "Usual check",
+   "rl": "Clearance now"
+  },
+  "end": {
+   "cap": "Check the <em>scrape</em>"
+  }
+ },
+ "baluster-spacing": {
+  "no": "T-38",
+  "name": "Baluster Gaps",
+  "vo": [
+   "Hundred millimetre gaps from the post, and cut the last to suit?",
+   "The last gap is a hundred and seventy three, too wide. Equal gaps: ninety six.",
+   "Change the length, and the gaps stay equal.",
+   "It's free, and the link's in my bio."
+  ],
+  "wrong": {
+   "label": "✕ The usual way",
+   "cap": "Fixed gaps, <em>odd one out</em>",
+   "html": "<svg viewBox='0 0 920 900' xmlns='http://www.w3.org/2000/svg' font-family='IBM Plex Mono, monospace'><text x='460' y='120' fill='#E4ECF2' font-size='44' text-anchor='middle'>100 mm gaps from the post</text><text x='460' y='180' fill='#9DB0C0' font-size='38' text-anchor='middle'>cut the last one to suit</text><text x='460' y='250' fill='#FF6B5C' font-size='44' text-anchor='middle'>every gap under 100?</text><rect x='40' y='330' width='24' height='300' fill='#E4ECF2'/><rect x='116' y='350' width='10' height='260' fill='#6FB0F0'/><rect x='178' y='350' width='10' height='260' fill='#6FB0F0'/><rect x='240' y='350' width='10' height='260' fill='#6FB0F0'/><rect x='302' y='350' width='10' height='260' fill='#6FB0F0'/><rect x='364' y='350' width='10' height='260' fill='#6FB0F0'/><rect x='426' y='350' width='10' height='260' fill='#6FB0F0'/><rect x='488' y='350' width='10' height='260' fill='#6FB0F0'/><rect x='550' y='350' width='10' height='260' fill='#6FB0F0'/><rect x='612' y='350' width='10' height='260' fill='#6FB0F0'/><rect x='674' y='350' width='10' height='260' fill='#6FB0F0'/><rect x='824' y='330' width='24' height='300' fill='#E4ECF2'/><line x1='684' y1='680' x2='824' y2='680' stroke='#FF6B5C' stroke-width='5'/><text x='824' y='740' fill='#FF6B5C' font-size='40' text-anchor='end'>last gap 173 mm</text><text x='60' y='800' fill='#FF6B5C' font-size='36' text-anchor='start'>4 in sphere passes through</text></svg>",
+   "stamp": "right:40px;top:790px"
+  },
+  "appcss": ".dl{display:none!important}.tb{display:none}.inputs .row:not(:nth-of-type(1)),.inputs>label,.inputs .note,.inputs label[for=mp]{display:none!important}.inputs{padding:10px 16px!important}.views .view:nth-child(2),.views .view:nth-child(3){display:none}.data{display:none}.foot{display:none}",
+  "init": [],
+  "right": [
+   {
+    "cap": "11 per bay · <i>equal gaps</i>",
+    "actions": [
+     {
+      "at": -0.3,
+      "dur": 0,
+      "scroll": ".readout",
+      "offset": -20
+     }
+    ]
+   },
+   {
+    "cap": "Any length, <i>same equal gaps</i>",
+    "actions": [
+     {
+      "at": 0.1,
+      "dur": 2.1,
+      "slide": "L",
+      "from": 4200,
+      "to": 5600,
+      "round": 50
+     }
+    ]
+   }
+  ],
+  "cmp": {
+   "guess": "173 mm last gap",
+   "real": "#oG",
+   "gl": "Fixed gaps",
+   "rl": "Equal gap now"
+  },
+  "end": {
+   "cap": "Equal gaps, <em>every bay</em>"
+  }
+ },
+ "perspective-setup": {
+  "no": "T-39",
+  "name": "Perspective",
+  "vo": [
+   "Pull the vanishing points close to fit the sheet?",
+   "That's a sixty six degree view, wide and stretched. Step back, and it's thirty nine.",
+   "Slide the distance and watch it settle.",
+   "It's free, and the link's in my bio."
+  ],
+  "wrong": {
+   "label": "✕ The usual way",
+   "cap": "VPs close, <em>to fit the paper</em>",
+   "html": "<svg viewBox='0 0 920 900' xmlns='http://www.w3.org/2000/svg' font-family='IBM Plex Mono, monospace'><text x='460' y='120' fill='#E4ECF2' font-size='44' text-anchor='middle'>vanishing points 69 mm apart</text><text x='460' y='180' fill='#3FD08F' font-size='44' text-anchor='middle'>fits the sheet ✓</text><text x='460' y='250' fill='#FF6B5C' font-size='44' text-anchor='middle'>so the view must be fine?</text><polygon points='360,470 520,440 600,520 440,560' fill='#6FB0F0' opacity='.4' stroke='#E4ECF2' stroke-width='4'/><line x1='460' y1='830' x2='150' y2='430' stroke='#F2A93B' stroke-width='4' stroke-dasharray='12 8'/><line x1='460' y1='830' x2='770' y2='430' stroke='#F2A93B' stroke-width='4' stroke-dasharray='12 8'/><circle cx='460' cy='830' r='14' fill='#E4ECF2'/><text x='460' y='880' fill='#9DB0C0' font-size='32' text-anchor='middle'>station point only 6 m away</text></svg>",
+   "stamp": "right:40px;top:790px"
+  },
+  "appcss": ".dl{display:none!important}.tb{display:none}.inputs .row:not(:nth-of-type(3)),.inputs .note,.inputs label[for=th]{display:none!important}.inputs{padding:10px 16px!important}.views .view:nth-child(2){display:none}.data{display:none}.foot{display:none}",
+  "init": [
+   [
+    "setv",
+    "W",
+    18
+   ],
+   [
+    "setv",
+    "D",
+    12
+   ],
+   [
+    "setv",
+    "Hb",
+    12
+   ],
+   [
+    "setv",
+    "sc",
+    200
+   ],
+   [
+    "setv",
+    "sw",
+    "297,210"
+   ],
+   [
+    "setv",
+    "S",
+    6
+   ]
+  ],
+  "right": [
+   {
+    "cap": "Squeezed · <i>66° view</i>",
+    "actions": [
+     {
+      "at": -0.3,
+      "dur": 0,
+      "scroll": ".readout",
+      "offset": -20
+     }
+    ]
+   },
+   {
+    "cap": "Step back, <i>view settles</i>",
+    "actions": [
+     {
+      "at": 0.1,
+      "dur": 2.1,
+      "slide": "S",
+      "from": 6,
+      "to": 20,
+      "round": 0.5
+     }
+    ]
+   }
+  ],
+  "cmp": {
+   "guess": "66° view",
+   "real": "#oA",
+   "gl": "Squeezed",
+   "rl": "View angle now"
+  },
+  "end": {
+   "cap": "No VP <em>off the paper</em>"
+  }
+ },
+ "shelf-sag": {
+  "no": "T-40",
+  "name": "Shelf Sag",
+  "vo": [
+   "Eighteen mil MDF across nine hundred? That's how most bookshelves get built.",
+   "With books on it, it sags over nine millimetres, six times the target.",
+   "Shorten the span and it passes around four ninety.",
+   "It's free, and the link's in my bio."
+  ],
+  "wrong": {
+   "label": "✕ The usual way",
+   "cap": "18 mm MDF, <em>900 span?</em>",
+   "html": "<svg viewBox='0 0 920 900' xmlns='http://www.w3.org/2000/svg' font-family='IBM Plex Mono, monospace'><text x='460' y='110' fill='#E4ECF2' font-size='44' text-anchor='middle'>18 mm MDF · 900 mm span</text><text x='460' y='180' fill='#FF6B5C' font-size='44' text-anchor='middle'>\"it's only books\"</text><rect x='120' y='300' width='40' height='420' fill='none' stroke='#E4ECF2' stroke-width='6'/><rect x='760' y='300' width='40' height='420' fill='none' stroke='#E4ECF2' stroke-width='6'/><rect x='170' y='330' width='25' height='170' fill='#F2A93B' opacity='.45'/><rect x='199' y='367' width='25' height='133' fill='#6FB0F0' opacity='.45'/><rect x='228' y='364' width='25' height='136' fill='#6FB0F0' opacity='.45'/><rect x='257' y='361' width='25' height='139' fill='#F2A93B' opacity='.45'/><rect x='286' y='358' width='25' height='142' fill='#6FB0F0' opacity='.45'/><rect x='315' y='355' width='25' height='145' fill='#6FB0F0' opacity='.45'/><rect x='344' y='352' width='25' height='148' fill='#F2A93B' opacity='.45'/><rect x='373' y='349' width='25' height='151' fill='#6FB0F0' opacity='.45'/><rect x='402' y='346' width='25' height='154' fill='#6FB0F0' opacity='.45'/><rect x='431' y='343' width='25' height='157' fill='#F2A93B' opacity='.45'/><rect x='460' y='340' width='25' height='160' fill='#6FB0F0' opacity='.45'/><rect x='489' y='337' width='25' height='163' fill='#6FB0F0' opacity='.45'/><rect x='518' y='334' width='25' height='166' fill='#F2A93B' opacity='.45'/><rect x='547' y='331' width='25' height='169' fill='#6FB0F0' opacity='.45'/><rect x='576' y='368' width='25' height='132' fill='#6FB0F0' opacity='.45'/><rect x='605' y='365' width='25' height='135' fill='#F2A93B' opacity='.45'/><rect x='634' y='362' width='25' height='138' fill='#6FB0F0' opacity='.45'/><rect x='663' y='359' width='25' height='141' fill='#6FB0F0' opacity='.45'/><rect x='692' y='356' width='25' height='144' fill='#F2A93B' opacity='.45'/><rect x='721' y='353' width='25' height='147' fill='#6FB0F0' opacity='.45'/><rect x='160' y='500' width='600' height='26' fill='#9DB0C0'/><text x='460' y='600' fill='#9DB0C0' font-size='32' text-anchor='middle'>looks flat on the drawing</text></svg>",
+   "stamp": "right:40px;top:790px"
+  },
+  "appcss": ".dl{display:none!important}.tb{display:none!important}.foot{display:none!important}.data{display:none!important}.inputs>*{display:none!important}.inputs{padding:10px 16px!important}.inputs>.row:has(#L){display:grid!important}.views .view:not(.full){display:none!important}",
+  "init": [],
+  "right": [
+   {
+    "cap": "Real sag: <i>9.4 mm</i>",
+    "actions": [
+     {
+      "at": -0.3,
+      "dur": 0,
+      "scroll": 0
+     }
+    ]
+   },
+   {
+    "cap": "Shorter span, <i>it passes</i>",
+    "actions": [
+     {
+      "at": 0,
+      "dur": 2.0,
+      "slide": "L",
+      "from": 900,
+      "to": 480,
+      "round": 10
+     }
+    ]
+   }
+  ],
+  "cmp": {
+   "guess": "Fine",
+   "real": "#oS",
+   "gl": "18 mm, 900",
+   "rl": "Sag now"
+  },
+  "end": {
+   "cap": "Shelves that <em>stay flat</em>"
+  }
+ },
+ "curtain-fabric": {
+  "no": "T-41",
+  "name": "Curtain Fabric",
+  "vo": [
+   "Track times fullness over roll width, times the drop? Fourteen and a half metres.",
+   "Add returns, hems and the pattern repeat, and it's really nineteen point six.",
+   "Change the fullness and the metres update.",
+   "It's free, and the link's in my bio."
+  ],
+  "wrong": {
+   "label": "✕ The usual way",
+   "cap": "Track × fullness <em>÷ roll?</em>",
+   "html": "<svg viewBox='0 0 920 900' xmlns='http://www.w3.org/2000/svg' font-family='IBM Plex Mono, monospace'><text x='460' y='100' fill='#E4ECF2' font-size='40' text-anchor='middle'>2.4 m × 2.5 ÷ 1.37 m = 5 widths</text><text x='460' y='165' fill='#E4ECF2' font-size='40' text-anchor='middle'>5 × (2.6 + 0.3) m</text><text x='460' y='245' fill='#FF6B5C' font-size='64' text-anchor='middle'>= 14.5 m</text><text x='460' y='305' fill='#9DB0C0' font-size='30' text-anchor='middle'>no returns, hems or pattern repeat</text><line x1='200' y1='370' x2='720' y2='370' stroke='#E4ECF2' stroke-width='8'/><line x1='215' y1='375' x2='215' y2='700' stroke='#F2A93B' stroke-width='2' opacity='.7'/><line x1='229' y1='375' x2='229' y2='700' stroke='#F2A93B' stroke-width='5' opacity='.7'/><line x1='243' y1='375' x2='243' y2='700' stroke='#F2A93B' stroke-width='2' opacity='.7'/><line x1='257' y1='375' x2='257' y2='700' stroke='#F2A93B' stroke-width='5' opacity='.7'/><line x1='271' y1='375' x2='271' y2='700' stroke='#F2A93B' stroke-width='2' opacity='.7'/><line x1='285' y1='375' x2='285' y2='700' stroke='#F2A93B' stroke-width='5' opacity='.7'/><line x1='299' y1='375' x2='299' y2='700' stroke='#F2A93B' stroke-width='2' opacity='.7'/><line x1='313' y1='375' x2='313' y2='700' stroke='#F2A93B' stroke-width='5' opacity='.7'/><line x1='327' y1='375' x2='327' y2='700' stroke='#F2A93B' stroke-width='2' opacity='.7'/><line x1='341' y1='375' x2='341' y2='700' stroke='#F2A93B' stroke-width='5' opacity='.7'/><line x1='355' y1='375' x2='355' y2='700' stroke='#F2A93B' stroke-width='2' opacity='.7'/><line x1='369' y1='375' x2='369' y2='700' stroke='#F2A93B' stroke-width='5' opacity='.7'/><line x1='383' y1='375' x2='383' y2='700' stroke='#F2A93B' stroke-width='2' opacity='.7'/><line x1='535' y1='375' x2='535' y2='700' stroke='#F2A93B' stroke-width='2' opacity='.7'/><line x1='549' y1='375' x2='549' y2='700' stroke='#F2A93B' stroke-width='5' opacity='.7'/><line x1='563' y1='375' x2='563' y2='700' stroke='#F2A93B' stroke-width='2' opacity='.7'/><line x1='577' y1='375' x2='577' y2='700' stroke='#F2A93B' stroke-width='5' opacity='.7'/><line x1='591' y1='375' x2='591' y2='700' stroke='#F2A93B' stroke-width='2' opacity='.7'/><line x1='605' y1='375' x2='605' y2='700' stroke='#F2A93B' stroke-width='5' opacity='.7'/><line x1='619' y1='375' x2='619' y2='700' stroke='#F2A93B' stroke-width='2' opacity='.7'/><line x1='633' y1='375' x2='633' y2='700' stroke='#F2A93B' stroke-width='5' opacity='.7'/><line x1='647' y1='375' x2='647' y2='700' stroke='#F2A93B' stroke-width='2' opacity='.7'/><line x1='661' y1='375' x2='661' y2='700' stroke='#F2A93B' stroke-width='5' opacity='.7'/><line x1='675' y1='375' x2='675' y2='700' stroke='#F2A93B' stroke-width='2' opacity='.7'/><line x1='689' y1='375' x2='689' y2='700' stroke='#F2A93B' stroke-width='5' opacity='.7'/><line x1='703' y1='375' x2='703' y2='700' stroke='#F2A93B' stroke-width='2' opacity='.7'/></svg>",
+   "stamp": "right:40px;top:790px"
+  },
+  "appcss": ".dl{display:none!important}.tb{display:none!important}.foot{display:none!important}.data{display:none!important}.inputs>*{display:none!important}.inputs{padding:10px 16px!important}.inputs>.row:has(#fu){display:grid!important}.views .view:not(.full){display:none!important}",
+  "init": [],
+  "right": [
+   {
+    "cap": "Really: <i>19.6 m</i>",
+    "actions": [
+     {
+      "at": -0.3,
+      "dur": 0,
+      "scroll": 0
+     }
+    ]
+   },
+   {
+    "cap": "Fullness changes, <i>metres follow</i>",
+    "actions": [
+     {
+      "at": 0,
+      "dur": 2.0,
+      "slide": "fu",
+      "from": 2.5,
+      "to": 2.0,
+      "round": 0.25
+     }
+    ]
+   }
+  ],
+  "cmp": {
+   "guess": "14.5 m",
+   "real": "#oF",
+   "gl": "Quick rule",
+   "rl": "Fabric now"
+  },
+  "end": {
+   "cap": "Order fabric <em>once</em>"
+  }
+ },
+ "screen-size": {
+  "no": "T-42",
+  "name": "Screen Size",
+  "vo": [
+   "An eighty-six inch TV for every meeting room? The back row can't read it.",
+   "Eight and a half metres back, slides need a one hundred fourteen inch screen.",
+   "Move the back row closer and the size drops.",
+   "It's free, and the link's in my bio."
+  ],
+  "wrong": {
+   "label": "✕ The usual way",
+   "cap": "86\" TV <em>everywhere?</em>",
+   "html": "<svg viewBox='0 0 920 900' xmlns='http://www.w3.org/2000/svg' font-family='IBM Plex Mono, monospace'><text x='460' y='110' fill='#E4ECF2' font-size='44' text-anchor='middle'>same 86\" TV in every room</text><text x='460' y='180' fill='#FF6B5C' font-size='44' text-anchor='middle'>back row at 8.5 m</text><text x='460' y='240' fill='#9DB0C0' font-size='30' text-anchor='middle'>text too small to read</text><line x1='60' y1='700' x2='860' y2='700' stroke='#E4ECF2' stroke-width='6'/><line x1='60' y1='300' x2='60' y2='700' stroke='#E4ECF2' stroke-width='8'/><rect x='66' y='420' width='14' height='110' fill='#6FB0F0'/><circle cx='800' cy='560' r='18' fill='#FF6B5C'/><line x1='800' y1='578' x2='800' y2='700' stroke='#FF6B5C' stroke-width='6'/><line x1='800' y1='560' x2='80' y2='420' stroke='#9DB0C0' stroke-width='3' stroke-dasharray='12 10'/><line x1='800' y1='560' x2='80' y2='530' stroke='#9DB0C0' stroke-width='3' stroke-dasharray='12 10'/></svg>",
+   "stamp": "right:40px;top:790px"
+  },
+  "appcss": ".dl{display:none!important}.tb{display:none!important}.foot{display:none!important}.data{display:none!important}.inputs>*{display:none!important}.inputs{padding:10px 16px!important}.inputs>.row:has(#far){display:grid!important}.views .view:not(.full){display:none!important}",
+  "init": [],
+  "right": [
+   {
+    "cap": "Slides need <i>114 inches</i>",
+    "actions": [
+     {
+      "at": -0.3,
+      "dur": 0,
+      "scroll": 0
+     }
+    ]
+   },
+   {
+    "cap": "Closer rows, <i>smaller screen</i>",
+    "actions": [
+     {
+      "at": 0,
+      "dur": 2.0,
+      "slide": "far",
+      "from": 8.5,
+      "to": 5.0,
+      "round": 0.5
+     }
+    ]
+   }
+  ],
+  "cmp": {
+   "guess": "86\" TV",
+   "real": "#oD",
+   "gl": "One size for all",
+   "rl": "Screen now"
+  },
+  "end": {
+   "cap": "Size it from <em>the back row</em>"
+  }
+ },
+ "plot-area": {
+  "no": "T-43",
+  "name": "Plot Area",
+  "vo": [
+   "Average the opposite sides and multiply? On a skewed plot, that's off.",
+   "Two triangles give four fifty five square metres, not four ninety six.",
+   "Change the diagonal and watch the true area move.",
+   "It's free, and the link's in my bio."
+  ],
+  "wrong": {
+   "label": "✕ The usual way",
+   "cap": "Average the <em>sides?</em>",
+   "html": "<svg viewBox='0 0 920 900' xmlns='http://www.w3.org/2000/svg' font-family='IBM Plex Mono, monospace'><text x='460' y='90' fill='#E4ECF2' font-size='44' text-anchor='middle'>(18 + 14) ÷ 2 × (30 + 32) ÷ 2</text><text x='460' y='175' fill='#FF6B5C' font-size='72' text-anchor='middle'>= 496 m²</text><text x='460' y='240' fill='#9DB0C0' font-size='32' text-anchor='middle'>ignores every corner angle</text><polygon points='250,830 470,830 560,420 330,380' fill='#6FB0F0' fill-opacity='.25' stroke='#E4ECF2' stroke-width='6'/><text x='360' y='880' fill='#9DB0C0' font-size='30' text-anchor='middle'>18 m</text><text x='190' y='620' fill='#9DB0C0' font-size='30' text-anchor='middle'>32 m</text><text x='600' y='640' fill='#9DB0C0' font-size='30'>30 m</text><text x='440' y='370' fill='#9DB0C0' font-size='30' text-anchor='middle'>14 m</text></svg>",
+   "stamp": "right:40px;top:760px"
+  },
+  "appcss": ".dl{display:none!important}.tb{display:none}.inputs>label,.inputs .note,.inputs div.row:nth-of-type(1),.inputs div.row:nth-of-type(2){display:none!important}.inputs{padding:10px 16px!important}.views+.views,.data,.foot{display:none!important}",
+  "init": [
+   [
+    "setv",
+    "ab",
+    18
+   ],
+   [
+    "setv",
+    "bc",
+    30
+   ],
+   [
+    "setv",
+    "cd",
+    14
+   ],
+   [
+    "setv",
+    "da",
+    32
+   ],
+   [
+    "setv",
+    "ac",
+    29
+   ],
+   [
+    "setv",
+    "bd",
+    0
+   ]
+  ],
+  "right": [
+   {
+    "cap": "Two triangles: <i>455 m²</i>",
+    "actions": [
+     {
+      "at": -0.3,
+      "dur": 0,
+      "scroll": 0
+     }
+    ]
+   },
+   {
+    "cap": "Change the diagonal, <i>area follows</i>",
+    "actions": [
+     {
+      "at": 0,
+      "dur": 2.1,
+      "slide": "ac",
+      "from": 29,
+      "to": 26,
+      "round": 0.25
+     }
+    ]
+   }
+  ],
+  "cmp": {
+   "guess": "496 m²",
+   "real": "#oA",
+   "gl": "Average of sides",
+   "rl": "True area now"
+  },
+  "end": {
+   "cap": "Measure the <em>true area</em>"
+  }
+ },
+ "sign-letters": {
+  "no": "T-44",
+  "name": "Sign Letters",
+  "vo": [
+   "One inch per ten feet? At nine metres, that's seventy five millimetre letters.",
+   "Hung at two point seven five metres, A D A asks for ninety seven.",
+   "Slide the distance and the letter height follows.",
+   "It's free, and the link's in my bio."
+  ],
+  "wrong": {
+   "label": "✕ The usual way",
+   "cap": "1 inch per <em>10 feet?</em>",
+   "html": "<svg viewBox='0 0 920 900' xmlns='http://www.w3.org/2000/svg' font-family='IBM Plex Mono, monospace'><text x='460' y='90' fill='#E4ECF2' font-size='46' text-anchor='middle'>1 in of letter per 10 ft</text><text x='460' y='180' fill='#FF6B5C' font-size='72' text-anchor='middle'>9 m → 75 mm</text><text x='460' y='245' fill='#9DB0C0' font-size='32' text-anchor='middle'>same rule at any mounting height</text><line x1='60' y1='840' x2='860' y2='840' stroke='#E4ECF2' stroke-width='6'/><line x1='760' y1='840' x2='760' y2='380' stroke='#E4ECF2' stroke-width='6'/><rect x='560' y='420' width='190' height='70' fill='#6FB0F0' opacity='.8'/><text x='655' y='468' fill='#0E1A26' font-size='34' text-anchor='middle' font-weight='600'>HALL 2</text><circle cx='140' cy='585' r='22' fill='none' stroke='#E4ECF2' stroke-width='5'/><line x1='140' y1='607' x2='140' y2='740' stroke='#E4ECF2' stroke-width='5'/><line x1='140' y1='740' x2='115' y2='840' stroke='#E4ECF2' stroke-width='5'/><line x1='140' y1='740' x2='165' y2='840' stroke='#E4ECF2' stroke-width='5'/><line x1='160' y1='585' x2='560' y2='455' stroke='#FF6B5C' stroke-width='4' stroke-dasharray='14 10'/></svg>",
+   "stamp": "right:40px;top:760px"
+  },
+  "appcss": ".dl{display:none!important}.tb{display:none}.inputs>label,.inputs .note,.inputs div.row:nth-of-type(2){display:none!important}.inputs{padding:10px 16px!important}.views+.views,.data,.foot{display:none!important}",
+  "init": [
+   [
+    "setv",
+    "dist",
+    9
+   ],
+   [
+    "setv",
+    "hb",
+    2.75
+   ],
+   [
+    "setv",
+    "eye",
+    1.6
+   ],
+   [
+    "setv",
+    "rule",
+    8.3
+   ]
+  ],
+  "right": [
+   {
+    "cap": "ADA minimum: <i>97 mm</i>",
+    "actions": [
+     {
+      "at": -0.3,
+      "dur": 0,
+      "scroll": 0
+     }
+    ]
+   },
+   {
+    "cap": "Further away, <i>bigger letters</i>",
+    "actions": [
+     {
+      "at": 0,
+      "dur": 2.1,
+      "slide": "dist",
+      "from": 9,
+      "to": 15,
+      "round": 0.5
+     }
+    ]
+   }
+  ],
+  "cmp": {
+   "guess": "75 mm",
+   "real": "#oH",
+   "gl": "1 in per 10 ft",
+   "rl": "ADA min now"
+  },
+  "end": {
+   "cap": "Letters people <em>can read</em>"
+  }
+ },
+ "model-scale": {
+  "no": "T-45",
+  "name": "Model Scale",
+  "vo": [
+   "Three mil board for every wall? At one to a hundred, that's thirty centimetres thick.",
+   "A two thirty wall scales to two point three, so use two mil board.",
+   "Change the scale, and the board changes.",
+   "It's free, and the link's in my bio."
+  ],
+  "wrong": {
+   "label": "✕ The usual way",
+   "cap": "3 mm board <em>for every wall?</em>",
+   "html": "<svg viewBox='0 0 920 900' xmlns='http://www.w3.org/2000/svg' font-family='IBM Plex Mono, monospace'><text x='460' y='90' fill='#E4ECF2' font-size='46' text-anchor='middle'>3 mm board at 1:100</text><text x='460' y='180' fill='#FF6B5C' font-size='72' text-anchor='middle'>= 300 mm wall</text><text x='460' y='245' fill='#9DB0C0' font-size='32' text-anchor='middle'>the real wall is 230 mm</text><rect x='200' y='380' width='90' height='450' fill='#FF6B5C' opacity='.75'/><text x='245' y='365' fill='#FF6B5C' font-size='30' text-anchor='middle'>3 mm</text><rect x='420' y='380' width='69' height='450' fill='none' stroke='#E4ECF2' stroke-width='4' stroke-dasharray='12 8'/><text x='455' y='365' fill='#9DB0C0' font-size='30' text-anchor='middle'>2.3 mm</text><line x1='120' y1='830' x2='800' y2='830' stroke='#E4ECF2' stroke-width='5'/></svg>",
+   "stamp": "right:40px;top:760px"
+  },
+  "appcss": ".dl{display:none!important}.tb{display:none}.inputs>label,.inputs .note,.inputs div.row:not(:first-of-type){display:none!important}.inputs{padding:10px 16px!important}.views+.views,.data,.foot{display:none!important}",
+  "init": [
+   [
+    "setv",
+    "N",
+    100
+   ],
+   [
+    "setv",
+    "boards",
+    "1, 2, 3, 5"
+   ],
+   [
+    "setv",
+    "we",
+    230
+   ]
+  ],
+  "right": [
+   {
+    "cap": "230 mm wall = <i>2.3 mm</i>",
+    "actions": [
+     {
+      "at": -0.3,
+      "dur": 0,
+      "scroll": 0
+     }
+    ]
+   },
+   {
+    "cap": "Change the scale, <i>board follows</i>",
+    "actions": [
+     {
+      "at": 0,
+      "dur": 2.1,
+      "slide": "N",
+      "from": 100,
+      "to": 50,
+      "round": 10
+     }
+    ]
+   }
+  ],
+  "cmp": {
+   "guess": "3 mm board",
+   "real": "#oB",
+   "gl": "3 mm for all",
+   "rl": "Best board now"
+  },
+  "end": {
+   "cap": "The right board <em>every scale</em>"
+  }
  }
 }

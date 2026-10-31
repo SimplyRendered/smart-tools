@@ -3,7 +3,7 @@
  "repo": "SimplyRendered/smart-tools",
  "raw_base": "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/",
  "metricool_brand_id": "7306873",
- "next_number": 34,
+ "next_number": 46,
  "tools": [
   {
    "no": "T-01",
@@ -235,12 +235,94 @@
    "name": "Water Demand & Tank Sizing",
    "post_date": "2026-11-20",
    "summary": "Daily water demand from NBC litres per head, sump, overhead tank and pump size for any building."
+  },
+  {
+   "no": "T-34",
+   "slug": "spiral-stair",
+   "name": "Spiral Staircase Geometry",
+   "post_date": "2026-11-23",
+   "summary": "Risers, the tread depth at the walkline where you really walk, clear width and the floor opening for headroom, on a live plan and unrolled section."
+  },
+  {
+   "no": "T-35",
+   "slug": "gutter-sizer",
+   "name": "Gutter & Downpipe Sizer",
+   "post_date": "2026-11-25",
+   "summary": "Peak roof flow from rainfall and area, gutter capacity by Manning, downpipe inlet capacity and how many downpipes the roof needs."
+  },
+  {
+   "no": "T-36",
+   "slug": "cooling-load",
+   "name": "AC Cooling Load",
+   "post_date": "2026-11-27",
+   "summary": "Item-by-item cooling load for a room in watts and tons of refrigeration, the next standard AC size and the 1 TR per 100 sq ft rule checked."
+  },
+  {
+   "no": "T-37",
+   "slug": "car-ramp",
+   "name": "Car Ramp Scrape Check",
+   "post_date": "2026-11-30",
+   "summary": "Car ramp scrape check with transition length for the car's clearance and angles."
+  },
+  {
+   "no": "T-38",
+   "slug": "baluster-spacing",
+   "name": "Baluster & Slat Spacing",
+   "post_date": "2026-12-02",
+   "summary": "Equal-gap baluster and slat layout with posts, cut list and sphere test."
+  },
+  {
+   "no": "T-39",
+   "slug": "perspective-setup",
+   "name": "Perspective Setup",
+   "post_date": "2026-12-04",
+   "summary": "Two-point perspective set-up: vanishing points in mm, view angle and sheet layout."
+  },
+  {
+   "no": "T-40",
+   "slug": "shelf-sag",
+   "name": "Shelf Sag Check",
+   "post_date": "2026-12-07",
+   "summary": "Sag of a loaded shelf now and over time for MDF, particleboard, plywood or solid wood, the longest span that passes and the thickness you need."
+  },
+  {
+   "no": "T-41",
+   "slug": "curtain-fabric",
+   "name": "Curtain Fabric Calculator",
+   "post_date": "2026-12-09",
+   "summary": "Widths, cut drop matched to the pattern repeat and the metres of fabric and lining to order, with returns, overlaps, hems and a cutting plan."
+  },
+  {
+   "no": "T-42",
+   "slug": "screen-size",
+   "name": "Screen Size for a Room",
+   "post_date": "2026-12-11",
+   "summary": "Screen size a room really needs from the farthest viewer and the content (4/6/8 rule), mounting height, ceiling and viewing-angle checks and the projector throw."
+  },
+  {
+   "no": "T-43",
+   "slug": "plot-area",
+   "name": "Plot Area from Sides",
+   "post_date": "2026-12-14",
+   "summary": "True area of a four-sided plot from its sides and one diagonal by two triangles, drawn to scale, in m², sq ft, gaj, guntha, cent and acre."
+  },
+  {
+   "no": "T-44",
+   "slug": "sign-letters",
+   "name": "Sign Letter Height",
+   "post_date": "2026-12-16",
+   "summary": "Minimum letter height for a sign from the viewing distance and mounting height (ADA 703.5.5), against the 1 in per 10 ft rule, with a live elevation."
+  },
+  {
+   "no": "T-45",
+   "slug": "model-scale",
+   "name": "Model Scale & Board",
+   "post_date": "2026-12-18",
+   "summary": "Every wall, slab and floor height in model millimetres for any scale, the board or stack of two that matches best, the base size and sheets to buy."
   }
  ],
  "backlog": [
-  "AC tonnage / heat load quick estimator",
   "Column grid & spacing explorer with span rules of thumb",
-  "Parking ramp gradient and turning radius checker",
   "Brick bond & wall elevation pattern generator",
   "Door & window schedule sheet maker",
   "Accessible toilet layout checker (turning circle, grab bars, clearances) with plan",
@@ -251,8 +333,10 @@
   "Render queue time estimator from samples, resolution and cores",
   "Window glare and sun-angle check for a facade (verify against standard)",
   "Septic tank & soak pit sizer (verify IS 2470 table)",
-  "Stormwater drain and gutter sizer (Manning, first principles)",
   "Lift (elevator) count and car size for a building",
-  "Spiral staircase geometry and headroom"
+  "Swimming pool volume, turnover and pump flow (first principles, editable turnover hours)",
+  "Exhaust fan size for toilets and kitchens from room volume and editable air changes",
+  "Terrace screed falls and thickness to outlets (first principles)",
+  "Contour spacing and slope analysis from a site survey"
  ]
 }

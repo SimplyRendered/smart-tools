@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Perspective Setup</title>
+<meta name="description" content="Set the building, eye height, station point and angle. Get the two vanishing points in millimetres on your sheet, the view angle, and the building drawn to scale, so no vanishing point lands off the paper.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: drafting sheet — title block header, input column + two drawings, data table below */
+:root{
+  --paper:#F2F3EF; --sheet:#FBFBF8; --ink:#1B2732; --ink-2:#4A5865; --rule:#D5D9D4; --grid:#E6E8E3;
+  --red:#C8432B; --blue:#2E66A6; --sun:#E09A1E; --shadow:rgba(27,39,50,.22);
+  --display:'Barlow Condensed','Arial Narrow',sans-serif; --body:'IBM Plex Sans',system-ui,sans-serif; --mono:'IBM Plex Mono',ui-monospace,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#0E1A26; --sheet:#132233; --ink:#E4ECF2; --ink-2:#9DB0C0; --rule:#2A3D52; --grid:#1B2D40;
+  --red:#FF7A5C; --blue:#6FB0F0; --sun:#FFC04D; --shadow:rgba(140,190,240,.25); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0E1A26; --sheet:#132233; --ink:#E4ECF2; --ink-2:#9DB0C0; --rule:#2A3D52; --grid:#1B2D40;
+  --red:#FF7A5C; --blue:#6FB0F0; --sun:#FFC04D; --shadow:rgba(140,190,240,.25); color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--paper);color:var(--ink);font:15px/1.5 var(--body);padding:16px;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px}
+.sheet{max-width:1180px;margin:0 auto;background:var(--sheet);border:1.5px solid var(--ink);}
+.tb{display:grid;grid-template-columns:1fr auto;border-bottom:1.5px solid var(--ink)}
+.tb h1{font:700 clamp(30px,5vw,46px)/1 var(--display);letter-spacing:.01em;margin:0;padding:18px 20px 14px;text-transform:uppercase;text-wrap:balance}
+.tb h1 small{display:block;font:500 14px/1.4 var(--body);letter-spacing:0;text-transform:none;color:var(--ink-2);margin-top:6px}
+.tb .meta{display:grid;grid-template-columns:auto auto;border-left:1.5px solid var(--ink);font:12px/1.2 var(--mono)}
+.tb .meta div{padding:8px 12px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule)}
+.tb .meta b{display:block;font:600 10px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-bottom:4px}
+.main{display:grid;grid-template-columns:320px 1fr;}
+.inputs{border-right:1.5px solid var(--ink);padding:18px 20px;display:flex;flex-direction:column;gap:14px}
+label{display:flex;flex-direction:column;gap:5px;font:600 11px/1 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+input,select{font:500 15px/1.2 var(--mono);color:var(--ink);background:var(--paper);border:1px solid var(--rule);padding:9px 10px;border-radius:0;width:100%}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
+input[type=range]{padding:0;accent-color:var(--red)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+button{font:600 12px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;background:transparent;color:var(--ink);border:1px solid var(--ink);padding:8px 10px;cursor:pointer}
+button:hover{background:var(--ink);color:var(--sheet)}
+.time{font:500 28px/1 var(--mono);color:var(--red)}
+.views{display:grid;grid-template-columns:1fr 1fr;min-width:0}
+.view{padding:14px 16px 10px;min-width:0;border-bottom:1.5px solid var(--ink)}
+.view+.view{border-left:1px solid var(--rule)}
+.view h2,.data h2{font:600 20px/1 var(--display);text-transform:uppercase;letter-spacing:.04em;margin:0 0 8px;display:flex;justify-content:space-between;gap:8px}
+.view h2 span,.data h2 span{font:400 11px/1.6 var(--mono);color:var(--ink-2);text-transform:none;letter-spacing:0}
+svg{width:100%;height:auto;display:block}
+.readout{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1.5px solid var(--ink)}
+.readout div{padding:12px 16px;border-right:1px solid var(--rule)}
+.readout div:last-child{border-right:0}
+.readout b{display:block;font:600 10px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-bottom:6px}
+.readout span{font:500 24px/1 var(--mono);font-variant-numeric:tabular-nums}
+.readout .hi{color:var(--red)}
+.data{padding:14px 16px}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font:13px/1.3 var(--mono);font-variant-numeric:tabular-nums}
+th,td{padding:6px 10px;border-bottom:1px solid var(--rule);text-align:right;white-space:nowrap}
+th{font:600 10px/1.2 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+th:first-child,td:first-child{text-align:left}
+tr.now td{color:var(--red);font-weight:500}
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;padding:10px 16px;border-top:1.5px solid var(--ink);font:12px/1.4 var(--mono);color:var(--ink-2)}
+.note{font:12px/1.5 var(--body);color:var(--ink-2);margin:0}
+@media (max-width:900px){.main{grid-template-columns:1fr}.inputs{border-right:0;border-bottom:1.5px solid var(--ink)}}
+@media (max-width:640px){.views{grid-template-columns:1fr}.view+.view{border-left:0}.readout{grid-template-columns:repeat(2,1fr)}.readout div:nth-child(2){border-right:0}.readout div{border-bottom:1px solid var(--rule)}.tb{grid-template-columns:1fr}.tb .meta{border-left:0;border-top:1px solid var(--rule)}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.dl{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;padding:12px 20px;border-bottom:1.5px solid var(--ink);background:var(--paper)}
+.dl a.btn{font:600 13px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;background:var(--red);color:#fff;text-decoration:none;padding:11px 14px;border:1px solid var(--red)}
+.dl a.btn:hover{background:var(--ink);border-color:var(--ink);color:var(--sheet)}
+.dl span{font:13px/1.4 var(--body);color:var(--ink-2);flex:1;min-width:180px}
+.dl a.more{font:500 13px/1 var(--mono);color:var(--blue)}
+
+:root{--ok:#2F8A57;--okbg:rgba(47,138,87,.12);--bad:#C8432B;--badbg:rgba(200,67,43,.10);--warn:#B7791F}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ok:#5FD08F;--okbg:rgba(95,208,143,.14);--bad:#FF7A5C;--badbg:rgba(255,122,92,.12);--warn:#F2B84B}}
+:root[data-theme="dark"]{--ok:#5FD08F;--okbg:rgba(95,208,143,.14);--bad:#FF7A5C;--badbg:rgba(255,122,92,.12);--warn:#F2B84B}
+.pill{display:inline-block;font:600 11px/1 var(--body);letter-spacing:.08em;text-transform:uppercase;padding:5px 7px;border:1px solid currentColor}
+.pill.ok{color:var(--ok);background:var(--okbg)} .pill.bad{color:var(--bad);background:var(--badbg)} .pill.warn{color:var(--warn)}
+td.ok{color:var(--ok)} td.bad{color:var(--bad)}
+.readout .ok{color:var(--ok)} .readout .bad{color:var(--bad)}
+.view.full{grid-column:1/-1}
+.checks{list-style:none;margin:0;padding:0}
+.checks li{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:8px 0;border-bottom:1px solid var(--rule);font:13px/1.35 var(--body)}
+.checks li span:first-child{min-width:0}
+select{appearance:auto}
+</style>
+</head>
+<body>
+<div class="sheet">
+  <header class="tb">
+    <h1>Perspective Setup<small>Set the building, eye height, station point and angle. Get the two vanishing points in millimetres on your sheet, the view angle, and the building drawn to scale, so no vanishing point lands off the paper.</small></h1>
+    <div class="meta"><div><b>Sheet</b>T-39</div><div><b>Method</b>Two-point perspective</div><div><b>Units</b>m, mm, °</div><div><b>By</b>@smart_tools_every_week</div></div>
+  </header>
+  <div class="dl" id="dlbar"><a class="btn" href="perspective-setup.html" download="perspective-setup.html">⬇ Download this app</a><span>Free. One HTML file that works offline. Open it in any browser, no install or sign-up.</span><a class="more" href="../">More free tools →</a></div>
+  <div class="main">
+    <section class="inputs" aria-label="Inputs">
+
+      <div class="row">
+        <label for="W">Building width, m<input id="W" type="number" step="0.5" value="8"></label>
+        <label for="D">Building depth, m<input id="D" type="number" step="0.5" value="6"></label>
+      </div>
+      <div class="row">
+        <label for="Hb">Building height, m<input id="Hb" type="number" step="0.5" value="7"></label>
+        <label for="E">Eye height, m<input id="E" type="number" step="0.1" value="1.6"></label>
+      </div>
+      <div class="row">
+        <label for="S">Station point distance, m<input id="S" type="number" step="0.5" value="15"></label>
+        <label for="th">Angle of the long wall, °<input id="th" type="number" step="1" value="30"></label>
+      </div>
+      <div class="row">
+        <label for="cx">Corner left or right of eye, m<input id="cx" type="number" step="0.5" value="0"></label>
+        <label for="cone">Comfortable cone, °<input id="cone" type="number" step="5" value="60"></label>
+      </div>
+      <div class="row">
+        <label for="sc">Drawing scale 1 :<input id="sc" type="number" step="10" value="100"></label>
+        <label for="sw">Sheet width, mm<select id="sw"><option value="297,210">A4 · 297</option><option value="420,297" selected>A3 · 420</option><option value="594,420">A2 · 594</option><option value="841,594">A1 · 841</option></select></label>
+      </div>
+      <p class="note">The angle is between the long wall and the paper. The wall touching the paper is drawn at true size. Distances are on the ground; the eye height sets the horizon.</p>
+
+    </section>
+    <section style="min-width:0">
+
+      <div class="readout">
+        <div><b>Left vanishing point</b><span id="oL" class="hi">–</span></div>
+        <div><b>Right vanishing point</b><span id="oR">–</span></div>
+        <div><b>View angle</b><span id="oA">–</span></div>
+        <div><b>On your sheet</b><span id="oF">–</span></div>
+      </div>
+      <div class="views">
+        <div class="view full"><h2>Your sheet at scale <span id="shLabel"></span></h2><svg id="sh" viewBox="0 0 960 400" role="img" aria-label="Sheet with horizon, vanishing points and the building in perspective"></svg></div>
+        <div class="view"><h2>Plan <span id="plLabel"></span></h2><svg id="pl" viewBox="0 0 420 380" role="img" aria-label="Plan with picture plane, station point and cone of vision"></svg></div>
+        <div class="view"><h2>Squeezed or comfortable? <span id="cnLabel"></span></h2><svg id="cn" viewBox="0 0 420 380" role="img" aria-label="View angle against the comfortable cone"></svg></div>
+      </div>
+      <div class="data"><h2>Where to mark it on the sheet <span id="sum"></span></h2><div class="tablewrap"><table><thead><tr><th>Point</th><th>Across from centre of vision</th><th>Up from horizon</th></tr></thead><tbody id="tb"></tbody></table></div></div>
+
+    </section>
+  </div>
+  <footer class="foot"><span>Free tool · @smart_tools_every_week · simplyrendered.github.io/smart-tools · built with Claude</span><span>Plain projection geometry: the viewer stands at the station point, the picture plane is the paper, and a corner of the building touches it so that edge is true size. A point at plan (x, y) and height z projects to u = x·S ÷ (y + S), v = (z − E)·S ÷ (y + S). The vanishing points of walls turned θ and 90° − θ to the picture plane lie on the horizon at S ÷ tan θ and S × tan θ from the centre of vision. Keeping the subject inside a 60° cone of vision is the usual drawing rule; the cone angle is editable.</span></footer>
+</div>
+<script>
+if(location.protocol==="file:"){const b=document.getElementById("dlbar");if(b)b.hidden=true;}
+const $=id=>document.getElementById(id);
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const NS="http://www.w3.org/2000/svg";
+function el(tag,attrs,parent,text){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(text!=null)e.textContent=text;parent&&parent.appendChild(e);return e}
+const fmt=(v,d=2)=>Number.isFinite(v)?v.toFixed(d):"–";
+
+const num=(id,min,max,def)=>{const v=parseFloat($(id).value);return Number.isFinite(v)?Math.min(max,Math.max(min,v)):def};
+const RAD=Math.PI/180;
+function calc(){
+  const W=num("W",1,100,8),D=num("D",1,100,6),Hb=num("Hb",1,100,7),E=num("E",0.1,50,1.6),S=num("S",2,300,15);
+  const th=num("th",5,85,30),cx=num("cx",-40,40,0),cone=num("cone",20,120,60),sc=num("sc",5,2000,100);
+  const sp=$("sw").value.split(","),sw=+sp[0],sh=+sp[1];
+  const t=th*RAD,C0=[cx,0],A=[cx+W*Math.cos(t),W*Math.sin(t)],B=[cx-D*Math.sin(t),D*Math.cos(t)],F=[A[0]-D*Math.sin(t),A[1]+D*Math.cos(t)];
+  const mm=1000/sc,vpR=S/Math.tan(t),vpL=-S*Math.tan(t);
+  const proj=(p,z)=>{const d=p[1]+S;return [p[0]*S/d,(z-E)*S/d]};
+  const ang=[C0,A,B,F].map(p=>Math.atan2(p[0],p[1]+S)/RAD),view=Math.max(...ang)-Math.min(...ang);
+  const span=(vpR-vpL)*mm,best=(sw-span)/2-vpL*mm,hz=Math.max(15,(sh-Hb*mm)/2)+E*mm;
+  return {W,D,Hb,E,S,th,t,cx,cone,sc,sw,sh,C0,A,B,F,mm,vpR,vpL,proj,view,aMin:Math.min(...ang),aMax:Math.max(...ang),span,fits:span<=sw+1e-9,best,hz};
+}
+function render(){
+  const c=calc(),ink=css("--ink"),ink2=css("--ink-2"),rule=css("--rule"),red=css("--red"),blue=css("--blue"),sheet=css("--sheet"),ok=css("--ok"),bad=css("--bad"),sun=css("--sun");
+  const wide=c.view>c.cone+1e-9;
+  $("oL").textContent=fmt(-c.vpL*c.mm,0)+" mm left";$("oR").textContent=fmt(c.vpR*c.mm,0)+" mm right";
+  $("oA").textContent=fmt(c.view,0)+"°";$("oA").className=wide?"bad":"ok";
+  $("oF").textContent=c.fits?"Fits ("+fmt(c.span,0)+" of "+c.sw+" mm)":"Too wide: needs "+fmt(c.span,0)+" mm";$("oF").className=c.fits?"ok":"bad";
+  const T=(sv,x,y,t,col,a,s)=>{const e=el("text",{x,y,fill:col||ink2,"font-size":s||12,"text-anchor":a||"start","font-family":"IBM Plex Mono, monospace"},sv,t);return e};
+  // ---- sheet view
+  const sv=$("sh");sv.innerHTML="";
+  const cvx=c.best,xa=Math.min(0,cvx+c.vpL*c.mm)-30,xb=Math.max(c.sw,cvx+c.vpR*c.mm)+30,k=Math.min(900/(xb-xa),3.2),vh=Math.round(c.sh*k+60);
+  sv.setAttribute("viewBox","0 0 960 "+vh);
+  const ox=(960-(xb-xa)*k)/2,SX=x=>ox+(x-xa)*k,SY=y=>20+(c.sh-y)*k; // y: mm up from sheet bottom
+  const P=(p,z)=>{const q=c.proj(p,z);return [SX(cvx+q[0]*c.mm),SY(c.hz+q[1]*c.mm)]};
+  el("rect",{x:SX(0),y:SY(c.sh),width:c.sw*k,height:c.sh*k,fill:sheet,stroke:ink,"stroke-width":2},sv);
+  el("line",{x1:SX(xa),y1:SY(c.hz),x2:SX(xb),y2:SY(c.hz),stroke:red,"stroke-width":1.4,"stroke-dasharray":"8 5"},sv);
+  T(sv,SX(xa)+2,SY(c.hz)-5,"horizon",red);
+  const vl=[SX(cvx+c.vpL*c.mm),SY(c.hz)],vr=[SX(cvx+c.vpR*c.mm),SY(c.hz)];
+  // construction lines to near corner
+  const nb=P(c.C0,0),nt=P(c.C0,c.Hb);
+  [[vl,nb],[vl,nt],[vr,nb],[vr,nt]].forEach(s=>el("line",{x1:s[0][0],y1:s[0][1],x2:s[1][0],y2:s[1][1],stroke:ink2,"stroke-width":1,"stroke-dasharray":"3 4",opacity:.8},sv));
+  // faces
+  const faces=[],mid=(p,q)=>[(p[0]+q[0])/2,(p[1]+q[1])/2];
+  const sides=[[c.C0,c.A,[Math.sin(c.t),-Math.cos(c.t)]],[c.B,c.F,[-Math.sin(c.t),Math.cos(c.t)]],[c.C0,c.B,[-Math.cos(c.t),-Math.sin(c.t)]],[c.A,c.F,[Math.cos(c.t),Math.sin(c.t)]]];
+  const spt=[0,-c.S];
+  sides.forEach(s=>{const m=mid(s[0],s[1]);if((spt[0]-m[0])*s[2][0]+(spt[1]-m[1])*s[2][1]>0)faces.push({p:s,d:Math.hypot(m[0]-spt[0],m[1]-spt[1])})});
+  faces.sort((a,b)=>b.d-a.d);
+  if(c.E>c.Hb){const poly=[c.C0,c.A,c.F,c.B].map(p=>P(p,c.Hb).join(",")).join(" ");el("polygon",{points:poly,fill:sun,opacity:.35,stroke:ink,"stroke-width":1.6},sv)}
+  faces.forEach((f,i)=>{const a=f.p[0],b=f.p[1];const poly=[P(a,0),P(b,0),P(b,c.Hb),P(a,c.Hb)].map(q=>q.join(",")).join(" ");
+    el("polygon",{points:poly,fill:blue,opacity:i%2?0.55:0.32,stroke:ink,"stroke-width":1.8},sv)});
+  // true-size edge on picture plane
+  const gl=P([c.cx,0],0),gt=P([c.cx,0],c.Hb);
+  el("line",{x1:gl[0],y1:gl[1],x2:gt[0],y2:gt[1],stroke:ink,"stroke-width":3},sv);
+  T(sv,gt[0]+6,gt[1]+12,"true height "+fmt(c.Hb*c.mm,0)+" mm",ink2);
+  // CV and VPs
+  el("line",{x1:SX(cvx)-6,y1:SY(c.hz),x2:SX(cvx)+6,y2:SY(c.hz),stroke:ink,"stroke-width":2},sv);el("line",{x1:SX(cvx),y1:SY(c.hz)-6,x2:SX(cvx),y2:SY(c.hz)+6,stroke:ink,"stroke-width":2},sv);
+  T(sv,SX(cvx)+8,SY(c.hz)+16,"CV",ink2);
+  [[vl,c.vpL*c.mm,"VP left"],[vr,c.vpR*c.mm,"VP right"]].forEach(v=>{
+    const xs=cvx+v[1],inside=xs>=0&&xs<=c.sw;
+    el("circle",{cx:v[0][0],cy:v[0][1],r:7,fill:inside?ok:bad},sv);
+    T(sv,v[0][0],v[0][1]-14,v[2]+" "+fmt(Math.abs(v[1]),0)+" mm"+(inside?"":" · off the sheet"),inside?ok:bad,"middle",13)});
+  T(sv,SX(0)+4,SY(c.sh)+14,c.sw+" × "+c.sh+" mm sheet",ink2);
+  $("shLabel").textContent="1 : "+fmt(c.sc,0);
+  // ---- plan
+  const p=$("pl");p.innerHTML="";const pts=[c.C0,c.A,c.B,c.F,[0,-c.S]];
+  const x0=Math.min(...pts.map(q=>q[0]))-2,x1=Math.max(...pts.map(q=>q[0]))+2,y0=Math.min(...pts.map(q=>q[1]))-1,y1=Math.max(...pts.map(q=>q[1]))+2;
+  const pk=Math.min(380/(x1-x0),330/(y1-y0)),PX=x=>20+(x-x0)*pk,PY=y=>30+(y1-y)*pk;
+  el("line",{x1:10,y1:PY(0),x2:410,y2:PY(0),stroke:red,"stroke-width":2},p);T(p,12,PY(0)-6,"picture plane (your paper)",red);
+  const half=c.cone/2*RAD,ry=(y1+c.S)*0.0+Math.max(y1,1);
+  [-1,1].forEach(sg=>el("line",{x1:PX(0),y1:PY(-c.S),x2:PX(sg*Math.tan(half)*(y1+c.S)),y2:PY(y1),stroke:sun,"stroke-width":1.4,"stroke-dasharray":"6 4"},p));
+  el("polygon",{points:[c.C0,c.A,c.F,c.B].map(q=>PX(q[0])+","+PY(q[1])).join(" "),fill:blue,opacity:.4,stroke:ink,"stroke-width":2},p);
+  [c.A,c.B,c.C0,c.F].forEach(q=>el("line",{x1:PX(0),y1:PY(-c.S),x2:PX(q[0]),y2:PY(q[1]),stroke:ink2,"stroke-width":1},p));
+  el("circle",{cx:PX(0),cy:PY(-c.S),r:6,fill:ink},p);T(p,PX(0)+10,PY(-c.S)+4,"station point "+fmt(c.S,1)+" m",ink);
+  el("circle",{cx:PX(c.C0[0]),cy:PY(0),r:4,fill:red},p);
+  $("plLabel").textContent="wall at "+fmt(c.th,0)+"° and "+fmt(90-c.th,0)+"°";
+  // ---- cone gauge
+  const g=$("cn");g.innerHTML="";const cxm=210,cyb=330,R=290;
+  const ang=a=>[cxm+R*Math.sin(a*RAD),cyb-R*Math.cos(a*RAD)];
+  const half2=c.cone/2;
+  el("path",{d:`M${cxm},${cyb} L${ang(-half2)[0]},${ang(-half2)[1]} A${R},${R} 0 0 1 ${ang(half2)[0]},${ang(half2)[1]} Z`,fill:ok,opacity:.12,stroke:ok,"stroke-dasharray":"6 4"},g);
+  const a0=ang(c.aMin),a1=ang(c.aMax);
+  el("path",{d:`M${cxm},${cyb} L${a0[0]},${a0[1]} A${R},${R} 0 0 1 ${a1[0]},${a1[1]} Z`,fill:wide?bad:blue,opacity:.45,stroke:wide?bad:blue,"stroke-width":2},g);
+  el("line",{x1:cxm,y1:cyb,x2:cxm,y2:cyb-R,stroke:ink2,"stroke-dasharray":"2 5"},g);
+  T(g,12,26,"building fills "+fmt(c.view,0)+"° of your view",wide?bad:ok,"start",14);
+  T(g,12,46,"comfortable cone "+fmt(c.cone,0)+"°",ink2,"start",12);
+  T(g,12,366,wide?"too wide: the edges will look stretched":"inside the cone: looks natural",wide?bad:ok,"start",13);
+  $("cnLabel").textContent="";
+  // ---- table
+  const rows=[],f2=(n,q,z)=>{const r=c.proj(q,z);rows.push([n,fmt(r[0]*c.mm,1)+" mm",fmt(r[1]*c.mm,1)+" mm"])};
+  rows.push(["Left vanishing point",fmt(c.vpL*c.mm,1)+" mm","0"]);rows.push(["Right vanishing point",fmt(c.vpR*c.mm,1)+" mm","0"]);
+  f2("Near corner, base",c.C0,0);f2("Near corner, top",c.C0,c.Hb);f2("Right corner, base",c.A,0);f2("Right corner, top",c.A,c.Hb);f2("Left corner, base",c.B,0);f2("Left corner, top",c.B,c.Hb);f2("Far corner, base",c.F,0);f2("Far corner, top",c.F,c.Hb);
+  rows.push(["Centre of vision on the sheet",fmt(c.best,0)+" mm from the left edge",fmt(c.hz,0)+" mm up from the bottom (horizon)"]);
+  $("tb").innerHTML=rows.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join("");
+  $("sum").textContent="at 1 : "+fmt(c.sc,0);
+}
+
+document.querySelectorAll("input,select").forEach(i=>i.addEventListener("input",render));
+window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",render);
+new MutationObserver(render).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+render();
+</script>
+</body>
+</html>

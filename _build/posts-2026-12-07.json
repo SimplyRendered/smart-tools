@@ -1,0 +1,209 @@
+[
+ {
+  "date": "2026-12-07",
+  "slug": "shelf-sag",
+  "no": "T-40",
+  "name": "Shelf Sag Check",
+  "slides": [
+   {
+    "t": "hook",
+    "title": "Will this shelf sag under the books?",
+    "sub": "Free Shelf Sag Check. Sag now and over time, the longest span and the thickness you need.",
+    "img": "shelf-sag_views.png"
+   },
+   {
+    "t": "shot",
+    "kicker": "The tool",
+    "title": "Live elevation, section and sag curve",
+    "img": "shelf-sag_top.png"
+   },
+   {
+    "t": "list",
+    "kicker": "What it does",
+    "title": "Sag, before the client sees it",
+    "items": [
+     "MDF, particleboard, plywood or solid wood",
+     "Loose, fixed or centre-supported shelves",
+     "Front lip stiffening worked out",
+     "Longest span that passes"
+    ]
+   },
+   {
+    "t": "shot",
+    "kicker": "Every board",
+    "title": "Same load, five boards compared",
+    "img": "shelf-sag_data.png"
+   },
+   {
+    "t": "steps",
+    "kicker": "How to use",
+    "title": "Four inputs",
+    "items": [
+     "Pick the board",
+     "Enter span, depth, thickness",
+     "Set the load in kg per metre",
+     "Read the sag and longest span"
+    ]
+   },
+   {
+    "t": "phone",
+    "kicker": "On site",
+    "title": "Works on your phone and offline.",
+    "img": "shelf-sag_phone.png"
+   },
+   {
+    "t": "cta"
+   }
+  ],
+  "caption": "Will this shelf sag under the books? 📚\nNew free tool: Shelf Sag Check.\nPick board, span, load and supports. Get the sag now and later, the longest span and the thickness needed.\n✅ MDF, particleboard, plywood or solid wood\n✅ Front lip stiffening worked out\n✅ Live elevation and sag curve\n⬇️ Free download / use online:\nsimplyrendered.github.io/smart-tools/shelf-sag\n(tap the link in our bio → T-40)\nWhat span do you use for bookshelves? 👇\nSave this for your next joinery detail.",
+  "hashtags": "#shelfdesign #bookshelf #joinery #carpentry #furnituredesign #mdf #plywood #interiordesign #wardrobedesign #architecture #architect #architecturestudent #architecturetools #freetools #smarttoolseveryweek",
+  "alt": [
+   "Shelf elevation sagging under books, with section and sag curve",
+   "Full screenshot of the Shelf Sag Check tool",
+   "Feature list",
+   "Table comparing sag for five boards",
+   "Four steps to use the tool",
+   "Tool running on a phone",
+   "Follow @smart_tools_every_week, link in bio"
+  ],
+  "reel_caption": "18 mm MDF for a 900 mm bookshelf? ❌\nWith 45 kg of books per metre it sags 9.4 mm, and 14 mm after a few years. The target is 1.5 mm: span it 490 mm or stiffen it ✅\nShelf Sag Check gives sag, longest span and thickness for any board. Free, no sign-up, works offline.\n⬇️ simplyrendered.github.io/smart-tools/shelf-sag\n(link in bio → T-40)\nFollow for a new free architecture tool every Mon, Wed & Fri."
+ },
+ {
+  "date": "2026-12-09",
+  "slug": "curtain-fabric",
+  "no": "T-41",
+  "name": "Curtain Fabric",
+  "slides": [
+   {
+    "t": "hook",
+    "title": "How many metres of curtain fabric?",
+    "sub": "Free Curtain Fabric Calculator. Widths, cut drop to the pattern repeat and metres to order.",
+    "img": "curtain-fabric_views.png"
+   },
+   {
+    "t": "shot",
+    "kicker": "The tool",
+    "title": "Elevation, flat curtain and cutting plan",
+    "img": "curtain-fabric_top.png"
+   },
+   {
+    "t": "list",
+    "kicker": "What it does",
+    "title": "Order once, order right",
+    "items": [
+     "Fullness by heading type",
+     "Returns, overlaps and side hems",
+     "Cut drop rounded to the repeat",
+     "Fabric and lining in metres"
+    ]
+   },
+   {
+    "t": "shot",
+    "kicker": "By fullness",
+    "title": "Every fullness side by side",
+    "img": "curtain-fabric_data.png"
+   },
+   {
+    "t": "steps",
+    "kicker": "How to use",
+    "title": "Four inputs",
+    "items": [
+     "Enter track width and drop",
+     "Pick heading and fabric roll",
+     "Add the pattern repeat",
+     "Read the metres to order"
+    ]
+   },
+   {
+    "t": "phone",
+    "kicker": "On site",
+    "title": "Works on your phone and offline.",
+    "img": "curtain-fabric_phone.png"
+   },
+   {
+    "t": "cta"
+   }
+  ],
+  "caption": "How many metres of curtain fabric? 🪟\nNew free tool: Curtain Fabric Calculator.\nEnter track, drop, heading and roll width. It gives widths, cut drop and the metres to order.\n✅ Returns, overlaps and hems included\n✅ Cut drop matched to the pattern repeat\n✅ Live cutting plan\n⬇️ Free download / use online:\nsimplyrendered.github.io/smart-tools/curtain-fabric\n(tap the link in our bio → T-41)\nPencil pleat or wave on your projects? 👇\nSave this for your next soft furnishing order.",
+  "hashtags": "#curtains #curtaindesign #drapery #softfurnishings #windowtreatments #interiordesign #interiordesigner #homedecor #fabric #architecture #architect #architecturestudent #architecturetools #freetools #smarttoolseveryweek",
+  "alt": [
+   "Curtain elevation, flat curtain widths and fabric cutting plan",
+   "Full screenshot of the Curtain Fabric Calculator",
+   "Feature list",
+   "Table of fabric needed by fullness",
+   "Four steps to use the tool",
+   "Tool running on a phone",
+   "Follow @smart_tools_every_week, link in bio"
+  ],
+  "reel_caption": "Track × fullness ÷ roll, × drop? ❌\nFor a 2.4 m track in pencil pleat that says 14.5 m. Add returns, overlaps, hems and a 320 mm pattern repeat and you need 19.6 m ✅\nCurtain Fabric Calculator gives widths, cut drop and metres. Free, no sign-up, works offline.\n⬇️ simplyrendered.github.io/smart-tools/curtain-fabric\n(link in bio → T-41)\nFollow for a new free architecture tool every Mon, Wed & Fri."
+ },
+ {
+  "date": "2026-12-11",
+  "slug": "screen-size",
+  "no": "T-42",
+  "name": "Screen Size",
+  "slides": [
+   {
+    "t": "hook",
+    "title": "Can the back row read your slides?",
+    "sub": "Free Screen Size tool. The screen a room really needs, with mounting height, angles and projector throw.",
+    "img": "screen-size_views.png"
+   },
+   {
+    "t": "shot",
+    "kicker": "The tool",
+    "title": "Live section, plan and checks",
+    "img": "screen-size_top.png"
+   },
+   {
+    "t": "list",
+    "kicker": "What it does",
+    "title": "Size the screen from the back row",
+    "items": [
+     "4/6/8 rule by what people view",
+     "Closest row and ceiling checks",
+     "Viewing angles in plan",
+     "Projector throw distance"
+    ]
+   },
+   {
+    "t": "shot",
+    "kicker": "Standard sizes",
+    "title": "Which display actually works",
+    "img": "screen-size_data.png"
+   },
+   {
+    "t": "steps",
+    "kicker": "How to use",
+    "title": "Four inputs",
+    "items": [
+     "Enter back and front row distance",
+     "Pick what people look at",
+     "Set ceiling and screen height",
+     "Read the size and checks"
+    ]
+   },
+   {
+    "t": "phone",
+    "kicker": "On site",
+    "title": "Works on your phone and offline.",
+    "img": "screen-size_phone.png"
+   },
+   {
+    "t": "cta"
+   }
+  ],
+  "caption": "Can the back row read your slides? 📺\nNew free tool: Screen Size for a Room.\nEnter the back and front rows and what people view. It gives the screen size, mounting height and projector throw.\n✅ 4/6/8 image-height rule\n✅ Ceiling and viewing-angle checks\n✅ Every standard size compared\n⬇️ Free download / use online:\nsimplyrendered.github.io/smart-tools/screen-size\n(tap the link in our bio → T-42)\nTV or projector in your meeting rooms? 👇\nSave this for your next AV layout.",
+  "hashtags": "#meetingroom #conferenceroom #boardroom #audiovisual #avdesign #projector #homecinema #officedesign #interiordesign #architecture #architect #architecturestudent #architecturetools #freetools #smarttoolseveryweek",
+  "alt": [
+   "Room section with screen, viewers and sightlines, plan and checks",
+   "Full screenshot of the Screen Size tool",
+   "Feature list",
+   "Table of standard display sizes checked for this room",
+   "Four steps to use the tool",
+   "Tool running on a phone",
+   "Follow @smart_tools_every_week, link in bio"
+  ],
+  "reel_caption": "One 86-inch TV for every meeting room? ❌\nIn an 8.5 m deep room it's readable only to 6.4 m. For slides the back row needs a 1.42 m tall image: a 114-inch screen ✅\nScreen Size for a Room checks size, height, angles and throw. Free, no sign-up, works offline.\n⬇️ simplyrendered.github.io/smart-tools/screen-size\n(link in bio → T-42)\nFollow for a new free architecture tool every Mon, Wed & Fri."
+ }
+]

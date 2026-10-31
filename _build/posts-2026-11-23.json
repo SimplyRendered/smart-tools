@@ -1,0 +1,206 @@
+[
+ {
+  "date": "2026-11-23",
+  "slug": "spiral-stair",
+  "no": "T-34",
+  "name": "Spiral Staircase Geometry",
+  "slides": [
+   {
+    "t": "hook",
+    "title": "Is your spiral stair tread really 524 mm deep?",
+    "sub": "Free Spiral Staircase tool. Risers, walkline tread, clear width and the floor opening on a live plan.",
+    "img": "spiral-stair_views.png"
+   },
+   {
+    "t": "shot",
+    "kicker": "The tool",
+    "title": "Plan, checks and unrolled section",
+    "img": "spiral-stair_top.png"
+   },
+   {
+    "t": "list",
+    "kicker": "What it does",
+    "title": "Where you actually walk",
+    "items": [
+     "Risers and tread angle from the floor height",
+     "Tread depth at the walkline, not the rim",
+     "Clear width and floor opening for headroom",
+     "Limits editable to your own code"
+    ]
+   },
+   {
+    "t": "shot",
+    "kicker": "Tread schedule",
+    "title": "Every tread, level and headroom",
+    "img": "spiral-stair_data.png"
+   },
+   {
+    "t": "steps",
+    "kicker": "How to use",
+    "title": "Four inputs",
+    "items": [
+     "Enter floor height and radius",
+     "Set the tread angle",
+     "Pick the climbing direction",
+     "Read checks and opening"
+    ]
+   },
+   {
+    "t": "phone",
+    "kicker": "On site",
+    "title": "Works on your phone and offline.",
+    "img": "spiral-stair_phone.png"
+   },
+   {
+    "t": "cta"
+   }
+  ],
+  "caption": "Is your spiral stair tread really 524 mm deep? 🌀\nNew free tool: Spiral Staircase Geometry.\nEnter height, radius and tread angle. It gives risers, walkline tread and the floor opening.\n✅ Tread measured at the walkline\n✅ Live plan and unrolled section\n✅ Editable code limits\n⬇️ Free download / use online:\nsimplyrendered.github.io/smart-tools/spiral-stair\n(tap the link in our bio → T-34)\nRound or square stair: what do you draw? 👇\nSave this for your next stair detail.",
+  "hashtags": "#spiralstaircase #spiralstair #staircasedesign #stairdesign #stairdetail #residentialdesign #interiordesign #buildingcode #floorplan #architecture #architect #architecturestudent #architecturetools #freetools #smarttoolseveryweek",
+  "alt": [
+   "Spiral stair plan with walkline and floor opening",
+   "Full screenshot of the Spiral Staircase Geometry tool",
+   "Feature list",
+   "Tread schedule with levels and headroom",
+   "Four steps to use the tool",
+   "Tool running on a phone",
+   "Follow @smart_tools_every_week, link in bio"
+  ]
+ },
+ {
+  "date": "2026-11-25",
+  "slug": "gutter-sizer",
+  "no": "T-35",
+  "name": "Gutter & Downpipe Sizer",
+  "slides": [
+   {
+    "t": "hook",
+    "title": "How many downpipes does this roof really need?",
+    "sub": "Free Gutter & Downpipe tool. Peak flow, gutter capacity and downpipe count on a live plan and section.",
+    "img": "gutter-sizer_views.png"
+   },
+   {
+    "t": "shot",
+    "kicker": "The tool",
+    "title": "Roof plan, gutter section and checks",
+    "img": "gutter-sizer_top.png"
+   },
+   {
+    "t": "list",
+    "kicker": "What it does",
+    "title": "From rainfall to downpipes",
+    "items": [
+     "Peak flow from roof area and rainfall",
+     "Gutter capacity by Manning",
+     "Downpipe inlet capacity by size",
+     "How many downpipes for the roof"
+    ]
+   },
+   {
+    "t": "shot",
+    "kicker": "Downpipe sizes",
+    "title": "Every pipe size, side by side",
+    "img": "gutter-sizer_data.png"
+   },
+   {
+    "t": "steps",
+    "kicker": "How to use",
+    "title": "Four inputs",
+    "items": [
+     "Enter the roof and rainfall",
+     "Pick gutter shape and size",
+     "Pick the downpipe",
+     "Read the checks"
+    ]
+   },
+   {
+    "t": "phone",
+    "kicker": "On site",
+    "title": "Works on your phone and offline.",
+    "img": "gutter-sizer_phone.png"
+   },
+   {
+    "t": "cta"
+   }
+  ],
+  "caption": "How many downpipes does this roof really need? 🌧️\nNew free tool: Gutter & Downpipe Sizer.\nEnter the roof and rainfall. It gives peak flow, gutter capacity and the downpipes needed.\n✅ Rational method flow\n✅ Gutter by Manning, pipe inlet check\n✅ Table of every pipe size\n⬇️ Free download / use online:\nsimplyrendered.github.io/smart-tools/gutter-sizer\n(tap the link in our bio → T-35)\n75 or 100 mm: what do you specify? 👇\nSave this for your next roof plan.",
+  "hashtags": "#downpipe #gutter #rainwaterdrainage #roofdrainage #stormwater #roofdesign #plumbing #buildingservices #monsoon #architecture #architect #architecturestudent #indianarchitecture #architecturetools #freetools #smarttoolseveryweek",
+  "alt": [
+   "Roof plan with gutter and downpipe, and a gutter section with water level",
+   "Full screenshot of the Gutter & Downpipe Sizer",
+   "Feature list",
+   "Table of downpipe sizes and capacities",
+   "Four steps to use the tool",
+   "Tool running on a phone",
+   "Follow @smart_tools_every_week, link in bio"
+  ]
+ },
+ {
+  "date": "2026-11-27",
+  "slug": "cooling-load",
+  "no": "T-36",
+  "name": "AC Cooling Load",
+  "slides": [
+   {
+    "t": "hook",
+    "title": "Is 1 TR per 100 sq ft the right AC size?",
+    "sub": "Free AC Cooling Load tool. The load item by item, in watts and tons, with the next standard size.",
+    "img": "cooling-load_views.png"
+   },
+   {
+    "t": "shot",
+    "kicker": "The tool",
+    "title": "Plan and load breakdown",
+    "img": "cooling-load_top.png"
+   },
+   {
+    "t": "list",
+    "kicker": "What it does",
+    "title": "From heat sources to tonnage",
+    "items": [
+     "Walls, roof, glass and sun, item by item",
+     "People, lights, equipment, fresh air",
+     "Watts, tons and next standard AC size",
+     "Compare with the 1 TR rule"
+    ]
+   },
+   {
+    "t": "shot",
+    "kicker": "Load schedule",
+    "title": "Every watt accounted for",
+    "img": "cooling-load_data.png"
+   },
+   {
+    "t": "steps",
+    "kicker": "How to use",
+    "title": "Four inputs",
+    "items": [
+     "Enter room and window",
+     "Pick glazing and wall direction",
+     "Add people and equipment",
+     "Read tonnage and size"
+    ]
+   },
+   {
+    "t": "phone",
+    "kicker": "On site",
+    "title": "Works on your phone and offline.",
+    "img": "cooling-load_phone.png"
+   },
+   {
+    "t": "cta"
+   }
+  ],
+  "caption": "Is 1 TR per 100 sq ft the right AC size? ❄️\nNew free tool: AC Cooling Load.\nEnter the room, window and what happens inside. It lists every heat source and gives watts, tonnage and the next standard size.\n✅ Sun, walls, roof, people, fresh air\n✅ Live plan and load chart\n✅ Compares the 100 sq ft rule\n⬇️ Free download / use online:\nsimplyrendered.github.io/smart-tools/cooling-load\n(tap the link in our bio → T-36)\n1.5 TR or 2 TR for a bedroom? 👇\nSave this for your next AC layout.",
+  "hashtags": "#airconditioning #hvac #coolingload #acsizing #tonnage #energyefficiency #buildingservices #residentialdesign #thermalcomfort #architecture #architect #architecturestudent #indianarchitecture #architecturetools #freetools #smarttoolseveryweek",
+  "alt": [
+   "Room plan with a west window and a bar chart of cooling load sources",
+   "Full screenshot of the AC Cooling Load tool",
+   "Feature list",
+   "Load schedule in watts and tons",
+   "Four steps to use the tool",
+   "Tool running on a phone",
+   "Follow @smart_tools_every_week, link in bio"
+  ]
+ }
+]
