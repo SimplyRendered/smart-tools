@@ -51,5 +51,17 @@ Live: https://simplyrendered.github.io/smart-tools/
 | T-43 | Plot Area from Sides | [open](https://simplyrendered.github.io/smart-tools/plot-area/) | [plot-area.html](plot-area/plot-area.html) |
 | T-44 | Sign Letter Height | [open](https://simplyrendered.github.io/smart-tools/sign-letters/) | [sign-letters.html](sign-letters/sign-letters.html) |
 | T-45 | Model Scale & Board | [open](https://simplyrendered.github.io/smart-tools/model-scale/) | [model-scale.html](model-scale/model-scale.html) |
+| T-46 | Terrace Screed Falls | [open](https://simplyrendered.github.io/smart-tools/terrace-falls/) | [terrace-falls.html](terrace-falls/terrace-falls.html) |
+| T-47 | Pool Volume & Turnover | [open](https://simplyrendered.github.io/smart-tools/pool-turnover/) | [pool-turnover.html](pool-turnover/pool-turnover.html) |
+| T-48 | Cladding Panel Layout | [open](https://simplyrendered.github.io/smart-tools/cladding-panels/) | [cladding-panels.html](cladding-panels/cladding-panels.html) |
+| T-49 | Slope & Contour | [open](https://simplyrendered.github.io/smart-tools/slope-contour/) | [slope-contour.html](slope-contour/slope-contour.html) |
+| T-50 | Brick Jali Open Area | [open](https://simplyrendered.github.io/smart-tools/brick-jali/) | [brick-jali.html](brick-jali/brick-jali.html) |
+| T-51 | Pergola Slat Shade | [open](https://simplyrendered.github.io/smart-tools/pergola-shade/) | [pergola-shade.html](pergola-shade/pergola-shade.html) |
+| T-52 | Exhaust Fan & Door Gap | [open](https://simplyrendered.github.io/smart-tools/exhaust-fan/) | [exhaust-fan.html](exhaust-fan/exhaust-fan.html) |
+| T-53 | Kitchen Cabinet Modules | [open](https://simplyrendered.github.io/smart-tools/kitchen-modules/) | [kitchen-modules.html](kitchen-modules/kitchen-modules.html) |
+| T-54 | Axonometric Setup | [open](https://simplyrendered.github.io/smart-tools/axonometric/) | [axonometric.html](axonometric/axonometric.html) |
+| T-55 | Hip Roof Geometry | [open](https://simplyrendered.github.io/smart-tools/hip-roof/) | [hip-roof.html](hip-roof/hip-roof.html) |
+| T-56 | Bi-fold Door Planner | [open](https://simplyrendered.github.io/smart-tools/bifold-door/) | [bifold-door.html](bifold-door/bifold-door.html) |
+| T-57 | Brick Bond Planner | [open](https://simplyrendered.github.io/smart-tools/brick-bond/) | [brick-bond.html](brick-bond/brick-bond.html) |
 
 Each app is a single self-contained HTML file. Download it and open it in any browser; it works offline.

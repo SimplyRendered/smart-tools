@@ -1,0 +1,206 @@
+[
+ {
+  "date": "2027-01-11",
+  "slug": "hip-roof",
+  "no": "T-55",
+  "name": "Hip Roof Geometry",
+  "slides": [
+   {
+    "t": "hook",
+    "title": "Is the hip rafter really common × 1.414?",
+    "sub": "Free Hip Roof Geometry tool. True hip length, backing angle and every jack rafter.",
+    "img": "hip-roof_views.png"
+   },
+   {
+    "t": "shot",
+    "kicker": "The tool",
+    "title": "Hip Roof Geometry, live",
+    "img": "hip-roof_top.png"
+   },
+   {
+    "t": "list",
+    "kicker": "What it does",
+    "title": "What you get",
+    "items": [
+     "True hip and common rafter",
+     "Backing angle for the hip",
+     "Jack rafters with cut lengths",
+     "Roof area and cutting summary"
+    ]
+   },
+   {
+    "t": "shot",
+    "kicker": "Cut list",
+    "title": "Every jack rafter, ready to cut",
+    "img": "hip-roof_data.png"
+   },
+   {
+    "t": "steps",
+    "kicker": "How to use",
+    "title": "Four steps",
+    "items": [
+     "Enter the wall plate size",
+     "Set pitch and overhang",
+     "Set rafter spacing",
+     "Read hips and jacks"
+    ]
+   },
+   {
+    "t": "phone",
+    "kicker": "On site",
+    "title": "Works on your phone and offline.",
+    "img": "hip-roof_phone.png"
+   },
+   {
+    "t": "cta"
+   }
+  ],
+  "caption": "Is the hip rafter really common × 1.414? 🏠\nNew free tool: Hip Roof Geometry.\nEnter the wall plate, pitch and overhang. It gives the true hip, backing angle, jack rafters and roof area on a live plan.\n✅ True hip from √(2R² + rise²)\n✅ Jack rafter cut list\n✅ Hip backing angle\n⬇️ Free download / use online:\nsimplyrendered.github.io/smart-tools/hip-roof\n(tap the link in our bio → T-55)\nHip or gable on your next house? 👇\nSave this for your next roof plan.",
+  "hashtags": "#hiproof #roofdesign #roofframing #rafter #hiprafter #jackrafter #carpentry #timberframe #roofpitch #architecture #architect #architecturestudent #architecturetools #freetools #smarttoolseveryweek",
+  "alt": [
+   "Hip roof plan with hips, ridge, common and jack rafters",
+   "Full screenshot of the Hip Roof Geometry tool",
+   "Feature list",
+   "Table of jack rafter lengths and cut lengths",
+   "Four steps to use the tool",
+   "Tool running on a phone",
+   "Follow @smart_tools_every_week, link in bio"
+  ]
+ },
+ {
+  "date": "2027-01-13",
+  "slug": "bifold-door",
+  "no": "T-56",
+  "name": "Bi-fold Door Planner",
+  "slides": [
+   {
+    "t": "hook",
+    "title": "Does a 3 m bi-fold really open 3 m?",
+    "sub": "Free Bi-fold Door Planner. Panel width, folded stack and the real clear opening.",
+    "img": "bifold-door_views.png"
+   },
+   {
+    "t": "shot",
+    "kicker": "The tool",
+    "title": "Bi-fold Door Planner, live",
+    "img": "bifold-door_top.png"
+   },
+   {
+    "t": "list",
+    "kicker": "What it does",
+    "title": "What you get",
+    "items": [
+     "Panel width from the opening",
+     "Folded stack and projection",
+     "Real clear opening",
+     "Lead (traffic) door check"
+    ]
+   },
+   {
+    "t": "shot",
+    "kicker": "Compare",
+    "title": "Every panel count for this opening",
+    "img": "bifold-door_data.png"
+   },
+   {
+    "t": "steps",
+    "kicker": "How to use",
+    "title": "Four steps",
+    "items": [
+     "Enter the opening",
+     "Set panels and fold side",
+     "Check frame and thickness",
+     "Fold it open"
+    ]
+   },
+   {
+    "t": "phone",
+    "kicker": "On site",
+    "title": "Works on your phone and offline.",
+    "img": "bifold-door_phone.png"
+   },
+   {
+    "t": "cta"
+   }
+  ],
+  "caption": "Does a 3 m bi-fold really open 3 m? 🚪\nNew free tool: Bi-fold Door Planner.\nEnter the opening, frame and panels. It gives each panel width, the stack, the real clear opening and where a lead door works.\n✅ Fold it open on a live plan\n✅ 2 to 8 panels compared\n✅ Lead door: odd count per side\n⬇️ Free download / use online:\nsimplyrendered.github.io/smart-tools/bifold-door\n(tap the link in our bio → T-56)\nHow many panels would you use? 👇\nSave this for your next door schedule.",
+  "hashtags": "#bifolddoors #bifold #foldingdoors #doordesign #glassdoors #aluminiumdoors #patiodoors #doorschedule #interiordesign #architecture #architect #architecturestudent #architecturetools #freetools #smarttoolseveryweek",
+  "alt": [
+   "Plan of bi-fold panels folded open with the clear opening, and elevation with the lead door",
+   "Full screenshot of the Bi-fold Door Planner",
+   "Feature list",
+   "Table comparing 2 to 8 panels for the opening",
+   "Four steps to use the tool",
+   "Tool running on a phone",
+   "Follow @smart_tools_every_week, link in bio"
+  ]
+ },
+ {
+  "date": "2027-01-15",
+  "slug": "brick-bond",
+  "no": "T-57",
+  "name": "Brick Bond Planner",
+  "slides": [
+   {
+    "t": "hook",
+    "title": "Does every course start with a full brick?",
+    "sub": "Free Brick Bond Planner. English, Flemish, stretcher and header bond, course by course.",
+    "img": "brick-bond_views.png"
+   },
+   {
+    "t": "shot",
+    "kicker": "The tool",
+    "title": "Brick Bond Planner, live",
+    "img": "brick-bond_top.png"
+   },
+   {
+    "t": "list",
+    "kicker": "What it does",
+    "title": "What you get",
+    "items": [
+     "Every course set out",
+     "Queen closers and bats placed",
+     "Straight joints flagged",
+     "Bricks per m² and total"
+    ]
+   },
+   {
+    "t": "shot",
+    "kicker": "Spot the mistake",
+    "title": "No queen closer: straight joints in red",
+    "img": "brick-bond_bad.png"
+   },
+   {
+    "t": "steps",
+    "kicker": "How to use",
+    "title": "Four steps",
+    "items": [
+     "Pick the brick size",
+     "Choose the bond",
+     "Enter wall length and height",
+     "Read joints and bricks"
+    ]
+   },
+   {
+    "t": "phone",
+    "kicker": "On site",
+    "title": "Works on your phone and offline.",
+    "img": "brick-bond_phone.png"
+   },
+   {
+    "t": "cta"
+   }
+  ],
+  "caption": "Does every course start with a full brick? 🧱\nNew free tool: Brick Bond Planner.\nPick the brick, bond and wall size. It sets out every course with queen closers and bats and finds straight joints.\n✅ Live elevation and plan\n✅ Straight joints flagged in red\n✅ Bricks counted with wastage\n⬇️ Free download / use online:\nsimplyrendered.github.io/smart-tools/brick-bond\n(tap the link in our bio → T-57)\nEnglish or Flemish on your drawings? 👇\nSave this for your next brickwork sheet.",
+  "hashtags": "#brickbond #englishbond #flemishbond #brickwork #masonry #brickwall #buildingconstruction #constructiondetails #bricklaying #architecturestudent #architecture #architect #architecturetools #freetools #smarttoolseveryweek",
+  "alt": [
+   "Brick wall elevation in English bond with queen closers, and a plan of two courses",
+   "Full screenshot of the Brick Bond Planner",
+   "Feature list",
+   "English bond elevation without queen closers, straight joints marked in red",
+   "Four steps to use the tool",
+   "Tool running on a phone",
+   "Follow @smart_tools_every_week, link in bio"
+  ]
+ }
+]

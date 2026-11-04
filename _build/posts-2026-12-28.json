@@ -1,0 +1,209 @@
+[
+ {
+  "date": "2026-12-28",
+  "slug": "slope-contour",
+  "no": "T-49",
+  "name": "Slope & Contour",
+  "slides": [
+   {
+    "t": "hook",
+    "title": "Is a 50% slope really 45°?",
+    "sub": "Free Slope & Contour tool. Contour gap in, slope in %, degrees and 1 in n out.",
+    "img": "slope-contour_views.png"
+   },
+   {
+    "t": "shot",
+    "kicker": "The tool",
+    "title": "Slope & Contour, live",
+    "img": "slope-contour_top.png"
+   },
+   {
+    "t": "list",
+    "kicker": "What it does",
+    "title": "Survey to slope in seconds",
+    "items": [
+     "Map gap × scale = ground run",
+     "%, degrees and 1 in n together",
+     "True length along the ground",
+     "Contour gap for any target slope"
+    ]
+   },
+   {
+    "t": "shot",
+    "kicker": "Quick table",
+    "title": "Contour gap for every slope",
+    "img": "slope-contour_data.png"
+   },
+   {
+    "t": "steps",
+    "kicker": "How to use",
+    "title": "Four steps",
+    "items": [
+     "Enter interval and scale",
+     "Measure the contour gap",
+     "Read %, degrees, 1 in n",
+     "Set a target slope"
+    ]
+   },
+   {
+    "t": "phone",
+    "kicker": "On site",
+    "title": "Works on your phone and offline.",
+    "img": "slope-contour_phone.png"
+   },
+   {
+    "t": "cta"
+   }
+  ],
+  "caption": "Is a 50% slope really 45°? ⛰️\nNew free tool: Slope & Contour.\nMeasure the contour gap on your survey. It gives slope in %, degrees and 1 in n.\n✅ 50% is 26.6°, 100% is 45°\n✅ True length along the ground\n✅ Contour gap for any target slope\n⬇️ Free download / use online:\nsimplyrendered.github.io/smart-tools/slope-contour\n(tap the link in our bio → T-49)\nSteepest site you've worked on? 👇\nSave this for your next site analysis.",
+  "hashtags": "#contours #siteanalysis #slope #gradient #topography #sitesurvey #gradingplan #landscapearchitecture #siteplanning #architecture #architect #architecturestudent #architecturetools #freetools #smarttoolseveryweek",
+  "alt": [
+   "Contour plan with the measured gap between two contours and the slope",
+   "Full screenshot of the Slope & Contour tool",
+   "Feature list",
+   "Table of slopes in percent, degrees, 1 in n and contour gap",
+   "Four steps to use the tool",
+   "Tool running on a phone",
+   "Follow @smart_tools_every_week, link in bio"
+  ],
+  "reel_caption": "50% slope = 45°? ❌\nIt's only 26.6°. A 45° slope is 100% ✅\nSlope & Contour turns the contour gap on your survey into %, degrees and 1 in n. Free, no sign-up, works offline.\n⬇️ simplyrendered.github.io/smart-tools/slope-contour\n(link in bio → T-49)\nFollow for a new free architecture tool every Mon, Wed & Fri."
+ },
+ {
+  "date": "2026-12-30",
+  "slug": "brick-jali",
+  "no": "T-50",
+  "name": "Brick Jali Open Area",
+  "slides": [
+   {
+    "t": "hook",
+    "title": "How open is a brick jali, really?",
+    "sub": "Free Brick Jali tool. Open area, bearing and bricks for any gap, drawn brick by brick.",
+    "img": "brick-jali_views.png"
+   },
+   {
+    "t": "shot",
+    "kicker": "The tool",
+    "title": "Brick Jali Open Area, live",
+    "img": "brick-jali_top.png"
+   },
+   {
+    "t": "list",
+    "kicker": "What it does",
+    "title": "Jali by numbers",
+    "items": [
+     "Open area = gap ÷ (brick + gap)",
+     "Bearing each side checked",
+     "Bricks per m² and per panel",
+     "Modular, common or your brick"
+    ]
+   },
+   {
+    "t": "shot",
+    "kicker": "Quick table",
+    "title": "Every gap option compared",
+    "img": "brick-jali_data.png"
+   },
+   {
+    "t": "steps",
+    "kicker": "How to use",
+    "title": "Four steps",
+    "items": [
+     "Pick the brick",
+     "Set the gap",
+     "Check the bearing",
+     "Read open area and bricks"
+    ]
+   },
+   {
+    "t": "phone",
+    "kicker": "On site",
+    "title": "Works on your phone and offline.",
+    "img": "brick-jali_phone.png"
+   },
+   {
+    "t": "cta"
+   }
+  ],
+  "caption": "How open is a brick jali, really? 🧱\nNew free tool: Brick Jali Open Area.\nSet the brick and the gap. It gives the open area, the bearing and the brick count, drawn brick by brick.\n✅ 95 mm gaps = 33% open, not 50%\n✅ Bearing each side checked\n✅ Bricks per m² and per panel\n⬇️ Free download / use online:\nsimplyrendered.github.io/smart-tools/brick-jali\n(tap the link in our bio → T-50)\nWhat gap do you use? 👇\nSave this for your next facade.",
+  "hashtags": "#jali #brickjali #brickwork #jaliwall #brickfacade #honeycombbrick #passivedesign #ventilation #architecture #architect #architecturestudent #indianarchitecture #architecturetools #freetools #smarttoolseveryweek",
+  "alt": [
+   "Elevation of a honeycomb brick jali panel with every brick drawn",
+   "Full screenshot of the Brick Jali Open Area tool",
+   "Feature list",
+   "Table of gap options with open area, bearing and bricks per m²",
+   "Four steps to use the tool",
+   "Tool running on a phone",
+   "Follow @smart_tools_every_week, link in bio"
+  ],
+  "reel_caption": "Every other brick out = 50% open? ❌\nThe bricks above would sit on nothing. A 95 mm gap keeps 47.5 mm bearing: 33% open ✅\nBrick Jali Open Area gives open area, bearing and bricks. Free, no sign-up, works offline.\n⬇️ simplyrendered.github.io/smart-tools/brick-jali\n(link in bio → T-50)\nFollow for a new free architecture tool every Mon, Wed & Fri."
+ },
+ {
+  "date": "2027-01-01",
+  "slug": "pergola-shade",
+  "no": "T-51",
+  "name": "Pergola Slat Shade",
+  "slides": [
+   {
+    "t": "hook",
+    "title": "Half slats, half gaps: half the shade?",
+    "sub": "Free Pergola Slat Shade tool. Real sun angles, slat depth and direction, hour by hour.",
+    "img": "pergola-shade_views.png"
+   },
+   {
+    "t": "shot",
+    "kicker": "The tool",
+    "title": "Pergola Slat Shade, live",
+    "img": "pergola-shade_top.png"
+   },
+   {
+    "t": "list",
+    "kicker": "What it does",
+    "title": "Shade you can plan",
+    "items": [
+     "Sun position for any city and date",
+     "Slat width, depth, gap, direction",
+     "Hours of full shade a day",
+     "Live section and day chart"
+    ]
+   },
+   {
+    "t": "shot",
+    "kicker": "Quick table",
+    "title": "Shade hour by hour",
+    "img": "pergola-shade_data.png"
+   },
+   {
+    "t": "steps",
+    "kicker": "How to use",
+    "title": "Four steps",
+    "items": [
+     "Pick city and date",
+     "Enter slat size and gap",
+     "Set the slat direction",
+     "Slide the time"
+    ]
+   },
+   {
+    "t": "phone",
+    "kicker": "On site",
+    "title": "Works on your phone and offline.",
+    "img": "pergola-shade_phone.png"
+   },
+   {
+    "t": "cta"
+   }
+  ],
+  "caption": "Half slats, half gaps: half the shade? 🌤️\nNew free tool: Pergola Slat Shade.\nEnter the slats, gap and direction. It shows the shade on the floor at any hour, from the real sun.\n✅ North–south slats: 100% at 3:30 pm\n✅ Hours of full shade a day\n✅ Live section and day chart\n⬇️ Free download / use online:\nsimplyrendered.github.io/smart-tools/pergola-shade\n(tap the link in our bio → T-51)\nWhich way do your slats run? 👇\nSave this for your next terrace.",
+  "hashtags": "#pergola #pergoladesign #shadedesign #terracedesign #louvres #passivedesign #sunpath #climateresponsive #architecture #architect #architecturestudent #indianarchitecture #architecturetools #freetools #smarttoolseveryweek",
+  "alt": [
+   "Section through pergola slats with sun rays and the shadow on the floor",
+   "Full screenshot of the Pergola Slat Shade tool",
+   "Feature list",
+   "Hour by hour table of sun angles and shade",
+   "Four steps to use the tool",
+   "Tool running on a phone",
+   "Follow @smart_tools_every_week, link in bio"
+  ],
+  "reel_caption": "Half slats, half gaps = half shade? ❌\nAt 3:30 pm in May in Delhi, 50 × 150 mm north–south slats shade 100% of the floor ✅\nPergola Slat Shade tracks the real sun hour by hour. Free, no sign-up, works offline.\n⬇️ simplyrendered.github.io/smart-tools/pergola-shade\n(link in bio → T-51)\nFollow for a new free architecture tool every Mon, Wed & Fri."
+ }
+]

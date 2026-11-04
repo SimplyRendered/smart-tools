@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Brick Bond Planner</title>
+<meta name="description" content="Pick the brick, the bond and the wall size. It sets out every course with headers, stretchers, queen closers and bats, finds any straight joints and counts the bricks, on a live elevation and plan.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: drafting sheet — title block header, input column + two drawings, data table below */
+:root{
+  --paper:#F2F3EF; --sheet:#FBFBF8; --ink:#1B2732; --ink-2:#4A5865; --rule:#D5D9D4; --grid:#E6E8E3;
+  --red:#C8432B; --blue:#2E66A6; --sun:#E09A1E; --shadow:rgba(27,39,50,.22);
+  --display:'Barlow Condensed','Arial Narrow',sans-serif; --body:'IBM Plex Sans',system-ui,sans-serif; --mono:'IBM Plex Mono',ui-monospace,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#0E1A26; --sheet:#132233; --ink:#E4ECF2; --ink-2:#9DB0C0; --rule:#2A3D52; --grid:#1B2D40;
+  --red:#FF7A5C; --blue:#6FB0F0; --sun:#FFC04D; --shadow:rgba(140,190,240,.25); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0E1A26; --sheet:#132233; --ink:#E4ECF2; --ink-2:#9DB0C0; --rule:#2A3D52; --grid:#1B2D40;
+  --red:#FF7A5C; --blue:#6FB0F0; --sun:#FFC04D; --shadow:rgba(140,190,240,.25); color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--paper);color:var(--ink);font:15px/1.5 var(--body);padding:16px;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px}
+.sheet{max-width:1180px;margin:0 auto;background:var(--sheet);border:1.5px solid var(--ink);}
+.tb{display:grid;grid-template-columns:1fr auto;border-bottom:1.5px solid var(--ink)}
+.tb h1{font:700 clamp(30px,5vw,46px)/1 var(--display);letter-spacing:.01em;margin:0;padding:18px 20px 14px;text-transform:uppercase;text-wrap:balance}
+.tb h1 small{display:block;font:500 14px/1.4 var(--body);letter-spacing:0;text-transform:none;color:var(--ink-2);margin-top:6px}
+.tb .meta{display:grid;grid-template-columns:auto auto;border-left:1.5px solid var(--ink);font:12px/1.2 var(--mono)}
+.tb .meta div{padding:8px 12px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule)}
+.tb .meta b{display:block;font:600 10px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-bottom:4px}
+.main{display:grid;grid-template-columns:320px 1fr;}
+.inputs{border-right:1.5px solid var(--ink);padding:18px 20px;display:flex;flex-direction:column;gap:14px}
+label{display:flex;flex-direction:column;gap:5px;font:600 11px/1 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+input,select{font:500 15px/1.2 var(--mono);color:var(--ink);background:var(--paper);border:1px solid var(--rule);padding:9px 10px;border-radius:0;width:100%}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
+input[type=range]{padding:0;accent-color:var(--red)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+button{font:600 12px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;background:transparent;color:var(--ink);border:1px solid var(--ink);padding:8px 10px;cursor:pointer}
+button:hover{background:var(--ink);color:var(--sheet)}
+.time{font:500 28px/1 var(--mono);color:var(--red)}
+.views{display:grid;grid-template-columns:1fr 1fr;min-width:0}
+.view{padding:14px 16px 10px;min-width:0;border-bottom:1.5px solid var(--ink)}
+.view+.view{border-left:1px solid var(--rule)}
+.view h2,.data h2{font:600 20px/1 var(--display);text-transform:uppercase;letter-spacing:.04em;margin:0 0 8px;display:flex;justify-content:space-between;gap:8px}
+.view h2 span,.data h2 span{font:400 11px/1.6 var(--mono);color:var(--ink-2);text-transform:none;letter-spacing:0}
+svg{width:100%;height:auto;display:block}
+.readout{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1.5px solid var(--ink)}
+.readout div{padding:12px 16px;border-right:1px solid var(--rule)}
+.readout div:last-child{border-right:0}
+.readout b{display:block;font:600 10px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-bottom:6px}
+.readout span{font:500 24px/1 var(--mono);font-variant-numeric:tabular-nums}
+.readout .hi{color:var(--red)}
+.data{padding:14px 16px}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font:13px/1.3 var(--mono);font-variant-numeric:tabular-nums}
+th,td{padding:6px 10px;border-bottom:1px solid var(--rule);text-align:right;white-space:nowrap}
+th{font:600 10px/1.2 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+th:first-child,td:first-child{text-align:left}
+tr.now td{color:var(--red);font-weight:500}
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;padding:10px 16px;border-top:1.5px solid var(--ink);font:12px/1.4 var(--mono);color:var(--ink-2)}
+.note{font:12px/1.5 var(--body);color:var(--ink-2);margin:0}
+@media (max-width:900px){.main{grid-template-columns:1fr}.inputs{border-right:0;border-bottom:1.5px solid var(--ink)}}
+@media (max-width:640px){.views{grid-template-columns:1fr}.view+.view{border-left:0}.readout{grid-template-columns:repeat(2,1fr)}.readout div:nth-child(2){border-right:0}.readout div{border-bottom:1px solid var(--rule)}.tb{grid-template-columns:1fr}.tb .meta{border-left:0;border-top:1px solid var(--rule)}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.dl{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;padding:12px 20px;border-bottom:1.5px solid var(--ink);background:var(--paper)}
+.dl a.btn{font:600 13px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;background:var(--red);color:#fff;text-decoration:none;padding:11px 14px;border:1px solid var(--red)}
+.dl a.btn:hover{background:var(--ink);border-color:var(--ink);color:var(--sheet)}
+.dl span{font:13px/1.4 var(--body);color:var(--ink-2);flex:1;min-width:180px}
+.dl a.more{font:500 13px/1 var(--mono);color:var(--blue)}
+
+:root{--ok:#2F8A57;--okbg:rgba(47,138,87,.12);--bad:#C8432B;--badbg:rgba(200,67,43,.10);--warn:#B7791F}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ok:#5FD08F;--okbg:rgba(95,208,143,.14);--bad:#FF7A5C;--badbg:rgba(255,122,92,.12);--warn:#F2B84B}}
+:root[data-theme="dark"]{--ok:#5FD08F;--okbg:rgba(95,208,143,.14);--bad:#FF7A5C;--badbg:rgba(255,122,92,.12);--warn:#F2B84B}
+.pill{display:inline-block;font:600 11px/1 var(--body);letter-spacing:.08em;text-transform:uppercase;padding:5px 7px;border:1px solid currentColor}
+.pill.ok{color:var(--ok);background:var(--okbg)} .pill.bad{color:var(--bad);background:var(--badbg)} .pill.warn{color:var(--warn)}
+td.ok{color:var(--ok)} td.bad{color:var(--bad)}
+.readout .ok{color:var(--ok)} .readout .bad{color:var(--bad)}
+.view.full{grid-column:1/-1}
+.checks{list-style:none;margin:0;padding:0}
+.checks li{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:8px 0;border-bottom:1px solid var(--rule);font:13px/1.35 var(--body)}
+.checks li span:first-child{min-width:0}
+select{appearance:auto}
+.view.full svg{max-height:380px}</style>
+</head>
+<body>
+<div class="sheet">
+  <header class="tb">
+    <h1>Brick Bond Planner<small>Pick the brick, the bond and the wall size. It sets out every course with headers, stretchers, queen closers and bats, finds any straight joints and counts the bricks, on a live elevation and plan.</small></h1>
+    <div class="meta"><div><b>Sheet</b>T-57</div><div><b>Method</b>Quarter-brick set-out</div><div><b>Units</b>mm</div><div><b>By</b>@smart_tools_every_week</div></div>
+  </header>
+  <div class="dl" id="dlbar"><a class="btn" href="brick-bond.html" download="brick-bond.html">⬇ Download this app</a><span>Free. One HTML file that works offline. Open it in any browser, no install or sign-up.</span><a class="more" href="../">More free tools →</a></div>
+  <div class="main">
+    <section class="inputs" aria-label="Inputs">
+
+      <label for="BR">Brick
+        <select id="BR">
+          <option value="230,110,70,10" selected>IS 1077 traditional 230 × 110 × 70</option>
+          <option value="190,90,90,10">IS 1077 modular 190 × 90 × 90</option>
+          <option value="215,102.5,65,10">UK 215 × 102.5 × 65</option>
+          <option value="c">Custom</option>
+        </select>
+      </label>
+      <div class="row">
+        <label for="BL">Brick length<input id="BL" type="number" step="5" value="230"></label>
+        <label for="BW">Brick width<input id="BW" type="number" step="5" value="110"></label>
+      </div>
+      <div class="row">
+        <label for="BH">Brick height<input id="BH" type="number" step="5" value="70"></label>
+        <label for="J">Joint<input id="J" type="number" step="1" value="10"></label>
+      </div>
+      <label for="BD">Bond
+        <select id="BD">
+          <option value="english" selected>English bond (one brick wall)</option>
+          <option value="flemish">Flemish bond (one brick wall)</option>
+          <option value="stretcher">Stretcher bond (half brick wall)</option>
+          <option value="header">Header bond (one brick wall)</option>
+        </select>
+      </label>
+      <div class="row">
+        <label for="WL">Wall length mm<input id="WL" type="number" step="10" value="2400"></label>
+        <label for="WH">Wall height mm<input id="WH" type="number" step="10" value="1000"></label>
+      </div>
+      <div class="row">
+        <label for="QC">Queen closers at the ends
+          <select id="QC"><option value="1" selected>Yes</option><option value="0">No</option></select>
+        </label>
+        <label for="WS">Wastage %<input id="WS" type="number" step="1" value="5"></label>
+      </div>
+      <p class="note">Both ends of the wall are square (stopped) ends. The length is set out to the nearest quarter brick. A length that is not a whole number of half bricks leaves a cut bat at the right end. Turn queen closers off to see the straight joints you get when every course starts with a full brick.</p>
+
+    </section>
+    <section style="min-width:0">
+
+      <div class="readout">
+        <div><b>Straight joints</b><span id="oJ" class="hi">–</span></div>
+        <div><b>Lap</b><span id="oL">–</span></div>
+        <div><b>Cut pieces</b><span id="oK">–</span></div>
+        <div><b>Bricks</b><span id="oN">–</span></div>
+      </div>
+      <div class="views">
+        <div class="view full"><h2>Elevation <span id="elL"></span></h2><svg id="ev" viewBox="0 0 600 340" role="img" aria-label="Brick wall elevation with every course set out"></svg></div>
+        <div class="view full"><h2>Plan of two courses, left end <span id="plL"></span></h2><svg id="pl" viewBox="0 0 600 244" role="img" aria-label="Plan of the first two courses at the left end"></svg></div>
+      </div>
+      <div class="data"><h2>Every bond for this wall <span id="dtL"></span></h2><div class="tablewrap"><table><thead><tr><th>Bond</th><th>Wall</th><th>Straight joints</th><th>Lap</th><th>Cut pieces</th><th>Bricks per m²</th></tr></thead><tbody id="tb"></tbody></table></div></div>
+
+    </section>
+  </div>
+  <footer class="foot"><span>Free tool · @smart_tools_every_week · simplyrendered.github.io/smart-tools · built with Claude</span><span>Set out in quarter-brick modules: ¼ brick = (length + joint) ÷ 4, header = 2 modules, queen closer = 1, three-quarter bat = 3, stretcher = 4 (works when brick width = (length − joint) ÷ 2, true of IS 1077 230 × 110 and 190 × 90 bricks and UK 215 × 102.5). English and Flemish bond put a queen closer after the quoin header so vertical joints break by a quarter brick; stretcher bond laps by half a brick, header bond starts alternate courses with a three-quarter bat (standard brickwork practice, e.g. W. B. McKay, Building Construction Vol. 1; Barry, The Construction of Buildings). A straight joint is a vertical joint that lines up in two courses one above the other. Brick count from wall volume; add wastage.</span></footer>
+</div>
+<script>
+if(location.protocol==="file:"){const b=document.getElementById("dlbar");if(b)b.hidden=true;}
+const $=id=>document.getElementById(id);
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const NS="http://www.w3.org/2000/svg";
+function el(tag,attrs,parent,text){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(text!=null)e.textContent=text;parent&&parent.appendChild(e);return e}
+const fmt=(v,d=2)=>Number.isFinite(v)?v.toFixed(d):"–";
+
+const num=(id,min,max,def)=>{const v=parseFloat($(id).value);return Number.isFinite(v)?Math.min(max,Math.max(min,v)):def};
+$("BR").addEventListener("input",()=>{const v=$("BR").value;if(v!=="c"){const [a,b,c,d]=v.split(",");$("BL").value=a;$("BW").value=b;$("BH").value=c;$("J").value=d}render()});
+const U={S:4,H:2,Q:1,T:3,B:2};
+const NAMES={english:"English",flemish:"Flemish",stretcher:"Stretcher",header:"Header"};
+function pattern(bond,odd,qc){ // returns {start,cycle,end}; odd = second course
+  const Hs=qc?["H","Q"]:["H"],He=qc?["Q","H"]:["H"];
+  if(bond==="english")return odd?{start:[],cycle:["S"],end:[]}:{start:Hs,cycle:["H"],end:He};
+  if(bond==="flemish")return odd?{start:["S"],cycle:["H","S"],end:[]}:{start:Hs,cycle:["S","H"],end:He};
+  if(bond==="stretcher")return odd?{start:["B"],cycle:["S"],end:[]}:{start:[],cycle:["S"],end:[]};
+  return odd?{start:qc?["T"]:["H"],cycle:["H"],end:qc?["T"]:["H"]}:{start:[],cycle:["H"],end:[]}; // header
+}
+function course(bond,odd,qc,n){
+  const p=pattern(bond,odd,qc),len=a=>a.reduce((s,u)=>s+U[u],0),out=[];let r=n;
+  for(const u of p.start){if(U[u]<=r){out.push({u,w:U[u]});r-=U[u]}}
+  const eL=len(p.end);let i=0,guard=0;
+  while(r>0&&guard++<2000){
+    if(r===eL){p.end.forEach(u=>out.push({u,w:U[u]}));r=0;break}
+    const u=p.cycle[i%p.cycle.length];
+    if(r>=U[u]+eL){out.push({u,w:U[u]});r-=U[u];i++;continue}
+    const cut=r-eL;
+    if(cut>0){out.push({u:"X",w:cut});r-=cut}
+    else{out.push({u:"X",w:r});r=0}
+  }
+  return out;
+}
+function joints(c){const j=[];let x=0;for(let i=0;i<c.length-1;i++){x+=c[i].w;j.push(x)}return j}
+function analyse(bond,qc,n,nc){
+  const A=course(bond,false,qc,n),B=course(bond,true,qc,n),jA=joints(A),jB=joints(B);
+  const same=jA.filter(x=>jB.includes(x));
+  let lap=Infinity;for(const a of jA)for(const b of jB)lap=Math.min(lap,Math.abs(a-b));
+  if(!jA.length||!jB.length)lap=NaN;
+  const cuts=c=>c.filter(u=>u.u!=="S"&&u.u!=="H").length;
+  const nA=Math.ceil(nc/2),nB=Math.floor(nc/2);
+  return {A,B,jA,jB,same,lapQ:lap,straight:same.length*Math.max(0,nc-1),cuts:cuts(A)*nA+cuts(B)*nB};
+}
+function calc(){
+  const p={L:num("BL",50,500,230),W:num("BW",20,300,110),H:num("BH",20,300,70),j:num("J",0,30,10),
+    bond:NAMES[$("BD").value]?$("BD").value:"english",qc:$("QC").value!=="0",wl:num("WL",300,12000,2400),wh:num("WH",50,6000,1000),ws:num("WS",0,50,5)};
+  p.q=(p.L+p.j)/4;p.n=Math.max(4,Math.round((p.wl+p.j)/p.q));p.len=p.n*p.q-p.j;
+  p.nc=Math.max(1,Math.min(80,Math.round((p.wh+p.j)/(p.H+p.j))));p.ht=p.nc*(p.H+p.j)-p.j;
+  Object.assign(p,analyse(p.bond,p.qc,p.n,p.nc));
+  p.lap=p.lapQ*p.q;
+  p.half=p.bond==="stretcher";p.thick=p.half?p.W:p.L;
+  p.perM2=(p.half?1:2)*1e6/((p.L+p.j)*(p.H+p.j));
+  p.bricks=Math.ceil(p.perM2*(p.len+p.j)*(p.ht+p.j)/1e6*(1+p.ws/100));
+  p.modOK=Math.abs(p.W-(p.L-p.j)/2)<=2;
+  return p;
+}
+const FILL={S:"#B5532F",H:"#8E3B22",Q:"#E0A33A",T:"#D07A2E",B:"#D07A2E",X:"#E0A33A"};
+const LBL={Q:"Qc",T:"¾",B:"½",X:"bat"};
+function render(){
+  const p=calc(),ink=css("--ink"),ink2=css("--ink-2"),rule=css("--rule"),red=css("--red"),ok=css("--ok"),bad=css("--bad");
+  const M="IBM Plex Mono, monospace";
+  $("oJ").textContent=p.straight;$("oJ").className=p.straight?"bad":"ok";
+  $("oL").textContent=Number.isFinite(p.lap)?Math.round(p.lap)+" mm":"–";
+  $("oK").textContent=p.cuts;$("oN").textContent=p.bricks.toLocaleString("en-IN");
+  // elevation
+  const sv=$("ev");sv.innerHTML="";const show=Math.min(p.nc,14),k=Math.min(560/p.len,260/(show*(p.H+p.j))),ox=(600-p.len*k)/2,base=300;
+  el("line",{x1:ox-10,y1:base+1,x2:ox+p.len*k+10,y2:base+1,stroke:ink2,"stroke-width":2},sv);
+  for(let c=0;c<show;c++){const crs=c%2?p.B:p.A,y=base-(c+1)*(p.H+p.j)*k+p.j*k;let x=0;
+    for(const u of crs){const w=u.w*p.q-p.j,X=ox+x*p.q*k;
+      el("rect",{x:X,y,width:Math.max(0.5,w*k),height:p.H*k,fill:FILL[u.u],stroke:"#2A1A12","stroke-width":.6},sv);
+      if(LBL[u.u]&&w*k>14&&p.H*k>11)el("text",{x:X+w*k/2,y:y+p.H*k/2+4,"text-anchor":"middle",fill:"#1A1A1A","font-size":Math.min(12,p.H*k*0.7),"font-family":M},sv,LBL[u.u]);
+      x+=u.w}
+    if(c<show-1)for(const s of p.same){const X=ox+(s*p.q-p.j/2)*k;el("line",{x1:X,y1:y-p.j*k-p.H*k,x2:X,y2:y+p.H*k,stroke:"#FF3B30","stroke-width":3},sv)}}
+  el("text",{x:300,y:328,"text-anchor":"middle",fill:ink,"font-size":13,"font-family":M},sv,`${Math.round(p.len)} mm = ${p.n} quarter bricks · ${p.nc} courses, ${Math.round(p.ht)} mm`);
+  $("elL").textContent=(p.nc>show?`bottom ${show} of ${p.nc} courses · `:"")+(p.straight?"red = straight joint":"joints all broken");
+  // plan of first two courses, left end
+  const s2=$("pl");s2.innerHTML="";const nq=Math.min(p.n,28),k2=Math.min(540/(nq*p.q),(70)/p.thick),px=30;
+  [[p.A,"course 1",20],[p.B,"course 2",120]].forEach(([crs,lab,py])=>{
+    el("text",{x:px,y:py+8,fill:ink2,"font-size":12,"font-family":M},s2,lab);let x=0;const y0=py+16;
+    for(const u of crs){if(x>=nq)break;const w=Math.min(u.w,nq-x)*p.q-p.j,X=px+x*p.q*k2;
+      const full=!p.half&&["H","Q","T"].includes(u.u);
+      if(full||p.half){el("rect",{x:X,y:y0,width:Math.max(.5,w*k2),height:(p.half?p.W:p.L)*k2,fill:FILL[u.u],stroke:"#2A1A12","stroke-width":.6},s2)}
+      else{el("rect",{x:X,y:y0,width:Math.max(.5,w*k2),height:p.W*k2,fill:FILL[u.u],stroke:"#2A1A12","stroke-width":.6},s2);
+        el("rect",{x:X,y:y0+(p.W+p.j)*k2,width:Math.max(.5,w*k2),height:p.W*k2,fill:FILL[u.u],stroke:"#2A1A12","stroke-width":.6},s2)}
+      x+=u.w}});
+  el("text",{x:px,y:236,fill:ink2,"font-size":12,"font-family":M},s2,`face at top · wall ${Math.round(p.thick)} mm thick`);
+  $("plL").textContent=p.modOK?"":"brick width ≠ (length − joint) ÷ 2: bond will not close";
+  // table
+  $("tb").innerHTML=Object.keys(NAMES).map(b=>{const a=analyse(b,p.qc,p.n,p.nc),half=b==="stretcher",pm=(half?1:2)*1e6/((p.L+p.j)*(p.H+p.j));
+    return `<tr${b===p.bond?' class="now"':''}><td>${NAMES[b]}</td><td>${Math.round(half?p.W:p.L)} mm</td><td class="${a.straight?'bad':'ok'}">${a.straight}</td><td>${Number.isFinite(a.lapQ)?Math.round(a.lapQ*p.q)+' mm':'–'}</td><td>${a.cuts}</td><td>${fmt(pm,1)}</td></tr>`}).join("");
+  $("dtL").textContent=`${Math.round(p.len)} × ${Math.round(p.ht)} mm · queen closers ${p.qc?"on":"off"}`;
+}
+
+document.querySelectorAll("input,select").forEach(i=>i.addEventListener("input",render));
+window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",render);
+new MutationObserver(render).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+render();
+</script>
+</body>
+</html>

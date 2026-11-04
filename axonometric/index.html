@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Axonometric Setup</title>
+<meta name="description" content="Turn the plan and set the eye angle, or pick isometric, dimetric, plan oblique or cavalier. Get the angle of each axis on the sheet, the scale along x, y and z and your building drawn live, so you know exactly how to set up the axo.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: drafting sheet — title block header, input column + two drawings, data table below */
+:root{
+  --paper:#F2F3EF; --sheet:#FBFBF8; --ink:#1B2732; --ink-2:#4A5865; --rule:#D5D9D4; --grid:#E6E8E3;
+  --red:#C8432B; --blue:#2E66A6; --sun:#E09A1E; --shadow:rgba(27,39,50,.22);
+  --display:'Barlow Condensed','Arial Narrow',sans-serif; --body:'IBM Plex Sans',system-ui,sans-serif; --mono:'IBM Plex Mono',ui-monospace,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#0E1A26; --sheet:#132233; --ink:#E4ECF2; --ink-2:#9DB0C0; --rule:#2A3D52; --grid:#1B2D40;
+  --red:#FF7A5C; --blue:#6FB0F0; --sun:#FFC04D; --shadow:rgba(140,190,240,.25); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0E1A26; --sheet:#132233; --ink:#E4ECF2; --ink-2:#9DB0C0; --rule:#2A3D52; --grid:#1B2D40;
+  --red:#FF7A5C; --blue:#6FB0F0; --sun:#FFC04D; --shadow:rgba(140,190,240,.25); color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--paper);color:var(--ink);font:15px/1.5 var(--body);padding:16px;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px}
+.sheet{max-width:1180px;margin:0 auto;background:var(--sheet);border:1.5px solid var(--ink);}
+.tb{display:grid;grid-template-columns:1fr auto;border-bottom:1.5px solid var(--ink)}
+.tb h1{font:700 clamp(30px,5vw,46px)/1 var(--display);letter-spacing:.01em;margin:0;padding:18px 20px 14px;text-transform:uppercase;text-wrap:balance}
+.tb h1 small{display:block;font:500 14px/1.4 var(--body);letter-spacing:0;text-transform:none;color:var(--ink-2);margin-top:6px}
+.tb .meta{display:grid;grid-template-columns:auto auto;border-left:1.5px solid var(--ink);font:12px/1.2 var(--mono)}
+.tb .meta div{padding:8px 12px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule)}
+.tb .meta b{display:block;font:600 10px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-bottom:4px}
+.main{display:grid;grid-template-columns:320px 1fr;}
+.inputs{border-right:1.5px solid var(--ink);padding:18px 20px;display:flex;flex-direction:column;gap:14px}
+label{display:flex;flex-direction:column;gap:5px;font:600 11px/1 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+input,select{font:500 15px/1.2 var(--mono);color:var(--ink);background:var(--paper);border:1px solid var(--rule);padding:9px 10px;border-radius:0;width:100%}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
+input[type=range]{padding:0;accent-color:var(--red)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+button{font:600 12px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;background:transparent;color:var(--ink);border:1px solid var(--ink);padding:8px 10px;cursor:pointer}
+button:hover{background:var(--ink);color:var(--sheet)}
+.time{font:500 28px/1 var(--mono);color:var(--red)}
+.views{display:grid;grid-template-columns:1fr 1fr;min-width:0}
+.view{padding:14px 16px 10px;min-width:0;border-bottom:1.5px solid var(--ink)}
+.view+.view{border-left:1px solid var(--rule)}
+.view h2,.data h2{font:600 20px/1 var(--display);text-transform:uppercase;letter-spacing:.04em;margin:0 0 8px;display:flex;justify-content:space-between;gap:8px}
+.view h2 span,.data h2 span{font:400 11px/1.6 var(--mono);color:var(--ink-2);text-transform:none;letter-spacing:0}
+svg{width:100%;height:auto;display:block}
+.readout{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1.5px solid var(--ink)}
+.readout div{padding:12px 16px;border-right:1px solid var(--rule)}
+.readout div:last-child{border-right:0}
+.readout b{display:block;font:600 10px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-bottom:6px}
+.readout span{font:500 24px/1 var(--mono);font-variant-numeric:tabular-nums}
+.readout .hi{color:var(--red)}
+.data{padding:14px 16px}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font:13px/1.3 var(--mono);font-variant-numeric:tabular-nums}
+th,td{padding:6px 10px;border-bottom:1px solid var(--rule);text-align:right;white-space:nowrap}
+th{font:600 10px/1.2 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+th:first-child,td:first-child{text-align:left}
+tr.now td{color:var(--red);font-weight:500}
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;padding:10px 16px;border-top:1.5px solid var(--ink);font:12px/1.4 var(--mono);color:var(--ink-2)}
+.note{font:12px/1.5 var(--body);color:var(--ink-2);margin:0}
+@media (max-width:900px){.main{grid-template-columns:1fr}.inputs{border-right:0;border-bottom:1.5px solid var(--ink)}}
+@media (max-width:640px){.views{grid-template-columns:1fr}.view+.view{border-left:0}.readout{grid-template-columns:repeat(2,1fr)}.readout div:nth-child(2){border-right:0}.readout div{border-bottom:1px solid var(--rule)}.tb{grid-template-columns:1fr}.tb .meta{border-left:0;border-top:1px solid var(--rule)}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.dl{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;padding:12px 20px;border-bottom:1.5px solid var(--ink);background:var(--paper)}
+.dl a.btn{font:600 13px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;background:var(--red);color:#fff;text-decoration:none;padding:11px 14px;border:1px solid var(--red)}
+.dl a.btn:hover{background:var(--ink);border-color:var(--ink);color:var(--sheet)}
+.dl span{font:13px/1.4 var(--body);color:var(--ink-2);flex:1;min-width:180px}
+.dl a.more{font:500 13px/1 var(--mono);color:var(--blue)}
+
+:root{--ok:#2F8A57;--okbg:rgba(47,138,87,.12);--bad:#C8432B;--badbg:rgba(200,67,43,.10);--warn:#B7791F}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ok:#5FD08F;--okbg:rgba(95,208,143,.14);--bad:#FF7A5C;--badbg:rgba(255,122,92,.12);--warn:#F2B84B}}
+:root[data-theme="dark"]{--ok:#5FD08F;--okbg:rgba(95,208,143,.14);--bad:#FF7A5C;--badbg:rgba(255,122,92,.12);--warn:#F2B84B}
+.pill{display:inline-block;font:600 11px/1 var(--body);letter-spacing:.08em;text-transform:uppercase;padding:5px 7px;border:1px solid currentColor}
+.pill.ok{color:var(--ok);background:var(--okbg)} .pill.bad{color:var(--bad);background:var(--badbg)} .pill.warn{color:var(--warn)}
+td.ok{color:var(--ok)} td.bad{color:var(--bad)}
+.readout .ok{color:var(--ok)} .readout .bad{color:var(--bad)}
+.view.full{grid-column:1/-1}
+.checks{list-style:none;margin:0;padding:0}
+.checks li{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:8px 0;border-bottom:1px solid var(--rule);font:13px/1.35 var(--body)}
+.checks li span:first-child{min-width:0}
+select{appearance:auto}
+#oS{font-size:20px;white-space:nowrap}</style>
+</head>
+<body>
+<div class="sheet">
+  <header class="tb">
+    <h1>Axonometric Setup<small>Turn the plan and set the eye angle, or pick isometric, dimetric, plan oblique or cavalier. Get the angle of each axis on the sheet, the scale along x, y and z and your building drawn live, so you know exactly how to set up the axo.</small></h1>
+    <div class="meta"><div><b>Sheet</b>T-54</div><div><b>Method</b>Parallel projection</div><div><b>Units</b>degrees, m, mm</div><div><b>By</b>@smart_tools_every_week</div></div>
+  </header>
+  <div class="dl" id="dlbar"><a class="btn" href="axonometric.html" download="axonometric.html">⬇ Download this app</a><span>Free. One HTML file that works offline. Open it in any browser, no install or sign-up.</span><a class="more" href="../">More free tools →</a></div>
+  <div class="main">
+    <section class="inputs" aria-label="Inputs">
+
+      <label for="typ">View
+        <select id="typ"><option value="iso" selected>Isometric (30° / 30°)</option><option value="di742">Dimetric (7° / 42°)</option><option value="di15">Dimetric (15° / 15°)</option><option value="tri">Trimetric (15° / 45°)</option><option value="ax">Custom axonometric</option><option value="po">Plan oblique</option><option value="eo">Elevation oblique</option></select>
+      </label>
+      <div class="row">
+        <label for="th">Plan turn θ °<input id="th" type="number" step="1" value="45"></label>
+        <label for="ph">Eye angle φ °<input id="ph" type="number" step="1" value="35.2644"></label>
+      </div>
+      <label for="k">Oblique scale (height or depth)<input id="k" type="number" step="0.25" value="1"></label>
+      <div class="row">
+        <label for="L">Building length m<input id="L" type="number" step="0.5" value="12"></label>
+        <label for="W">Building width m<input id="W" type="number" step="0.5" value="8"></label>
+      </div>
+      <div class="row">
+        <label for="H">Eaves height m<input id="H" type="number" step="0.5" value="6"></label>
+        <label for="R">Ridge rise m<input id="R" type="number" step="0.5" value="3"></label>
+      </div>
+      <label for="N">Drawing scale 1 :<input id="N" type="number" step="10" value="100"></label>
+      <p class="note">Axonometric: θ turns the plan, φ is how far above the ground you look from (35.26° gives isometric). Plan oblique: θ turns the true plan, heights × the oblique scale. Elevation oblique: the front stays true, depth goes back at θ × the oblique scale (1 cavalier, 0.5 cabinet).</p>
+
+    </section>
+    <section style="min-width:0">
+
+      <div class="readout">
+        <div><b>Axes x / y</b><span id="oA" class="hi">–</span></div>
+        <div><b>Scale x : y : z</b><span id="oS">–</span></div>
+        <div><b>View type</b><span id="oT">–</span></div>
+        <div><b>12 m along x</b><span id="oP">–</span></div>
+      </div>
+      <div class="views">
+        <div class="view full"><h2>Your building <span id="bLabel"></span></h2><svg id="axo" viewBox="0 0 580 340" role="img" aria-label="Building drawn in the chosen axonometric or oblique view with the axis angles"></svg></div>
+      </div>
+      <div class="views">
+        <div class="view"><h2>Plan turn <span id="tLabel"></span></h2><svg id="pl" viewBox="0 0 300 230" role="img" aria-label="Plan turned by the plan angle with the viewing direction"></svg></div>
+        <div class="view"><h2>Eye angle <span id="eLabel"></span></h2><svg id="ey" viewBox="0 0 300 230" role="img" aria-label="Section showing the eye angle above the ground"></svg></div>
+      </div>
+      <div class="data"><h2>Every set-up <span id="dLabel"></span></h2><div class="tablewrap"><table><thead><tr><th>View</th><th>x angle</th><th>y angle</th><th>x scale</th><th>y scale</th><th>z scale</th><th>Length along x</th></tr></thead><tbody id="tb"></tbody></table></div></div>
+
+    </section>
+  </div>
+  <footer class="foot"><span>Free tool · @smart_tools_every_week · simplyrendered.github.io/smart-tools · built with Claude</span><span>Orthographic axonometric: plan turned θ, viewed from φ above the ground. Axis angle above horizontal: x = atan(tan θ · sin φ), y = atan(sin φ / tan θ); scales kx = √(cos²θ + sin²θ·sin²φ), ky = √(sin²θ + cos²θ·sin²φ), kz = cos φ (descriptive geometry, first principles). Isometric: θ 45°, φ 35.26°, every scale 0.816 (an isometric drawing uses full size, 1.22× the true projection). Oblique: plan or front face kept true, the third axis at your angle and scale (cavalier 1, cabinet ½).</span></footer>
+</div>
+<script>
+if(location.protocol==="file:"){const b=document.getElementById("dlbar");if(b)b.hidden=true;}
+const $=id=>document.getElementById(id);
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const NS="http://www.w3.org/2000/svg";
+function el(tag,attrs,parent,text){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(text!=null)e.textContent=text;parent&&parent.appendChild(e);return e}
+const fmt=(v,d=2)=>Number.isFinite(v)?v.toFixed(d):"–";
+
+const num=(id,min,max,def)=>{const v=parseFloat($(id).value);return Number.isFinite(v)?Math.min(max,Math.max(min,v)):def};
+const R2D=180/Math.PI,D2R=Math.PI/180;
+function fromAngles(a,b){const s=Math.sqrt(Math.tan(a*D2R)*Math.tan(b*D2R));return {th:Math.atan(Math.tan(a*D2R)/s)*R2D,ph:Math.asin(s)*R2D}}
+const PRE={iso:{th:45,ph:35.2644},di742:fromAngles(7,42),di15:fromAngles(15,15),tri:fromAngles(15,45),po:{th:45,k:1},eo:{th:45,k:0.5}};
+$("typ").addEventListener("change",()=>{const p=PRE[$("typ").value];if(p){if(p.th!=null)$("th").value=+p.th.toFixed(2);if(p.ph!=null)$("ph").value=+p.ph.toFixed(4);if(p.k!=null)$("k").value=p.k}render()});
+["th","ph"].forEach(id=>$(id).addEventListener("input",()=>{const t=$("typ").value;if(!["ax","po","eo"].includes(t))$("typ").value="ax"}));
+// projection: returns {P(x,y,z)->[u,v], ax:{x:[angle,scale],y:..,z:..}}
+function proj(mode,th,ph,k){const t=th*D2R,p=ph*D2R,c=Math.cos(t),s=Math.sin(t),cp=Math.cos(p),sp=Math.sin(p);
+  if(mode==="po")return {P:(x,y,z)=>[x*c-y*s,x*s+y*c+k*z],a:{x:[th,1],y:[90-th,1],z:[90,k]}};
+  if(mode==="eo")return {P:(x,y,z)=>[x+y*k*c,z+y*k*s],a:{x:[0,1],y:[th,k],z:[90,1]}};
+  return {P:(x,y,z)=>[x*c-y*s,z*cp+(x*s+y*c)*sp],a:{x:[Math.atan2(s*sp,c)*R2D,Math.sqrt(c*c+s*s*sp*sp)],y:[Math.atan2(c*sp,s)*R2D,Math.sqrt(s*s+c*c*sp*sp)],z:[90,cp]}};
+}
+function kind(mode,a){if(mode==="po")return "Plan oblique";if(mode==="eo")return Math.abs(a.y[1]-1)<0.01?"Cavalier":(Math.abs(a.y[1]-0.5)<0.01?"Cabinet":"Oblique");
+  const X=a.x[1],Y=a.y[1],Z=a.z[1],e=0.006;if(Math.abs(X-Y)<e&&Math.abs(Y-Z)<e)return "Isometric";if(Math.abs(X-Y)<e||Math.abs(Y-Z)<e||Math.abs(X-Z)<e)return "Dimetric";return "Trimetric"}
+function calc(){
+  const typ=$("typ").value,mode=typ==="po"?"po":(typ==="eo"?"eo":"ax");
+  const th=num("th",0,90,45),ph=num("ph",0,90,35.2644),k=num("k",0,2,1),L=num("L",1,500,12),W=num("W",1,500,8),H=num("H",0,300,6),R=num("R",0,100,3),N=num("N",1,10000,100);
+  const pr=proj(mode,th,ph,k),a=pr.a;
+  const presets=[["Isometric","ax",45,35.2644,1],["Isometric drawing (full size)","iso-d",0,0,1],["Dimetric 7° / 42°","ax",PRE.di742.th,PRE.di742.ph,1],["Dimetric 15° / 15°","ax",PRE.di15.th,PRE.di15.ph,1],["Trimetric 15° / 45°","ax",PRE.tri.th,PRE.tri.ph,1],["Plan oblique 45° / 45°","po",45,0,1],["Plan oblique 30° / 60°","po",30,0,1],["Plan oblique, heights ¾","po",30,0,0.75],["Cavalier 45°","eo",45,0,1],["Cabinet 45°","eo",45,0,0.5]].map(([n,m,t,p,kk])=>{
+    const A=m==="iso-d"?{x:[30,1],y:[30,1],z:[90,1]}:proj(m,t,p,kk).a;return {n,A,mm:L*A.x[1]*1000/N}});
+  return {typ,mode,th,ph,k,L,W,H,R,N,pr,a,type:kind(mode,a),presets,mm:L*a.x[1]*1000/N};
+}
+const FACES=(L,W,H,R)=>[
+  {p:[[0,0,0],[L,0,0],[L,0,H],[0,0,H]],f:"#7F9DBA"},{p:[[L,W,0],[0,W,0],[0,W,H],[L,W,H]],f:"#7F9DBA"},
+  {p:[[0,W,0],[0,0,0],[0,0,H],[0,W/2,H+R],[0,W,H]],f:"#A9C1D6"},{p:[[L,0,0],[L,W,0],[L,W,H],[L,W/2,H+R],[L,0,H]],f:"#A9C1D6"},
+  {p:[[0,0,H],[L,0,H],[L,W/2,H+R],[0,W/2,H+R]],f:"#C8673F"},{p:[[L,W,H],[0,W,H],[0,W/2,H+R],[L,W/2,H+R]],f:"#D9895F"},
+  {p:[[0,W,0],[L,W,0],[L,0,0],[0,0,0]],f:"#556677"}];
+function render(){
+  const c=calc(),ink=css("--ink"),ink2=css("--ink-2"),rule=css("--rule"),red=css("--red"),blue=css("--blue"),ok=css("--ok"),F="IBM Plex Mono, monospace",a=c.a;
+  $("oA").textContent=Math.round(a.x[0])+"° / "+Math.round(a.y[0])+"°";
+  $("oS").textContent=fmt(a.x[1],2)+":"+fmt(a.y[1],2)+":"+fmt(a.z[1],2);
+  $("oT").textContent=c.type;$("oP").textContent=fmt(c.mm,1)+" mm";
+  document.querySelector(".readout div:last-child b").textContent=fmt(c.L,c.L%1?1:0)+" m along x";
+  // ---- building
+  const sv=$("axo");sv.innerHTML="";const fs=FACES(c.L,c.W,c.H,c.R).map(f=>({...f,q:f.p.map(v=>c.pr.P(...v))}));
+  let us=[],vs=[];fs.forEach(f=>f.q.forEach(([u,v])=>{us.push(u);vs.push(v)}));
+  const u0=Math.min(...us),u1=Math.max(...us),v0=Math.min(...vs),v1=Math.max(...vs),sc=Math.min(360/Math.max(u1-u0,1e-6),215/Math.max(v1-v0,1e-6));
+  const ox=40+(360-(u1-u0)*sc)/2-u0*sc,oy=300+v0*sc,S=([u,v])=>[ox+u*sc,oy-v*sc];
+  const area=q=>{let s=0;for(let i=0;i<q.length;i++){const [a1,b1]=q[i],[a2,b2]=q[(i+1)%q.length];s+=a1*b2-a2*b1}return s/2};
+  const pth=q=>"M"+q.map(p=>S(p).map(v=>fmt(v,1)).join(" ")).join(" L")+"Z";
+  fs.forEach(f=>{if(area(f.q)<=1e-9)el("path",{d:pth(f.q),fill:"none",stroke:ink2,"stroke-width":1,"stroke-dasharray":"3 4",opacity:.6},sv)});
+  fs.forEach(f=>{if(area(f.q)>1e-9)el("path",{d:pth(f.q),fill:f.f,"fill-opacity":.85,stroke:ink,"stroke-width":1.5,"stroke-linejoin":"round"},sv)});
+  // tripod
+  const tx=455,ty=290,len=62;el("line",{x1:tx-70,y1:ty,x2:tx+80,y2:ty,stroke:ink2,"stroke-dasharray":"3 3"},sv);
+  [["x",a.x,1,"#C8432B"],["y",a.y,-1,"#2E86DE"],["z",a.z,1,"#2F8A57"]].forEach(([n,[ang,s],dir,col])=>{const r=ang*D2R,ex=tx+dir*Math.cos(r)*len*Math.max(s,0.05),ey=ty-Math.sin(r)*len*Math.max(s,0.05);
+    el("line",{x1:tx,y1:ty,x2:fmt(ex,1),y2:fmt(ey,1),stroke:col,"stroke-width":3},sv);
+    el("text",{x:fmt(ex+(n==="y"?-6:6),1),y:fmt(ey-6,1),fill:col,"font-size":13,"font-family":F,"text-anchor":n==="y"?"end":"start"},sv,n==="z"?"z ×"+fmt(s,2):n+" "+fmt(ang,1)+"°")});
+  el("text",{x:20,y:24,fill:red,"font-size":15,"font-family":F},sv,c.type+": x at "+fmt(a.x[0],1)+"°, y at "+fmt(a.y[0],1)+"° from horizontal");
+  el("text",{x:20,y:44,fill:ink2,"font-size":13,"font-family":F},sv,"scales x "+fmt(a.x[1],3)+" · y "+fmt(a.y[1],3)+" · z "+fmt(a.z[1],3)+(c.mode==="ax"?" · θ "+fmt(c.th,1)+"°, φ "+fmt(c.ph,1)+"°":""));
+  el("text",{x:20,y:330,fill:ink2,"font-size":13,"font-family":F},sv,fmt(c.L,1)+" × "+fmt(c.W,1)+" m, eaves "+fmt(c.H,1)+" m, ridge +"+fmt(c.R,1)+" m · dashed = hidden");
+  $("bLabel").textContent="1:"+Math.round(c.N)+" → "+fmt(c.mm,1)+" mm along x";
+  // ---- plan turn
+  const pv=$("pl");pv.innerHTML="";const pk=110/Math.max(c.L,c.W),t=(c.mode==="eo"?0:c.th)*D2R,cx=150,cy=100;
+  const corner=[[0,0],[c.L,0],[c.L,c.W],[0,c.W]].map(([x,y])=>[x-c.L/2,y-c.W/2]).map(([x,y])=>[cx+(x*Math.cos(t)-y*Math.sin(t))*pk,cy-(x*Math.sin(t)+y*Math.cos(t))*pk]);
+  el("path",{d:"M"+corner.map(p=>p.map(v=>fmt(v,1)).join(" ")).join(" L")+"Z",fill:"#7F9DBA","fill-opacity":.5,stroke:ink,"stroke-width":1.5},pv);
+  el("line",{x1:fmt(corner[0][0],1),y1:fmt(corner[0][1],1),x2:fmt(corner[1][0],1),y2:fmt(corner[1][1],1),stroke:"#C8432B","stroke-width":3},pv);
+  el("text",{x:fmt((corner[0][0]+corner[1][0])/2+6,1),y:fmt((corner[0][1]+corner[1][1])/2+16,1),fill:"#C8432B","font-size":12,"font-family":F},pv,"x (length)");
+  el("line",{x1:cx,y1:224,x2:cx,y2:190,stroke:blue,"stroke-width":2},pv);el("path",{d:`M${cx} 184 l-6 10 l12 0Z`,fill:blue},pv);
+  el("text",{x:cx+8,y:218,fill:blue,"font-size":12,"font-family":F},pv,"you look this way");
+  el("text",{x:10,y:20,fill:ink,"font-size":13,"font-family":F},pv,c.mode==="eo"?"front face kept square to you":"plan turned "+fmt(c.th,1)+"°");
+  $("tLabel").textContent="θ "+fmt(c.mode==="eo"?0:c.th,1)+"°";
+  // ---- eye angle
+  const ev=$("ey");ev.innerHTML="";el("line",{x1:20,y1:190,x2:290,y2:190,stroke:ink,"stroke-width":1.4},ev);
+  el("rect",{x:170,y:120,width:60,height:70,fill:"#7F9DBA","fill-opacity":.6,stroke:ink},ev);
+  if(c.mode==="ax"){const p=c.ph*D2R,ex=200-Math.cos(p)*170,ey=155-Math.sin(p)*170;
+    el("line",{x1:fmt(ex,1),y1:fmt(ey,1),x2:200,y2:155,stroke:blue,"stroke-width":2,"stroke-dasharray":"6 4"},ev);
+    el("circle",{cx:fmt(ex,1),cy:fmt(ey,1),r:5,fill:blue},ev);
+    el("path",{d:`M ${fmt(200-60,1)} 155 A 60 60 0 0 1 ${fmt(200-Math.cos(p)*60,1)} ${fmt(155-Math.sin(p)*60,1)}`,fill:"none",stroke:red,"stroke-width":1.5},ev);
+    el("line",{x1:110,y1:155,x2:200,y2:155,stroke:ink2,"stroke-dasharray":"3 3"},ev);
+    el("text",{x:10,y:20,fill:ink,"font-size":13,"font-family":F},ev,"eye "+fmt(c.ph,1)+"° above the ground");
+    el("text",{x:10,y:212,fill:ink2,"font-size":12,"font-family":F},ev,"heights shrink to "+fmt(a.z[1]*100,0)+"%")}
+  else{el("text",{x:10,y:20,fill:ink,"font-size":13,"font-family":F},ev,c.mode==="po"?"plan kept true, heights × "+fmt(c.k,2):"front kept true, depth × "+fmt(c.k,2));
+    el("text",{x:10,y:212,fill:ink2,"font-size":12,"font-family":F},ev,"oblique: no single eye angle")}
+  $("eLabel").textContent=c.mode==="ax"?"φ "+fmt(c.ph,1)+"°":"oblique";
+  // ---- table
+  const same=A=>Math.abs(A.x[0]-a.x[0])<0.05&&Math.abs(A.y[0]-a.y[0])<0.05&&Math.abs(A.x[1]-a.x[1])<0.002&&Math.abs(A.y[1]-a.y[1])<0.002&&Math.abs(A.z[1]-a.z[1])<0.002;
+  $("tb").innerHTML=c.presets.map(r=>`<tr${same(r.A)?' class="now"':""}><td>${r.n}</td><td>${fmt(r.A.x[0],1)}°</td><td>${fmt(r.A.y[0],1)}°</td><td>${fmt(r.A.x[1],3)}</td><td>${fmt(r.A.y[1],3)}</td><td>${fmt(r.A.z[1],3)}</td><td>${fmt(r.mm,1)} mm</td></tr>`).join("")+
+    `<tr class="now"><td>Yours</td><td>${fmt(a.x[0],1)}°</td><td>${fmt(a.y[0],1)}°</td><td>${fmt(a.x[1],3)}</td><td>${fmt(a.y[1],3)}</td><td>${fmt(a.z[1],3)}</td><td>${fmt(c.mm,1)} mm</td></tr>`;
+  $("dLabel").textContent=fmt(c.L,1)+" m wall at 1:"+Math.round(c.N);
+}
+
+document.querySelectorAll("input,select").forEach(i=>i.addEventListener("input",render));
+window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",render);
+new MutationObserver(render).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+render();
+</script>
+</body>
+</html>

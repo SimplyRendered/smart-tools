@@ -1,0 +1,147 @@
+APP = dict(
+slug="exhaust-fan", title="Exhaust Fan & Door Gap", h1="Exhaust Fan & Door Gap",
+sub="Pick the room and the standard. Get the airflow the fan must pull in L/s, m³/h and cfm, the fan or duct size, the air changes it gives, and the gap under the door the replacement air needs to get in.",
+meta=[("Sheet","T-52"),("Method","Code rate + orifice flow"),("Units","L/s, m³/h, cfm, mm"),("By","@smart_tools_every_week")],
+source="Rates: ASHRAE 62.2 local exhaust (bathroom 50 cfm on demand or 20 cfm continuous; kitchen 100 cfm on demand or 5 air changes per hour continuous, as summarised by US DOE); UK Approved Document F intermittent extract (kitchen 60 L/s, 30 L/s with a cooker hood, utility 30, bathroom 15, WC 6 L/s; 10 mm door undercut, BEAMA guide). Door gap: orifice flow Q = Cd · A · √(2Δp/ρ), Cd 0.61, ρ 1.2 kg/m³ (first principles). Fan size: duct area at the face velocity you enter. Check the chosen fan's rated airflow at its working pressure on its data sheet.",
+inputs="""
+      <label for="std">Standard
+        <select id="std"><option value="ai" selected>ASHRAE 62.2, on demand</option><option value="ac">ASHRAE 62.2, continuous</option><option value="uk">UK Approved Doc F, intermittent</option><option value="ach">Air changes only</option></select>
+      </label>
+      <label for="room">Room
+        <select id="room"><option value="bath">Bathroom (bath or shower)</option><option value="kit" selected>Kitchen</option><option value="hood">Kitchen with cooker hood</option><option value="util">Utility room</option><option value="wc">WC only</option></select>
+      </label>
+      <div class="row">
+        <label for="L">Room length m<input id="L" type="number" step="0.1" value="3"></label>
+        <label for="W">Room width m<input id="W" type="number" step="0.1" value="2.4"></label>
+      </div>
+      <div class="row">
+        <label for="H">Ceiling height m<input id="H" type="number" step="0.1" value="3"></label>
+        <label for="ach">Also check air changes /h<input id="ach" type="number" step="1" value="0"></label>
+      </div>
+      <div class="row">
+        <label for="dw">Door width mm<input id="dw" type="number" step="50" value="750"></label>
+        <label for="gap">Gap under door now mm<input id="gap" type="number" step="1" value="10"></label>
+      </div>
+      <div class="row">
+        <label for="dp">Fan suction Pa<input id="dp" type="number" step="1" value="10"></label>
+        <label for="v">Face velocity m/s<input id="v" type="number" step="0.5" value="3"></label>
+      </div>
+      <p class="note">Air changes = 0 uses the code rate alone; enter e.g. 10 to size by air changes too (the larger wins). A small wall fan works at about 10 to 25 Pa: the lower the suction, the bigger the gap must be. Use a transfer grille if the gap gets too big.</p>
+""",
+right="""
+      <div class="readout">
+        <div><b>Fan must pull</b><span id="oQ" class="hi">–</span></div>
+        <div><b>Fan / duct size</b><span id="oD">–</span></div>
+        <div><b>Gap needed</b><span id="oG">–</span></div>
+        <div><b>Air changes</b><span id="oA">–</span></div>
+      </div>
+      <div class="views">
+        <div class="view full"><h2>Room section <span id="sLabel"></span></h2><svg id="sec" viewBox="0 0 580 320" role="img" aria-label="Room section with the exhaust fan, the airflow and the gap under the door"></svg></div>
+      </div>
+      <div class="views">
+        <div class="view"><h2>Door gap <span id="gLabel"></span></h2><svg id="gch" viewBox="0 0 300 230" role="img" aria-label="Gap under the door needed for each airflow"></svg></div>
+        <div class="view"><h2>Fan size <span id="fLabel"></span></h2><svg id="fan" viewBox="0 0 300 230" role="img" aria-label="Standard fan and duct sizes with the size needed"></svg></div>
+      </div>
+      <div class="data"><h2>Every room <span id="dLabel"></span></h2><div class="tablewrap"><table><thead><tr><th>Room</th><th>Code rate</th><th>Design L/s</th><th>m³/h</th><th>cfm</th><th>Fan ⌀</th><th>Gap needed</th></tr></thead><tbody id="tb"></tbody></table></div></div>
+""",
+css="",
+js=r"""
+const num=(id,min,max,def)=>{const v=parseFloat($(id).value);return Number.isFinite(v)?Math.min(max,Math.max(min,v)):def};
+const CFM=0.47195, CD=0.61, RHO=1.2, SIZES=[100,125,150,200,250,300,350,400,450];
+const ROOMS={bath:"Bathroom",kit:"Kitchen",hood:"Kitchen + hood",util:"Utility",wc:"WC only"};
+const STD={ai:"ASHRAE 62.2 on demand",ac:"ASHRAE 62.2 continuous",uk:"UK Approved Doc F",ach:"air changes only"};
+// code rate in L/s; "ach5" = 5 air changes per hour; null = no minimum in that standard
+function codeRate(std,room,V){
+  if(std==="ai")return {bath:50*CFM,kit:100*CFM,hood:100*CFM,util:null,wc:null}[room];
+  if(std==="ac")return {bath:20*CFM,kit:5*V/3.6,hood:5*V/3.6,util:null,wc:null}[room];
+  if(std==="uk")return {bath:15,kit:60,hood:30,util:30,wc:6}[room];
+  return null;
+}
+function codeLabel(std,room){
+  if(std==="ai")return {bath:"50 cfm",kit:"100 cfm",hood:"100 cfm",util:"none",wc:"none"}[room];
+  if(std==="ac")return {bath:"20 cfm",kit:"5 ach",hood:"5 ach",util:"none",wc:"none"}[room];
+  if(std==="uk")return {bath:"15 L/s",kit:"60 L/s",hood:"30 L/s",util:"30 L/s",wc:"6 L/s"}[room];
+  return "–";
+}
+function size(std,room,p){
+  const c=codeRate(std,room,p.V),a=p.ach>0?p.ach*p.V/3.6:0,Q=Math.max(c||0,a);
+  const vel=Math.sqrt(2*p.dp/RHO),A=Q/1000/(CD*vel),gapNeed=A/(p.dw/1000)*1000;
+  const dReq=Q>0?Math.sqrt(4*(Q/1000)/(Math.PI*p.v))*1000:0,dia=SIZES.find(s=>s>=dReq-0.5)||null;
+  return {c,a,Q,gapNeed,dReq,dia,achNow:p.V>0?Q*3.6/p.V:0,by:Q<=0?"none":(a>(c||0)?"air changes":"code")};
+}
+function calc(){
+  const std=$("std").value,room=$("room").value,L=num("L",0.5,50,3),W=num("W",0.5,50,2.4),H=num("H",1.8,10,3);
+  const p={V:L*W*H,ach:num("ach",0,60,0),dw:num("dw",300,3000,750),gap:num("gap",0,200,10),dp:num("dp",1,200,10),v:num("v",0.5,15,3)};
+  const r=size(std,room,p),vel=Math.sqrt(2*p.dp/RHO),Qgap=CD*(p.gap/1000*p.dw/1000)*vel*1000;
+  const grille=Math.max(0,(r.gapNeed-p.gap)/1000*p.dw/1000)*1e4; // cm² free area
+  const rows=Object.keys(ROOMS).map(k=>({k,n:ROOMS[k],lab:codeLabel(std,k),...size(std,k,p)}));
+  return {std,room,L,W,H,...p,...r,vel,Qgap,grille,rows,ok:p.gap+1e-9>=r.gapNeed};
+}
+const FIX={ok:"#2F8A57",bad:"#C8432B",air:"#2E86DE"};
+function arrow(sv,x1,y1,x2,y2,col,w){const a=Math.atan2(y2-y1,x2-x1),h=9;
+  el("line",{x1:fmt(x1,1),y1:fmt(y1,1),x2:fmt(x2,1),y2:fmt(y2,1),stroke:col,"stroke-width":w||2.4},sv);
+  el("path",{d:`M${fmt(x2,1)} ${fmt(y2,1)} L${fmt(x2-h*Math.cos(a-0.45),1)} ${fmt(y2-h*Math.sin(a-0.45),1)} L${fmt(x2-h*Math.cos(a+0.45),1)} ${fmt(y2-h*Math.sin(a+0.45),1)}Z`,fill:col},sv)}
+function render(){
+  const c=calc(),ink=css("--ink"),ink2=css("--ink-2"),rule=css("--rule"),red=css("--red"),blue=css("--blue"),ok=css("--ok"),F="IBM Plex Mono, monospace";
+  const noRate=c.Q<=0;
+  $("oQ").textContent=noRate?"no minimum":fmt(c.Q,1)+" L/s";
+  $("oD").textContent=noRate?"–":(c.dia?c.dia+" mm":"> 450 mm");
+  $("oG").textContent=noRate?"–":fmt(c.gapNeed,1)+" mm";$("oG").className=noRate?"":(c.ok?"ok":"bad");
+  $("oA").textContent=noRate?"–":fmt(c.achNow,1)+" /h";
+  // ---- section
+  const sv=$("sec");sv.innerHTML="";
+  const k=Math.min(300/c.L,185/c.H),x0=170,yF=272,X=x=>x0+x*k,Y=y=>yF-y*k,rw=c.L*k,rh=c.H*k;
+  el("rect",{x:fmt(X(0),1),y:fmt(Y(c.H),1),width:fmt(rw,1),height:fmt(rh,1),fill:rule,opacity:.25},sv);
+  // walls
+  el("rect",{x:fmt(X(0)-10,1),y:fmt(Y(c.H)-10,1),width:fmt(rw+20,1),height:10,fill:ink2,opacity:.6},sv);
+  el("rect",{x:fmt(X(c.L),1),y:fmt(Y(c.H)-10,1),width:10,height:fmt(rh+10,1),fill:ink2,opacity:.6},sv);
+  el("line",{x1:20,y1:yF,x2:560,y2:yF,stroke:ink,"stroke-width":1.6},sv);
+  // door wall on the left with door leaf and gap
+  const dh=Math.min(2.1,c.H-0.2)*k,gpx=Math.max(4,Math.min(26,c.gapNeed*0.6));
+  el("rect",{x:fmt(X(0)-10,1),y:fmt(Y(c.H),1),width:10,height:fmt(Math.max(0,rh-dh),1),fill:ink2,opacity:.6},sv);
+  el("rect",{x:fmt(X(0)-7,1),y:fmt(yF-dh,1),width:5,height:fmt(Math.max(0,dh-gpx),1),fill:css("--sun"),opacity:.9},sv);
+  el("text",{x:fmt(X(0)-16,1),y:fmt(yF-dh/2,1),fill:ink2,"font-size":13,"font-family":F,"text-anchor":"end"},sv,"door");
+  // fan on the outer wall, high up
+  const fy=Y(c.H)+30,fx=X(c.L)+5,fr=Math.max(9,Math.min(22,(c.dia||150)/18));
+  el("circle",{cx:fmt(fx,1),cy:fmt(fy,1),r:fmt(fr,1),fill:"none",stroke:ink,"stroke-width":2},sv);
+  for(let i=0;i<3;i++){const a=i*2.094;el("line",{x1:fmt(fx,1),y1:fmt(fy,1),x2:fmt(fx+fr*0.85*Math.cos(a),1),y2:fmt(fy+fr*0.85*Math.sin(a),1),stroke:ink,"stroke-width":2},sv)}
+  if(!noRate){
+    const pts=[[40,yF-gpx/2-2],[X(0)+28,yF-gpx/2-2],[X(c.L*0.5),Y(c.H*0.42)],[fx-fr-8,fy]];
+    el("path",{d:"M"+pts.map(q=>fmt(q[0],1)+" "+fmt(q[1],1)).join(" L"),fill:"none",stroke:FIX.air,"stroke-width":2.6,"stroke-linejoin":"round"},sv);
+    arrow(sv,pts[2][0],pts[2][1],fx-fr-6,fy,FIX.air,2.6);arrow(sv,fx+fr+2,fy,Math.min(572,fx+fr+46),fy,FIX.air,2.6);
+    el("text",{x:46,y:fmt(yF-gpx-8,1),fill:FIX.air,"font-size":13,"font-family":F},sv,"air in");
+    el("text",{x:fmt(Math.min(560,fx+fr+4),1),y:fmt(fy-12,1),fill:FIX.air,"font-size":13,"font-family":F},sv,"out");
+    el("text",{x:fmt(X(0)+14,1),y:fmt(yF-gpx-6,1),fill:c.ok?ok:red,"font-size":13,"font-family":F},sv,"gap "+fmt(c.gapNeed,1)+" mm");
+  }
+  el("text",{x:20,y:24,fill:red,"font-size":15,"font-family":F},sv,noRate?"no "+STD[c.std]+" minimum for "+ROOMS[c.room]+": enter air changes":"fan pulls "+fmt(c.Q,1)+" L/s = "+fmt(c.Q*3.6,0)+" m³/h = "+fmt(c.Q/CFM,0)+" cfm");
+  el("text",{x:20,y:44,fill:c.ok?ok:red,"font-size":14,"font-family":F},sv,noRate?"":"gap needed "+fmt(c.gapNeed,1)+" mm under a "+Math.round(c.dw)+" mm door, you have "+fmt(c.gap,0)+" mm");
+  el("text",{x:20,y:304,fill:ink2,"font-size":13,"font-family":F},sv,fmt(c.L,1)+" × "+fmt(c.W,1)+" × "+fmt(c.H,1)+" m = "+fmt(c.V,1)+" m³ · suction "+fmt(c.dp,0)+" Pa · gap drawn larger");
+  $("sLabel").textContent=ROOMS[c.room]+" · "+STD[c.std];
+  // ---- gap chart
+  const gv=$("gch");gv.innerHTML="";const qMax=Math.max(80,Math.ceil(c.Q/20)*20+20),gMax=Math.max(40,Math.ceil(Math.max(c.gapNeed,c.gap)/10)*10+10);
+  const gx=q=>40+q/qMax*245,gy=g=>195-g/gMax*170;
+  el("line",{x1:40,y1:195,x2:288,y2:195,stroke:ink,"stroke-width":1.2},gv);el("line",{x1:40,y1:20,x2:40,y2:195,stroke:ink,"stroke-width":1.2},gv);
+  for(let q=0;q<=qMax;q+=20)el("text",{x:fmt(gx(q),1),y:211,fill:ink2,"font-size":11,"font-family":F,"text-anchor":"middle"},gv,q);
+  for(let g=0;g<=gMax;g+=10)el("text",{x:34,y:fmt(gy(g)+4,1),fill:ink2,"font-size":11,"font-family":F,"text-anchor":"end"},gv,g);
+  el("text",{x:288,y:226,fill:ink2,"font-size":11,"font-family":F,"text-anchor":"end"},gv,"airflow L/s");
+  const slope=1/(CD*c.vel)/(c.dw/1000);   // mm of gap per L/s
+  el("line",{x1:gx(0),y1:gy(0),x2:fmt(gx(Math.min(qMax,gMax/slope)),1),y2:fmt(gy(Math.min(gMax,qMax*slope)),1),stroke:blue,"stroke-width":2},gv);
+  el("line",{x1:40,y1:fmt(gy(c.gap),1),x2:288,y2:fmt(gy(c.gap),1),stroke:ink2,"stroke-dasharray":"4 4"},gv);
+  el("text",{x:46,y:fmt(gy(c.gap)-5,1),fill:ink2,"font-size":11,"font-family":F},gv,"your gap "+fmt(c.gap,0)+" mm");
+  if(!noRate){el("circle",{cx:fmt(gx(Math.min(c.Q,qMax)),1),cy:fmt(gy(Math.min(c.gapNeed,gMax)),1),r:5,fill:c.ok?FIX.ok:FIX.bad},gv);
+    el("text",{x:fmt(Math.max(gx(Math.min(c.Q,qMax))-10,90),1),y:fmt(Math.max(gy(Math.min(c.gapNeed,gMax))-10,30),1),fill:c.ok?ok:red,"font-size":12,"font-family":F,"text-anchor":"end"},gv,fmt(c.gapNeed,1)+" mm")}
+  $("gLabel").textContent=Math.round(c.dw)+" mm door, "+fmt(c.dp,0)+" Pa";
+  // ---- fan sizes
+  const fv=$("fan");fv.innerHTML="";const show=[100,150,200,250,300];let cx=14;
+  show.forEach(s=>{const r=s/300*26+6;cx+=r;const pick=s===c.dia;
+    el("circle",{cx:fmt(cx,1),cy:90,r:fmt(r,1),fill:pick?FIX.ok:"none","fill-opacity":pick?.25:0,stroke:pick?ok:ink2,"stroke-width":pick?2.5:1.2},fv);
+    el("text",{x:fmt(cx,1),y:fmt(90+r+16,1),fill:pick?ok:ink2,"font-size":11,"font-family":F,"text-anchor":"middle"},fv,s);cx+=r+10});
+  el("text",{x:10,y:170,fill:ink,"font-size":13,"font-family":F},fv,noRate?"no airflow set":"needs ⌀ "+fmt(c.dReq,0)+" mm at "+fmt(c.v,1)+" m/s");
+  el("text",{x:10,y:190,fill:ink2,"font-size":12,"font-family":F},fv,c.Qgap<c.Q&&!noRate?"your gap lets in only "+fmt(c.Qgap,1)+" L/s":"gap lets in "+fmt(c.Qgap,1)+" L/s");
+  el("text",{x:10,y:210,fill:c.grille>0?red:ok,"font-size":12,"font-family":F},fv,noRate?"":(c.grille>0?"or add a "+fmt(c.grille,0)+" cm² free-area grille":"no transfer grille needed"));
+  $("fLabel").textContent=c.dia?c.dia+" mm":"–";
+  // ---- table
+  $("tb").innerHTML=c.rows.map(r=>`<tr${r.k===c.room?' class="now"':""}><td>${r.n}</td><td>${r.lab}</td><td>${r.Q>0?fmt(r.Q,1):"–"}</td><td>${r.Q>0?fmt(r.Q*3.6,0):"–"}</td><td>${r.Q>0?fmt(r.Q/CFM,0):"–"}</td><td>${r.Q>0?(r.dia?r.dia+" mm":">450"):"–"}</td><td class="${r.Q>0?(c.gap+1e-9>=r.gapNeed?"ok":"bad"):""}">${r.Q>0?fmt(r.gapNeed,1)+" mm":"–"}</td></tr>`).join("");
+  $("dLabel").textContent=STD[c.std]+(c.ach>0?" · min "+fmt(c.ach,0)+" ach":"");
+}
+""")

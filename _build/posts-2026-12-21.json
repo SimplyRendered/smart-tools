@@ -1,0 +1,206 @@
+[
+ {
+  "date": "2026-12-21",
+  "slug": "terrace-falls",
+  "no": "T-46",
+  "name": "Terrace Screed Falls",
+  "slides": [
+   {
+    "t": "hook",
+    "title": "Do your terrace valleys really fall 1 in 100?",
+    "sub": "Free Terrace Screed Falls tool. Hip-and-valley falls, thickest point, volume and dead load.",
+    "img": "terrace-falls_views.png"
+   },
+   {
+    "t": "shot",
+    "kicker": "The tool",
+    "title": "Terrace Screed Falls, live",
+    "img": "terrace-falls_top.png"
+   },
+   {
+    "t": "list",
+    "kicker": "What it does",
+    "title": "Falls you can build",
+    "items": [
+     "Hip-and-valley planes to each outlet",
+     "Real valley fall on the diagonal",
+     "Thickest point and screed volume",
+     "Dead load in kN/m²"
+    ]
+   },
+   {
+    "t": "shot",
+    "kicker": "Compare layouts",
+    "title": "Outlets on one edge, both edges or corners",
+    "img": "terrace-falls_data.png"
+   },
+   {
+    "t": "steps",
+    "kicker": "How to use",
+    "title": "Four steps",
+    "items": [
+     "Enter the terrace size",
+     "Place the outlets",
+     "Set fall and min. screed",
+     "Read thickness and load"
+    ]
+   },
+   {
+    "t": "phone",
+    "kicker": "On site",
+    "title": "Works on your phone and offline.",
+    "img": "terrace-falls_phone.png"
+   },
+   {
+    "t": "cta"
+   }
+  ],
+  "caption": "Do your terrace valleys really fall 1 in 100? 🏢\nNew free tool: Terrace Screed Falls.\nEnter the terrace, outlets and fall. It draws the falls and gives the thickest point, volume and load.\n✅ Real valley fall (1 in 141!)\n✅ Outlet layouts compared\n✅ Screed volume and kN/m²\n⬇️ Free download / use online:\nsimplyrendered.github.io/smart-tools/terrace-falls\n(tap the link in our bio → T-46)\nHow many outlets on your last terrace? 👇\nSave this for your next roof plan.",
+  "hashtags": "#terrace #flatroof #roofdrainage #screed #waterproofing #terracewaterproofing #brickbatcoba #roofdesign #architecture #architect #architecturestudent #indianarchitecture #architecturetools #freetools #smarttoolseveryweek",
+  "alt": [
+   "Terrace plan shaded by screed thickness with two outlets on one edge",
+   "Full screenshot of the Terrace Screed Falls tool",
+   "Feature list",
+   "Table comparing outlet layouts with thickest point, average, volume and load",
+   "Four steps to use the tool",
+   "Tool running on a phone",
+   "Follow @smart_tools_every_week, link in bio"
+  ]
+ },
+ {
+  "date": "2026-12-23",
+  "slug": "pool-turnover",
+  "no": "T-47",
+  "name": "Pool Volume & Turnover",
+  "slides": [
+   {
+    "t": "hook",
+    "title": "How much water does this pool really hold?",
+    "sub": "Free Pool Volume & Turnover tool. True volume of a sloping floor, pump flow, filter and pipe size.",
+    "img": "pool-turnover_views.png"
+   },
+   {
+    "t": "shot",
+    "kicker": "The tool",
+    "title": "Pool Volume & Turnover, live",
+    "img": "pool-turnover_top.png"
+   },
+   {
+    "t": "list",
+    "kicker": "What it does",
+    "title": "From section to pump",
+    "items": [
+     "Shallow, slope and deep parts",
+     "True volume in m³ and litres",
+     "Pump flow from turnover time",
+     "Filter area and pipe bore"
+    ]
+   },
+   {
+    "t": "shot",
+    "kicker": "Turnover options",
+    "title": "Flow, filter and pipe for 3 to 12 hours",
+    "img": "pool-turnover_data.png"
+   },
+   {
+    "t": "steps",
+    "kicker": "How to use",
+    "title": "Four steps",
+    "items": [
+     "Enter length and width",
+     "Add shallow and deep depths",
+     "Set turnover and filter rate",
+     "Read volume and pump flow"
+    ]
+   },
+   {
+    "t": "phone",
+    "kicker": "On site",
+    "title": "Works on your phone and offline.",
+    "img": "pool-turnover_phone.png"
+   },
+   {
+    "t": "cta"
+   }
+  ],
+  "caption": "How much water does this pool really hold? 🏊\nNew free tool: Pool Volume & Turnover.\nEnter the depths and turnover time. It gives true volume, pump flow, filter and pipe size.\n✅ Sloping floor measured properly\n✅ Long section drawn to scale\n✅ Turnover options, 3 to 12 h\n⬇️ Free download / use online:\nsimplyrendered.github.io/smart-tools/pool-turnover\n(tap the link in our bio → T-47)\nSkimmer or overflow pool on your projects? 👇\nSave this for your next pool design.",
+  "hashtags": "#swimmingpool #pooldesign #poolconstruction #poolfiltration #poolpump #infinitypool #villadesign #landscapedesign #architecture #architect #architecturestudent #indianarchitecture #architecturetools #freetools #smarttoolseveryweek",
+  "alt": [
+   "Long section of a pool with a sloping floor compared with a full-depth box",
+   "Full screenshot of the Pool Volume & Turnover tool",
+   "Feature list",
+   "Table of turnover times with flow, filter area, filter diameter and pipe bore",
+   "Four steps to use the tool",
+   "Tool running on a phone",
+   "Follow @smart_tools_every_week, link in bio"
+  ]
+ },
+ {
+  "date": "2026-12-25",
+  "slug": "cladding-panels",
+  "no": "T-48",
+  "name": "Cladding Panel Layout",
+  "slides": [
+   {
+    "t": "hook",
+    "title": "How many ACP sheets does this facade really need?",
+    "sub": "Free Cladding Panel Layout tool. Equal panels, joints, returns and sheets to order.",
+    "img": "cladding-panels_views.png"
+   },
+   {
+    "t": "shot",
+    "kicker": "The tool",
+    "title": "Cladding Panel Layout, live",
+    "img": "cladding-panels_top.png"
+   },
+   {
+    "t": "list",
+    "kicker": "What it does",
+    "title": "Facade to order list",
+    "items": [
+     "Equal panels, joints included",
+     "Folded returns added to each blank",
+     "Blanks per stock sheet and yield",
+     "Row options that waste less"
+    ]
+   },
+   {
+    "t": "shot",
+    "kicker": "Row options",
+    "title": "Pick the panel size that saves sheets",
+    "img": "cladding-panels_data.png"
+   },
+   {
+    "t": "steps",
+    "kicker": "How to use",
+    "title": "Four steps",
+    "items": [
+     "Enter the facade size",
+     "Set max panel, joint and return",
+     "Enter your stock sheet",
+     "Read sheets to order"
+    ]
+   },
+   {
+    "t": "phone",
+    "kicker": "On site",
+    "title": "Works on your phone and offline.",
+    "img": "cladding-panels_phone.png"
+   },
+   {
+    "t": "cta"
+   }
+  ],
+  "caption": "How many ACP sheets does this facade really need? 🏙️\nNew free tool: Cladding Panel Layout.\nEnter the facade, max panel, joint and return. It splits it into equal panels and nests them on the sheet.\n✅ Equal panels, joints included\n✅ Blanks per sheet and yield %\n✅ Row options to waste less\n⬇️ Free download / use online:\nsimplyrendered.github.io/smart-tools/cladding-panels\n(tap the link in our bio → T-48)\nACP, HPL or fibre cement? 👇\nSave this for your next facade.",
+  "hashtags": "#facadedesign #cladding #acp #acpcladding #facade #elevationdesign #hpl #buildingenvelope #architecture #architect #architecturestudent #indianarchitecture #architecturetools #freetools #smarttoolseveryweek",
+  "alt": [
+   "Facade elevation divided into 40 equal cladding panels",
+   "Full screenshot of the Cladding Panel Layout tool",
+   "Feature list",
+   "Table of row options with panel and blank sizes, blanks per sheet, sheets and yield",
+   "Four steps to use the tool",
+   "Tool running on a phone",
+   "Follow @smart_tools_every_week, link in bio"
+  ]
+ }
+]

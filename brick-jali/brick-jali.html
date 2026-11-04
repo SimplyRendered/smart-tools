@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Brick Jali Open Area</title>
+<meta name="description" content="Set the brick, the joint and the gap between bricks in a honeycomb jali. Get the real open area, the bearing each brick keeps on the course below, bricks per m² and a full panel elevation you can count.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: drafting sheet — title block header, input column + two drawings, data table below */
+:root{
+  --paper:#F2F3EF; --sheet:#FBFBF8; --ink:#1B2732; --ink-2:#4A5865; --rule:#D5D9D4; --grid:#E6E8E3;
+  --red:#C8432B; --blue:#2E66A6; --sun:#E09A1E; --shadow:rgba(27,39,50,.22);
+  --display:'Barlow Condensed','Arial Narrow',sans-serif; --body:'IBM Plex Sans',system-ui,sans-serif; --mono:'IBM Plex Mono',ui-monospace,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#0E1A26; --sheet:#132233; --ink:#E4ECF2; --ink-2:#9DB0C0; --rule:#2A3D52; --grid:#1B2D40;
+  --red:#FF7A5C; --blue:#6FB0F0; --sun:#FFC04D; --shadow:rgba(140,190,240,.25); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0E1A26; --sheet:#132233; --ink:#E4ECF2; --ink-2:#9DB0C0; --rule:#2A3D52; --grid:#1B2D40;
+  --red:#FF7A5C; --blue:#6FB0F0; --sun:#FFC04D; --shadow:rgba(140,190,240,.25); color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--paper);color:var(--ink);font:15px/1.5 var(--body);padding:16px;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px}
+.sheet{max-width:1180px;margin:0 auto;background:var(--sheet);border:1.5px solid var(--ink);}
+.tb{display:grid;grid-template-columns:1fr auto;border-bottom:1.5px solid var(--ink)}
+.tb h1{font:700 clamp(30px,5vw,46px)/1 var(--display);letter-spacing:.01em;margin:0;padding:18px 20px 14px;text-transform:uppercase;text-wrap:balance}
+.tb h1 small{display:block;font:500 14px/1.4 var(--body);letter-spacing:0;text-transform:none;color:var(--ink-2);margin-top:6px}
+.tb .meta{display:grid;grid-template-columns:auto auto;border-left:1.5px solid var(--ink);font:12px/1.2 var(--mono)}
+.tb .meta div{padding:8px 12px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule)}
+.tb .meta b{display:block;font:600 10px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-bottom:4px}
+.main{display:grid;grid-template-columns:320px 1fr;}
+.inputs{border-right:1.5px solid var(--ink);padding:18px 20px;display:flex;flex-direction:column;gap:14px}
+label{display:flex;flex-direction:column;gap:5px;font:600 11px/1 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+input,select{font:500 15px/1.2 var(--mono);color:var(--ink);background:var(--paper);border:1px solid var(--rule);padding:9px 10px;border-radius:0;width:100%}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
+input[type=range]{padding:0;accent-color:var(--red)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+button{font:600 12px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;background:transparent;color:var(--ink);border:1px solid var(--ink);padding:8px 10px;cursor:pointer}
+button:hover{background:var(--ink);color:var(--sheet)}
+.time{font:500 28px/1 var(--mono);color:var(--red)}
+.views{display:grid;grid-template-columns:1fr 1fr;min-width:0}
+.view{padding:14px 16px 10px;min-width:0;border-bottom:1.5px solid var(--ink)}
+.view+.view{border-left:1px solid var(--rule)}
+.view h2,.data h2{font:600 20px/1 var(--display);text-transform:uppercase;letter-spacing:.04em;margin:0 0 8px;display:flex;justify-content:space-between;gap:8px}
+.view h2 span,.data h2 span{font:400 11px/1.6 var(--mono);color:var(--ink-2);text-transform:none;letter-spacing:0}
+svg{width:100%;height:auto;display:block}
+.readout{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1.5px solid var(--ink)}
+.readout div{padding:12px 16px;border-right:1px solid var(--rule)}
+.readout div:last-child{border-right:0}
+.readout b{display:block;font:600 10px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-bottom:6px}
+.readout span{font:500 24px/1 var(--mono);font-variant-numeric:tabular-nums}
+.readout .hi{color:var(--red)}
+.data{padding:14px 16px}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font:13px/1.3 var(--mono);font-variant-numeric:tabular-nums}
+th,td{padding:6px 10px;border-bottom:1px solid var(--rule);text-align:right;white-space:nowrap}
+th{font:600 10px/1.2 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+th:first-child,td:first-child{text-align:left}
+tr.now td{color:var(--red);font-weight:500}
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;padding:10px 16px;border-top:1.5px solid var(--ink);font:12px/1.4 var(--mono);color:var(--ink-2)}
+.note{font:12px/1.5 var(--body);color:var(--ink-2);margin:0}
+@media (max-width:900px){.main{grid-template-columns:1fr}.inputs{border-right:0;border-bottom:1.5px solid var(--ink)}}
+@media (max-width:640px){.views{grid-template-columns:1fr}.view+.view{border-left:0}.readout{grid-template-columns:repeat(2,1fr)}.readout div:nth-child(2){border-right:0}.readout div{border-bottom:1px solid var(--rule)}.tb{grid-template-columns:1fr}.tb .meta{border-left:0;border-top:1px solid var(--rule)}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.dl{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;padding:12px 20px;border-bottom:1.5px solid var(--ink);background:var(--paper)}
+.dl a.btn{font:600 13px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;background:var(--red);color:#fff;text-decoration:none;padding:11px 14px;border:1px solid var(--red)}
+.dl a.btn:hover{background:var(--ink);border-color:var(--ink);color:var(--sheet)}
+.dl span{font:13px/1.4 var(--body);color:var(--ink-2);flex:1;min-width:180px}
+.dl a.more{font:500 13px/1 var(--mono);color:var(--blue)}
+
+:root{--ok:#2F8A57;--okbg:rgba(47,138,87,.12);--bad:#C8432B;--badbg:rgba(200,67,43,.10);--warn:#B7791F}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ok:#5FD08F;--okbg:rgba(95,208,143,.14);--bad:#FF7A5C;--badbg:rgba(255,122,92,.12);--warn:#F2B84B}}
+:root[data-theme="dark"]{--ok:#5FD08F;--okbg:rgba(95,208,143,.14);--bad:#FF7A5C;--badbg:rgba(255,122,92,.12);--warn:#F2B84B}
+.pill{display:inline-block;font:600 11px/1 var(--body);letter-spacing:.08em;text-transform:uppercase;padding:5px 7px;border:1px solid currentColor}
+.pill.ok{color:var(--ok);background:var(--okbg)} .pill.bad{color:var(--bad);background:var(--badbg)} .pill.warn{color:var(--warn)}
+td.ok{color:var(--ok)} td.bad{color:var(--bad)}
+.readout .ok{color:var(--ok)} .readout .bad{color:var(--bad)}
+.view.full{grid-column:1/-1}
+.checks{list-style:none;margin:0;padding:0}
+.checks li{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:8px 0;border-bottom:1px solid var(--rule);font:13px/1.35 var(--body)}
+.checks li span:first-child{min-width:0}
+select{appearance:auto}
+</style>
+</head>
+<body>
+<div class="sheet">
+  <header class="tb">
+    <h1>Brick Jali Open Area<small>Set the brick, the joint and the gap between bricks in a honeycomb jali. Get the real open area, the bearing each brick keeps on the course below, bricks per m² and a full panel elevation you can count.</small></h1>
+    <div class="meta"><div><b>Sheet</b>T-50</div><div><b>Method</b>Module geometry</div><div><b>Units</b>mm, m²</div><div><b>By</b>@smart_tools_every_week</div></div>
+  </header>
+  <div class="dl" id="dlbar"><a class="btn" href="brick-jali.html" download="brick-jali.html">⬇ Download this app</a><span>Free. One HTML file that works offline. Open it in any browser, no install or sign-up.</span><a class="more" href="../">More free tools →</a></div>
+  <div class="main">
+    <section class="inputs" aria-label="Inputs">
+
+      <label for="bk">Brick
+        <select id="bk"><option value="m" selected>Modular 190 × 90 × 90 (IS 1077)</option><option value="c">Common 230 × 110 × 75</option><option value="x">Custom</option></select>
+      </label>
+      <div class="row">
+        <label for="L">Length mm<input id="L" type="number" step="5" value="190"></label>
+        <label for="W">Width mm<input id="W" type="number" step="5" value="90"></label>
+      </div>
+      <div class="row">
+        <label for="H">Height mm<input id="H" type="number" step="5" value="90"></label>
+        <label for="j">Bed joint mm<input id="j" type="number" step="1" value="10"></label>
+      </div>
+      <label for="lay">Laid
+        <select id="lay"><option value="flat" selected>Flat (face L × H, wall W thick)</option><option value="edge">On edge (face L × W, wall H thick)</option></select>
+      </label>
+      <div class="row">
+        <label for="g">Gap between bricks mm<input id="g" type="number" step="5" value="95"></label>
+        <label for="mb">Min bearing mm<input id="mb" type="number" step="5" value="45"></label>
+      </div>
+      <div class="row">
+        <label for="pw">Panel width m<input id="pw" type="number" step="0.1" value="1.8"></label>
+        <label for="ph">Panel height m<input id="ph" type="number" step="0.1" value="1.2"></label>
+      </div>
+      <p class="note">Open area is the see-through part of the wall face. Air flow through the jali is less than this free area, and deeper walls cut more sun at an angle.</p>
+
+    </section>
+    <section style="min-width:0">
+
+      <div class="readout">
+        <div><b>Open area</b><span id="oO" class="hi">–</span></div>
+        <div><b>Bearing each side</b><span id="oB">–</span></div>
+        <div><b>Bricks per m²</b><span id="oN">–</span></div>
+        <div><b>Bricks in panel</b><span id="oP">–</span></div>
+      </div>
+      <div class="views">
+        <div class="view full"><h2>Panel elevation <span id="eLabel"></span></h2><svg id="elev" viewBox="0 0 580 320" role="img" aria-label="Elevation of the jali panel with every brick"></svg></div>
+      </div>
+      <div class="views">
+        <div class="view"><h2>Module <span id="mLabel"></span></h2><svg id="mod" viewBox="0 0 300 230" role="img" aria-label="One jali module with gap, bearing and joint"></svg></div>
+        <div class="view"><h2>Open area vs gap <span>bearing limit in red</span></h2><svg id="chart" viewBox="0 0 300 230" role="img" aria-label="Chart of open area against gap"></svg></div>
+      </div>
+      <div class="data"><h2>Gap options <span id="dLabel"></span></h2><div class="tablewrap"><table><thead><tr><th>Gap</th><th>Open area</th><th>Bearing</th><th>Bricks / m²</th><th>Saved vs solid</th><th>Check</th></tr></thead><tbody id="tb"></tbody></table></div></div>
+
+    </section>
+  </div>
+  <footer class="foot"><span>Free tool · @smart_tools_every_week · simplyrendered.github.io/smart-tools · built with Claude</span><span>Honeycomb jali geometry (first principles): each course is brick, gap, brick…; the next course is offset half a module so every brick sits centred over a gap. Module = brick face u + gap g; open area = g ÷ (u + g); bearing each side = (u − g) ÷ 2; bricks per m² = 10⁶ ÷ ((u + g)(h + joint)). Brick sizes: IS 1077 modular 190 × 90 × 90 and common 230 × 110 × 75. Minimum bearing is your choice (editable); check slender or tall panels with an engineer.</span></footer>
+</div>
+<script>
+if(location.protocol==="file:"){const b=document.getElementById("dlbar");if(b)b.hidden=true;}
+const $=id=>document.getElementById(id);
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const NS="http://www.w3.org/2000/svg";
+function el(tag,attrs,parent,text){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(text!=null)e.textContent=text;parent&&parent.appendChild(e);return e}
+const fmt=(v,d=2)=>Number.isFinite(v)?v.toFixed(d):"–";
+
+const num=(id,min,max,def)=>{const v=parseFloat($(id).value);return Number.isFinite(v)?Math.min(max,Math.max(min,v)):def};
+const SIZES={m:[190,90,90],c:[230,110,75]};
+$("bk").addEventListener("change",()=>{const s=SIZES[$("bk").value];if(s){$("L").value=s[0];$("W").value=s[1];$("H").value=s[2];$("g").value=Math.round(s[0]/2/5)*5}render()});
+["L","W","H"].forEach(id=>$(id).addEventListener("input",()=>{$("bk").value="x"}));
+function mod(u,g,hc,j,mb){const p=u+g,br=(u-g)/2;return {g,p,open:g/p*100,br,ok:br>=mb-1e-9&&g>=0,perM2:1e6/(p*hc),save:(1-(u+j)/p)*100}}
+function calc(){
+  const L=num("L",40,600,190),W=num("W",30,400,90),H=num("H",30,400,90),j=num("j",0,40,10),mb=num("mb",0,300,45);
+  const edge=$("lay").value==="edge",u=L,hf=edge?W:H,t=edge?H:W,hc=hf+j;
+  const g=num("g",0,u,95),pw=num("pw",0.2,30,1.8),ph=num("ph",0.2,30,1.2);
+  const m=mod(u,g,hc,j,mb),P=pw*1000,Q=ph*1000,courses=Math.max(1,Math.floor((Q+j)/hc));
+  // panel layout: odd courses start with a full brick, even courses with a closer (u-g)/2
+  const C=[];let bricks=0,closers=0,open=0;
+  for(let r=0;r<courses;r++){const off=r%2?m.p/2:0,list=[];
+    for(let x=-off;x<P;x+=m.p){const a=Math.max(0,x),b=Math.min(P,x+u);if(b-a>0.5){list.push([a,b]);bricks++;if(b-a<u-0.5)closers++}}
+    let covered=list.reduce((s,q)=>s+(q[1]-q[0]),0);open+=(P-covered)*(r<courses-1?hc:hf);C.push(list);if(bricks>60000)break}
+  const panelOpen=open/(P*courses*hc)*100;
+  const maxG=Math.max(0,u-2*mb),opts=[];for(let x=20;x<=Math.min(u,maxG+30);x+=Math.max(5,Math.round(u/20/5)*5))opts.push(x);
+  if(!opts.some(x=>Math.abs(x-g)<0.5))opts.push(g);opts.sort((a,b)=>a-b);
+  return {L,W,H,j,mb,u,hf,t,hc,g,pw,ph,P,Q,m,courses,C,bricks,closers,open,panelOpen,maxG,opts:opts.map(x=>mod(u,x,hc,j,mb)),edge};
+}
+function render(){
+  const c=calc(),m=c.m,ink=css("--ink"),ink2=css("--ink-2"),rule=css("--rule"),red=css("--red"),blue=css("--blue"),sun=css("--sun"),ok=css("--ok"),paper=css("--paper"),F="IBM Plex Mono, monospace",BR="#B5653F";
+  $("oO").textContent=fmt(m.open,1)+"%";$("oB").textContent=fmt(m.br,Math.abs(m.br%1)>0.01?1:0)+" mm";$("oB").className=m.ok?"ok":"bad";
+  $("oN").textContent=fmt(m.perM2,1);$("oP").textContent=c.bricks;
+  // elevation
+  const ev=$("elev");ev.innerHTML="";const usedH=c.courses*c.hc-c.j,k=Math.min(520/c.P,262/usedH),ox=(580-c.P*k)/2,oy=24+262-(262-usedH*k)/2;
+  el("rect",{x:fmt(ox,1),y:fmt(oy-usedH*k,1),width:fmt(c.P*k,1),height:fmt(usedH*k,1),fill:paper},ev);
+  const big=c.bricks>4000;
+  if(!big)c.C.forEach((list,r)=>{const yb=oy-r*c.hc*k;list.forEach(([a,b])=>el("rect",{x:fmt(ox+a*k,2),y:fmt(yb-c.hf*k,2),width:fmt(Math.max(0.3,(b-a)*k),2),height:fmt(Math.max(0.3,c.hf*k),2),fill:BR,stroke:ink,"stroke-width":Math.min(1,k*3)},ev))});
+  else el("text",{x:290,y:160,"text-anchor":"middle",fill:ink,"font-size":14,"font-family":F},ev,c.bricks+" bricks: too many to draw, see the module");
+  el("rect",{x:fmt(ox,1),y:fmt(oy-usedH*k,1),width:fmt(c.P*k,1),height:fmt(usedH*k,1),fill:"none",stroke:ink,"stroke-width":1.5},ev);
+  el("text",{x:290,y:16,"text-anchor":"middle",fill:ink,"font-size":13,"font-family":F},ev,fmt(c.pw,2)+" m wide × "+c.courses+" courses ("+fmt(usedH/1000,2)+" m)");
+  el("text",{x:290,y:312,"text-anchor":"middle",fill:ink2,"font-size":13,"font-family":F},ev,c.bricks+" bricks incl. "+c.closers+" cut · panel open "+fmt(c.panelOpen,1)+"%");
+  $("eLabel").textContent=c.edge?"on edge":"flat";
+  // module detail: 2 courses x 2 modules
+  const mv=$("mod");mv.innerHTML="";const span=2*m.p,kk=Math.min(250/span,120/(2*c.hc)),mx=25,my=150;
+  for(let r=0;r<3;r++){const off=r%2?m.p/2:0,yb=my-r*c.hc*kk;for(let x=-off;x<span;x+=m.p){const a=Math.max(0,x),b=Math.min(span,x+c.u);if(b>a)el("rect",{x:fmt(mx+a*kk,1),y:fmt(yb-c.hf*kk,1),width:fmt((b-a)*kk,1),height:fmt(c.hf*kk,1),fill:BR,stroke:ink,"stroke-width":1},mv)}}
+  el("line",{x1:fmt(mx+c.u*kk,1),y1:my+14,x2:fmt(mx+m.p*kk,1),y2:my+14,stroke:blue,"stroke-width":2},mv);
+  el("text",{x:fmt(mx+(c.u+m.g/2)*kk,1),y:my+30,"text-anchor":"middle",fill:blue,"font-size":12,"font-family":F},mv,"gap "+fmt(m.g,0));
+  el("line",{x1:mx,y1:my+14,x2:fmt(mx+c.u*kk,1),y2:my+14,stroke:ink2},mv);
+  el("text",{x:fmt(mx+c.u*kk/2,1),y:my+30,"text-anchor":"middle",fill:ink2,"font-size":12,"font-family":F},mv,"brick "+fmt(c.u,0));
+  const yb1=my-c.hc*kk-c.hf*kk;if(m.br>0)el("rect",{x:fmt(mx+(m.p/2)*kk,1),y:fmt(yb1-c.hc*kk,1),width:fmt(Math.max(1,m.br*kk),1),height:fmt((c.hc+c.hf)*kk,1),fill:m.ok?ok:red,opacity:.35,stroke:m.ok?ok:red,"stroke-width":2.5},mv);
+  el("line",{x1:fmt(mx+(m.p/2+m.br/2)*kk,1),y1:22,x2:fmt(mx+(m.p/2+m.br/2)*kk,1),y2:fmt(yb1-c.hc*kk,1),stroke:m.ok?ok:red,"stroke-width":1.2},mv);
+  el("text",{x:fmt(Math.min(220,Math.max(80,mx+(m.p/2+m.br/2)*kk)),1),y:16,"text-anchor":"middle",fill:m.ok?ok:red,"font-size":12,"font-family":F},mv,"bearing "+fmt(m.br,Math.abs(m.br%1)>0.01?1:0)+" mm");
+  el("text",{x:150,y:205,"text-anchor":"middle",fill:ink,"font-size":13,"font-family":F},mv,"open = "+fmt(m.g,0)+" ÷ "+fmt(m.p,0)+" = "+fmt(m.open,1)+"%");
+  el("text",{x:150,y:224,"text-anchor":"middle",fill:ink2,"font-size":11,"font-family":F},mv,"wall "+fmt(c.t,0)+" mm thick · course "+fmt(c.hc,0)+" mm");
+  $("mLabel").textContent=fmt(c.u,0)+" + "+fmt(m.g,0)+" mm";
+  // chart open % vs gap
+  const cv=$("chart");cv.innerHTML="";const X=g=>40+g/c.u*245,Y=p=>195-p/50*170;
+  el("line",{x1:40,y1:195,x2:288,y2:195,stroke:ink},cv);el("line",{x1:40,y1:20,x2:40,y2:195,stroke:ink},cv);
+  [0,10,20,30,40,50].forEach(p=>{el("line",{x1:40,y1:fmt(Y(p),1),x2:288,y2:fmt(Y(p),1),stroke:rule},cv);el("text",{x:34,y:fmt(Y(p)+4,1),"text-anchor":"end",fill:ink2,"font-size":11,"font-family":F},cv,p+"%")});
+  if(c.maxG<c.u)el("rect",{x:fmt(X(c.maxG),1),y:20,width:fmt(X(c.u)-X(c.maxG),1),height:175,fill:red,opacity:.12},cv);
+  let d="";for(let i=0;i<=40;i++){const g=c.u*i/40;d+=(i?"L":"M")+fmt(X(g),1)+" "+fmt(Y(g/(c.u+g)*100),1)}el("path",{d,fill:"none",stroke:blue,"stroke-width":2},cv);
+  el("circle",{cx:fmt(X(m.g),1),cy:fmt(Y(m.open),1),r:5,fill:m.ok?ok:red},cv);
+  el("text",{x:fmt(Math.min(X(m.g)+8,215),1),y:fmt(Y(m.open)-8,1),fill:m.ok?ok:red,"font-size":12,"font-family":F},cv,fmt(m.open,1)+"%");
+  el("text",{x:164,y:220,"text-anchor":"middle",fill:ink2,"font-size":11,"font-family":F},cv,"gap 0 → "+fmt(c.u,0)+" mm (max 50% at zero bearing)");
+  // table
+  $("tb").innerHTML=c.opts.map(o=>`<tr${Math.abs(o.g-m.g)<0.5?' class="now"':""}><td>${fmt(o.g,0)} mm</td><td>${fmt(o.open,1)}%</td><td>${fmt(o.br,Math.abs(o.br%1)>0.01?1:0)} mm</td><td>${fmt(o.perM2,1)}</td><td>${fmt(o.save,0)}%</td><td class="${o.ok?"ok":"bad"}">${o.ok?"bearing OK":"under "+fmt(c.mb,0)+" mm"}</td></tr>`).join("");
+  $("dLabel").textContent="largest gap for "+fmt(c.mb,0)+" mm bearing: "+fmt(c.maxG,0)+" mm ("+fmt(c.maxG/(c.u+c.maxG)*100,1)+"% open)";
+}
+
+document.querySelectorAll("input,select").forEach(i=>i.addEventListener("input",render));
+window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",render);
+new MutationObserver(render).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+render();
+</script>
+</body>
+</html>

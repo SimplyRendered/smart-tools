@@ -2375,5 +2375,992 @@
   "end": {
    "cap": "The right board <em>every scale</em>"
   }
+ },
+ "terrace-falls": {
+  "no": "T-46",
+  "name": "Screed Falls",
+  "vo": [
+   "Screed at one in a hundred, so every line falls one in a hundred?",
+   "Not the valleys. They run diagonally, at just one in a hundred forty one.",
+   "Steepen the planes to one in seventy, and they're fine.",
+   "It's free, and the link's in my bio."
+  ],
+  "wrong": {
+   "label": "✕ The usual way",
+   "cap": "1 in 100 <em>everywhere?</em>",
+   "html": "<svg viewBox='0 0 920 900' xmlns='http://www.w3.org/2000/svg' font-family='IBM Plex Mono, monospace'><text x='460' y='90' fill='#E4ECF2' font-size='46' text-anchor='middle'>planes at 1 in 100</text><text x='460' y='180' fill='#FF6B5C' font-size='64' text-anchor='middle'>valleys 1 in 100?</text><text x='460' y='245' fill='#9DB0C0' font-size='32' text-anchor='middle'>the valleys run on the diagonal</text><rect x='130' y='380' width='440' height='440' fill='#6FB0F0' opacity='.25' stroke='#E4ECF2' stroke-width='5'/><line x1='350' y1='820' x2='130' y2='600' stroke='#FF6B5C' stroke-width='5' stroke-dasharray='14 10'/><line x1='350' y1='820' x2='570' y2='600' stroke='#FF6B5C' stroke-width='5' stroke-dasharray='14 10'/><line x1='130' y1='600' x2='130' y2='380' stroke='#9DB0C0' stroke-width='3'/><circle cx='350' cy='820' r='18' fill='#FF6B5C'/><text x='350' y='420' fill='#E4ECF2' font-size='30' text-anchor='middle'>↓ 1 in 100</text></svg>",
+   "stamp": "right:40px;top:760px"
+  },
+  "appcss": ".dl{display:none!important}.tb{display:none}.inputs>label,.inputs .note,.inputs div.row:not(:nth-of-type(2)){display:none!important}.inputs{padding:10px 16px!important}.views+.views,.data,.foot{display:none!important}",
+  "init": [
+   [
+    "setv",
+    "L",
+    12
+   ],
+   [
+    "setv",
+    "W",
+    8
+   ],
+   [
+    "setv",
+    "n",
+    2
+   ],
+   [
+    "setv",
+    "N",
+    100
+   ],
+   [
+    "setv",
+    "tmin",
+    40
+   ]
+  ],
+  "right": [
+   {
+    "cap": "Valleys fall only <i>1 in 141</i>",
+    "actions": [
+     {
+      "at": -0.3,
+      "dur": 0,
+      "scroll": 0
+     }
+    ]
+   },
+   {
+    "cap": "Steepen the planes, <i>valleys pass</i>",
+    "actions": [
+     {
+      "at": 0,
+      "dur": 2.1,
+      "slide": "N",
+      "from": 100,
+      "to": 70,
+      "round": 10
+     }
+    ]
+   }
+  ],
+  "cmp": {
+   "guess": "1 in 100",
+   "real": "#oVf",
+   "gl": "Assumed valleys",
+   "rl": "Valley fall now"
+  },
+  "end": {
+   "cap": "Falls that <em>really drain</em>"
+  }
+ },
+ "pool-turnover": {
+  "no": "T-47",
+  "name": "Pool Turnover",
+  "vo": [
+   "Pool volume? Most people just multiply length, width and the deep end.",
+   "But the floor slopes, so this pool holds sixty two cubes, not eighty.",
+   "Change the deep end, and the volume and pump flow follow.",
+   "It's free, and the link's in my bio."
+  ],
+  "wrong": {
+   "label": "✕ The usual way",
+   "cap": "L × W × <em>deep end?</em>",
+   "html": "<svg viewBox='0 0 920 900' xmlns='http://www.w3.org/2000/svg' font-family='IBM Plex Mono, monospace'><text x='460' y='90' fill='#E4ECF2' font-size='46' text-anchor='middle'>10 × 4 × 2.0 m</text><text x='460' y='180' fill='#FF6B5C' font-size='72' text-anchor='middle'>= 80 m³</text><text x='460' y='245' fill='#9DB0C0' font-size='32' text-anchor='middle'>as if the whole pool were deep</text><polygon points='100,420 820,420 820,760 520,760 340,590 100,590' fill='#6FB0F0' opacity='.45'/><polyline points='100,400 100,590 340,590 520,760 820,760 820,400' fill='none' stroke='#E4ECF2' stroke-width='6'/><rect x='100' y='420' width='720' height='340' fill='none' stroke='#FF6B5C' stroke-width='4' stroke-dasharray='16 10'/><text x='120' y='575' fill='#E4ECF2' font-size='30'>1.0 m</text></svg>",
+   "stamp": "right:40px;top:760px"
+  },
+  "appcss": ".dl{display:none!important}.tb{display:none}.inputs>label,.inputs .note,.inputs div.row:not(:nth-of-type(2)){display:none!important}.inputs{padding:10px 16px!important}.views+.views,.data,.foot{display:none!important}",
+  "init": [
+   [
+    "setv",
+    "L",
+    10
+   ],
+   [
+    "setv",
+    "B",
+    4
+   ],
+   [
+    "setv",
+    "ds",
+    1
+   ],
+   [
+    "setv",
+    "dd",
+    2
+   ],
+   [
+    "setv",
+    "a",
+    3
+   ],
+   [
+    "setv",
+    "b",
+    3
+   ],
+   [
+    "setv",
+    "T",
+    6
+   ]
+  ],
+  "right": [
+   {
+    "cap": "Sloping floor: <i>62 m³</i>",
+    "actions": [
+     {
+      "at": -0.3,
+      "dur": 0,
+      "scroll": 0
+     }
+    ]
+   },
+   {
+    "cap": "Change the deep end, <i>flow follows</i>",
+    "actions": [
+     {
+      "at": 0,
+      "dur": 2.1,
+      "slide": "dd",
+      "from": 2,
+      "to": 1.5,
+      "round": 0.25
+     }
+    ]
+   }
+  ],
+  "cmp": {
+   "guess": "80 m³",
+   "real": "#oV",
+   "gl": "L × W × deep",
+   "rl": "Volume now"
+  },
+  "end": {
+   "cap": "The real volume <em>every pool</em>"
+  }
+ },
+ "cladding-panels": {
+  "no": "T-48",
+  "name": "Panel Layout",
+  "vo": [
+   "How many sheets? Most people divide the facade area by one sheet.",
+   "That says nineteen. With joints and folded returns, it's really forty.",
+   "Drop the panel height, and it falls to twenty four.",
+   "It's free, and the link's in my bio."
+  ],
+  "wrong": {
+   "label": "✕ The usual way",
+   "cap": "Area ÷ <em>sheet area?</em>",
+   "html": "<svg viewBox='0 0 920 900' xmlns='http://www.w3.org/2000/svg' font-family='IBM Plex Mono, monospace'><text x='460' y='90' fill='#E4ECF2' font-size='46' text-anchor='middle'>54 m² ÷ 2.98 m²</text><text x='460' y='180' fill='#FF6B5C' font-size='72' text-anchor='middle'>= 19 sheets</text><text x='460' y='245' fill='#9DB0C0' font-size='32' text-anchor='middle'>no joints, returns or offcuts</text><rect x='100' y='380' width='140' height='140' fill='#6FB0F0' opacity='.35' stroke='#E4ECF2' stroke-width='3'/><rect x='100' y='530' width='140' height='140' fill='#6FB0F0' opacity='.35' stroke='#E4ECF2' stroke-width='3'/><rect x='100' y='680' width='140' height='140' fill='#6FB0F0' opacity='.35' stroke='#E4ECF2' stroke-width='3'/><rect x='250' y='380' width='140' height='140' fill='#6FB0F0' opacity='.35' stroke='#E4ECF2' stroke-width='3'/><rect x='250' y='530' width='140' height='140' fill='#6FB0F0' opacity='.35' stroke='#E4ECF2' stroke-width='3'/><rect x='250' y='680' width='140' height='140' fill='#6FB0F0' opacity='.35' stroke='#E4ECF2' stroke-width='3'/><rect x='400' y='380' width='140' height='140' fill='#6FB0F0' opacity='.35' stroke='#E4ECF2' stroke-width='3'/><rect x='400' y='530' width='140' height='140' fill='#6FB0F0' opacity='.35' stroke='#E4ECF2' stroke-width='3'/><rect x='400' y='680' width='140' height='140' fill='#6FB0F0' opacity='.35' stroke='#E4ECF2' stroke-width='3'/><rect x='550' y='380' width='140' height='140' fill='#6FB0F0' opacity='.35' stroke='#E4ECF2' stroke-width='3'/><rect x='550' y='530' width='140' height='140' fill='#6FB0F0' opacity='.35' stroke='#E4ECF2' stroke-width='3'/><rect x='550' y='680' width='140' height='140' fill='#6FB0F0' opacity='.35' stroke='#E4ECF2' stroke-width='3'/><rect x='700' y='380' width='140' height='140' fill='#6FB0F0' opacity='.35' stroke='#E4ECF2' stroke-width='3'/><rect x='700' y='530' width='140' height='140' fill='#6FB0F0' opacity='.35' stroke='#E4ECF2' stroke-width='3'/><rect x='700' y='680' width='140' height='140' fill='#6FB0F0' opacity='.35' stroke='#E4ECF2' stroke-width='3'/></svg>",
+   "stamp": "right:40px;top:760px"
+  },
+  "appcss": ".dl{display:none!important}.tb{display:none}.inputs>label,.inputs .note,.inputs div.row:not(:nth-of-type(2)){display:none!important}.inputs{padding:10px 16px!important}.views+.views,.data,.foot{display:none!important}",
+  "init": [
+   [
+    "setv",
+    "fw",
+    9
+   ],
+   [
+    "setv",
+    "fh",
+    6
+   ],
+   [
+    "setv",
+    "pw",
+    1150
+   ],
+   [
+    "setv",
+    "ph",
+    1200
+   ],
+   [
+    "setv",
+    "j",
+    10
+   ],
+   [
+    "setv",
+    "r",
+    40
+   ],
+   [
+    "setv",
+    "sw",
+    1220
+   ],
+   [
+    "setv",
+    "sl",
+    2440
+   ]
+  ],
+  "right": [
+   {
+    "cap": "One panel a sheet: <i>40 sheets</i>",
+    "actions": [
+     {
+      "at": -0.3,
+      "dur": 0,
+      "scroll": 0
+     }
+    ]
+   },
+   {
+    "cap": "Smaller panels, <i>fewer sheets</i>",
+    "actions": [
+     {
+      "at": 0,
+      "dur": 2.1,
+      "slide": "ph",
+      "from": 1200,
+      "to": 1000,
+      "round": 50
+     }
+    ]
+   }
+  ],
+  "cmp": {
+   "guess": "19 sheets",
+   "real": "#oS",
+   "gl": "Area ÷ sheet",
+   "rl": "Sheets now"
+  },
+  "end": {
+   "cap": "Order the <em>right sheets</em>"
+  }
+ },
+ "slope-contour": {
+  "no": "T-49",
+  "name": "Slope Angle",
+  "vo": [
+   "Think a fifty percent slope is halfway to vertical, so forty-five degrees?",
+   "It's only twenty-six point six degrees. Forty-five degrees is a hundred percent.",
+   "Halve the gap between contours, and watch the angle.",
+   "It's free, and the link's in my bio."
+  ],
+  "wrong": {
+   "label": "✕ The usual way",
+   "cap": "50% slope <em>= 45°?</em>",
+   "html": "<svg viewBox='0 0 920 900' xmlns='http://www.w3.org/2000/svg' font-family='IBM Plex Mono, monospace'><text x='460' y='90' fill='#E4ECF2' font-size='50' text-anchor='middle'>50% slope</text><text x='460' y='185' fill='#FF6B5C' font-size='80' text-anchor='middle'>= 45°?</text><text x='460' y='250' fill='#9DB0C0' font-size='32' text-anchor='middle'>\"halfway to vertical\"</text><line x1='120' y1='820' x2='800' y2='820' stroke='#E4ECF2' stroke-width='5'/><line x1='160' y1='820' x2='600' y2='380' stroke='#FF6B5C' stroke-width='8'/><line x1='600' y1='820' x2='600' y2='380' stroke='#9DB0C0' stroke-width='3' stroke-dasharray='12 8'/><path d='M260 820 A100 100 0 0 0 231 749' fill='none' stroke='#FF6B5C' stroke-width='4'/></svg>",
+   "stamp": "right:40px;top:640px"
+  },
+  "appcss": ".dl{display:none!important}.tb{display:none}.inputs .note{display:none!important}.inputs{padding:10px 16px!important}.data,.foot{display:none!important}.inputs>label,.inputs div.row{display:none!important}.inputs div.row:nth-of-type(2){display:grid!important}.readout+.views{display:none!important}",
+  "init": [
+   [
+    "setv",
+    "h",
+    1
+   ],
+   [
+    "setv",
+    "N",
+    500
+   ],
+   [
+    "setv",
+    "d",
+    4
+   ],
+   [
+    "setv",
+    "n",
+    1
+   ]
+  ],
+  "right": [
+   {
+    "cap": "50% slope = <i>26.6°</i>",
+    "actions": [
+     {
+      "at": -0.3,
+      "dur": 0,
+      "scroll": 0
+     }
+    ]
+   },
+   {
+    "cap": "Halve the gap: <i>100% = 45°</i>",
+    "actions": [
+     {
+      "at": 0,
+      "dur": 2.1,
+      "slide": "d",
+      "from": 4,
+      "to": 2,
+      "round": 0.25
+     }
+    ]
+   }
+  ],
+  "cmp": {
+   "guess": "45°",
+   "real": "#oA",
+   "gl": "50% = 45°?",
+   "rl": "Angle now"
+  },
+  "end": {
+   "cap": "Percent is <em>not degrees</em>"
+  }
+ },
+ "brick-jali": {
+  "no": "T-50",
+  "name": "Brick Jali",
+  "vo": [
+   "Leave out every other brick, and the jali's fifty percent open?",
+   "Nothing would hold the bricks above. A ninety-five mil gap gives thirty-three percent.",
+   "Widen the gap, and watch the bearing run out.",
+   "It's free, and the link's in my bio."
+  ],
+  "wrong": {
+   "label": "✕ The usual way",
+   "cap": "Every other brick <em>= 50% open?</em>",
+   "html": "<svg viewBox='0 0 920 900' xmlns='http://www.w3.org/2000/svg' font-family='IBM Plex Mono, monospace'><text x='460' y='90' fill='#E4ECF2' font-size='46' text-anchor='middle'>every other brick out</text><text x='460' y='185' fill='#FF6B5C' font-size='80' text-anchor='middle'>= 50% open?</text><text x='460' y='250' fill='#9DB0C0' font-size='32' text-anchor='middle'>the bricks above sit on corners</text><rect x='60' y='600' width='200' height='90' fill='#B5653F' stroke='#E4ECF2' stroke-width='3'/><rect x='460' y='600' width='200' height='90' fill='#B5653F' stroke='#E4ECF2' stroke-width='3'/><rect x='860' y='600' width='200' height='90' fill='#B5653F' stroke='#E4ECF2' stroke-width='3'/><rect x='260' y='500' width='200' height='90' fill='#B5653F' stroke='#E4ECF2' stroke-width='3'/><rect x='660' y='500' width='200' height='90' fill='#B5653F' stroke='#E4ECF2' stroke-width='3'/><line x1='40' y1='700' x2='880' y2='700' stroke='#E4ECF2' stroke-width='5'/></svg>",
+   "stamp": "right:40px;top:700px"
+  },
+  "appcss": ".dl{display:none!important}.tb{display:none}.inputs .note{display:none!important}.inputs{padding:10px 16px!important}.data,.foot{display:none!important}.inputs>label,.inputs div.row{display:none!important}.inputs div.row:nth-of-type(3){display:grid!important}.readout+.views{display:none!important}",
+  "init": [
+   [
+    "setv",
+    "L",
+    190
+   ],
+   [
+    "setv",
+    "W",
+    90
+   ],
+   [
+    "setv",
+    "H",
+    90
+   ],
+   [
+    "setv",
+    "j",
+    10
+   ],
+   [
+    "setv",
+    "g",
+    95
+   ],
+   [
+    "setv",
+    "mb",
+    45
+   ]
+  ],
+  "right": [
+   {
+    "cap": "95 mm gap = <i>33% open</i>",
+    "actions": [
+     {
+      "at": -0.3,
+      "dur": 0,
+      "scroll": 0
+     }
+    ]
+   },
+   {
+    "cap": "Wider gap, <i>less bearing</i>",
+    "actions": [
+     {
+      "at": 0,
+      "dur": 2.1,
+      "slide": "g",
+      "from": 95,
+      "to": 130,
+      "round": 5
+     }
+    ]
+   }
+  ],
+  "cmp": {
+   "guess": "50% open",
+   "real": "#oO",
+   "gl": "Every other brick",
+   "rl": "Open now"
+  },
+  "end": {
+   "cap": "Real open area, <em>safe bearing</em>"
+  }
+ },
+ "pergola-shade": {
+  "no": "T-51",
+  "name": "Pergola Shade",
+  "vo": [
+   "Slats cover half the pergola, so you get half the shade?",
+   "At three thirty in May, these north south slats shade the whole floor.",
+   "Turn them east west, and the sun pours back in.",
+   "It's free, and the link's in my bio."
+  ],
+  "wrong": {
+   "label": "✕ The usual way",
+   "cap": "Half slats <em>= half shade?</em>",
+   "html": "<svg viewBox='0 0 920 900' xmlns='http://www.w3.org/2000/svg' font-family='IBM Plex Mono, monospace'><text x='460' y='90' fill='#E4ECF2' font-size='46' text-anchor='middle'>slats cover 50%</text><text x='460' y='185' fill='#FF6B5C' font-size='80' text-anchor='middle'>= 50% shade?</text><text x='460' y='250' fill='#9DB0C0' font-size='32' text-anchor='middle'>50 mm slat, 50 mm gap</text><rect x='95' y='420' width='50' height='150' fill='#6FB0F0'/><rect x='195' y='420' width='50' height='150' fill='#6FB0F0'/><rect x='295' y='420' width='50' height='150' fill='#6FB0F0'/><rect x='395' y='420' width='50' height='150' fill='#6FB0F0'/><rect x='495' y='420' width='50' height='150' fill='#6FB0F0'/><rect x='595' y='420' width='50' height='150' fill='#6FB0F0'/><rect x='695' y='420' width='50' height='150' fill='#6FB0F0'/><rect x='795' y='420' width='50' height='150' fill='#6FB0F0'/><rect x='95' y='800' width='50' height='22' fill='#5A6672'/><rect x='145' y='800' width='50' height='22' fill='#F2B84B'/><rect x='195' y='800' width='50' height='22' fill='#5A6672'/><rect x='245' y='800' width='50' height='22' fill='#F2B84B'/><rect x='295' y='800' width='50' height='22' fill='#5A6672'/><rect x='345' y='800' width='50' height='22' fill='#F2B84B'/><rect x='395' y='800' width='50' height='22' fill='#5A6672'/><rect x='445' y='800' width='50' height='22' fill='#F2B84B'/><rect x='495' y='800' width='50' height='22' fill='#5A6672'/><rect x='545' y='800' width='50' height='22' fill='#F2B84B'/><rect x='595' y='800' width='50' height='22' fill='#5A6672'/><rect x='645' y='800' width='50' height='22' fill='#F2B84B'/><rect x='695' y='800' width='50' height='22' fill='#5A6672'/><rect x='745' y='800' width='50' height='22' fill='#F2B84B'/><rect x='795' y='800' width='50' height='22' fill='#5A6672'/><rect x='845' y='800' width='50' height='22' fill='#F2B84B'/><line x1='60' y1='822' x2='880' y2='822' stroke='#E4ECF2' stroke-width='5'/></svg>",
+   "stamp": "right:40px;top:640px"
+  },
+  "appcss": ".dl{display:none!important}.tb{display:none}.inputs .note{display:none!important}.inputs{padding:10px 16px!important}.data,.foot{display:none!important}.inputs>*{display:none!important}.inputs>label[for=ax]{display:flex!important}.views+.views{display:none!important}",
+  "init": [
+   [
+    "setv",
+    "lat",
+    28.61
+   ],
+   [
+    "setv",
+    "lon",
+    77.21
+   ],
+   [
+    "setv",
+    "tz",
+    5.5
+   ],
+   [
+    "setv",
+    "date",
+    "2026-05-21"
+   ],
+   [
+    "setv",
+    "t",
+    930
+   ],
+   [
+    "setv",
+    "ax",
+    0
+   ],
+   [
+    "setv",
+    "w",
+    50
+   ],
+   [
+    "setv",
+    "dp",
+    150
+   ],
+   [
+    "setv",
+    "s",
+    50
+   ]
+  ],
+  "right": [
+   {
+    "cap": "3:30 pm in May: <i>100% shade</i>",
+    "actions": [
+     {
+      "at": -0.3,
+      "dur": 0,
+      "scroll": 0
+     }
+    ]
+   },
+   {
+    "cap": "Turn the slats <i>east–west</i>",
+    "actions": [
+     {
+      "at": 0,
+      "dur": 2.2,
+      "slide": "ax",
+      "from": 0,
+      "to": 90,
+      "round": 5
+     }
+    ]
+   }
+  ],
+  "cmp": {
+   "guess": "50% shade",
+   "real": "#oS",
+   "gl": "Half covered",
+   "rl": "Shade now"
+  },
+  "end": {
+   "cap": "Shade follows <em>the sun</em>"
+  }
+ },
+ "exhaust-fan": {
+  "no": "T-52",
+  "name": "Exhaust Fan",
+  "vo": [
+   "Ten mil gap under the door, whatever the fan?",
+   "This kitchen fan pulls forty seven litres a second. It needs a twenty five mil gap.",
+   "Make the door wider, and the gap shrinks.",
+   "It's free, and the link's in my bio."
+  ],
+  "wrong": {
+   "label": "✕ The usual way",
+   "cap": "10 mm gap <em>for every fan?</em>",
+   "html": "<svg viewBox='0 0 920 900' xmlns='http://www.w3.org/2000/svg' font-family='IBM Plex Mono, monospace'><text x='460' y='90' fill='#E4ECF2' font-size='46' text-anchor='middle'>10 mm under every door</text><text x='460' y='175' fill='#FF6B5C' font-size='64' text-anchor='middle'>whatever the fan</text><text x='460' y='240' fill='#9DB0C0' font-size='32' text-anchor='middle'>a kitchen fan pulls 47 L/s</text><line x1='80' y1='820' x2='840' y2='820' stroke='#E4ECF2' stroke-width='5'/><rect x='300' y='380' width='18' height='430' fill='#F2A93B'/><rect x='300' y='330' width='18' height='50' fill='#9DB0C0'/><rect x='640' y='330' width='24' height='490' fill='#9DB0C0'/><circle cx='652' cy='420' r='34' fill='none' stroke='#E4ECF2' stroke-width='5'/><path d='M120 812 L290 812' stroke='#6FB0F0' stroke-width='6'/><text x='200' y='790' fill='#FF6B5C' font-size='30' text-anchor='middle'>10 mm</text></svg>",
+   "stamp": "right:40px;top:760px"
+  },
+  "appcss": ".dl{display:none!important}.tb{display:none}.views+.views,.data,.foot{display:none!important}.inputs{padding:10px 16px!important}.inputs>label,.inputs .note,.inputs>div.row{display:none!important}.inputs>div.row:nth-of-type(3){display:grid!important}",
+  "init": [
+   [
+    "setv",
+    "std",
+    "ai"
+   ],
+   [
+    "setv",
+    "room",
+    "kit"
+   ],
+   [
+    "setv",
+    "L",
+    3
+   ],
+   [
+    "setv",
+    "W",
+    2.4
+   ],
+   [
+    "setv",
+    "H",
+    3
+   ],
+   [
+    "setv",
+    "dw",
+    750
+   ],
+   [
+    "setv",
+    "gap",
+    10
+   ],
+   [
+    "setv",
+    "dp",
+    10
+   ],
+   [
+    "setv",
+    "ach",
+    0
+   ]
+  ],
+  "right": [
+   {
+    "cap": "Kitchen fan: <i>25 mm gap</i>",
+    "actions": [
+     {
+      "at": -0.3,
+      "dur": 0,
+      "scroll": 0
+     }
+    ]
+   },
+   {
+    "cap": "Wider door, <i>smaller gap</i>",
+    "actions": [
+     {
+      "at": 0,
+      "dur": 2.1,
+      "slide": "dw",
+      "from": 750,
+      "to": 900,
+      "round": 10
+     }
+    ]
+   }
+  ],
+  "cmp": {
+   "guess": "10 mm",
+   "real": "#oG",
+   "gl": "Same for all",
+   "rl": "Gap needed now"
+  },
+  "end": {
+   "cap": "The gap <em>your fan needs</em>"
+  }
+ },
+ "kitchen-modules": {
+  "no": "T-53",
+  "name": "Kitchen Units",
+  "vo": [
+   "Wall divided by six hundred? That leaves a two fifty gap.",
+   "Mix a nine hundred and a seven fifty, and the fillers drop to fifty mil.",
+   "Change the wall, and the mix updates.",
+   "It's free, and the link's in my bio."
+  ],
+  "wrong": {
+   "label": "✕ The usual way",
+   "cap": "Wall ÷ 600 <em>= cabinets?</em>",
+   "html": "<svg viewBox='0 0 920 900' xmlns='http://www.w3.org/2000/svg' font-family='IBM Plex Mono, monospace'><text x='460' y='90' fill='#E4ECF2' font-size='46' text-anchor='middle'>3250 ÷ 600 = 5 cabinets</text><text x='460' y='175' fill='#FF6B5C' font-size='64' text-anchor='middle'>+ a 250 mm gap</text><text x='460' y='240' fill='#9DB0C0' font-size='32' text-anchor='middle'>sink and hob sizes ignored</text><rect x='70' y='520' width='134' height='260' fill='none' stroke='#E4ECF2' stroke-width='4'/><rect x='208' y='520' width='134' height='260' fill='none' stroke='#E4ECF2' stroke-width='4'/><rect x='346' y='520' width='134' height='260' fill='none' stroke='#E4ECF2' stroke-width='4'/><rect x='484' y='520' width='134' height='260' fill='none' stroke='#E4ECF2' stroke-width='4'/><rect x='622' y='520' width='134' height='260' fill='none' stroke='#E4ECF2' stroke-width='4'/><rect x='762' y='520' width='58' height='260' fill='#FF6B5C' opacity='.7'/><line x1='60' y1='780' x2='830' y2='780' stroke='#E4ECF2' stroke-width='5'/><rect x='66' y='508' width='758' height='12' fill='#F2A93B'/></svg>",
+   "stamp": "right:40px;top:760px"
+  },
+  "appcss": ".dl{display:none!important}.tb{display:none}.views+.views,.data,.foot{display:none!important}.inputs{padding:10px 16px!important}.inputs>*{display:none!important}.inputs>label:first-child{display:flex!important}",
+  "init": [
+   [
+    "setv",
+    "L",
+    3250
+   ],
+   [
+    "setv",
+    "le",
+    "w"
+   ],
+   [
+    "setv",
+    "re",
+    "w"
+   ],
+   [
+    "setv",
+    "mf",
+    25
+   ],
+   [
+    "setv",
+    "sk",
+    900
+   ],
+   [
+    "setv",
+    "hb",
+    600
+   ],
+   [
+    "setv",
+    "dw",
+    0
+   ],
+   [
+    "setv",
+    "tl",
+    0
+   ]
+  ],
+  "right": [
+   {
+    "cap": "900 + 750: <i>50 mm fillers</i>",
+    "actions": [
+     {
+      "at": -0.3,
+      "dur": 0,
+      "scroll": 0
+     }
+    ]
+   },
+   {
+    "cap": "Change the wall, <i>mix updates</i>",
+    "actions": [
+     {
+      "at": 0,
+      "dur": 2.1,
+      "slide": "L",
+      "from": 3250,
+      "to": 3350,
+      "round": 10
+     }
+    ]
+   }
+  ],
+  "cmp": {
+   "guess": "250 mm",
+   "real": "#oF",
+   "gl": "÷ 600 gap",
+   "rl": "Filler now"
+  },
+  "end": {
+   "cap": "Cabinets that <em>fit the wall</em>"
+  }
+ },
+ "axonometric": {
+  "no": "T-54",
+  "name": "Axo Setup",
+  "vo": [
+   "Every axo at thirty and thirty? That's just one view.",
+   "For a lower, calmer view, dimetric puts the axes at seven and forty two.",
+   "Drop the eye, and the angles change live.",
+   "It's free, and the link's in my bio."
+  ],
+  "wrong": {
+   "label": "✕ The usual way",
+   "cap": "30° / 30° <em>for every axo?</em>",
+   "html": "<svg viewBox='0 0 920 900' xmlns='http://www.w3.org/2000/svg' font-family='IBM Plex Mono, monospace'><text x='460' y='90' fill='#E4ECF2' font-size='46' text-anchor='middle'>isometric, 30° / 30°</text><text x='460' y='175' fill='#FF6B5C' font-size='64' text-anchor='middle'>for every drawing</text><text x='460' y='240' fill='#9DB0C0' font-size='32' text-anchor='middle'>always the same 35° eye angle</text><path d='M460 820 L700 682 L700 470 L460 608 Z' fill='#7F9DBA' stroke='#E4ECF2' stroke-width='4'/><path d='M460 820 L220 682 L220 470 L460 608 Z' fill='#A9C1D6' stroke='#E4ECF2' stroke-width='4'/><path d='M460 608 L700 470 L460 332 L220 470 Z' fill='#C8673F' stroke='#E4ECF2' stroke-width='4'/></svg>",
+   "stamp": "right:40px;top:760px"
+  },
+  "appcss": ".dl{display:none!important}.tb{display:none}.views+.views,.data,.foot{display:none!important}.inputs{padding:10px 16px!important}.inputs>*{display:none!important}.inputs>label:first-child{display:flex!important}.inputs>div.row:nth-of-type(1){display:grid!important}",
+  "init": [
+   [
+    "setv",
+    "typ",
+    "iso"
+   ],
+   [
+    "setv",
+    "th",
+    45
+   ],
+   [
+    "setv",
+    "ph",
+    35.2644
+   ],
+   [
+    "setv",
+    "L",
+    12
+   ],
+   [
+    "setv",
+    "W",
+    8
+   ],
+   [
+    "setv",
+    "H",
+    6
+   ],
+   [
+    "setv",
+    "R",
+    3
+   ]
+  ],
+  "right": [
+   {
+    "cap": "Dimetric: <i>7° / 42°</i>",
+    "actions": [
+     {
+      "at": -0.3,
+      "dur": 0,
+      "scroll": 0
+     },
+     {
+      "at": 0.2,
+      "set": "typ",
+      "value": "di742"
+     }
+    ]
+   },
+   {
+    "cap": "Lower the eye, <i>axes flatten</i>",
+    "actions": [
+     {
+      "at": 0,
+      "dur": 2.1,
+      "slide": "ph",
+      "from": 19,
+      "to": 8,
+      "round": 1
+     }
+    ]
+   }
+  ],
+  "cmp": {
+   "guess": "30° / 30°",
+   "real": "#oA",
+   "gl": "Iso for all",
+   "rl": "Axes now"
+  },
+  "end": {
+   "cap": "The axo <em>you want</em>"
+  }
+ },
+ "hip-roof": {
+  "no": "T-55",
+  "name": "Hip Roof",
+  "vo": [
+   "Hip rafter? Most people multiply the common rafter by one point four one four.",
+   "That says seven point five one metres. The true hip is seven point oh three.",
+   "Change the pitch, and the hip updates.",
+   "It's free, and the link's in my bio."
+  ],
+  "wrong": {
+   "label": "✕ The usual way",
+   "cap": "Hip = common <em>× 1.414?</em>",
+   "html": "<svg viewBox='0 0 920 900' xmlns='http://www.w3.org/2000/svg' font-family='IBM Plex Mono, monospace'><text x='460' y='80' fill='#E4ECF2' font-size='44' text-anchor='middle'>common 5.31 m × 1.414</text><text x='460' y='170' fill='#FF6B5C' font-size='72' text-anchor='middle'>= 7.51 m hip</text><text x='460' y='240' fill='#9DB0C0' font-size='32' text-anchor='middle'>√2 works in plan, not on the slope</text><rect x='160' y='420' width='600' height='400' fill='#F2A93B' fill-opacity='.18' stroke='#E4ECF2' stroke-width='4'/><line x1='160' y1='420' x2='360' y2='620' stroke='#FF6B5C' stroke-width='6'/><line x1='160' y1='820' x2='360' y2='620' stroke='#FF6B5C' stroke-width='6'/><line x1='760' y1='420' x2='560' y2='620' stroke='#FF6B5C' stroke-width='6'/><line x1='760' y1='820' x2='560' y2='620' stroke='#FF6B5C' stroke-width='6'/><line x1='360' y1='620' x2='560' y2='620' stroke='#FF6B5C' stroke-width='6'/><line x1='460' y1='420' x2='460' y2='620' stroke='#9DB0C0' stroke-width='3' stroke-dasharray='10 8'/><text x='470' y='520' fill='#9DB0C0' font-size='28'>common</text><text x='200' y='600' fill='#FF6B5C' font-size='30'>hip?</text></svg>",
+   "stamp": "right:40px;top:800px"
+  },
+  "appcss": ".dl{display:none!important}.tb{display:none}.inputs .note,.inputs div.row:not(:nth-of-type(2)){display:none!important}.inputs{padding:10px 16px!important}.views .view:not(.full),.data,.foot{display:none!important}",
+  "init": [
+   [
+    "setv",
+    "P",
+    30
+   ]
+  ],
+  "right": [
+   {
+    "cap": "True hip <i>7.03 m</i>",
+    "actions": [
+     {
+      "at": -0.3,
+      "dur": 0,
+      "scroll": 0
+     }
+    ]
+   },
+   {
+    "cap": "Change the pitch, <i>hip follows</i>",
+    "actions": [
+     {
+      "at": 0,
+      "dur": 2.1,
+      "slide": "P",
+      "from": 30,
+      "to": 45,
+      "round": 1
+     }
+    ]
+   }
+  ],
+  "cmp": {
+   "guess": "7.51 m",
+   "real": "#oH",
+   "gl": "Common × 1.414",
+   "rl": "Hip now"
+  },
+  "end": {
+   "cap": "The true hip <em>every time</em>"
+  }
+ },
+ "bifold-door": {
+  "no": "T-56",
+  "name": "Bi-fold Door",
+  "vo": [
+   "A three metre bi-fold? Most people expect three metres of clear opening.",
+   "The frame and the folded stack take space, so you really get about two point six six.",
+   "Fold it open, and watch the gap grow.",
+   "It's free, and the link's in my bio."
+  ],
+  "wrong": {
+   "label": "✕ The usual way",
+   "cap": "3 m opening <em>= 3 m clear?</em>",
+   "html": "<svg viewBox='0 0 920 900' xmlns='http://www.w3.org/2000/svg' font-family='IBM Plex Mono, monospace'><text x='460' y='80' fill='#E4ECF2' font-size='44' text-anchor='middle'>3-panel bi-fold, 3000 mm</text><text x='460' y='170' fill='#FF6B5C' font-size='72' text-anchor='middle'>= 3000 mm clear</text><text x='460' y='240' fill='#9DB0C0' font-size='32' text-anchor='middle'>frame + folded stack ignored</text><rect x='140' y='400' width='640' height='360' fill='none' stroke='#E4ECF2' stroke-width='4'/><rect x='170' y='560' width='580' height='60' fill='#9DB0C0' fill-opacity='.25'/><text x='460' y='600' fill='#9DB0C0' font-size='30' text-anchor='middle'>3000 mm opening</text><rect x='140' y='420' width='40' height='320' fill='#6FB0F0' opacity='.5'/></svg>",
+   "stamp": "right:40px;top:800px"
+  },
+  "appcss": ".dl{display:none!important}.tb{display:none}.inputs .note,.inputs div.row{display:none!important}.inputs{padding:10px 16px!important}.views .view.full+.view.full,.data,.foot{display:none!important}",
+  "init": [
+   [
+    "setv",
+    "OP",
+    100
+   ]
+  ],
+  "right": [
+   {
+    "cap": "Real clear <i>2664 mm</i>",
+    "actions": [
+     {
+      "at": -0.3,
+      "dur": 0,
+      "scroll": 0
+     }
+    ]
+   },
+   {
+    "cap": "Fold it open, <i>gap grows</i>",
+    "actions": [
+     {
+      "at": 0,
+      "dur": 2.1,
+      "slide": "OP",
+      "from": 0,
+      "to": 100,
+      "round": 1
+     }
+    ]
+   }
+  ],
+  "cmp": {
+   "guess": "3000 mm",
+   "real": "#oC",
+   "gl": "Expected",
+   "rl": "Clear now"
+  },
+  "end": {
+   "cap": "Know the real <em>clear opening</em>"
+  }
+ },
+ "brick-bond": {
+  "no": "T-57",
+  "name": "Brick Bond",
+  "vo": [
+   "Starting every course of English bond with a full brick? The joints line up right up the wall.",
+   "This wall gets a hundred and eight straight joints. Add a queen closer, and it's zero.",
+   "Change the length, and every course re-sets.",
+   "It's free, and the link's in my bio."
+  ],
+  "wrong": {
+   "label": "✕ The usual way",
+   "cap": "Full brick <em>at every end?</em>",
+   "html": "<svg viewBox='0 0 920 900' xmlns='http://www.w3.org/2000/svg' font-family='IBM Plex Mono, monospace'><text x='460' y='80' fill='#E4ECF2' font-size='44' text-anchor='middle'>English bond, no queen closer</text><text x='460' y='170' fill='#FF6B5C' font-size='72' text-anchor='middle'>joints line up</text><text x='460' y='240' fill='#9DB0C0' font-size='32' text-anchor='middle'>straight joints weaken the wall</text><rect x='140' y='440' width='36' height='40' fill='#8E3B22'/><rect x='180' y='440' width='36' height='40' fill='#8E3B22'/><rect x='220' y='440' width='36' height='40' fill='#8E3B22'/><rect x='260' y='440' width='36' height='40' fill='#8E3B22'/><rect x='300' y='440' width='36' height='40' fill='#8E3B22'/><rect x='340' y='440' width='36' height='40' fill='#8E3B22'/><rect x='380' y='440' width='36' height='40' fill='#8E3B22'/><rect x='420' y='440' width='36' height='40' fill='#8E3B22'/><rect x='460' y='440' width='36' height='40' fill='#8E3B22'/><rect x='500' y='440' width='36' height='40' fill='#8E3B22'/><rect x='540' y='440' width='36' height='40' fill='#8E3B22'/><rect x='580' y='440' width='36' height='40' fill='#8E3B22'/><rect x='620' y='440' width='36' height='40' fill='#8E3B22'/><rect x='660' y='440' width='36' height='40' fill='#8E3B22'/><rect x='700' y='440' width='36' height='40' fill='#8E3B22'/><rect x='740' y='440' width='36' height='40' fill='#8E3B22'/><rect x='140' y='488' width='76' height='40' fill='#B5532F'/><rect x='220' y='488' width='76' height='40' fill='#B5532F'/><rect x='300' y='488' width='76' height='40' fill='#B5532F'/><rect x='380' y='488' width='76' height='40' fill='#B5532F'/><rect x='460' y='488' width='76' height='40' fill='#B5532F'/><rect x='540' y='488' width='76' height='40' fill='#B5532F'/><rect x='620' y='488' width='76' height='40' fill='#B5532F'/><rect x='700' y='488' width='76' height='40' fill='#B5532F'/><rect x='140' y='536' width='36' height='40' fill='#8E3B22'/><rect x='180' y='536' width='36' height='40' fill='#8E3B22'/><rect x='220' y='536' width='36' height='40' fill='#8E3B22'/><rect x='260' y='536' width='36' height='40' fill='#8E3B22'/><rect x='300' y='536' width='36' height='40' fill='#8E3B22'/><rect x='340' y='536' width='36' height='40' fill='#8E3B22'/><rect x='380' y='536' width='36' height='40' fill='#8E3B22'/><rect x='420' y='536' width='36' height='40' fill='#8E3B22'/><rect x='460' y='536' width='36' height='40' fill='#8E3B22'/><rect x='500' y='536' width='36' height='40' fill='#8E3B22'/><rect x='540' y='536' width='36' height='40' fill='#8E3B22'/><rect x='580' y='536' width='36' height='40' fill='#8E3B22'/><rect x='620' y='536' width='36' height='40' fill='#8E3B22'/><rect x='660' y='536' width='36' height='40' fill='#8E3B22'/><rect x='700' y='536' width='36' height='40' fill='#8E3B22'/><rect x='740' y='536' width='36' height='40' fill='#8E3B22'/><rect x='140' y='584' width='76' height='40' fill='#B5532F'/><rect x='220' y='584' width='76' height='40' fill='#B5532F'/><rect x='300' y='584' width='76' height='40' fill='#B5532F'/><rect x='380' y='584' width='76' height='40' fill='#B5532F'/><rect x='460' y='584' width='76' height='40' fill='#B5532F'/><rect x='540' y='584' width='76' height='40' fill='#B5532F'/><rect x='620' y='584' width='76' height='40' fill='#B5532F'/><rect x='700' y='584' width='76' height='40' fill='#B5532F'/><rect x='140' y='632' width='36' height='40' fill='#8E3B22'/><rect x='180' y='632' width='36' height='40' fill='#8E3B22'/><rect x='220' y='632' width='36' height='40' fill='#8E3B22'/><rect x='260' y='632' width='36' height='40' fill='#8E3B22'/><rect x='300' y='632' width='36' height='40' fill='#8E3B22'/><rect x='340' y='632' width='36' height='40' fill='#8E3B22'/><rect x='380' y='632' width='36' height='40' fill='#8E3B22'/><rect x='420' y='632' width='36' height='40' fill='#8E3B22'/><rect x='460' y='632' width='36' height='40' fill='#8E3B22'/><rect x='500' y='632' width='36' height='40' fill='#8E3B22'/><rect x='540' y='632' width='36' height='40' fill='#8E3B22'/><rect x='580' y='632' width='36' height='40' fill='#8E3B22'/><rect x='620' y='632' width='36' height='40' fill='#8E3B22'/><rect x='660' y='632' width='36' height='40' fill='#8E3B22'/><rect x='700' y='632' width='36' height='40' fill='#8E3B22'/><rect x='740' y='632' width='36' height='40' fill='#8E3B22'/><rect x='140' y='680' width='76' height='40' fill='#B5532F'/><rect x='220' y='680' width='76' height='40' fill='#B5532F'/><rect x='300' y='680' width='76' height='40' fill='#B5532F'/><rect x='380' y='680' width='76' height='40' fill='#B5532F'/><rect x='460' y='680' width='76' height='40' fill='#B5532F'/><rect x='540' y='680' width='76' height='40' fill='#B5532F'/><rect x='620' y='680' width='76' height='40' fill='#B5532F'/><rect x='700' y='680' width='76' height='40' fill='#B5532F'/><rect x='140' y='728' width='36' height='40' fill='#8E3B22'/><rect x='180' y='728' width='36' height='40' fill='#8E3B22'/><rect x='220' y='728' width='36' height='40' fill='#8E3B22'/><rect x='260' y='728' width='36' height='40' fill='#8E3B22'/><rect x='300' y='728' width='36' height='40' fill='#8E3B22'/><rect x='340' y='728' width='36' height='40' fill='#8E3B22'/><rect x='380' y='728' width='36' height='40' fill='#8E3B22'/><rect x='420' y='728' width='36' height='40' fill='#8E3B22'/><rect x='460' y='728' width='36' height='40' fill='#8E3B22'/><rect x='500' y='728' width='36' height='40' fill='#8E3B22'/><rect x='540' y='728' width='36' height='40' fill='#8E3B22'/><rect x='580' y='728' width='36' height='40' fill='#8E3B22'/><rect x='620' y='728' width='36' height='40' fill='#8E3B22'/><rect x='660' y='728' width='36' height='40' fill='#8E3B22'/><rect x='700' y='728' width='36' height='40' fill='#8E3B22'/><rect x='740' y='728' width='36' height='40' fill='#8E3B22'/><rect x='140' y='776' width='76' height='40' fill='#B5532F'/><rect x='220' y='776' width='76' height='40' fill='#B5532F'/><rect x='300' y='776' width='76' height='40' fill='#B5532F'/><rect x='380' y='776' width='76' height='40' fill='#B5532F'/><rect x='460' y='776' width='76' height='40' fill='#B5532F'/><rect x='540' y='776' width='76' height='40' fill='#B5532F'/><rect x='620' y='776' width='76' height='40' fill='#B5532F'/><rect x='700' y='776' width='76' height='40' fill='#B5532F'/><line x1='218' y1='436' x2='218' y2='828' stroke='#FF3B30' stroke-width='5'/><line x1='298' y1='436' x2='298' y2='828' stroke='#FF3B30' stroke-width='5'/><line x1='378' y1='436' x2='378' y2='828' stroke='#FF3B30' stroke-width='5'/><line x1='458' y1='436' x2='458' y2='828' stroke='#FF3B30' stroke-width='5'/><line x1='538' y1='436' x2='538' y2='828' stroke='#FF3B30' stroke-width='5'/><line x1='618' y1='436' x2='618' y2='828' stroke='#FF3B30' stroke-width='5'/><line x1='698' y1='436' x2='698' y2='828' stroke='#FF3B30' stroke-width='5'/></svg>",
+   "stamp": "right:40px;top:820px"
+  },
+  "appcss": ".dl{display:none!important}.tb{display:none}.inputs>label,.inputs .note,.inputs div.row:nth-of-type(1),.inputs div.row:nth-of-type(2){display:none!important}.inputs{padding:10px 16px!important}.views .view.full+.view.full,.data,.foot{display:none!important}",
+  "init": [
+   [
+    "setv",
+    "BD",
+    "english"
+   ],
+   [
+    "setv",
+    "QC",
+    "0"
+   ],
+   [
+    "setv",
+    "WL",
+    2400
+   ]
+  ],
+  "right": [
+   {
+    "cap": "Queen closer: <i>0 straight joints</i>",
+    "actions": [
+     {
+      "at": -0.3,
+      "dur": 0,
+      "scroll": 0
+     },
+     {
+      "at": 1.6,
+      "set": "QC",
+      "value": "1"
+     }
+    ]
+   },
+   {
+    "cap": "Change the length, <i>it re-sets</i>",
+    "actions": [
+     {
+      "at": 0,
+      "dur": 2.1,
+      "slide": "WL",
+      "from": 2400,
+      "to": 3600,
+      "round": 10
+     }
+    ]
+   }
+  ],
+  "cmp": {
+   "guess": "108",
+   "real": "#oJ",
+   "gl": "No closers",
+   "rl": "Straight now",
+   "reveal": 1.6
+  },
+  "end": {
+   "cap": "Bond it <em>the right way</em>"
+  }
  }
 }

@@ -3,7 +3,7 @@
  "repo": "SimplyRendered/smart-tools",
  "raw_base": "https://raw.githubusercontent.com/SimplyRendered/smart-tools/main/",
  "metricool_brand_id": "7306873",
- "next_number": 46,
+ "next_number": 58,
  "tools": [
   {
    "no": "T-01",
@@ -319,11 +319,94 @@
    "name": "Model Scale & Board",
    "post_date": "2026-12-18",
    "summary": "Every wall, slab and floor height in model millimetres for any scale, the board or stack of two that matches best, the base size and sheets to buy."
+  },
+  {
+   "no": "T-46",
+   "slug": "terrace-falls",
+   "name": "Terrace Screed Falls",
+   "post_date": "2026-12-21",
+   "summary": "Hip-and-valley screed falls to the outlets, the thickest point, the real valley fall, screed volume and dead load, with outlet layouts compared."
+  },
+  {
+   "no": "T-47",
+   "slug": "pool-turnover",
+   "name": "Pool Volume & Turnover",
+   "post_date": "2026-12-23",
+   "summary": "True water volume of a pool with a sloping floor, the pump flow from the turnover time, filter area and diameter and the pipe bore, on a live long section."
+  },
+  {
+   "no": "T-48",
+   "slug": "cladding-panels",
+   "name": "Cladding Panel Layout",
+   "post_date": "2026-12-25",
+   "summary": "Equal cladding panels from the facade size, max panel, joint and folded return, the blanks per stock sheet, sheets to order and yield, with row options."
+  },
+  {
+   "no": "T-49",
+   "slug": "slope-contour",
+   "name": "Slope & Contour",
+   "post_date": "2026-12-28",
+   "summary": "Slope in %, degrees and 1 in n from the contour gap on a survey, the true length along the ground and the contour gap for any target slope."
+  },
+  {
+   "no": "T-50",
+   "slug": "brick-jali",
+   "name": "Brick Jali Open Area",
+   "post_date": "2026-12-30",
+   "summary": "Open area, bearing and bricks per m² of a honeycomb brick jali for any gap, with the whole panel drawn brick by brick."
+  },
+  {
+   "no": "T-51",
+   "slug": "pergola-shade",
+   "name": "Pergola Slat Shade",
+   "post_date": "2027-01-01",
+   "summary": "Shade on the floor under pergola slats at any hour from the real sun, slat width, depth, gap and direction, with hours of full shade and a day chart."
+  },
+  {
+   "no": "T-52",
+   "slug": "exhaust-fan",
+   "name": "Exhaust Fan & Door Gap",
+   "post_date": "2027-01-04",
+   "summary": "Exhaust airflow for kitchens, bathrooms and WCs from ASHRAE 62.2 or UK Part F, the fan size, air changes and the gap under the door the air needs."
+  },
+  {
+   "no": "T-53",
+   "slug": "kitchen-modules",
+   "name": "Kitchen Cabinet Modules",
+   "post_date": "2027-01-06",
+   "summary": "The mix of standard cabinet widths that fills a kitchen wall around the sink, hob and appliances with the smallest fillers, as a live elevation and plan."
+  },
+  {
+   "no": "T-54",
+   "slug": "axonometric",
+   "name": "Axonometric Setup",
+   "post_date": "2027-01-08",
+   "summary": "Axis angles and x, y, z scales for isometric, dimetric, trimetric, plan oblique and cavalier views from the plan turn and eye angle, with your building drawn live."
+  },
+  {
+   "no": "T-55",
+   "slug": "hip-roof",
+   "name": "Hip Roof Geometry",
+   "post_date": "2027-01-11",
+   "summary": "True hip rafter length, backing angle, every jack rafter and the roof area of an equal-pitch hip roof, on a live plan with a cut list."
+  },
+  {
+   "no": "T-56",
+   "slug": "bifold-door",
+   "name": "Bi-fold Door Planner",
+   "post_date": "2027-01-13",
+   "summary": "Panel width, folded stack, projection and the real clear opening of a bi-fold door, with a plan you can fold open and a lead door check."
+  },
+  {
+   "no": "T-57",
+   "slug": "brick-bond",
+   "name": "Brick Bond Planner",
+   "post_date": "2027-01-15",
+   "summary": "Every course of English, Flemish, stretcher or header bond set out with queen closers and bats, straight joints flagged in red and the bricks counted."
   }
  ],
  "backlog": [
   "Column grid & spacing explorer with span rules of thumb",
-  "Brick bond & wall elevation pattern generator",
   "Door & window schedule sheet maker",
   "Accessible toilet layout checker (turning circle, grab bars, clearances) with plan",
   "Fire exit travel distance & staircase width checker (NBC 2016 Part 4)",
@@ -334,9 +417,9 @@
   "Window glare and sun-angle check for a facade (verify against standard)",
   "Septic tank & soak pit sizer (verify IS 2470 table)",
   "Lift (elevator) count and car size for a building",
-  "Swimming pool volume, turnover and pump flow (first principles, editable turnover hours)",
-  "Exhaust fan size for toilets and kitchens from room volume and editable air changes",
-  "Terrace screed falls and thickness to outlets (first principles)",
-  "Contour spacing and slope analysis from a site survey"
+  "Wardrobe internal layout (hanging heights, shelves, drawers; editable typical sizes)",
+  "Glass pane weight and handling (density 2500 kg/m³, IGU build-ups)",
+  "Valley and unequal-pitch hip roof (extension of T-55)",
+  "Ceiling fan count and sweep for a room (verify BEE/manufacturer guidance)"
  ]
 }

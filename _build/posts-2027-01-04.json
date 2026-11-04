@@ -1,0 +1,206 @@
+[
+ {
+  "date": "2027-01-04",
+  "slug": "exhaust-fan",
+  "no": "T-52",
+  "name": "Exhaust Fan & Door Gap",
+  "slides": [
+   {
+    "t": "hook",
+    "title": "Is a 10 mm gap under the door enough for your exhaust fan?",
+    "sub": "Free Exhaust Fan tool. Airflow from ASHRAE 62.2 or UK Part F, fan size and the door gap the air needs.",
+    "img": "exhaust-fan_views.png"
+   },
+   {
+    "t": "shot",
+    "kicker": "The tool",
+    "title": "Exhaust Fan & Door Gap, live",
+    "img": "exhaust-fan_top.png"
+   },
+   {
+    "t": "list",
+    "kicker": "What it does",
+    "title": "What you get",
+    "items": [
+     "ASHRAE 62.2 and UK Part F rates",
+     "L/s, m³/h, cfm and air changes",
+     "Door gap from fan suction",
+     "Fan size and transfer grille"
+    ]
+   },
+   {
+    "t": "shot",
+    "kicker": "Every room",
+    "title": "Rates, fan size and gap for every room",
+    "img": "exhaust-fan_data.png"
+   },
+   {
+    "t": "steps",
+    "kicker": "How to use",
+    "title": "Four steps",
+    "items": [
+     "Pick the standard and room",
+     "Enter the room size",
+     "Add the door width and gap",
+     "Read the airflow and gap"
+    ]
+   },
+   {
+    "t": "phone",
+    "kicker": "On site",
+    "title": "Works on your phone and offline.",
+    "img": "exhaust-fan_phone.png"
+   },
+   {
+    "t": "cta"
+   }
+  ],
+  "caption": "Is a 10 mm door gap enough for your exhaust fan? 🌀\nNew free tool: Exhaust Fan & Door Gap.\nPick the room and standard. It gives the airflow, fan size and the gap the air needs.\n✅ ASHRAE 62.2 and UK Part F rates\n✅ Gap from fan suction and door width\n✅ Live section and room table\n⬇️ Free download / use online:\nsimplyrendered.github.io/smart-tools/exhaust-fan\n(tap the link in our bio → T-52)\nUndercut or grille: what do you detail? 👇\nSave this for your next toilet detail.",
+  "hashtags": "#exhaustfan #ventilation #kitchendesign #bathroomdesign #hvac #ashrae #mepdesign #buildingservices #indoorairquality #architecture #architect #architecturestudent #architecturetools #freetools #smarttoolseveryweek",
+  "alt": [
+   "Room section with an exhaust fan, the airflow path and the gap under the door",
+   "Full screenshot of the Exhaust Fan & Door Gap tool",
+   "Feature list",
+   "Table of airflow, fan size and door gap for every room",
+   "Four steps to use the tool",
+   "Tool running on a phone",
+   "Follow @smart_tools_every_week, link in bio"
+  ]
+ },
+ {
+  "date": "2027-01-06",
+  "slug": "kitchen-modules",
+  "no": "T-53",
+  "name": "Kitchen Cabinet Modules",
+  "slides": [
+   {
+    "t": "hook",
+    "title": "Wall length ÷ 600 for kitchen cabinets?",
+    "sub": "Free Kitchen Modules tool. The mix of standard widths that leaves the smallest fillers.",
+    "img": "kitchen-modules_views.png"
+   },
+   {
+    "t": "shot",
+    "kicker": "The tool",
+    "title": "Kitchen Cabinet Modules, live",
+    "img": "kitchen-modules_top.png"
+   },
+   {
+    "t": "list",
+    "kicker": "What it does",
+    "title": "What you get",
+    "items": [
+     "Every combination of widths checked",
+     "Sink, hob, dishwasher, tall unit",
+     "Live elevation and plan",
+     "Next-best mixes in a table"
+    ]
+   },
+   {
+    "t": "shot",
+    "kicker": "Best mixes",
+    "title": "Next-best mixes against ÷ 600",
+    "img": "kitchen-modules_data.png"
+   },
+   {
+    "t": "steps",
+    "kicker": "How to use",
+    "title": "Four steps",
+    "items": [
+     "Enter the wall length",
+     "Set the ends and min filler",
+     "Add sink, hob and appliances",
+     "Read the best mix"
+    ]
+   },
+   {
+    "t": "phone",
+    "kicker": "On site",
+    "title": "Works on your phone and offline.",
+    "img": "kitchen-modules_phone.png"
+   },
+   {
+    "t": "cta"
+   }
+  ],
+  "caption": "Is wall length ÷ 600 the way to plan kitchen cabinets? 🍳\nNew free tool: Kitchen Cabinet Modules.\nEnter the wall, sink and hob. It finds the mix of standard widths with the smallest fillers.\n✅ Every combination checked\n✅ Live elevation and plan\n✅ Next-best mixes in a table\n⬇️ Free download / use online:\nsimplyrendered.github.io/smart-tools/kitchen-modules\n(tap the link in our bio → T-53)\nWhat filler do you allow at a wall? 👇\nSave this for your next kitchen layout.",
+  "hashtags": "#modularkitchen #kitchendesign #kitchencabinets #kitchenlayout #interiordesign #joinery #carpentry #interiordesigner #homeinteriors #architecture #architect #architecturestudent #architecturetools #freetools #smarttoolseveryweek",
+  "alt": [
+   "Kitchen elevation with base and wall cabinets, the sink, hob and small wall fillers",
+   "Full screenshot of the Kitchen Cabinet Modules tool",
+   "Feature list",
+   "Table of the best cabinet mixes and their fillers",
+   "Four steps to use the tool",
+   "Tool running on a phone",
+   "Follow @smart_tools_every_week, link in bio"
+  ]
+ },
+ {
+  "date": "2027-01-08",
+  "slug": "axonometric",
+  "no": "T-54",
+  "name": "Axonometric Setup",
+  "slides": [
+   {
+    "t": "hook",
+    "title": "Is every axo a 30° / 30° isometric?",
+    "sub": "Free Axonometric Setup tool. Axis angles and scales for any view, with your building drawn live.",
+    "img": "axonometric_views.png"
+   },
+   {
+    "t": "shot",
+    "kicker": "The tool",
+    "title": "Axonometric Setup, live",
+    "img": "axonometric_top.png"
+   },
+   {
+    "t": "list",
+    "kicker": "What it does",
+    "title": "What you get",
+    "items": [
+     "Isometric, dimetric, trimetric",
+     "Plan oblique, cavalier, cabinet",
+     "Scale along x, y and z",
+     "Length on paper at your scale"
+    ]
+   },
+   {
+    "t": "shot",
+    "kicker": "Every set-up",
+    "title": "Angles and scales for every view",
+    "img": "axonometric_data.png"
+   },
+   {
+    "t": "steps",
+    "kicker": "How to use",
+    "title": "Four steps",
+    "items": [
+     "Pick a view or set θ and φ",
+     "Enter the building size",
+     "Set the drawing scale",
+     "Read the angles and scales"
+    ]
+   },
+   {
+    "t": "phone",
+    "kicker": "On site",
+    "title": "Works on your phone and offline.",
+    "img": "axonometric_phone.png"
+   },
+   {
+    "t": "cta"
+   }
+  ],
+  "caption": "Is every axo a 30° / 30° isometric? 📐\nNew free tool: Axonometric Setup.\nTurn the plan and set the eye angle. It gives each axis angle and the x, y, z scales, and draws your building live.\n✅ Isometric, dimetric, trimetric\n✅ Plan oblique, cavalier, cabinet\n✅ Lengths on paper at your scale\n⬇️ Free download / use online:\nsimplyrendered.github.io/smart-tools/axonometric\n(tap the link in our bio → T-54)\nIso or plan oblique for your jury? 👇\nSave this for your next sheet.",
+  "hashtags": "#axonometric #isometric #architecturaldrawing #technicaldrawing #architecturesketch #designstudent #juryday #presentationboard #drawingtechniques #architecture #architect #architecturestudent #architecturetools #freetools #smarttoolseveryweek",
+  "alt": [
+   "Gable-roofed building drawn in isometric with the axis angles",
+   "Full screenshot of the Axonometric Setup tool",
+   "Feature list",
+   "Table of axis angles and scales for every view",
+   "Four steps to use the tool",
+   "Tool running on a phone",
+   "Follow @smart_tools_every_week, link in bio"
+  ]
+ }
+]
